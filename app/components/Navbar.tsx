@@ -33,7 +33,7 @@ export default function Navbar() {
           <GlobeLogo />
           <div className="logo-text">
             <strong>GermanSkill</strong>
-            <span>German | French | Japanese | Spanish | English</span>
+            <span>Sprich Deutsch mit Vertrauen</span>
           </div>
         </Link>
 
