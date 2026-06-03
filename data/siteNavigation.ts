@@ -27,13 +27,14 @@ export const navItems = [
     dropdown: true,
     items: aboutLinks,
   },
-  { label: "Blog", href: "/#blog", dropdown: false },
+  { label: "Blog", href: "/blog", dropdown: false },
 ];
 
 export const usefulLinks = [
   { label: "About", href: "/#about" },
   { label: "Contact Us", href: "/contact" },
-  { label: "Blogs", href: "/#blog" },
+  { label: "Blogs", href: "/blog" },
+  { label: "FAQs", href: "/about/faqs" },
 ];
 
 export const footerLegalLinks = [

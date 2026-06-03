@@ -3,20 +3,54 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { faqCategories } from "../../../../data/faqCategories";
+import { faqItems } from "../../../../data/faqsContent";
+import FaqAccordion from "./FaqAccordion";
+
+function scrollToCategory(categoryId: string) {
+  const section = document.getElementById(`faq-${categoryId}`);
+  section?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 export default function FaqsContent() {
   const [query, setQuery] = useState("");
+  const [openId, setOpenId] = useState<string | null>(faqItems[0]?.id ?? null);
+
+  const trimmedQuery = query.trim().toLowerCase();
 
   const filteredCategories = useMemo(() => {
-    const trimmed = query.trim().toLowerCase();
-    if (!trimmed) return faqCategories;
+    if (!trimmedQuery) return faqCategories;
 
-    return faqCategories.filter(
-      (category) =>
-        category.title.toLowerCase().includes(trimmed) ||
-        category.description.toLowerCase().includes(trimmed)
+    return faqCategories.filter((category) => {
+      const categoryMatch =
+        category.title.toLowerCase().includes(trimmedQuery) ||
+        category.description.toLowerCase().includes(trimmedQuery);
+
+      const faqMatch = faqItems.some(
+        (item) =>
+          item.categoryId === category.id &&
+          (item.question.toLowerCase().includes(trimmedQuery) ||
+            item.answer.toLowerCase().includes(trimmedQuery))
+      );
+
+      return categoryMatch || faqMatch;
+    });
+  }, [trimmedQuery]);
+
+  const filteredFaqs = useMemo(() => {
+    if (!trimmedQuery) return faqItems;
+
+    return faqItems.filter(
+      (item) =>
+        item.question.toLowerCase().includes(trimmedQuery) ||
+        item.answer.toLowerCase().includes(trimmedQuery)
     );
-  }, [query]);
+  }, [trimmedQuery]);
+
+  const visibleCategories = trimmedQuery
+    ? filteredCategories.filter((category) =>
+        filteredFaqs.some((item) => item.categoryId === category.id)
+      )
+    : faqCategories;
 
   return (
     <>
@@ -49,15 +83,52 @@ export default function FaqsContent() {
 
           <div className="fq-categories-grid">
             {filteredCategories.map((category) => (
-              <article key={category.id} className="fq-category-card" id={category.id}>
+              <button
+                key={category.id}
+                type="button"
+                className="fq-category-card"
+                onClick={() => scrollToCategory(category.id)}
+              >
                 <h3>{category.title}</h3>
                 <p>{category.description}</p>
-              </article>
+              </button>
             ))}
           </div>
 
           {filteredCategories.length === 0 && (
             <p className="fq-no-results">No categories match your search. Try a different keyword.</p>
+          )}
+        </div>
+      </section>
+
+      <section className="fq-list-section">
+        <div className="fq-list-inner">
+          {visibleCategories.map((category) => {
+            const categoryFaqs = filteredFaqs.filter((item) => item.categoryId === category.id);
+            if (categoryFaqs.length === 0) return null;
+
+            return (
+              <div key={category.id} className="fq-list-group" id={`faq-${category.id}`}>
+                <h2>{category.title}</h2>
+                <div className="fq-accordion-list">
+                  {categoryFaqs.map((item) => (
+                    <FaqAccordion
+                      key={item.id}
+                      question={item.question}
+                      answer={item.answer}
+                      isOpen={openId === item.id}
+                      onToggle={() =>
+                        setOpenId((current) => (current === item.id ? null : item.id))
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+
+          {filteredFaqs.length === 0 && (
+            <p className="fq-no-results">No FAQs match your search. Try another keyword.</p>
           )}
         </div>
       </section>

@@ -16,6 +16,28 @@ const tutors = [
 
 const tutorsPerSlide = 4;
 
+function ChevronIcon({ direction }: { direction: "prev" | "next" }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {direction === "prev" ? (
+        <path d="M15 18l-6-6 6-6" />
+      ) : (
+        <path d="M9 18l6-6-6-6" />
+      )}
+    </svg>
+  );
+}
+
 function chunkTutors<T>(items: T[], size: number) {
   const slides: T[][] = [];
 
@@ -55,7 +77,7 @@ export default function TutorsSection() {
             aria-label="Previous tutors"
             onClick={() => goToSlide(activeSlide - 1)}
           >
-            ‹
+            <ChevronIcon direction="prev" />
           </button>
 
           <div className="tutors-track-wrap">
@@ -90,7 +112,7 @@ export default function TutorsSection() {
             aria-label="Next tutors"
             onClick={() => goToSlide(activeSlide + 1)}
           >
-            ›
+            <ChevronIcon direction="next" />
           </button>
         </div>
 

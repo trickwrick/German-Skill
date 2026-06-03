@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import BlogPostCard from "./components/BlogPostCard";
 import HeroSection from "./components/HeroSection";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TutorsSection from "./components/TutorsSection";
+import { blogPosts } from "../data/blogPosts";
 import { germanCourses } from "../data/germanCourses";
 
 const stats = [
@@ -175,7 +177,7 @@ function WhyChooseSection() {
               <div className="why-choose-icon" aria-hidden="true">
                 {item.icon}
               </div>
-              <span>{item.label}</span>
+              <span className="why-choose-label">{item.label}</span>
             </div>
           ))}
         </div>
@@ -435,47 +437,9 @@ function WebinarSection() {
   );
 }
 
-const blogPosts = [
-  {
-    slug: "german-online-courses",
-    title: "German Online Language Courses",
-    date: "May 22, 2024",
-    image: "/portal-education.jpg",
-  },
-  {
-    slug: "tef-exam-2026",
-    title: "TEF Exam 2026: Format, Fees, CLB Scores & TEF Canada Exam",
-    date: "May 19, 2024",
-    image: "/webinar-student.jpg",
-  },
-  {
-    slug: "gpa-germany",
-    title: "GPA Calculation Method for Germany Admissions",
-    date: "May 19, 2024",
-    image: "/hero-students.jpg",
-  },
-  {
-    slug: "uni-assist",
-    title: "Uni Assist Germany Guide: Process, Fees & VPD",
-    date: "May 18, 2024",
-    image: "/portal-education.jpg",
-  },
-  {
-    slug: "aps-certificate",
-    title: "APS Certificate Germany: Step-by-Step Process",
-    date: "May 18, 2024",
-    image: "/webinar-student.jpg",
-  },
-  {
-    slug: "english-speaking",
-    title:
-      "Online English Speaking Course – Learn to Speak English Confidently from Anywhere",
-    date: "Feb 29, 2024",
-    image: "/hero-students.jpg",
-  },
-];
-
 function BlogSection() {
+  const featuredPosts = blogPosts.slice(0, 6);
+
   return (
     <section className="blog-section" id="blog">
       <div className="blog-inner">
@@ -484,28 +448,14 @@ function BlogSection() {
           <h2>Explore Our Latest News &amp; Blogs</h2>
         </div>
         <div className="blog-grid">
-          {blogPosts.map((post) => (
-            <article key={post.slug} className="blog-post-card">
-              <a href={`#blog-${post.slug}`} className="blog-post-image-wrap">
-                <Image
-                  src={post.image}
-                  alt=""
-                  width={380}
-                  height={200}
-                  className="blog-post-image"
-                />
-              </a>
-              <div className="blog-post-body">
-                <h3>
-                  <a href={`#blog-${post.slug}`}>{post.title}</a>
-                </h3>
-                <time dateTime={post.date}>{post.date}</time>
-                <a href={`#blog-${post.slug}`} className="blog-post-link">
-                  Read article →
-                </a>
-              </div>
-            </article>
+          {featuredPosts.map((post) => (
+            <BlogPostCard key={post.slug} post={post} showExcerpt={false} />
           ))}
+        </div>
+        <div className="blog-section-footer">
+          <Link href="/blog" className="btn btn-primary blog-view-all-btn">
+            View All Blogs
+          </Link>
         </div>
       </div>
     </section>
@@ -577,8 +527,8 @@ export default function HomePage() {
         <HeroSection />
         <PromoCards />
         <AllCoursesSection />
-        <TutorsSection />
         <StatsBanner />
+        <TutorsSection />
         <StudentPortalSection />
         <WhyChooseSection />
         <CertificateSection />

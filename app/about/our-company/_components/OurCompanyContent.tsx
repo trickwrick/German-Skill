@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import FacultyTeamsSection from "../../../components/FacultyTeamsSection";
 
 const stats = [
   { value: "10,500+", label: "Happy Students" },
@@ -164,6 +165,8 @@ export default function OurCompanyContent() {
           </div>
         </div>
       </section>
+
+      <FacultyTeamsSection />
 
       <section className="oc-cta">
         <div className="oc-cta-card">
