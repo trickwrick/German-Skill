@@ -183,6 +183,8 @@ export default function GermanCoursePage({ params }: PageProps) {
       <CourseContent
         content={content}
         reviewCount={course.reviewCount ?? String(content.reviewsSummary.total)}
+        courseSlug={course.slug}
+        courseTitle={course.title}
       />
       </main>
       <SiteFooter />

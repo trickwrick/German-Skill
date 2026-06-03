@@ -1,14 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-function PlayIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M8 5v14l11-7z" />
-    </svg>
-  );
-}
-
 export default function HeroSection() {
   return (
     <section className="hero-banner" id="home">
@@ -30,13 +22,29 @@ export default function HeroSection() {
         <p>
           Flexible Batches | A1–B2 Goethe Certified | Live Classes
         </p>
+
+        <div className="hero-stats">
+          <div className="hero-stats-grid">
+            <div className="hero-stat">
+              <strong>18000+</strong>
+              <span>Learners</span>
+            </div>
+            <div className="hero-stat">
+              <strong>95%</strong>
+              <span>Course Completion</span>
+            </div>
+          </div>
+          <div className="hero-rating">
+            <span className="hero-rating-stars" aria-hidden="true">
+              ★★★★★
+            </span>
+            <span>4.8/5 Rated by 1000+ Students</span>
+          </div>
+        </div>
+
         <div className="hero-banner-actions">
           <Link href="/contact" className="btn-hero-primary">
             Book A Demo
-          </Link>
-          <Link href="/contact" className="btn-hero-secondary">
-            Play Sample Demo
-            <PlayIcon />
           </Link>
         </div>
       </div>

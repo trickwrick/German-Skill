@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import type { CourseContent } from "../../../data/courseContent.types";
+import CourseEnrollModal from "./CourseEnrollModal";
 
 function CheckIcon() {
   return (
@@ -130,12 +131,20 @@ function ReviewsPanel({ content }: { content: CourseContent }) {
 type CourseContentProps = {
   content: CourseContent;
   reviewCount: string;
+  courseSlug: string;
+  courseTitle: string;
 };
 
-export default function CourseContent({ content, reviewCount }: CourseContentProps) {
+export default function CourseContent({
+  content,
+  reviewCount,
+  courseSlug,
+  courseTitle,
+}: CourseContentProps) {
   const reviewsTab = `Reviews (${reviewCount})`;
   const tabs = useMemo(() => ["Description", "FAQ", reviewsTab] as const, [reviewsTab]);
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Description");
+  const [enrollOpen, setEnrollOpen] = useState(false);
 
   return (
     <section className="course-content-section">
@@ -144,10 +153,17 @@ export default function CourseContent({ content, reviewCount }: CourseContentPro
           <div className="course-price-box">
             <span className="course-price-label">Course Price</span>
             <strong>{content.sidebarPrice}</strong>
-            <a href="#enroll" className="btn btn-enroll">
-              Start Now
-            </a>
+            <button type="button" className="btn btn-enroll" onClick={() => setEnrollOpen(true)}>
+              Enroll now
+            </button>
           </div>
+
+          <CourseEnrollModal
+            open={enrollOpen}
+            courseSlug={courseSlug}
+            courseTitle={courseTitle}
+            onClose={() => setEnrollOpen(false)}
+          />
 
           <div className="course-includes-box">
             <h3>This Course Includes:</h3>

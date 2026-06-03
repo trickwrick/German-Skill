@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BlogPostCard from "./components/BlogPostCard";
 import HeroSection from "./components/HeroSection";
+import HomeFaqSection from "./components/HomeFaqSection";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TutorsSection from "./components/TutorsSection";
@@ -532,6 +533,7 @@ export default function HomePage() {
         <CertificateSection />
         <TestimonialsSection />
         <WebinarSection />
+        <HomeFaqSection />
         <BlogSection />
         <CareersSection />
     </main>

@@ -155,6 +155,12 @@ export const faqItems: FaqItem[] = [
   },
 ];
 
+const homeFaqIds = ["goethe-2", "goethe-3", "general-2", "courses-1", "courses-2"];
+
+export const homeFaqItems = homeFaqIds
+  .map((id) => faqItems.find((item) => item.id === id))
+  .filter((item): item is FaqItem => Boolean(item));
+
 export function getFaqsByCategory(categoryId: string) {
   return faqItems.filter((item) => item.categoryId === categoryId);
 }
