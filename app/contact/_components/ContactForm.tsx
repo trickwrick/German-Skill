@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import PhoneField from "./PhoneField";
 
 const courseOptions = [
   "German Level A1",
@@ -70,10 +71,7 @@ export default function ContactForm() {
           <input type="email" name="email" required placeholder="you@example.com" />
         </label>
 
-        <label className="contact-field">
-          <span>Phone Number *</span>
-          <input type="tel" name="phone" required placeholder="+91 98765 43210" />
-        </label>
+        <PhoneField />
 
         <label className="contact-field">
           <span>Interested In</span>

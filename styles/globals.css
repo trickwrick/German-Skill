@@ -656,15 +656,18 @@ button {
   display: flex;
   flex-direction: column;
   background: var(--white);
-  border: 1px solid var(--border);
+  border: none;
   border-radius: 8px;
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .course-card:hover {
-  border-color: var(--primary-400);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
   transform: translateY(-3px);
 }
 
@@ -682,7 +685,7 @@ button {
   transition: transform 0.3s ease;
 }
 
-.course-card-image-wrap:hover .course-card-image {
+.course-card:hover .course-card-image {
   transform: scale(1.03);
 }
 
@@ -698,14 +701,11 @@ button {
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.4;
-}
-
-.course-card-body h3 a {
   color: #1e2f42;
   transition: color 0.2s ease;
 }
 
-.course-card-body h3 a:hover {
+.course-card:hover .course-card-body h3 {
   color: var(--text-blue);
 }
 
@@ -1115,12 +1115,6 @@ button {
   gap: 16px;
   padding: 14px 8px 18px;
   border-radius: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.why-choose-item:hover {
-  background: rgba(255, 255, 255, 0.07);
 }
 
 .why-choose-icon {
@@ -1135,10 +1129,11 @@ button {
   border-radius: 50%;
   flex-shrink: 0;
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.14);
+  cursor: pointer;
   transition: transform 0.4s cubic-bezier(0.34, 1.45, 0.64, 1), box-shadow 0.4s ease;
 }
 
-.why-choose-item:hover .why-choose-icon {
+.why-choose-icon:hover {
   transform: scale(1.14);
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.24);
 }
@@ -1148,7 +1143,7 @@ button {
   transition: transform 0.4s cubic-bezier(0.34, 1.45, 0.64, 1);
 }
 
-.why-choose-item:hover .why-choose-icon svg {
+.why-choose-icon:hover svg {
   transform: scale(1.1);
 }
 
@@ -1158,13 +1153,6 @@ button {
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.92);
   max-width: 158px;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.why-choose-item:hover .why-choose-label {
-  color: var(--white);
-  font-weight: 600;
-  transform: translateY(-3px);
 }
 
 /* Certificate section */
@@ -2605,9 +2593,9 @@ button {
   color: var(--text-secondary);
 }
 
-.contact-field input,
-.contact-field select,
-.contact-field textarea {
+.contact-field > input,
+.contact-field > select,
+.contact-field > textarea {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid var(--border);
@@ -2619,9 +2607,9 @@ button {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.contact-field input:focus,
-.contact-field select:focus,
-.contact-field textarea:focus {
+.contact-field > input:focus,
+.contact-field > select:focus,
+.contact-field > textarea:focus {
   outline: none;
   border-color: var(--primary-500);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
@@ -2630,6 +2618,156 @@ button {
 .contact-field textarea {
   resize: vertical;
   min-height: 120px;
+}
+
+.contact-intl-field {
+  position: relative;
+  overflow: visible;
+  z-index: 2;
+}
+
+.contact-intl-field:focus-within {
+  z-index: 50;
+}
+
+.contact-intl-phone {
+  width: 100%;
+  --react-international-phone-height: 46px;
+  --react-international-phone-border-radius: 0;
+  --react-international-phone-border-color: transparent;
+  --react-international-phone-background-color: transparent;
+  --react-international-phone-text-color: var(--text-primary);
+  --react-international-phone-font-size: 0.92rem;
+  --react-international-phone-country-selector-border-color: transparent;
+  --react-international-phone-country-selector-background-color: var(--surface-soft);
+  --react-international-phone-country-selector-background-color-hover: var(--primary-50);
+  --react-international-phone-flag-width: 24px;
+  --react-international-phone-flag-height: 18px;
+  --react-international-phone-dropdown-shadow: var(--shadow-lg);
+  --react-international-phone-selected-dropdown-item-background-color: var(--primary-50);
+}
+
+.contact-intl-phone .react-international-phone-input-container {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--white);
+  overflow: visible;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-intl-phone .react-international-phone-input-container:focus-within {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.contact-intl-phone .react-international-phone-country-selector {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.contact-intl-phone .react-international-phone-country-selector-button {
+  min-width: 72px;
+  padding: 0 10px;
+  border: none !important;
+  border-right: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+  background: var(--surface-soft) !important;
+  cursor: pointer;
+}
+
+.contact-intl-phone .react-international-phone-country-selector-button:hover {
+  background: var(--primary-50) !important;
+}
+
+.contact-intl-phone .react-international-phone-country-selector-button__button-content {
+  gap: 8px;
+}
+
+.contact-intl-phone .react-international-phone-country-selector-button__flag-emoji {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.contact-intl-phone .react-international-phone-flag-emoji {
+  width: 24px;
+  height: 18px;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.contact-intl-phone .react-international-phone-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0 14px;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.contact-intl-phone .react-international-phone-country-selector-dropdown {
+  position: absolute;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+  width: 188px !important;
+  max-height: 220px !important;
+  padding: 4px !important;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  z-index: 100;
+}
+
+.contact-intl-phone .react-international-phone-country-selector-dropdown__list-item {
+  display: flex !important;
+  flex: none !important;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: auto !important;
+  min-height: 34px !important;
+  max-height: none !important;
+  padding: 6px 8px !important;
+  margin: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.contact-intl-phone .react-international-phone-country-selector-dropdown__list-item-flag-emoji {
+  flex-shrink: 0;
+  margin: 0 !important;
+  font-size: 1rem;
+  width: 20px;
+}
+
+.contact-intl-phone .react-international-phone-country-selector-dropdown__list-item-country-name {
+  flex: 0 0 28px;
+  min-width: 28px;
+  margin: 0 !important;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.contact-intl-phone .react-international-phone-country-selector-dropdown__list-item-dial-code {
+  flex-shrink: 0;
+  margin-left: auto;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.contact-intl-phone .react-international-phone-country-selector-dropdown__preferred-list-divider {
+  height: 1px;
+  margin: 4px 0 !important;
 }
 
 .contact-submit-btn {

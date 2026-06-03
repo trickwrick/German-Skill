@@ -24,13 +24,11 @@ export default function HeroSection() {
 
       <div className="hero-banner-content">
         <h1>
-          Learn German Online for{" "}
-          <span className="hero-accent-blue">Goethe, TELC,</span> and{" "}
-          <span className="hero-accent-red">Study in Germany</span>
+          Learn German Online –{" "}
+          <span className="hero-accent-blue">A1–B2</span> German Language Course
         </h1>
         <p>
-          Sign up for our curated German exam preparation courses to learn from expert tutors.
-          Get in touch now!
+          Flexible Batches | A1–B2 Goethe Certified | Live Classes
         </p>
         <div className="hero-banner-actions">
           <Link href="/contact" className="btn-hero-primary">

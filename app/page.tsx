@@ -29,8 +29,8 @@ function AllCoursesSection() {
             const courseHref = `/courses/${course.slug}`;
 
             return (
-              <article key={course.slug} className="course-card">
-                <Link href={courseHref} className="course-card-image-wrap">
+              <Link key={course.slug} href={courseHref} className="course-card">
+                <span className="course-card-image-wrap">
                   <Image
                     src={course.image}
                     alt={course.title}
@@ -38,11 +38,9 @@ function AllCoursesSection() {
                     height={200}
                     className="course-card-image"
                   />
-                </Link>
+                </span>
                 <div className="course-card-body">
-                  <h3>
-                    <Link href={courseHref}>{course.title}</Link>
-                  </h3>
+                  <h3>{course.title}</h3>
                   <p>{course.description}</p>
                   <div className="course-card-footer">
                     <span className="course-hours">
@@ -55,7 +53,7 @@ function AllCoursesSection() {
                     <span className="course-price">{course.price}</span>
                   </div>
                 </div>
-              </article>
+              </Link>
             );
           })}
         </div>
