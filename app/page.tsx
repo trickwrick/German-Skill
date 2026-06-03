@@ -1,0 +1,593 @@
+import Image from "next/image";
+import Link from "next/link";
+import HeroSection from "./components/HeroSection";
+import Navbar from "./components/Navbar";
+import SiteFooter from "./components/SiteFooter";
+import TutorsSection from "./components/TutorsSection";
+import { germanCourses } from "../data/germanCourses";
+
+const stats = [
+  { value: "10,500+", label: "Happy Students" },
+  { value: "2,100+", label: "Batches Successfully Completed" },
+  { value: "21+", label: "Certified Trainers" },
+];
+
+function AllCoursesSection() {
+  return (
+    <section className="all-courses-section" id="courses">
+      <div className="all-courses-inner">
+        <h2 className="all-courses-title">All Courses</h2>
+        <p className="all-courses-subtitle">
+          Take your language skills to the next level with our dynamic and engaging courses in the
+          German category, designed to meet the needs of learners at every stage.
+        </p>
+
+        <div className="all-courses-grid">
+          {germanCourses.map((course) => {
+            const courseHref = `/courses/${course.slug}`;
+
+            return (
+              <article key={course.slug} className="course-card">
+                <Link href={courseHref} className="course-card-image-wrap">
+                  <Image
+                    src={course.image}
+                    alt={course.title}
+                    width={380}
+                    height={200}
+                    className="course-card-image"
+                  />
+                </Link>
+                <div className="course-card-body">
+                  <h3>
+                    <Link href={courseHref}>{course.title}</Link>
+                  </h3>
+                  <p>{course.description}</p>
+                  <div className="course-card-footer">
+                    <span className="course-hours">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
+                        <path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                      {course.hours}
+                    </span>
+                    <span className="course-price">{course.price}</span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatsBanner() {
+  return (
+    <section className="stats-banner-section">
+      <div className="stats-banner">
+        <div className="stats-banner-copy">
+          <span className="stats-tag">Facts</span>
+          <h2>Our Numbers</h2>
+        </div>
+        <div className="stats-banner-grid">
+          {stats.map((item) => (
+            <div key={item.label} className="stats-banner-item">
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const portalFeatures = [
+  { icon: "📈", label: "Track Your Learning Progress" },
+  { icon: "🔔", label: "Stay Notified Instantly" },
+  { icon: "💻", label: "Join online classes using the link" },
+  { icon: "💡", label: "Share Valuable Feedback" },
+  { icon: "▶️", label: "Access recorded videos" },
+  { icon: "📅", label: "Upcoming Batches & Demo Sessions" },
+];
+
+const whyChooseItems = [
+  {
+    label: "Crack Goethe/TELC with Confidence",
+    icon: (
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M8 8h8M8 12h6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M14 16h3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <circle cx="17" cy="17" r="3" fill="#ef4444" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    label: "Track Your Progress",
+    icon: (
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="10" cy="10" r="5.5" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M14.5 14.5L20 20" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M7 12v3M10 9v6M13 11v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    label: "Study, Work & Settle Abroad",
+    icon: (
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="13" r="7" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M4 13h16M12 6a9 9 0 019 7" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M9 4l3-2 3 2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    label: "Boost Your Career Profile",
+    icon: (
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="4" y="10" width="10" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M7 10V8a2 2 0 014 0v2" stroke="currentColor" strokeWidth="1.6" />
+        <circle cx="18" cy="12" r="4" stroke="currentColor" strokeWidth="1.6" />
+        <circle cx="18" cy="12" r="1.2" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    label: "Higher Earning Potential",
+    icon: (
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M8 18l2-8 2 4 2-6 2 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M12 5l1.2 2.4L16 8l-2.2 1.2L12 11.5 10.2 9.2 8 8l2.8-.6L12 5z" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    label: "Personal Growth",
+    icon: (
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="8" r="3" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M8 20v-2a4 4 0 018 0v2" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M16 10l3-2M16 14l4 1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+];
+
+function WhyChooseSection() {
+  return (
+    <section className="why-choose-section" id="about">
+      <div className="why-choose-inner">
+        <div className="why-choose-header">
+          <span className="why-choose-tag">Advantages</span>
+          <h2>Why Learn German With Us?</h2>
+          <p>
+            Being the official language of many countries, learning German will expand your
+            worldview, career options, and connections globally.
+          </p>
+        </div>
+
+        <div className="why-choose-grid">
+          {whyChooseItems.map((item) => (
+            <div key={item.label} className="why-choose-item">
+              <div className="why-choose-icon" aria-hidden="true">
+                {item.icon}
+              </div>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StudentPortalSection() {
+  return (
+    <section className="portal-section">
+      <div className="portal-inner">
+        <div className="portal-visual">
+          <div className="portal-image-wrap">
+            <Image
+              src="/portal-education.jpg"
+              alt="Students using digital learning platform in classroom"
+              width={520}
+              height={340}
+              className="portal-image"
+            />
+          </div>
+          <p className="portal-caption">
+            Delivering Quality Education backed by World-class Digital Infrastructure
+          </p>
+        </div>
+
+        <div className="portal-content">
+          <span className="portal-tag">Student Portal</span>
+          <h2>Language Learning Made Simple</h2>
+          <p className="portal-subtitle">
+            Discover Tools and Resources for Success in Your Language Journey
+          </p>
+          <div className="portal-features">
+            {portalFeatures.map((item) => (
+              <div key={item.label} className="portal-feature">
+                <span className="portal-feature-icon" aria-hidden="true">
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const certificateBenefits = [
+  {
+    title: "Stand Out:",
+    text: "Gain formal recognition of your German language skills.",
+  },
+  {
+    title: "Validate Proficiency:",
+    text: "Demonstrate your ability to communicate in German for study, work, and travel.",
+  },
+  {
+    title: "Unlock Opportunities:",
+    text: "Enhance career prospects and cultural experiences across Europe.",
+  },
+  {
+    title: "Gain an Edge:",
+    text: "Strengthen your resume with this valuable credential.",
+  },
+];
+
+function CertificateSection() {
+  return (
+    <section className="certificate-section">
+      <div className="certificate-inner">
+        <div className="certificate-copy">
+          <h2>Obtain Your German Language Course Certificate</h2>
+          <p className="certificate-intro">
+            Upon successful completion of your Goethe / TELC preparation course, you will receive
+            a Certificate of Completion from GermanSkill.
+          </p>
+
+          <ul className="certificate-benefits">
+            {certificateBenefits.map((item) => (
+              <li key={item.title}>
+                <strong>{item.title}</strong> {item.text}
+              </li>
+            ))}
+          </ul>
+
+          <p className="certificate-cta-text">Invest in your future today!</p>
+          <Link href="/contact" className="btn btn-certificate-demo">
+            Book A Demo
+          </Link>
+        </div>
+
+        <div className="certificate-visual">
+          <Image
+            src="/certificate-sample.svg"
+            alt="Sample German language course certificate from GermanSkill"
+            width={560}
+            height={392}
+            className="certificate-image"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const testimonials = [
+  {
+    name: "Swathi S",
+    initial: "S",
+    color: "#5b8def",
+    review:
+      "Excellent teaching methodology! My German improved significantly in just 3 months. The trainers are patient and very supportive throughout the course.",
+    date: "2 weeks ago",
+  },
+  {
+    name: "Tanushree Naidu",
+    initial: "T",
+    color: "#e67e22",
+    review:
+      "Best language institute I've attended. Flexible batch timings and the online portal makes it easy to track progress and access recorded sessions.",
+    date: "1 month ago",
+  },
+  {
+    name: "Ajay Marcus",
+    initial: "A",
+    color: "#27ae60",
+    review:
+      "Cleared my Goethe A2 exam on the first attempt thanks to GermanSkill. Mock tests and speaking practice sessions were incredibly helpful.",
+    date: "3 weeks ago",
+  },
+  {
+    name: "Riya Patel",
+    initial: "R",
+    color: "#9b59b6",
+    review:
+      "Joined the French beginner batch and loved every class. Small group size means everyone gets attention. Highly recommend for working professionals.",
+    date: "2 months ago",
+  },
+  {
+    name: "Karthik Reddy",
+    initial: "K",
+    color: "#3498db",
+    review:
+      "The free demo class convinced me to enroll. Trainers explain grammar clearly and focus on real conversation. Worth every rupee spent.",
+    date: "1 week ago",
+  },
+  {
+    name: "Priya Sharma",
+    initial: "P",
+    color: "#e74c3c",
+    review:
+      "Preparing for study in Germany and this institute guided me through language requirements and visa interview prep. Very professional team.",
+    date: "1 month ago",
+  },
+  {
+    name: "Mohammed Ali",
+    initial: "M",
+    color: "#1abc9c",
+    review:
+      "Japanese course structure is well planned from basics to JLPT prep. Interactive classes keep you engaged even in online mode.",
+    date: "3 weeks ago",
+  },
+  {
+    name: "Neha Gupta",
+    initial: "N",
+    color: "#f39c12",
+    review:
+      "IELTS coaching here helped me score band 7.5. Personalized feedback on writing and speaking made a huge difference in my preparation.",
+    date: "2 months ago",
+  },
+  {
+    name: "David Thomas",
+    initial: "D",
+    color: "#34495e",
+    review:
+      "Corporate Spanish training for our team was customized perfectly. Practical business vocabulary and role-play sessions were spot on.",
+    date: "4 weeks ago",
+  },
+];
+
+function StarRating() {
+  return (
+    <div className="star-rating" aria-label="5 out of 5 stars">
+      {"★★★★★"}
+    </div>
+  );
+}
+
+function TestimonialsSection() {
+  return (
+    <section className="testimonials-section" id="testimonials">
+      <div className="testimonials-inner">
+        <div className="testimonials-header">
+          <span className="testimonials-tag">Testimonials</span>
+          <h2>We&apos;ve 25000+ Happy Students</h2>
+        </div>
+
+        <div className="testimonials-grid">
+          {testimonials.map((item) => (
+            <article key={item.name} className="testimonial-card">
+              <div className="testimonial-user">
+                <div
+                  className="testimonial-avatar"
+                  style={{ backgroundColor: item.color }}
+                  aria-hidden="true"
+                >
+                  {item.initial}
+                </div>
+                <div>
+                  <strong>{item.name}</strong>
+                  <StarRating />
+                </div>
+              </div>
+              <p>{item.review}</p>
+              <time className="testimonial-date">{item.date}</time>
+            </article>
+          ))}
+        </div>
+
+        <a href="#testimonials" className="btn btn-view-more">
+          View More
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function WebinarSection() {
+  return (
+    <section className="webinar-section">
+      <div className="webinar-banner">
+        <div className="webinar-image-wrap">
+          <Image
+            src="/webinar-student.jpg"
+            alt="Student attending online webinar on tablet"
+            width={160}
+            height={160}
+            className="webinar-image"
+          />
+        </div>
+        <div className="webinar-copy">
+          <h2>
+            Explore our <span>Free Webinars</span>
+          </h2>
+          <p>
+            Explore a variety of topics and enhance your language skills with our expert-led
+            webinars.
+          </p>
+        </div>
+        <a href="#webinars" className="btn btn-webinar">
+          Join Free Webinars
+        </a>
+      </div>
+    </section>
+  );
+}
+
+const blogPosts = [
+  {
+    slug: "german-online-courses",
+    title: "German Online Language Courses",
+    date: "May 22, 2024",
+    image: "/portal-education.jpg",
+  },
+  {
+    slug: "tef-exam-2026",
+    title: "TEF Exam 2026: Format, Fees, CLB Scores & TEF Canada Exam",
+    date: "May 19, 2024",
+    image: "/webinar-student.jpg",
+  },
+  {
+    slug: "gpa-germany",
+    title: "GPA Calculation Method for Germany Admissions",
+    date: "May 19, 2024",
+    image: "/hero-students.jpg",
+  },
+  {
+    slug: "uni-assist",
+    title: "Uni Assist Germany Guide: Process, Fees & VPD",
+    date: "May 18, 2024",
+    image: "/portal-education.jpg",
+  },
+  {
+    slug: "aps-certificate",
+    title: "APS Certificate Germany: Step-by-Step Process",
+    date: "May 18, 2024",
+    image: "/webinar-student.jpg",
+  },
+  {
+    slug: "english-speaking",
+    title:
+      "Online English Speaking Course – Learn to Speak English Confidently from Anywhere",
+    date: "Feb 29, 2024",
+    image: "/hero-students.jpg",
+  },
+];
+
+function BlogSection() {
+  return (
+    <section className="blog-section" id="blog">
+      <div className="blog-inner">
+        <div className="blog-header">
+          <span className="blog-tag">News &amp; Blogs</span>
+          <h2>Explore Our Latest News &amp; Blogs</h2>
+        </div>
+        <div className="blog-grid">
+          {blogPosts.map((post) => (
+            <article key={post.slug} className="blog-post-card">
+              <a href={`#blog-${post.slug}`} className="blog-post-image-wrap">
+                <Image
+                  src={post.image}
+                  alt=""
+                  width={380}
+                  height={200}
+                  className="blog-post-image"
+                />
+              </a>
+              <div className="blog-post-body">
+                <h3>
+                  <a href={`#blog-${post.slug}`}>{post.title}</a>
+                </h3>
+                <time dateTime={post.date}>{post.date}</time>
+                <a href={`#blog-${post.slug}`} className="blog-post-link">
+                  Read article →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CareersSection() {
+  return (
+    <section className="careers-section">
+      <div className="careers-inner">
+        <article className="careers-card">
+          <h2 className="careers-card-heading">Learn with 25,000+ Students Across the Globe!</h2>
+          <a href="#careers" className="btn btn-careers">
+            Know More
+          </a>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function PromoCards() {
+  return (
+    <section className="promo-section" id="batches">
+      <div className="promo-section-inner">
+        <article className="promo-card promo-card-batches">
+          <div className="enroll-badge" aria-hidden="true">
+            <span className="enroll-badge-label">New Batches</span>
+            <div className="enroll-banner">
+              <span className="enroll-top">ENROLL</span>
+              <span className="enroll-bottom">NOW</span>
+            </div>
+          </div>
+          <div className="promo-card-body">
+            <h2>
+              Explore <span>Upcoming Batches</span>
+            </h2>
+            <a href="#schedule" className="btn btn-schedule">
+              View Schedule
+            </a>
+          </div>
+        </article>
+
+        <article className="promo-card promo-card-offers">
+          <div className="offer-ribbon" aria-hidden="true">
+            <span>UPTO</span>
+            <strong>25% OFF</strong>
+          </div>
+          <div className="promo-card-body promo-card-body-center">
+            <h2>Upto 25% OFF</h2>
+            <p>
+              Explore our exclusive deals and start your language learning journey today!
+            </p>
+            <a href="#offers" className="promo-link">
+              View Offers &gt;&gt;
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <>
+      <Navbar />
+      <main>
+        <HeroSection />
+        <PromoCards />
+        <AllCoursesSection />
+        <TutorsSection />
+        <StatsBanner />
+        <StudentPortalSection />
+        <WhyChooseSection />
+        <CertificateSection />
+        <TestimonialsSection />
+        <WebinarSection />
+        <BlogSection />
+        <CareersSection />
+    </main>
+      <SiteFooter />
+    </>
+  );
+}
