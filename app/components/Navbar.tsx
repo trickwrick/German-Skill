@@ -137,9 +137,6 @@ export default function Navbar() {
           </nav>
 
           <div className="header-actions">
-            <Link href="/#login" className="btn btn-outline" onClick={closeMenu}>
-              Student Login
-            </Link>
             <Link href="/contact" className="btn btn-primary" onClick={closeMenu}>
               Free Demo Class
             </Link>

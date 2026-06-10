@@ -30,7 +30,8 @@
   --gradient-gold-btn: linear-gradient(135deg, #e31e24 0%, #ffc20e 100%);
   --gradient-gold-btn-hover: linear-gradient(135deg, #c41a1f 0%, #e6ad00 100%);
   --shadow-gold-btn: 0 8px 20px rgba(227, 30, 36, 0.28);
-  --text-on-gold: #111827;
+  --text-on-gold: #ffffff;
+  --text-on-gold-shadow: 0 1px 2px rgba(92, 10, 13, 0.4);
 
   --white: #ffffff;
   --surface-soft: #fafafa;
@@ -112,23 +113,23 @@ button {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  max-width: 240px;
+  max-width: 360px;
 }
 
 .site-logo {
   display: block;
   width: auto;
-  height: 48px;
+  height: 72px;
   max-width: 100%;
   object-fit: contain;
 }
 
 .site-logo-footer {
-  height: 56px;
+  height: 84px;
 }
 
 .site-logo-admin {
-  height: 44px;
+  height: 64px;
   margin: 0 auto;
 }
 
@@ -301,6 +302,7 @@ button {
 .btn-outline {
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   border: none;
   box-shadow: var(--shadow-gold-btn);
 }
@@ -312,6 +314,7 @@ button {
 .btn-primary {
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   border: none;
   box-shadow: var(--shadow-gold-btn);
 }
@@ -396,15 +399,22 @@ button {
   font-size: clamp(1.85rem, 3.2vw, 2.35rem);
   font-weight: 800;
   line-height: 1.1;
-  color: var(--gold-500);
+  color: var(--primary-600);
+}
+
+.hero-stat:nth-child(2) strong {
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--gold-500) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .hero-stat span {
   display: block;
   margin-top: 4px;
   font-size: 0.92rem;
-  font-weight: 500;
-  color: #374151;
+  font-weight: 600;
+  color: #111111;
 }
 
 .hero-rating {
@@ -414,11 +424,11 @@ button {
   gap: 10px;
   font-size: 0.94rem;
   font-weight: 600;
-  color: #374151;
+  color: #111111;
 }
 
 .hero-rating-stars {
-  color: var(--gold-500);
+  color: var(--primary-600);
   font-size: 1.15rem;
   letter-spacing: 2px;
   line-height: 1;
@@ -445,6 +455,7 @@ button {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   background: var(--gradient-gold-btn);
   box-shadow: var(--shadow-gold-btn);
   transition: transform 0.2s ease, background 0.2s ease;
@@ -482,6 +493,7 @@ button {
   border-radius: 10px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   font-size: 1rem;
   font-weight: 700;
   box-shadow: var(--shadow-gold-btn);
@@ -575,6 +587,7 @@ button {
   border-radius: 8px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   font-size: 0.9rem;
   font-weight: 600;
   box-shadow: var(--shadow-gold-btn);
@@ -813,6 +826,7 @@ button {
   padding: 6px 12px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   font-size: 0.88rem;
   font-weight: 700;
   border-radius: 2px;
@@ -1288,6 +1302,7 @@ button {
   border-radius: 6px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -1432,6 +1447,7 @@ button {
   border-radius: 10px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   font-size: 0.95rem;
   font-weight: 600;
   border: none;
@@ -1510,6 +1526,7 @@ button {
   border-radius: 8px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   font-size: 0.92rem;
   font-weight: 600;
   box-shadow: var(--shadow-gold-btn);
@@ -1969,6 +1986,7 @@ button {
   border-radius: 50%;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   cursor: pointer;
   box-shadow: var(--shadow-gold-btn);
   transition: background 0.2s ease, transform 0.2s ease;
@@ -2083,6 +2101,7 @@ button {
   border-radius: 8px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   font-size: 0.95rem;
   font-weight: 700;
   box-shadow: var(--shadow-gold-btn);
@@ -2352,6 +2371,7 @@ button {
   border-radius: 8px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   font-size: 1rem;
   font-weight: 700;
   justify-content: center;
@@ -2423,6 +2443,7 @@ button {
   font-size: 1.02rem;
   font-weight: 800;
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
 }
 
 .enroll-modal-stats {
@@ -3858,6 +3879,7 @@ a.contact-info-value:hover {
   padding: 18px 22px;
   background: var(--gradient-gold-btn);
   color: var(--text-on-gold);
+  text-shadow: var(--text-on-gold-shadow);
   border-radius: 12px;
   box-shadow: var(--shadow-gold-btn);
   text-align: center;
@@ -5210,12 +5232,12 @@ a.contact-info-value:hover {
   }
 
   .logo-block {
-    max-width: 180px;
+    max-width: 260px;
     min-width: 0;
   }
 
   .site-logo {
-    height: 40px;
+    height: 56px;
   }
 
   .nav-toggle {
