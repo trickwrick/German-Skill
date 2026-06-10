@@ -139,7 +139,7 @@ export const a2CourseContent = {
       date: "May 30, 2023",
       rating: 4,
       text: "Excellent A2 course! The trainer explains everything clearly with real-life examples. Highly recommended.",
-      color: "#2563eb",
+      color: "#e31e24",
     },
   ],
 };

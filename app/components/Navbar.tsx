@@ -3,27 +3,12 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { navItems } from "../../data/siteNavigation";
+import SiteLogo from "./SiteLogo";
 
 function ChevronDown() {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
       <path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
-    </svg>
-  );
-}
-
-function GlobeLogo() {
-  return (
-    <svg className="logo-globe" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
-      <circle cx="26" cy="26" r="24" fill="#2563eb" />
-      <ellipse cx="26" cy="26" rx="10" ry="24" fill="none" stroke="#fff" strokeWidth="1.5" opacity="0.9" />
-      <path
-        d="M4 20h44M4 32h44M8 14c6 4 30 4 36 0M8 38c6-4 30-4 36 0"
-        stroke="#fff"
-        strokeWidth="1.2"
-        opacity="0.75"
-        fill="none"
-      />
     </svg>
   );
 }
@@ -82,11 +67,7 @@ export default function Navbar() {
     <header className={`site-header${menuOpen ? " nav-open" : ""}`}>
       <div className="site-header-inner">
         <Link href="/" className="logo-block" onClick={closeMenu}>
-          <GlobeLogo />
-          <div className="logo-text">
-            <strong>GermanSkill</strong>
-            <span>Sprich Deutsch mit Vertrauen</span>
-          </div>
+          <SiteLogo priority />
         </Link>
 
         <button

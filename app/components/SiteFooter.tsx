@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { courseLevels, footerLegalLinks, usefulLinks } from "../../data/siteNavigation";
+import SiteLogo from "./SiteLogo";
 
 function SocialIcon({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -38,8 +39,7 @@ export default function SiteFooter() {
       <div className="site-footer-inner">
         <div className="footer-brand-col">
           <Link href="/" className="footer-logo-box">
-            <strong className="footer-logo-title">GermanSkill</strong>
-            <span className="footer-logo-subtitle">German Language Institute</span>
+            <SiteLogo className="site-logo site-logo-footer" />
           </Link>
 
           <div className="footer-social">

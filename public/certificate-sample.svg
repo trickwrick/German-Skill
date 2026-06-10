@@ -13,17 +13,17 @@
   <rect x="36" y="28" width="728" height="504" rx="10" fill="url(#paper)" filter="url(#shadow)"/>
 
   <rect x="56" y="48" width="688" height="8" fill="#111827"/>
-  <rect x="56" y="56" width="688" height="8" fill="#dc2626"/>
-  <rect x="56" y="64" width="688" height="8" fill="#fbbf24"/>
+  <rect x="56" y="56" width="688" height="8" fill="#e31e24"/>
+  <rect x="56" y="64" width="688" height="8" fill="#ffc20e"/>
 
   <rect x="56" y="488" width="688" height="8" fill="#111827"/>
-  <rect x="56" y="496" width="688" height="8" fill="#dc2626"/>
-  <rect x="56" y="504" width="688" height="8" fill="#fbbf24"/>
+  <rect x="56" y="496" width="688" height="8" fill="#e31e24"/>
+  <rect x="56" y="504" width="688" height="8" fill="#ffc20e"/>
 
-  <circle cx="150" cy="280" r="88" fill="#2563eb" opacity="0.06"/>
-  <text x="150" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="72" fill="#2563eb" opacity="0.12">G</text>
+  <circle cx="150" cy="280" r="88" fill="#e31e24" opacity="0.06"/>
+  <text x="150" y="255" text-anchor="middle" font-family="Georgia, serif" font-size="72" fill="#e31e24" opacity="0.12">G</text>
 
-  <text x="620" y="92" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#2563eb">GermanSkill</text>
+  <text x="620" y="92" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#111111">Fluent AUF</text>
   <text x="620" y="112" text-anchor="end" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#64748b">German Language Institute</text>
 
   <text x="400" y="145" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#111827">Certificate of Achievement</text>
@@ -31,13 +31,13 @@
 
   <text x="400" y="195" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#475569">This certificate is proudly presented to</text>
 
-  <text x="400" y="245" text-anchor="middle" font-family="Brush Script MT, Segoe Script, cursive" font-size="42" fill="#dc2626">Khushi Sharma</text>
+  <text x="400" y="245" text-anchor="middle" font-family="Brush Script MT, Segoe Script, cursive" font-size="42" fill="#e31e24">Khushi Sharma</text>
 
   <text x="400" y="285" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#475569">for successfully completing</text>
   <text x="400" y="312" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">German Language Course (A1 to B2 Level)</text>
   <text x="400" y="338" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#64748b">from GermanSkill | January 2024 to September 2024</text>
 
-  <circle cx="130" cy="430" r="34" fill="#1e40af"/>
+  <circle cx="130" cy="430" r="34" fill="#111111"/>
   <circle cx="130" cy="430" r="26" fill="none" stroke="#ffffff" stroke-width="2"/>
   <text x="130" y="435" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700" fill="#ffffff">ISO</text>
 
@@ -48,5 +48,5 @@
   <text x="495" y="475" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="11" fill="#64748b">Managing Director</text>
 
   <circle cx="670" cy="430" r="28" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-  <text x="670" y="434" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="700" fill="#2563eb">GS</text>
+  <text x="670" y="434" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="700" fill="#e31e24">FA</text>
 </svg>
