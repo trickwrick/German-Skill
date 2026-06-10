@@ -28,7 +28,7 @@ export const a2CourseContent = {
     "Get lifetime access to course materials",
   ],
   courseDescription: [
-    "Learn German A2 with experienced native trainers at GermanSkill.",
+    "Learn German A2 with experienced native trainers at Fluent AUF.",
     "This course follows a structured curriculum designed for steady progress, from fundamentals to advanced communication.",
     "Content for this page will be updated soon. Contact us for batch details, syllabus, and enrollment.",
   ],
@@ -106,7 +106,7 @@ export const a2CourseContent = {
       { stars: 1, percent: 0 },
     ],
     note:
-      "Some of real students reviews, verify on our Google place page. Search GermanSkill Reviews.",
+      "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews.",
   },
   reviews: [
     {
@@ -114,7 +114,7 @@ export const a2CourseContent = {
       name: "Chitra Sharma",
       date: "May 30, 2023",
       rating: 4,
-      text: "I completed my A2 from GermanSkill Language Studio. Excellent teaching methodology and very helpful for exam preparation.",
+      text: "I completed my A2 from Fluent AUF Language Studio. Excellent teaching methodology and very helpful for exam preparation.",
       color: "#ec4899",
     },
     {
@@ -130,7 +130,7 @@ export const a2CourseContent = {
       name: "Virendra Chaudhary",
       date: "May 18, 2023",
       rating: 4,
-      text: "I highly recommend GermanSkill as one of the best language institutes for learning German in Jaipur.",
+      text: "I highly recommend Fluent AUF as one of the best language institutes for learning German in Jaipur.",
       color: "#f59e0b",
     },
     {

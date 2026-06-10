@@ -216,7 +216,7 @@ export default function CourseEnrollModal({
 
               <label className="enroll-modal-consent">
                 <input type="checkbox" name="consent" required />
-                <span>I agree to receive information from GermanSkill.</span>
+                <span>I agree to receive information from Fluent AUF.</span>
               </label>
 
               <button type="submit" className="btn btn-primary enroll-modal-submit">

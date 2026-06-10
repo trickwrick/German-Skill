@@ -35,10 +35,10 @@ function CultureArt({ theme }: { theme: string }) {
 }
 
 const galleryImages = [
-  { src: "/hero-students.jpg", alt: "Team outing at GermanSkill", layout: "left-tall" },
+  { src: "/hero-students.jpg", alt: "Team outing at Fluent AUF", layout: "left-tall" },
   { src: "/portal-education.jpg", alt: "Interactive classroom session", layout: "mid-top" },
   { src: "/webinar-student.jpg", alt: "Online learning session", layout: "right-top" },
-  { src: "/courses/instructor.jpg", alt: "Faculty member at GermanSkill", layout: "left-bottom" },
+  { src: "/courses/instructor.jpg", alt: "Faculty member at Fluent AUF", layout: "left-bottom" },
   { src: "/courses/german-hero.jpg", alt: "Students learning German", layout: "mid-bottom" },
   { src: "/courses/german-a1.jpg", alt: "Batch activity at institute", layout: "right-bottom" },
 ];
@@ -48,7 +48,7 @@ export default function CareersContent() {
     <>
       <section className="cr-culture">
         <div className="cr-culture-inner">
-          <h2>At GermanSkill we bring out the best in you.</h2>
+          <h2>At Fluent AUF we bring out the best in you.</h2>
           <div className="cr-culture-grid">
             {cultureCards.map((card) => (
               <article key={card.title} className={`cr-culture-card cr-culture-${card.theme}`}>
@@ -78,7 +78,7 @@ export default function CareersContent() {
         <div className="cr-who-inner">
           <h2>Who We Are</h2>
           <p>
-            As a trusted name in German language education since 2013, GermanSkill stands at the
+            As a trusted name in German language education since 2013, Fluent AUF stands at the
             intersection of innovation, integrity, and student success.
           </p>
           <Link href="/about/our-company" className="cr-who-btn">
@@ -89,7 +89,7 @@ export default function CareersContent() {
 
       <section className="cr-life">
         <div className="cr-life-inner">
-          <h2>Life at GermanSkill</h2>
+          <h2>Life at Fluent AUF</h2>
           <div className="cr-gallery">
             {galleryImages.map((item) => (
               <div key={item.src} className={`cr-gallery-item cr-gallery-${item.layout}`}>

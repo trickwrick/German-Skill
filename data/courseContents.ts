@@ -41,7 +41,7 @@ function createPlaceholderContent(course: GermanCourse): CourseContent {
       "Get lifetime access to course materials",
     ],
     courseDescription: [
-      `Learn German ${level} with experienced native trainers at GermanSkill.`,
+      `Learn German ${level} with experienced native trainers at Fluent AUF.`,
       "This course follows a structured curriculum designed for steady progress from fundamentals to advanced communication.",
       "Content for this page will be updated soon. Contact us for batch details, syllabus, and enrollment.",
     ],
@@ -119,7 +119,7 @@ function createPlaceholderContent(course: GermanCourse): CourseContent {
         { stars: 1, percent: 0 },
       ],
       note:
-        "Some of real students reviews, verify on our Google place page. Search GermanSkill Reviews.",
+        "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews.",
     },
     reviews: [
       {
@@ -135,7 +135,7 @@ function createPlaceholderContent(course: GermanCourse): CourseContent {
         name: "Chitra Sharma",
         date: "May 30, 2023",
         rating: 4,
-        text: "Excellent teaching methodology and very helpful for exam preparation at GermanSkill.",
+        text: "Excellent teaching methodology and very helpful for exam preparation at Fluent AUF.",
         color: "#ec4899",
       },
       {
@@ -151,7 +151,7 @@ function createPlaceholderContent(course: GermanCourse): CourseContent {
         name: "Virendra Chaudhary",
         date: "May 18, 2023",
         rating: 4,
-        text: "I highly recommend GermanSkill as one of the best language institutes for learning German.",
+        text: "I highly recommend Fluent AUF as one of the best language institutes for learning German.",
         color: "#f59e0b",
       },
       {

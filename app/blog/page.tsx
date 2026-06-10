@@ -5,9 +5,9 @@ import SiteFooter from "../components/SiteFooter";
 import BlogPageContent from "./_components/BlogPageContent";
 
 export const metadata: Metadata = {
-  title: "Blog | GermanSkill",
+  title: "Blog | Fluent AUF",
   description:
-    "Read GermanSkill blogs on Goethe, Telc, study in Germany, APS, Uni Assist, and German language learning tips.",
+    "Read Fluent AUF blogs on Goethe, Telc, study in Germany, APS, Uni Assist, and German language learning tips.",
 };
 
 export default function BlogPage() {
@@ -18,7 +18,7 @@ export default function BlogPage() {
         <PageBanner
           layout="stacked"
           title="Blog"
-          description="Explore guides, exam tips, and language learning insights from GermanSkill."
+          description="Explore guides, exam tips, and language learning insights from Fluent AUF."
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Blog" },

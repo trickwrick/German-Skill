@@ -9,13 +9,13 @@ export const faqCategories: FaqCategory[] = [
     id: "goethe",
     title: "Goethe",
     description:
-      "Learn about Goethe-Zertifikat exams, CEFR levels, and how GermanSkill prepares you for certification success.",
+      "Learn about Goethe-Zertifikat exams, CEFR levels, and how Fluent AUF prepares you for certification success.",
   },
   {
     id: "telc",
     title: "Telc",
     description:
-      "Understand Telc German certification, exam formats, and the preparation support available at GermanSkill.",
+      "Understand Telc German certification, exam formats, and the preparation support available at Fluent AUF.",
   },
   {
     id: "osd",
@@ -39,6 +39,6 @@ export const faqCategories: FaqCategory[] = [
     id: "payment",
     title: "Payment & Policy",
     description:
-      "Get clarity on course fees, payment options, refund policy, offers, and enrollment terms at GermanSkill.",
+      "Get clarity on course fees, payment options, refund policy, offers, and enrollment terms at Fluent AUF.",
   },
 ];

@@ -1,9 +1,9 @@
 import "../styles/globals.css";
 
 export const metadata = {
-  title: "GermanSkill",
+  title: "Fluent AUF",
   description:
-    "Learn German, French, Japanese, Spanish and English. Book your free demo class today.",
+    "Learn German online with Fluent AUF. A1–B2 Goethe certified live classes. Book your free demo class today.",
 };
 
 export default function RootLayout({

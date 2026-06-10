@@ -5,16 +5,16 @@ import SiteFooter from "../components/SiteFooter";
 import ContactForm from "./_components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact Us | GermanSkill",
+  title: "Contact Us | Fluent AUF",
   description:
-    "Get in touch with GermanSkill for course enquiries, batch schedules, demo classes, and admissions support.",
+    "Get in touch with Fluent AUF for course enquiries, batch schedules, demo classes, and admissions support.",
 };
 
 const contactDetails = [
   {
     label: "Email",
-    value: "admin@germanskill.in",
-    href: "mailto:admin@germanskill.in",
+    value: "fluentauf@gmail.com",
+    href: "mailto:fluentauf@gmail.com",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M4 4h16v16H4z" />

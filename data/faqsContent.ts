@@ -23,7 +23,7 @@ export const faqItems: FaqItem[] = [
   {
     id: "goethe-3",
     categoryId: "goethe",
-    question: "Does GermanSkill prepare students for Goethe exams?",
+    question: "Does Fluent AUF prepare students for Goethe exams?",
     answer:
       "Yes. Our A1 to C2 programs include exam-pattern practice, mock tests, speaking drills, and writing feedback aligned with Goethe exam requirements.",
   },
@@ -95,14 +95,14 @@ export const faqItems: FaqItem[] = [
     categoryId: "general",
     question: "What are CEFR levels A1 to C2?",
     answer:
-      "CEFR (Common European Framework) defines language proficiency from A1 (beginner) to C2 (near-native). GermanSkill offers structured courses for every level with certification-focused outcomes.",
+      "CEFR (Common European Framework) defines language proficiency from A1 (beginner) to C2 (near-native). Fluent AUF offers structured courses for every level with certification-focused outcomes.",
   },
   {
     id: "courses-1",
     categoryId: "courses",
     question: "Do you offer online and offline classes?",
     answer:
-      "Yes. GermanSkill offers live online batches, classroom sessions, morning/evening timings, and weekend options so students and working professionals can learn flexibly.",
+      "Yes. Fluent AUF offers live online batches, classroom sessions, morning/evening timings, and weekend options so students and working professionals can learn flexibly.",
   },
   {
     id: "courses-2",
@@ -128,7 +128,7 @@ export const faqItems: FaqItem[] = [
   {
     id: "payment-1",
     categoryId: "payment",
-    question: "What are the course fees at GermanSkill?",
+    question: "What are the course fees at Fluent AUF?",
     answer:
       "Fees vary by level (A1 to C2), batch type, and duration. Contact our counsellors for the latest fee structure, offers, and installment options.",
   },

@@ -19,11 +19,11 @@ export function generateMetadata({ params }: BlogDetailPageProps): Metadata {
   const post = blogPosts.find((item) => item.slug === params.slug);
 
   if (!post) {
-    return { title: "Blog | GermanSkill" };
+    return { title: "Blog | Fluent AUF" };
   }
 
   return {
-    title: `${post.title} | GermanSkill Blog`,
+    title: `${post.title} | Fluent AUF Blog`,
     description: post.excerpt,
   };
 }

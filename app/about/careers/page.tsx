@@ -5,9 +5,9 @@ import SiteFooter from "../../components/SiteFooter";
 import CareersContent from "./_components/CareersContent";
 
 export const metadata: Metadata = {
-  title: "Careers | GermanSkill",
+  title: "Careers | Fluent AUF",
   description:
-    "Join GermanSkill — build a rewarding career in German language education. Grow, lead, and thrive with our team.",
+    "Join Fluent AUF — build a rewarding career in German language education. Grow, lead, and thrive with our team.",
 };
 
 export default function CareersPage() {
@@ -18,7 +18,7 @@ export default function CareersPage() {
         <PageBanner
           layout="stacked"
           title="Careers"
-          description="Build a career that's fun and fulfilling. Grow, lead, and thrive with GermanSkill."
+          description="Build a career that's fun and fulfilling. Grow, lead, and thrive with Fluent AUF."
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Careers" },

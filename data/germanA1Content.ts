@@ -203,7 +203,7 @@ export const a1CourseContent = {
       { stars: 1, percent: 0 },
     ],
     note:
-      "Some of real students reviews, verify on our Google place page. Search GermanSkill Reviews.",
+      "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews.",
   },
   reviews: [
     {
@@ -219,7 +219,7 @@ export const a1CourseContent = {
       name: "Chitra Sharma",
       date: "May 30, 2023",
       rating: 4,
-      text: "I completed my A2 from GermanSkill Language Studio. Excellent teaching methodology and very helpful for exam preparation.",
+      text: "I completed my A2 from Fluent AUF Language Studio. Excellent teaching methodology and very helpful for exam preparation.",
       color: "#ec4899",
     },
     {
@@ -235,7 +235,7 @@ export const a1CourseContent = {
       name: "Virendra Chaudhary",
       date: "May 18, 2023",
       rating: 4,
-      text: "I highly recommend GermanSkill as one of the best language institutes for learning German. Great value for money.",
+      text: "I highly recommend Fluent AUF as one of the best language institutes for learning German. Great value for money.",
       color: "#f59e0b",
     },
     {
@@ -251,7 +251,7 @@ export const a1CourseContent = {
       name: "Gaurav Sharma",
       date: "May 30, 2023",
       rating: 4,
-      text: "Excellent course! The trainer explains everything clearly with real-life examples. Best decision to join GermanSkill for German A1. Highly recommended for beginners.",
+      text: "Excellent course! The trainer explains everything clearly with real-life examples. Best decision to join Fluent AUF for German A1. Highly recommended for beginners.",
       color: "#e31e24",
     },
   ],

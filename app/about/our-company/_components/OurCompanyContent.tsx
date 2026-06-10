@@ -77,7 +77,7 @@ export default function OurCompanyContent() {
               Building German fluency for <span>10,500+ learners</span> across India
             </h2>
             <p>
-              GermanSkill is a dedicated German language institute helping students, professionals,
+              Fluent AUF is a dedicated German language institute helping students, professionals,
               and aspirants achieve certification and confidence for study, work, and life in
               Germany.
             </p>
@@ -100,7 +100,7 @@ export default function OurCompanyContent() {
             <div className="oc-intro-frame">
               <Image
                 src="/hero-students.jpg"
-                alt="GermanSkill students in a learning session"
+                alt="Fluent AUF students in a learning session"
                 width={560}
                 height={420}
                 className="oc-intro-photo"
@@ -129,7 +129,7 @@ export default function OurCompanyContent() {
       <section className="oc-features">
         <div className="oc-section-head">
           <span className="oc-tag oc-tag-gold">Our Edge</span>
-          <h2>Why learners choose GermanSkill</h2>
+          <h2>Why learners choose Fluent AUF</h2>
           <p>
             A professional institute built around results — not just syllabus completion, but real
             language ability and exam readiness.

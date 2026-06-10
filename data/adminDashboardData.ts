@@ -30,45 +30,45 @@ export type AdminCourseRow = {
 export const adminStatCards: AdminStatCard[] = [
   { id: "courses", label: "Courses", value: "6", theme: "blue" },
   { id: "blogs", label: "Blog Posts", value: "3", theme: "green" },
-  { id: "testimonials", label: "Testimonials", value: "8", theme: "purple" },
-  { id: "students", label: "Students", value: "124", theme: "amber" },
+  { id: "testimonials", label: "Testimonials", value: "5", theme: "purple" },
+  { id: "students", label: "Students", value: "8483", theme: "amber" },
   { id: "rating", label: "Average Rating", value: "4.9", theme: "sky" },
 ];
 
 export const adminOverviewStats: AdminOverviewStat[] = [
   { label: "Total Blogs", value: "3" },
-  { label: "Total Testimonials", value: "8" },
-  { label: "Total Courses", value: "6" },
+  { label: "Total Testimonials", value: "5" },
+  { label: "Total Courses", value: "5" },
 ];
 
 export const recentBlogPosts: AdminBlogRow[] = [
   {
-    title: "How to Prepare for Goethe A1 Exam in 30 Days",
-    dateCreated: "2026-05-12",
+    title: "German A1 Complete Guide for Beginners",
+    dateCreated: "2024-01-15",
   },
   {
-    title: "Study in Germany: Language Requirements Explained",
-    dateCreated: "2026-04-28",
+    title: "Learn German Online - Tips and Strategies",
+    dateCreated: "2024-01-14",
   },
   {
-    title: "Online vs Offline German Classes — Which Is Better?",
-    dateCreated: "2026-04-15",
+    title: "APS Certificate Requirements for German Universities",
+    dateCreated: "2024-01-13",
   },
 ];
 
 export const recentTestimonials: AdminTestimonialRow[] = [
-  { name: "Priya Sharma", rating: "5/5", dateCreated: "2026-05-20" },
-  { name: "Rahul Mehta", rating: "5/5", dateCreated: "2026-05-18" },
-  { name: "Ananya Gupta", rating: "4/5", dateCreated: "2026-05-10" },
-  { name: "Vikram Singh", rating: "5/5", dateCreated: "2026-05-02" },
-  { name: "Sneha Patel", rating: "5/5", dateCreated: "2026-04-25" },
+  { name: "Priya Sharma", rating: "5/5", dateCreated: "2024-01-10" },
+  { name: "Rahul Mehta", rating: "5/5", dateCreated: "2024-01-09" },
+  { name: "Nikhil Singh", rating: "4/5", dateCreated: "2024-01-08" },
+  { name: "Ananya Patel", rating: "5/5", dateCreated: "2024-01-07" },
+  { name: "Vikram Kumar", rating: "5/5", dateCreated: "2024-01-06" },
 ];
 
 export const recentCourses: AdminCourseRow[] = [
-  { title: "German Level A1", level: "Beginner", dateCreated: "2026-01-10" },
-  { title: "German Level A2", level: "Elementary", dateCreated: "2026-01-10" },
-  { title: "German Level B1", level: "Intermediate", dateCreated: "2026-01-12" },
-  { title: "German Level B2", level: "Upper Intermediate", dateCreated: "2026-01-12" },
+  { title: "German Level A1", level: "Beginner", dateCreated: "2024-01-05" },
+  { title: "German Level A2", level: "Elementary", dateCreated: "2024-01-05" },
+  { title: "German Level B1", level: "Intermediate", dateCreated: "2024-01-04" },
+  { title: "German Level B2", level: "Upper Intermediate", dateCreated: "2024-01-04" },
 ];
 
 export const adminNavItems = [

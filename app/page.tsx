@@ -253,7 +253,7 @@ function CertificateSection() {
           <h2>Obtain Your German Language Course Certificate</h2>
           <p className="certificate-intro">
             Upon successful completion of your Goethe / TELC preparation course, you will receive
-            a Certificate of Completion from GermanSkill.
+            a Certificate of Completion from Fluent AUF.
           </p>
 
           <ul className="certificate-benefits">
@@ -273,7 +273,7 @@ function CertificateSection() {
         <div className="certificate-visual">
           <Image
             src="/certificate-sample.svg"
-            alt="Sample German language course certificate from GermanSkill"
+            alt="Sample German language course certificate from Fluent AUF"
             width={560}
             height={392}
             className="certificate-image"
@@ -306,7 +306,7 @@ const testimonials = [
     initial: "A",
     color: "#27ae60",
     review:
-      "Cleared my Goethe A2 exam on the first attempt thanks to GermanSkill. Mock tests and speaking practice sessions were incredibly helpful.",
+      "Cleared my Goethe A2 exam on the first attempt thanks to Fluent AUF. Mock tests and speaking practice sessions were incredibly helpful.",
     date: "3 weeks ago",
   },
   {

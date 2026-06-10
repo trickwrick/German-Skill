@@ -5,9 +5,9 @@ import SiteFooter from "../../components/SiteFooter";
 import OurFacultiesContent from "./_components/OurFacultiesContent";
 
 export const metadata: Metadata = {
-  title: "Our Faculties | GermanSkill",
+  title: "Our Faculties | Fluent AUF",
   description:
-    "Meet the certified German language trainers and faculty at GermanSkill — experienced mentors for A1 to C2 levels.",
+    "Meet the certified German language trainers and faculty at Fluent AUF — experienced mentors for A1 to C2 levels.",
 };
 
 export default function OurFacultiesPage() {

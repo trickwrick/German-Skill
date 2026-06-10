@@ -5,9 +5,9 @@ import SiteFooter from "../../components/SiteFooter";
 import OurCompanyContent from "./_components/OurCompanyContent";
 
 export const metadata: Metadata = {
-  title: "Our Company | GermanSkill",
+  title: "Our Company | Fluent AUF",
   description:
-    "Learn about GermanSkill — our mission, journey, and commitment to quality German language education since 2013.",
+    "Learn about Fluent AUF — our mission, journey, and commitment to quality German language education since 2013.",
 };
 
 export default function OurCompanyPage() {

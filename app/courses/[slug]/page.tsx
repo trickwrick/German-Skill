@@ -20,11 +20,11 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: PageProps): Metadata {
   const course = getCourseBySlug(params.slug);
   if (!course) {
-    return { title: "Course Not Found | GermanSkill" };
+    return { title: "Course Not Found | Fluent AUF" };
   }
 
   return {
-    title: `${course.title} | GermanSkill`,
+    title: `${course.title} | Fluent AUF`,
     description: course.description,
   };
 }

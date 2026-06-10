@@ -4,9 +4,9 @@ import SiteFooter from "../../components/SiteFooter";
 import FaqsContent from "./_components/FaqsContent";
 
 export const metadata: Metadata = {
-  title: "FAQs | GermanSkill",
+  title: "FAQs | Fluent AUF",
   description:
-    "Find answers about German courses, Goethe, Telc, ÖSD exams, batches, fees, and policies at GermanSkill.",
+    "Find answers about German courses, Goethe, Telc, ÖSD exams, batches, fees, and policies at Fluent AUF.",
 };
 
 export default function FaqsPage() {

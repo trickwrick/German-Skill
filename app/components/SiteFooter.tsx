@@ -79,7 +79,7 @@ export default function SiteFooter() {
                 </svg>
               }
               label="Email"
-              value="admin@germanskill.in"
+              value="fluentauf@gmail.com"
             />
             <FooterContactItem
               icon={
@@ -129,7 +129,7 @@ export default function SiteFooter() {
       <div className="footer-bottom">
         <div className="footer-bottom-inner">
           <p className="footer-bottom-copy">
-            Copyright © 2013 - {new Date().getFullYear()} GermanSkill
+            Copyright © 2013 - {new Date().getFullYear()} Fluent AUF
           </p>
           <nav className="footer-bottom-links" aria-label="Legal links">
             {footerLegalLinks.map((link) => (
