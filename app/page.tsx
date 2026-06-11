@@ -4,6 +4,7 @@ import HeroSection from "./components/HeroSection";
 import HomeFaqSection from "./components/HomeFaqSection";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
+import TestimonialsSection from "./components/TestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
 import { germanCourses } from "../data/germanCourses";
 
@@ -282,128 +283,6 @@ function CertificateSection() {
   );
 }
 
-const testimonials = [
-  {
-    name: "Swathi S",
-    initial: "S",
-    color: "#5b8def",
-    review:
-      "Excellent teaching methodology! My German improved significantly in just 3 months. The trainers are patient and very supportive throughout the course.",
-    date: "2 weeks ago",
-  },
-  {
-    name: "Tanushree Naidu",
-    initial: "T",
-    color: "#e67e22",
-    review:
-      "Best language institute I've attended. Flexible batch timings and the online portal makes it easy to track progress and access recorded sessions.",
-    date: "1 month ago",
-  },
-  {
-    name: "Ajay Marcus",
-    initial: "A",
-    color: "#27ae60",
-    review:
-      "Cleared my Goethe A2 exam on the first attempt thanks to Fluent AUF. Mock tests and speaking practice sessions were incredibly helpful.",
-    date: "3 weeks ago",
-  },
-  {
-    name: "Riya Patel",
-    initial: "R",
-    color: "#9b59b6",
-    review:
-      "Joined the French beginner batch and loved every class. Small group size means everyone gets attention. Highly recommend for working professionals.",
-    date: "2 months ago",
-  },
-  {
-    name: "Karthik Reddy",
-    initial: "K",
-    color: "#3498db",
-    review:
-      "The free demo class convinced me to enroll. Trainers explain grammar clearly and focus on real conversation. Worth every rupee spent.",
-    date: "1 week ago",
-  },
-  {
-    name: "Priya Sharma",
-    initial: "P",
-    color: "#e74c3c",
-    review:
-      "Preparing for study in Germany and this institute guided me through language requirements and visa interview prep. Very professional team.",
-    date: "1 month ago",
-  },
-  {
-    name: "Mohammed Ali",
-    initial: "M",
-    color: "#1abc9c",
-    review:
-      "Japanese course structure is well planned from basics to JLPT prep. Interactive classes keep you engaged even in online mode.",
-    date: "3 weeks ago",
-  },
-  {
-    name: "Neha Gupta",
-    initial: "N",
-    color: "#f39c12",
-    review:
-      "IELTS coaching here helped me score band 7.5. Personalized feedback on writing and speaking made a huge difference in my preparation.",
-    date: "2 months ago",
-  },
-  {
-    name: "David Thomas",
-    initial: "D",
-    color: "#34495e",
-    review:
-      "Corporate Spanish training for our team was customized perfectly. Practical business vocabulary and role-play sessions were spot on.",
-    date: "4 weeks ago",
-  },
-];
-
-function StarRating() {
-  return (
-    <div className="star-rating" aria-label="5 out of 5 stars">
-      {"★★★★★"}
-    </div>
-  );
-}
-
-function TestimonialsSection() {
-  return (
-    <section className="testimonials-section" id="testimonials">
-      <div className="testimonials-inner">
-        <div className="testimonials-header">
-          <span className="testimonials-tag">Testimonials</span>
-          <h2>We&apos;ve 25000+ Happy Students</h2>
-        </div>
-
-        <div className="testimonials-grid">
-          {testimonials.map((item) => (
-            <article key={item.name} className="testimonial-card">
-              <div className="testimonial-user">
-                <div
-                  className="testimonial-avatar"
-                  style={{ backgroundColor: item.color }}
-                  aria-hidden="true"
-                >
-                  {item.initial}
-                </div>
-                <div>
-                  <strong>{item.name}</strong>
-                  <StarRating />
-                </div>
-              </div>
-              <p>{item.review}</p>
-              <time className="testimonial-date">{item.date}</time>
-            </article>
-          ))}
-        </div>
-
-        <a href="#testimonials" className="btn btn-view-more">
-          View More
-        </a>
-      </div>
-    </section>
-  );
-}
-
 function WebinarSection() {
   return (
     <section className="webinar-section">
@@ -465,9 +344,9 @@ function PromoCards() {
             <h2>
               Explore <span>Upcoming Batches</span>
             </h2>
-            <a href="#schedule" className="btn btn-schedule">
+            <Link href="/contact" className="btn btn-schedule">
               View Schedule
-            </a>
+            </Link>
           </div>
         </article>
 
@@ -481,9 +360,9 @@ function PromoCards() {
             <p>
               Explore our exclusive deals and start your language learning journey today!
             </p>
-            <a href="#offers" className="promo-link">
+            <Link href="/contact" className="promo-link">
               View Offers &gt;&gt;
-            </a>
+            </Link>
           </div>
         </article>
       </div>
