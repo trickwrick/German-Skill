@@ -16,7 +16,7 @@ export type GermanCourse = {
 export const germanCourses: GermanCourse[] = [
   {
     slug: "a1",
-    pathName: "German-A1",
+    pathName: "german-a1",
     title: "German A1 Level : For Beginners!",
     description:
       "Learn German Language From A Native and Experienced German Teacher - Learn German Grammar, Vocabulary and Speaking from scratch.",
@@ -31,7 +31,7 @@ export const germanCourses: GermanCourse[] = [
   },
   {
     slug: "a2",
-    pathName: "German-A2",
+    pathName: "german-a2",
     title: "German A2 Level : Elementary",
     description:
       "Learn The German Grammar From A Native and Experienced German Teacher - Learn German Grammar For Advanced Beginners.",
@@ -46,7 +46,7 @@ export const germanCourses: GermanCourse[] = [
   },
   {
     slug: "b1",
-    pathName: "German-B1",
+    pathName: "german-b1",
     title: "German B1 Level : Intermediate",
     description:
       "German Language has taken immense importance in contemporary business. It should be learnt properly with structured modules.",
@@ -61,7 +61,7 @@ export const germanCourses: GermanCourse[] = [
   },
   {
     slug: "b2",
-    pathName: "German-B2",
+    pathName: "german-b2",
     title: "German B2 Level : Upper Intermediate",
     description:
       "Learn German Language From A Native & Experienced German Teacher - Learn German Grammar, Vocabulary and fluency skills.",
@@ -76,7 +76,7 @@ export const germanCourses: GermanCourse[] = [
   },
   {
     slug: "c1",
-    pathName: "German-C1",
+    pathName: "german-c1",
     title: "German C1 Level : Advance Level German",
     description:
       "The German Language C1 level, also known as the Advanced Level, represents a significant milestone in language mastery.",
@@ -91,7 +91,7 @@ export const germanCourses: GermanCourse[] = [
   },
   {
     slug: "c2",
-    pathName: "German-C2",
+    pathName: "german-c2",
     title: "German C2 Level : Highly Competent Level German",
     description:
       "The German Language C2 level, also known as the Highly Competent Level, represents the pinnacle of mastery in German.",
