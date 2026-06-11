@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { FacultyMember } from "../../data/facultyMembers";
-import { supportTeam, trainers } from "../../data/facultyMembers";
+import { trainers } from "../../data/facultyMembers";
 
 function FacultyCard({ member }: { member: FacultyMember }) {
   return (
@@ -17,7 +17,6 @@ function FacultyCard({ member }: { member: FacultyMember }) {
       <div className="of-member-body">
         <h3>{member.name}</h3>
         <span className="of-member-role">{member.role}</span>
-        <span className="of-member-focus">{member.focus}</span>
       </div>
     </article>
   );
@@ -37,22 +36,6 @@ export default function FacultyTeamsSection() {
         </div>
         <div className="of-grid">
           {trainers.map((member) => (
-            <FacultyCard key={member.name} member={member} />
-          ))}
-        </div>
-      </section>
-
-      <section className="of-support">
-        <div className="of-section-head">
-          <span className="of-tag">Behind the scenes</span>
-          <h2>Internal support team</h2>
-          <p>
-            Counsellors and coordinators who keep batches running smoothly — from enrollment
-            and scheduling to student portal support.
-          </p>
-        </div>
-        <div className="of-grid">
-          {supportTeam.map((member) => (
             <FacultyCard key={member.name} member={member} />
           ))}
         </div>

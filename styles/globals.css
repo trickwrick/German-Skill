@@ -113,23 +113,23 @@ button {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  max-width: 360px;
+  max-width: 240px;
 }
 
 .site-logo {
   display: block;
   width: auto;
-  height: 72px;
+  height: 48px;
   max-width: 100%;
   object-fit: contain;
 }
 
 .site-logo-footer {
-  height: 84px;
+  height: 56px;
 }
 
 .site-logo-admin {
-  height: 64px;
+  height: 44px;
   margin: 0 auto;
 }
 
@@ -1977,6 +1977,7 @@ button {
   padding: 14px 12px 16px;
   text-align: center;
   background: var(--white);
+  border-top: 3px solid var(--gold-500);
 }
 
 .tutor-card-name {
@@ -5278,12 +5279,12 @@ a.contact-info-value:hover {
   }
 
   .logo-block {
-    max-width: 260px;
+    max-width: 180px;
     min-width: 0;
   }
 
   .site-logo {
-    height: 56px;
+    height: 38px;
   }
 
   .nav-toggle {

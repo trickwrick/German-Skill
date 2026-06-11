@@ -10,8 +10,8 @@ export default function SiteLogo({ className = "site-logo", priority = false }: 
       src="/fluent-logo.png"
       alt="Fluent AUF — Learn German with Confidence"
       className={className}
-      width={340}
-      height={82}
+      width={230}
+      height={56}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
     />

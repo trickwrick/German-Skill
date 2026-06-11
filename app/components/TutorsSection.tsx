@@ -7,12 +7,12 @@ const tutors = [
   {
     name: "Khushi Sharma",
     image: "/tutors/khushi-sharma.jpg",
-    qualification: "Qualified Trainer",
+    qualification: "Certified German Trainer",
   },
   {
     name: "Khushi Birsat",
     image: "/tutors/khushi-birsat.jpg",
-    qualification: "Qualified Trainer",
+    qualification: "Certified German Trainer",
   },
 ];
 

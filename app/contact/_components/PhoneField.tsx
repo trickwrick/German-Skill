@@ -20,7 +20,7 @@ export default function PhoneField() {
           countries={shortLabelCountries}
           forceDialCode
           preferredCountries={["in", "de", "ae", "us", "gb", "ca", "au", "np", "bd", "sg"]}
-          placeholder="977 320 1465"
+          placeholder="88269 67151"
           required
         />
       </div>
