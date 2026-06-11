@@ -6,8 +6,8 @@ export const a1CourseContent = {
     "Access - Mobile, Tablet or Offline",
   ],
   instructor: {
-    name: "Khusi Sharma",
-    image: "/courses/khusi-sharma.jpg",
+    name: "Khushi Sharma",
+    image: "/tutors/khushi-sharma.jpg",
   },
   aboutCourse:
     "Learn German Language From A Native and Experienced German Teacher! Learn German Grammar, Vocabulary, Slang, Conversation!",

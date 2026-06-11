@@ -14,35 +14,6 @@ function CheckIcon() {
   );
 }
 
-function GermanyMap() {
-  return (
-    <svg className="germany-map" viewBox="0 0 200 240" aria-hidden="true">
-      <path
-        d="M40 20 L160 15 L175 80 L165 140 L140 200 L100 225 L60 200 L35 140 L25 80 Z"
-        fill="#1a1a1a"
-      />
-      <path
-        d="M40 20 L160 15 L175 80 L165 140 L140 200 L100 225 L60 200 L35 140 L25 80 Z"
-        fill="#dd0000"
-        clipPath="url(#germanyMid)"
-      />
-      <path
-        d="M40 20 L160 15 L175 80 L165 140 L140 200 L100 225 L60 200 L35 140 L25 80 Z"
-        fill="#ffce00"
-        clipPath="url(#germanyBot)"
-      />
-      <defs>
-        <clipPath id="germanyMid">
-          <rect x="0" y="80" width="200" height="80" />
-        </clipPath>
-        <clipPath id="germanyBot">
-          <rect x="0" y="160" width="200" height="80" />
-        </clipPath>
-      </defs>
-    </svg>
-  );
-}
-
 function ObjectiveList({ items }: { items: string[] }) {
   return (
     <ul className="objective-list">
@@ -172,10 +143,6 @@ export default function CourseContent({
                 <li key={item}>{item}</li>
               ))}
             </ul>
-          </div>
-
-          <div className="course-map-box">
-            <GermanyMap />
           </div>
 
           <div className="course-instructor-box">

@@ -20,8 +20,8 @@ function createPlaceholderContent(course: GermanCourse): CourseContent {
       "Access - Mobile, Tablet or Offline",
     ],
     instructor: {
-      name: "Khusi Sharma",
-      image: "/courses/khusi-sharma.jpg",
+      name: "Khushi Sharma",
+      image: "/tutors/khushi-sharma.jpg",
     },
     aboutCourse: course.description,
     objectivesLeft: [

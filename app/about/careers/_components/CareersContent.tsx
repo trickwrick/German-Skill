@@ -18,7 +18,7 @@ const cultureCards = [
     title: "Belong and Be You",
     text: "We empower employees through growth opportunities, open communication, flexible work culture, and recognition.",
     theme: "sun",
-    image: "/courses/khusi-sharma.jpg",
+    image: "/tutors/khushi-sharma.jpg",
   },
 ];
 
