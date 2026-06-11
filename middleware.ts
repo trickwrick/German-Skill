@@ -3,14 +3,6 @@ import type { NextRequest } from "next/server";
 import { ADMIN_SESSION_COOKIE, isAdminSessionValid } from "./lib/adminAuth";
 
 export function middleware(request: NextRequest) {
-  const hostname = request.headers.get("host")?.split(":")[0] ?? "";
-
-  if (hostname === "www.fluentauf.com") {
-    const url = request.nextUrl.clone();
-    url.host = "fluentauf.com";
-    return NextResponse.redirect(url, 308);
-  }
-
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin/login")) {
@@ -36,7 +28,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
-  ],
+  matcher: ["/admin", "/admin/:path*"],
 };
