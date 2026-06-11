@@ -1,12 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import BlogPostCard from "./components/BlogPostCard";
 import HeroSection from "./components/HeroSection";
 import HomeFaqSection from "./components/HomeFaqSection";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TutorsSection from "./components/TutorsSection";
-import { blogPosts } from "../data/blogPosts";
 import { germanCourses } from "../data/germanCourses";
 
 const stats = [
@@ -436,31 +434,6 @@ function WebinarSection() {
   );
 }
 
-function BlogSection() {
-  const featuredPosts = blogPosts.slice(0, 6);
-
-  return (
-    <section className="blog-section" id="blog">
-      <div className="blog-inner">
-        <div className="blog-header">
-          <span className="blog-tag">News &amp; Blogs</span>
-          <h2>Explore Our Latest News &amp; Blogs</h2>
-        </div>
-        <div className="blog-grid">
-          {featuredPosts.map((post) => (
-            <BlogPostCard key={post.slug} post={post} showExcerpt={false} />
-          ))}
-        </div>
-        <div className="blog-section-footer">
-          <Link href="/blog" className="btn btn-primary blog-view-all-btn">
-            View All Blogs
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function CareersSection() {
   return (
     <section className="careers-section">
@@ -534,7 +507,6 @@ export default function HomePage() {
         <TestimonialsSection />
         <WebinarSection />
         <HomeFaqSection />
-        <BlogSection />
         <CareersSection />
     </main>
       <SiteFooter />
