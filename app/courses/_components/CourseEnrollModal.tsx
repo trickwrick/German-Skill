@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import {
-  batchScheduleOptions,
   enrollCourseLevels,
 } from "../../../data/enrollFormOptions";
 
@@ -190,34 +189,17 @@ export default function CourseEnrollModal({
                 <input type="text" name="city" required placeholder="City" />
               </label>
 
-              <div className="enroll-modal-row">
-                <label className="enroll-modal-field">
-                  <span>Select Level *</span>
-                  <select name="level" defaultValue={courseSlug} required>
-                    {enrollCourseLevels.map((level) => (
-                      <option key={level.slug} value={level.slug}>
-                        {level.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label className="enroll-modal-field">
-                  <span>Batch Schedule *</span>
-                  <select name="batchSchedule" defaultValue={batchScheduleOptions[2]} required>
-                    {batchScheduleOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
-              <label className="enroll-modal-consent">
-                <input type="checkbox" name="consent" required />
-                <span>I agree to receive information from Fluent AUF.</span>
+              <label className="enroll-modal-field">
+                <span>Select Level *</span>
+                <select name="level" defaultValue={courseSlug} required>
+                  {enrollCourseLevels.map((level) => (
+                    <option key={level.slug} value={level.slug}>
+                      {level.label}
+                    </option>
+                  ))}
+                </select>
               </label>
+
 
               <button type="submit" className="btn btn-primary enroll-modal-submit">
                 Enquire Now

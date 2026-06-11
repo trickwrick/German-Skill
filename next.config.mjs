@@ -20,12 +20,6 @@ const nextConfig = {
       { source: "/course/German%20B2", destination: "/course/german-b2", permanent: true },
       { source: "/course/German%20C1", destination: "/course/german-c1", permanent: true },
       { source: "/course/German%20C2", destination: "/course/german-c2", permanent: true },
-      { source: "/course/German-A1", destination: "/course/german-a1", permanent: true },
-      { source: "/course/German-A2", destination: "/course/german-a2", permanent: true },
-      { source: "/course/German-B1", destination: "/course/german-b1", permanent: true },
-      { source: "/course/German-B2", destination: "/course/german-b2", permanent: true },
-      { source: "/course/German-C1", destination: "/course/german-c1", permanent: true },
-      { source: "/course/German-C2", destination: "/course/german-c2", permanent: true },
     ];
   },
 };
