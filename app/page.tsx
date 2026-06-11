@@ -466,7 +466,7 @@ function CareersSection() {
     <section className="careers-section">
       <div className="careers-inner">
         <article className="careers-card">
-          <h2 className="careers-card-heading">Learn with 25,000+ Students Across the Globe!</h2>
+          <h2 className="careers-card-heading">Learn with 16000+ Students Across the Globe!</h2>
           <a href="#careers" className="btn btn-careers">
             Know More
           </a>

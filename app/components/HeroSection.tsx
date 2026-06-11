@@ -26,11 +26,11 @@ export default function HeroSection() {
         <div className="hero-stats">
           <div className="hero-stats-grid">
             <div className="hero-stat">
-              <strong>18000+</strong>
+              <strong>16000+</strong>
               <span>Learners</span>
             </div>
             <div className="hero-stat">
-              <strong>95%</strong>
+              <strong>96%</strong>
               <span>Course Completion</span>
             </div>
           </div>

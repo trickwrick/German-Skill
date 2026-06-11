@@ -4,17 +4,19 @@ import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 
 const tutors = [
-  { name: "Khusi Sharma", image: "/courses/khusi-sharma.jpg" },
-  { name: "Arti", image: "/courses/instructor.jpg" },
-  { name: "Vibha", image: "/portal-education.jpg" },
-  { name: "Shubhra", image: "/webinar-student.jpg" },
-  { name: "Payal", image: "/hero-students.jpg" },
-  { name: "Neha", image: "/courses/german-a1.jpg" },
-  { name: "Rahul", image: "/courses/german-hero.jpg" },
-  { name: "Priya", image: "/portal-education.jpg" },
+  {
+    name: "Khushi Sharma",
+    image: "/tutors/khushi-sharma.jpg",
+    qualification: "Qualified Trainer",
+  },
+  {
+    name: "Khushi Birsat",
+    image: "/tutors/khushi-birsat.jpg",
+    qualification: "Qualified Trainer",
+  },
 ];
 
-const tutorsPerSlide = 4;
+const tutorsPerSlide = 2;
 
 function ChevronIcon({ direction }: { direction: "prev" | "next" }) {
   return (
@@ -71,14 +73,16 @@ export default function TutorsSection() {
         </div>
 
         <div className="tutors-carousel">
-          <button
-            type="button"
-            className="tutors-arrow tutors-arrow-prev"
-            aria-label="Previous tutors"
-            onClick={() => goToSlide(activeSlide - 1)}
-          >
-            <ChevronIcon direction="prev" />
-          </button>
+          {slides.length > 1 ? (
+            <button
+              type="button"
+              className="tutors-arrow tutors-arrow-prev"
+              aria-label="Previous tutors"
+              onClick={() => goToSlide(activeSlide - 1)}
+            >
+              <ChevronIcon direction="prev" />
+            </button>
+          ) : null}
 
           <div className="tutors-track-wrap">
             <div
@@ -86,7 +90,10 @@ export default function TutorsSection() {
               style={{ transform: `translateX(-${activeSlide * 100}%)` }}
             >
               {slides.map((slide, slideIndex) => (
-                <div key={`slide-${slideIndex}`} className="tutors-slide">
+                <div
+                  key={`slide-${slideIndex}`}
+                  className={`tutors-slide${slide.length === 2 && tutors.length === 2 ? " tutors-slide-duo" : ""}`}
+                >
                   {slide.map((tutor) => (
                     <article key={tutor.name} className="tutor-card">
                       <div className="tutor-card-image-wrap">
@@ -98,7 +105,10 @@ export default function TutorsSection() {
                           className="tutor-card-image"
                         />
                       </div>
-                      <div className="tutor-card-name">{tutor.name}</div>
+                      <div className="tutor-card-body">
+                        <div className="tutor-card-name">{tutor.name}</div>
+                        <p className="tutor-card-qualification">{tutor.qualification}</p>
+                      </div>
                     </article>
                   ))}
                 </div>
@@ -106,29 +116,33 @@ export default function TutorsSection() {
             </div>
           </div>
 
-          <button
-            type="button"
-            className="tutors-arrow tutors-arrow-next"
-            aria-label="Next tutors"
-            onClick={() => goToSlide(activeSlide + 1)}
-          >
-            <ChevronIcon direction="next" />
-          </button>
+          {slides.length > 1 ? (
+            <button
+              type="button"
+              className="tutors-arrow tutors-arrow-next"
+              aria-label="Next tutors"
+              onClick={() => goToSlide(activeSlide + 1)}
+            >
+              <ChevronIcon direction="next" />
+            </button>
+          ) : null}
         </div>
 
-        <div className="tutors-dots" role="tablist" aria-label="Tutor slides">
-          {slides.map((_, index) => (
-            <button
-              key={`dot-${index}`}
-              type="button"
-              role="tab"
-              aria-selected={index === activeSlide}
-              aria-label={`Slide ${index + 1}`}
-              className={`tutors-dot${index === activeSlide ? " is-active" : ""}`}
-              onClick={() => goToSlide(index)}
-            />
-          ))}
-        </div>
+        {slides.length > 1 ? (
+          <div className="tutors-dots" role="tablist" aria-label="Tutor slides">
+            {slides.map((_, index) => (
+              <button
+                key={`dot-${index}`}
+                type="button"
+                role="tab"
+                aria-selected={index === activeSlide}
+                aria-label={`Slide ${index + 1}`}
+                className={`tutors-dot${index === activeSlide ? " is-active" : ""}`}
+                onClick={() => goToSlide(index)}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );
