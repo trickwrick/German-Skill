@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /tag/*
+Disallow: /search/*
+Disallow: /account/*
+Disallow: /blog-tags/*
+Disallow: /public/*
+Disallow: /blogs/tag/*
+
+Sitemap: https://fluentauf.com/sitemap.xml
