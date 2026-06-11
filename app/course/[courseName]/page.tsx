@@ -6,19 +6,19 @@ import { notFound } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import SiteFooter from "../../components/SiteFooter";
 import { getCourseContent } from "../../../data/courseContents";
-import { germanCourses, getCourseBySlug } from "../../../data/germanCourses";
-import CourseContent from "../_components/CourseContent";
+import { germanCourses, getCourseByPathName } from "../../../data/germanCourses";
+import CourseContent from "../../courses/_components/CourseContent";
 
 type PageProps = {
-  params: { slug: string };
+  params: { courseName: string };
 };
 
 export function generateStaticParams() {
-  return germanCourses.map((course) => ({ slug: course.slug }));
+  return germanCourses.map((course) => ({ courseName: course.pathName }));
 }
 
 export function generateMetadata({ params }: PageProps): Metadata {
-  const course = getCourseBySlug(params.slug);
+  const course = getCourseByPathName(params.courseName);
   if (!course) {
     return { title: "Course Not Found | Fluent AUF" };
   }
@@ -120,8 +120,8 @@ function ClockIcon() {
 }
 
 export default function GermanCoursePage({ params }: PageProps) {
-  const course = getCourseBySlug(params.slug);
-  const content = getCourseContent(params.slug);
+  const course = getCourseByPathName(params.courseName);
+  const content = course ? getCourseContent(course.slug) : null;
 
   if (!course || !content) notFound();
 
@@ -129,63 +129,63 @@ export default function GermanCoursePage({ params }: PageProps) {
     <>
       <Navbar />
       <main>
-      <section className="course-detail-hero">
-        <Image
-          src="/courses/german-hero.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="course-detail-hero-image"
-        />
-        <div className="course-detail-hero-overlay" aria-hidden="true" />
-        <div className="course-detail-hero-content">
-          <h1>Course Details</h1>
-          <nav className="course-breadcrumbs" aria-label="Breadcrumb">
-            <Link href="/">Home</Link>
-            <span aria-hidden="true">•</span>
-            <Link href="/#courses">German</Link>
-            <span aria-hidden="true">•</span>
-            <Link href="/#courses">All Courses</Link>
-          </nav>
-        </div>
-      </section>
-
-      <section className="course-detail-body">
-        <div className="course-detail-inner">
-          <h2 className="course-detail-title">{course.title}</h2>
-
-          <div className="course-detail-stats">
-            <StatItem
-              icon={<PeopleIcon />}
-              value={course.batchSize ?? "20-40 Students"}
-              label="Offline Batch Size"
-            />
-            <StatItem
-              icon={<ListIcon />}
-              value={course.enrolled ?? "100+"}
-              label="Students Enrolled"
-            />
-            <StatItem
-              icon={<StarRating rating={course.rating ?? "4.5"} />}
-              value={course.rating ?? "4.50"}
-              label={`Reviews (${course.reviewCount ?? "0"})`}
-            />
-            <StatItem
-              icon={<ClockIcon />}
-              value={course.learningHours ?? course.hours}
-              label="Learning Hours"
-            />
+        <section className="course-detail-hero">
+          <Image
+            src="/courses/german-hero.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="course-detail-hero-image"
+          />
+          <div className="course-detail-hero-overlay" aria-hidden="true" />
+          <div className="course-detail-hero-content">
+            <h1>Course Details</h1>
+            <nav className="course-breadcrumbs" aria-label="Breadcrumb">
+              <Link href="/">Home</Link>
+              <span aria-hidden="true">•</span>
+              <Link href="/#courses">German</Link>
+              <span aria-hidden="true">•</span>
+              <Link href="/#courses">All Courses</Link>
+            </nav>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <CourseContent
-        content={content}
-        reviewCount={course.reviewCount ?? String(content.reviewsSummary.total)}
-        courseSlug={course.slug}
-        courseTitle={course.title}
-      />
+        <section className="course-detail-body">
+          <div className="course-detail-inner">
+            <h2 className="course-detail-title">{course.title}</h2>
+
+            <div className="course-detail-stats">
+              <StatItem
+                icon={<PeopleIcon />}
+                value={course.batchSize ?? "20-40 Students"}
+                label="Offline Batch Size"
+              />
+              <StatItem
+                icon={<ListIcon />}
+                value={course.enrolled ?? "100+"}
+                label="Students Enrolled"
+              />
+              <StatItem
+                icon={<StarRating rating={course.rating ?? "4.5"} />}
+                value={course.rating ?? "4.50"}
+                label={`Reviews (${course.reviewCount ?? "0"})`}
+              />
+              <StatItem
+                icon={<ClockIcon />}
+                value={course.learningHours ?? course.hours}
+                label="Learning Hours"
+              />
+            </div>
+          </div>
+        </section>
+
+        <CourseContent
+          content={content}
+          reviewCount={course.reviewCount ?? String(content.reviewsSummary.total)}
+          courseSlug={course.slug}
+          courseTitle={course.title}
+        />
       </main>
       <SiteFooter />
     </>

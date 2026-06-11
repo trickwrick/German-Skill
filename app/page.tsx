@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TestimonialsSection from "./components/TestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
-import { germanCourses } from "../data/germanCourses";
+import { germanCourses, getCourseHref } from "../data/germanCourses";
 
 const stats = [
   { value: "10,500+", label: "Happy Students" },
@@ -26,7 +26,7 @@ function AllCoursesSection() {
 
         <div className="all-courses-grid">
           {germanCourses.map((course) => {
-            const courseHref = `/courses/${course.slug}`;
+            const courseHref = getCourseHref(course);
 
             return (
               <Link key={course.slug} href={courseHref} className="course-card">
@@ -353,10 +353,10 @@ function PromoCards() {
         <article className="promo-card promo-card-offers">
           <div className="offer-ribbon" aria-hidden="true">
             <span>UPTO</span>
-            <strong>25% OFF</strong>
+            <strong>15% OFF</strong>
           </div>
           <div className="promo-card-body promo-card-body-center">
-            <h2>Upto 25% OFF</h2>
+            <h2>Upto 15% OFF</h2>
             <p>
               Explore our exclusive deals and start your language learning journey today!
             </p>

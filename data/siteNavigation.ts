@@ -1,11 +1,9 @@
-export const courseLevels = [
-  { label: "German Level A1", href: "/courses/a1" },
-  { label: "German Level A2", href: "/courses/a2" },
-  { label: "German Level B1", href: "/courses/b1" },
-  { label: "German Level B2", href: "/courses/b2" },
-  { label: "German Level C1", href: "/courses/c1" },
-  { label: "German Level C2", href: "/courses/c2" },
-];
+import { germanCourses, getCourseHref } from "./germanCourses";
+
+export const courseLevels = germanCourses.map((course) => ({
+  label: `German Level ${course.slug.toUpperCase()}`,
+  href: getCourseHref(course),
+}));
 
 export const aboutLinks = [
   { label: "Our Company", href: "/about/our-company" },
