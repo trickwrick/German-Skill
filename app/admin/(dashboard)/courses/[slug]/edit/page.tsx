@@ -6,6 +6,7 @@ import { getCourseBySlug } from "../../../../../../data/germanCourses";
 import {
   getCourseEditableDetails,
   getStoredCourseDetails,
+  mergeStoredCourse,
 } from "../../../../../../lib/courseContentStore";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +44,7 @@ export default async function AdminEditCoursePage({ params }: EditCoursePageProp
       <AdminCourseForm
         mode="edit"
         lockedSlug={params.slug}
-        initialValues={{ ...course, ...stored?.course, slug: params.slug }}
+        initialValues={mergeStoredCourse(course, stored?.course)}
         descriptionPreview={content?.courseDescription ?? []}
         initialFaqs={editable.faqs}
         initialReviewsSummary={editable.reviewsSummary}

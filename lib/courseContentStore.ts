@@ -82,26 +82,31 @@ async function saveMongoCourseDetails(document: StoredCourseDetails) {
 export async function getStoredCourseDetails(slug: string): Promise<StoredCourseDetails | null> {
   noStore();
 
+  let stored: StoredCourseDetails | null = null;
+
   if (isFileStoreEnabled()) {
     try {
-      const fileDoc = await getFileCourseDetails(slug);
-      if (fileDoc) {
-        return fileDoc;
-      }
+      stored = await getFileCourseDetails(slug);
     } catch {
       // Continue to MongoDB fallback below.
     }
   }
 
-  try {
-    if (process.env.MONGODB_URI) {
-      return await getMongoCourseDetails(slug);
+  if (!stored) {
+    try {
+      if (process.env.MONGODB_URI) {
+        stored = await getMongoCourseDetails(slug);
+      }
+    } catch {
+      // No stored course details available.
     }
-  } catch {
-    // No stored course details available.
   }
 
-  return null;
+  if (!stored) {
+    return null;
+  }
+
+  return sanitizeStoredDetails(stored);
 }
 
 export async function getCourseEditableDetails(slug: string) {
@@ -127,10 +132,15 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
   }
 
   const { slug, faqs, reviewsSummary, reviews, ...courseFields } = payload;
+  const baseCourse = getCourseBySlug(slug);
 
   const document: StoredCourseDetails = {
     slug,
-    course: courseFields,
+    course: mergeStoredCourse(baseCourse ?? ({ slug, pathName: `german-${slug}` } as GermanCourse), {
+      ...courseFields,
+      slug,
+      pathName: `german-${slug}`,
+    }),
     faqs,
     reviewsSummary: {
       ...reviewsSummary,
@@ -227,6 +237,28 @@ function normalizeCoursePrice(price: string) {
   })}`;
 }
 
+function hasStoredIdentityMismatch(base: GermanCourse, stored?: Partial<GermanCourse>) {
+  const storedPath = stored?.pathName?.trim();
+  return Boolean(storedPath && storedPath !== base.pathName);
+}
+
+function sanitizeStoredDetails(stored: StoredCourseDetails): StoredCourseDetails {
+  const base = getCourseBySlug(stored.slug);
+  if (!base) {
+    return stored;
+  }
+
+  const identityMismatch = hasStoredIdentityMismatch(base, stored.course);
+  const content = getCourseContent(stored.slug);
+
+  return {
+    ...stored,
+    course: mergeStoredCourse(base, stored.course),
+    faqs: identityMismatch ? (content?.faqs ?? stored.faqs) : stored.faqs,
+    reviews: identityMismatch ? [] : stored.reviews,
+  };
+}
+
 export function mergeStoredCourse(
   base: GermanCourse,
   stored?: Partial<GermanCourse>,
@@ -235,11 +267,25 @@ export function mergeStoredCourse(
     return base;
   }
 
+  const price = stored.price ? normalizeCoursePrice(stored.price) : base.price;
+
+  if (hasStoredIdentityMismatch(base, stored)) {
+    return {
+      ...base,
+      learningHours: stored.learningHours ?? base.learningHours,
+      batchSize: stored.batchSize ?? base.batchSize,
+      enrolled: stored.enrolled ?? base.enrolled,
+      rating: stored.rating ?? base.rating,
+      reviewCount: stored.reviewCount ?? base.reviewCount,
+      price,
+    };
+  }
+
   return {
     ...base,
     ...stored,
     slug: base.slug,
     pathName: base.pathName,
-    price: stored.price ? normalizeCoursePrice(stored.price) : base.price,
+    price,
   };
 }
