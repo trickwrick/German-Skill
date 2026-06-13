@@ -2110,10 +2110,6 @@ button {
     max-width: 520px;
     margin: 0 auto;
   }
-
-  .of-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 560px) {
@@ -2148,10 +2144,6 @@ button {
   .tutors-slide-duo .tutor-card:first-child,
   .tutors-slide-duo .tutor-card:last-child {
     grid-column: auto;
-  }
-
-  .of-grid {
-    grid-template-columns: 1fr;
   }
 }
 
@@ -4269,11 +4261,16 @@ a.contact-info-value:hover {
 }
 
 .of-grid {
-  width: min(1100px, 100%);
+  width: min(960px, 100%);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
+}
+
+.of-grid .of-member-card {
+  width: min(100%, 280px);
 }
 
 .of-member-card {
