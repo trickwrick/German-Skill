@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import PhoneField from "../../../contact/_components/PhoneField";
 
 const germanLevelOptions = [
@@ -21,10 +21,57 @@ const experienceOptions = [
 
 export default function TutorApplicationForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [cvError, setCvError] = useState("");
+
+  const maxCvSizeMb = 5;
+  const acceptedCvTypes = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ];
+
+  function handleCvChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    setCvError("");
+
+    if (!file) {
+      setCvFile(null);
+      return;
+    }
+
+    if (!acceptedCvTypes.includes(file.type)) {
+      setCvFile(null);
+      setCvError("Please upload a PDF, DOC, or DOCX file.");
+      event.target.value = "";
+      return;
+    }
+
+    if (file.size > maxCvSizeMb * 1024 * 1024) {
+      setCvFile(null);
+      setCvError(`CV must be ${maxCvSizeMb}MB or smaller.`);
+      event.target.value = "";
+      return;
+    }
+
+    setCvFile(file);
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!cvFile) {
+      setCvError("Please upload your CV.");
+      return;
+    }
+
     setSubmitted(true);
+  }
+
+  function resetForm() {
+    setSubmitted(false);
+    setCvFile(null);
+    setCvError("");
   }
 
   if (submitted) {
@@ -49,7 +96,7 @@ export default function TutorApplicationForm() {
         <button
           type="button"
           className="btn btn-primary contact-success-btn"
-          onClick={() => setSubmitted(false)}
+          onClick={resetForm}
         >
           Submit Another Application
         </button>
@@ -130,6 +177,24 @@ export default function TutorApplicationForm() {
           placeholder="Tell us about your teaching background, certifications, and why you want to join Fluent AUF..."
         />
       </label>
+
+      <div className="contact-field contact-field-full contact-file-field">
+        <span>Upload CV *</span>
+        <label className="contact-file-upload">
+          <input
+            type="file"
+            name="cv"
+            accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            onChange={handleCvChange}
+            required
+          />
+          <span className="contact-file-btn">Choose File</span>
+          <span className="contact-file-name">
+            {cvFile ? cvFile.name : "PDF, DOC, or DOCX up to 5MB"}
+          </span>
+        </label>
+        {cvError ? <p className="contact-file-error">{cvError}</p> : null}
+      </div>
 
       <button type="submit" className="btn btn-primary contact-submit-btn">
         Submit Application
