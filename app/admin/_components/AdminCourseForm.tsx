@@ -147,11 +147,11 @@ export default function AdminCourseForm({
     const payload: AdminCoursePayload = {
       ...(values as GermanCourse),
       slug: courseSlug,
-      reviewCount: String(reviews.length),
+      reviewCount: values.reviewCount ?? "0",
       faqs,
       reviewsSummary: {
         ...reviewsSummary,
-        total: reviews.length,
+        total: Number(values.reviewCount) || 0,
         average: values.rating ?? reviewsSummary.average,
       },
       reviews,
@@ -266,7 +266,7 @@ export default function AdminCourseForm({
           </label>
 
           <label className="adm-form-field">
-            <span>Learning Hours</span>
+            <span>Learning Duration</span>
             <input
               type="text"
               value={values.learningHours ?? ""}
@@ -329,6 +329,9 @@ export default function AdminCourseForm({
               onChange={(event) => updateField("reviewCount", event.target.value)}
               placeholder="37"
             />
+            <small className="adm-field-hint">
+              Shown in the course header and Reviews tab for this course.
+            </small>
           </label>
         </div>
       </section>
@@ -421,6 +424,7 @@ export default function AdminCourseForm({
                 setReviewsSummary((current) => ({ ...current, note: event.target.value }))
               }
               rows={2}
+              placeholder="Optional note shown above the review list."
             />
           </label>
 

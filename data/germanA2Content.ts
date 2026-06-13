@@ -1,9 +1,9 @@
 export const a2CourseContent = {
   sidebarPrice: "₹17,500.00",
   includes: [
-    "115 Hours Learning",
+    "Study Material",
     "Discussion with Instructor",
-    "Access - Mobile, Tablet or Online",
+    "Access - Mobile, Tablet or Laptop",
   ],
   instructor: {
     name: "Khushi Sharma",
@@ -105,41 +105,7 @@ export const a2CourseContent = {
       { stars: 2, percent: 0 },
       { stars: 1, percent: 0 },
     ],
-    note:
-      "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews.",
+    note: "",
   },
-  reviews: [
-    {
-      initials: "CS",
-      name: "Chitra Sharma",
-      date: "May 30, 2023",
-      rating: 4,
-      text: "I completed my A2 from Fluent AUF Language Studio. Excellent teaching methodology and very helpful for exam preparation.",
-      color: "#ec4899",
-    },
-    {
-      initials: "AK",
-      name: "Akhil Kumaria",
-      date: "June 18, 2023",
-      rating: 4,
-      text: "Teachers are very knowledgeable and patient. German grammar became much easier to understand at A2 level.",
-      color: "#14b8a6",
-    },
-    {
-      initials: "VC",
-      name: "Virendra Chaudhary",
-      date: "May 18, 2023",
-      rating: 4,
-      text: "I highly recommend Fluent AUF as one of the best language institutes for learning German in Jaipur.",
-      color: "#f59e0b",
-    },
-    {
-      initials: "GS",
-      name: "Gaurav Sharma",
-      date: "May 30, 2023",
-      rating: 4,
-      text: "Excellent A2 course! The trainer explains everything clearly with real-life examples. Highly recommended.",
-      color: "#e31e24",
-    },
-  ],
+  reviews: [],
 };

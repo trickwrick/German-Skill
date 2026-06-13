@@ -41,7 +41,7 @@ export const defaultReviewsSummary: CourseReviewsSummary = {
     { stars: 2, percent: 0 },
     { stars: 1, percent: 0 },
   ],
-  note: "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews.",
+  note: "",
 };
 
 export const defaultFaqItem: CourseFaqItem = {

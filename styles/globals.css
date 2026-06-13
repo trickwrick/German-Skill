@@ -2944,6 +2944,52 @@ button {
   font-weight: 400;
 }
 
+.reviews-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.reviews-more {
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.45s ease;
+  will-change: max-height, opacity;
+}
+
+.reviews-more.is-open {
+  opacity: 1;
+  overflow: visible;
+}
+
+.reviews-list-more {
+  margin-top: 0;
+}
+
+.reviews-enroll-note {
+  margin: 4px 0 0;
+  padding: 12px 0 4px;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.reviews-verify-note,
+.reviews-empty-note {
+  margin: 0 0 16px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.reviews-empty-note {
+  padding: 8px 0 4px;
+}
+
 .review-avatar {
   width: 40px;
   height: 40px;
@@ -5206,6 +5252,12 @@ a.contact-info-value:hover {
   font-size: 0.84rem;
   font-weight: 600;
   color: var(--text-secondary);
+}
+
+.adm-field-hint {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-muted);
 }
 
 .adm-form-field input,

@@ -7,7 +7,8 @@ import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TestimonialsSection from "./components/TestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
-import { germanCourses, getCourseHref } from "../data/germanCourses";
+import { getCourseHref, type GermanCourse } from "../data/germanCourses";
+import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
 
 const stats = [
   { value: "10,500+", label: "Happy Students" },
@@ -15,7 +16,7 @@ const stats = [
   { value: "21+", label: "Certified Trainers" },
 ];
 
-function AllCoursesSection() {
+function AllCoursesSection({ courses }: { courses: GermanCourse[] }) {
   return (
     <section className="all-courses-section" id="courses">
       <div className="all-courses-inner">
@@ -26,7 +27,7 @@ function AllCoursesSection() {
         </p>
 
         <div className="all-courses-grid">
-          {germanCourses.map((course) => {
+          {courses.map((course) => {
             const courseHref = getCourseHref(course);
 
             return (
@@ -49,7 +50,7 @@ function AllCoursesSection() {
                         <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
                         <path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                       </svg>
-                      {course.hours}
+                      {course.learningHours ?? course.hours}
                     </span>
                     <span className="course-price">{course.price}</span>
                   </div>
@@ -371,14 +372,16 @@ function PromoCards() {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const courses = await getGermanCoursesForDisplay();
+
   return (
     <>
       <Navbar />
       <main>
         <HeroSection />
         <PromoCards />
-        <AllCoursesSection />
+        <AllCoursesSection courses={courses} />
         <StatsBanner />
         <TutorsSection />
         <StudentPortalSection />

@@ -6,6 +6,7 @@ import type {
   StoredCourseDetails,
 } from "../data/adminCourseDetails.types";
 import { defaultReviewsSummary } from "../data/adminCourseDetails.types";
+import { getCourseBySlug, germanCourses, type GermanCourse } from "../data/germanCourses";
 import { getCourseContent } from "../data/courseContents";
 import { getFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
@@ -15,6 +16,7 @@ const COLLECTION = "course_details";
 
 function getEditableFromContent(slug: string) {
   const content = getCourseContent(slug);
+  const course = getCourseBySlug(slug);
 
   if (!content) {
     return {
@@ -26,8 +28,11 @@ function getEditableFromContent(slug: string) {
 
   return {
     faqs: content.faqs,
-    reviewsSummary: content.reviewsSummary,
-    reviews: content.reviews,
+    reviewsSummary: {
+      ...content.reviewsSummary,
+      total: Number(course?.reviewCount) || content.reviewsSummary.total,
+    },
+    reviews: [] as CourseReview[],
   };
 }
 
@@ -129,7 +134,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     faqs,
     reviewsSummary: {
       ...reviewsSummary,
-      total: reviews.length,
+      total: Number(courseFields.reviewCount) || reviews.length,
     },
     reviews,
     updatedAt: new Date(),
@@ -158,16 +163,41 @@ export async function getCourseContentAsync(slug: string): Promise<CourseContent
   const base = getCourseContent(slug);
   if (!base) return undefined;
 
+  const course = getCourseBySlug(slug);
   const stored = await getStoredCourseDetails(slug);
 
   if (!stored) {
-    return base;
+    return {
+      ...base,
+      reviews: [],
+      reviewsSummary: {
+        ...base.reviewsSummary,
+        total: Number(course?.reviewCount) || base.reviewsSummary.total,
+      },
+    };
   }
+
+  const reviewCount = Number(stored.course.reviewCount) || stored.reviewsSummary.total;
 
   return {
     ...base,
     faqs: stored.faqs,
-    reviewsSummary: stored.reviewsSummary,
+    reviewsSummary: {
+      ...stored.reviewsSummary,
+      total: reviewCount,
+    },
     reviews: stored.reviews,
   };
+}
+
+export async function getGermanCoursesForDisplay(): Promise<GermanCourse[]> {
+  noStore();
+
+  return Promise.all(
+    germanCourses.map(async (course) => {
+      const stored = await getStoredCourseDetails(course.slug);
+      if (!stored?.course) return course;
+      return { ...course, ...stored.course };
+    }),
+  );
 }

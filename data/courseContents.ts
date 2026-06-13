@@ -9,15 +9,14 @@ function levelLabel(slug: string) {
 
 function createPlaceholderContent(course: GermanCourse): CourseContent {
   const level = levelLabel(course.slug);
-  const hours = course.learningHours ?? course.hours.replace(" +", "");
   const reviewCount = Number(course.reviewCount ?? "0");
 
   return {
     sidebarPrice: course.price,
     includes: [
-      `${hours} Learning`,
+      "Study Material",
       "Discussion with Instructor",
-      "Access - Mobile, Tablet or Online",
+      "Access - Mobile, Tablet or Laptop",
     ],
     instructor: {
       name: "Khushi Sharma",
@@ -118,59 +117,9 @@ function createPlaceholderContent(course: GermanCourse): CourseContent {
         { stars: 2, percent: 0 },
         { stars: 1, percent: 0 },
       ],
-      note:
-        "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews.",
+      note: "",
     },
-    reviews: [
-      {
-        initials: "LJ",
-        name: "Learning Jainism",
-        date: "June 17, 2023",
-        rating: 4,
-        text: `Great study atmosphere and very supportive trainers. The ${level} course structure helped me build confidence quickly.`,
-        color: "#6366f1",
-      },
-      {
-        initials: "CS",
-        name: "Chitra Sharma",
-        date: "May 30, 2023",
-        rating: 4,
-        text: "Excellent teaching methodology and very helpful for exam preparation at Fluent AUF.",
-        color: "#ec4899",
-      },
-      {
-        initials: "AK",
-        name: "Akhil Kumaria",
-        date: "June 18, 2023",
-        rating: 4,
-        text: "Teachers are very knowledgeable and patient. German grammar became much easier to understand.",
-        color: "#14b8a6",
-      },
-      {
-        initials: "VC",
-        name: "Virendra Chaudhary",
-        date: "May 18, 2023",
-        rating: 4,
-        text: "I highly recommend Fluent AUF as one of the best language institutes for learning German.",
-        color: "#f59e0b",
-      },
-      {
-        initials: "YK",
-        name: "Yashode K.",
-        date: "June 16, 2023",
-        rating: 4,
-        text: `Wonderful experience learning German ${level} level here. Live classes and recorded videos both are very useful.`,
-        color: "#8b5cf6",
-      },
-      {
-        initials: "GS",
-        name: "Gaurav Sharma",
-        date: "May 30, 2023",
-        rating: 4,
-        text: "Excellent course! The trainer explains everything clearly with real-life examples. Highly recommended.",
-        color: "#e31e24",
-      },
-    ],
+    reviews: [],
   };
 }
 

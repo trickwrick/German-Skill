@@ -132,7 +132,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
 
   if (!course || !content || !displayCourse) notFound();
 
-  const reviewCount = String(content.reviews.length || content.reviewsSummary.total || displayCourse.reviewCount || "0");
+  const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
   return (
     <>
       <Navbar />
@@ -186,7 +186,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
               <StatItem
                 icon={<ClockIcon />}
                 value={displayCourse.learningHours ?? displayCourse.hours}
-                label="Learning Hours"
+                label="Learning Duration"
               />
             </div>
           </div>
