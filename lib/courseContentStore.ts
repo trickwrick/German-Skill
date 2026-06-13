@@ -8,7 +8,7 @@ import type {
 import { defaultReviewsSummary } from "../data/adminCourseDetails.types";
 import { getCourseContent } from "../data/courseContents";
 import { getFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
-import { getMongoClient } from "./mongodb";
+import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
 
 const DB_NAME = "germanskill";
 const COLLECTION = "course_details";
@@ -50,12 +50,26 @@ async function saveMongoCourseDetails(document: StoredCourseDetails) {
     throw new Error("MONGODB_URI is not configured. Add it in your hosting environment variables.");
   }
 
-  const client = await getMongoClient();
+  async function writeDocument() {
+    const client = await getMongoClient();
 
-  await client
-    .db(DB_NAME)
-    .collection<StoredCourseDetails>(COLLECTION)
-    .updateOne({ slug: document.slug }, { $set: document }, { upsert: true });
+    await client
+      .db(DB_NAME)
+      .collection<StoredCourseDetails>(COLLECTION)
+      .updateOne({ slug: document.slug }, { $set: document }, { upsert: true });
+  }
+
+  try {
+    await writeDocument();
+  } catch (error) {
+    resetMongoClient();
+
+    try {
+      await writeDocument();
+    } catch (retryError) {
+      throw new Error(getMongoConnectionErrorMessage(retryError));
+    }
+  }
 
   return document;
 }
