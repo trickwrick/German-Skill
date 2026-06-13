@@ -21,18 +21,18 @@ export const metadata: Metadata = {
     locale: "en_IN",
     images: [
       {
-        url: "/fluent-logo-new.png",
-        width: 512,
-        height: 512,
-        alt: "Fluent AUF",
+        url: "/og-share.png",
+        width: 1536,
+        height: 1024,
+        alt: "Fluent AUF — Online German Language Classes",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Fluent AUF: Online German Language Classes",
     description: siteDescription,
-    images: ["/fluent-logo-new.png"],
+    images: ["/og-share.png"],
   },
 };
 
