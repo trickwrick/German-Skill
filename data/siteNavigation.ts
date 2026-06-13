@@ -1,16 +1,21 @@
 import { germanCourses, getCourseHref } from "./germanCourses";
+import { showFaqs } from "./siteFeatures";
 
 export const courseLevels = germanCourses.map((course) => ({
   label: `German Level ${course.slug.toUpperCase()}`,
   href: getCourseHref(course),
 }));
 
-export const aboutLinks = [
+const allAboutLinks = [
   { label: "Our Company", href: "/about/our-company" },
   { label: "Our Faculties", href: "/about/our-faculties" },
   { label: "Career", href: "/about/careers" },
   { label: "FAQs", href: "/about/faqs" },
 ];
+
+export const aboutLinks = showFaqs
+  ? allAboutLinks
+  : allAboutLinks.filter((link) => link.href !== "/about/faqs");
 
 export const navItems = [
   {
@@ -28,12 +33,16 @@ export const navItems = [
   { label: "Blog", href: "/blog", dropdown: false },
 ];
 
-export const usefulLinks = [
+const allUsefulLinks = [
   { label: "About", href: "/#about" },
   { label: "Contact Us", href: "/contact" },
   { label: "Blogs", href: "/blog" },
   { label: "FAQs", href: "/about/faqs" },
 ];
+
+export const usefulLinks = showFaqs
+  ? allUsefulLinks
+  : allUsefulLinks.filter((link) => link.href !== "/about/faqs");
 
 export const footerLegalLinks = [
   { label: "Terms & Conditions", href: "/#terms" },

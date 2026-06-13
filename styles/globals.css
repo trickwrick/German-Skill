@@ -3071,7 +3071,7 @@ button {
   display: none;
 }
 
-.contact-file-btn {
+.contact-file-upload .contact-file-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3079,7 +3079,7 @@ button {
   border-radius: 8px;
   font-size: 0.82rem;
   font-weight: 700;
-  color: var(--white);
+  color: #fff;
   background: var(--primary-600);
 }
 
