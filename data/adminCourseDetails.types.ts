@@ -1,0 +1,68 @@
+import type { CourseReview } from "./courseContent.types";
+import type { GermanCourse } from "./germanCourses";
+
+export type CourseFaqItem = {
+  q: string;
+  a: string;
+};
+
+export type CourseReviewsSummary = {
+  average: string;
+  total: number;
+  breakdown: {
+    stars: number;
+    percent: number;
+  }[];
+  note: string;
+};
+
+export type StoredCourseDetails = {
+  slug: string;
+  course: Partial<GermanCourse>;
+  faqs: CourseFaqItem[];
+  reviewsSummary: CourseReviewsSummary;
+  reviews: CourseReview[];
+  updatedAt: Date;
+};
+
+export type AdminCoursePayload = Partial<GermanCourse> & {
+  faqs: CourseFaqItem[];
+  reviewsSummary: CourseReviewsSummary;
+  reviews: CourseReview[];
+};
+
+export const defaultReviewsSummary: CourseReviewsSummary = {
+  average: "4.50",
+  total: 0,
+  breakdown: [
+    { stars: 5, percent: 50 },
+    { stars: 4, percent: 50 },
+    { stars: 3, percent: 0 },
+    { stars: 2, percent: 0 },
+    { stars: 1, percent: 0 },
+  ],
+  note: "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews.",
+};
+
+export const defaultFaqItem: CourseFaqItem = {
+  q: "",
+  a: "",
+};
+
+export const defaultReviewItem: CourseReview = {
+  initials: "",
+  name: "",
+  date: "",
+  rating: 5,
+  text: "",
+  color: "#6366f1",
+};
+
+export const reviewColorOptions = [
+  "#6366f1",
+  "#ec4899",
+  "#14b8a6",
+  "#f59e0b",
+  "#8b5cf6",
+  "#e31e24",
+];

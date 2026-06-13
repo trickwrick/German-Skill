@@ -1,10 +1,5 @@
-import AdminPlaceholder from "../../_components/AdminPlaceholder";
+import AdminCoursesContent from "../../_components/AdminCoursesContent";
 
 export default function AdminCoursesPage() {
-  return (
-    <AdminPlaceholder
-      title="Courses"
-      description="Course management will be added in the next step."
-    />
-  );
+  return <AdminCoursesContent />;
 }

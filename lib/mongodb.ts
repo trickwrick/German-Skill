@@ -7,13 +7,18 @@ function getClientOptions(): MongoClientOptions {
     process.env.MONGODB_TLS_INSECURE === "true" ||
     process.env.NODE_ENV === "development";
 
-  if (!allowInsecureTls) {
-    return {};
+  const options: MongoClientOptions = {
+    serverSelectionTimeoutMS: 3000,
+    connectTimeoutMS: 5000,
+    socketTimeoutMS: 10000,
+    maxPoolSize: 5,
+  };
+
+  if (allowInsecureTls) {
+    options.tlsAllowInvalidCertificates = true;
   }
 
-  return {
-    tlsAllowInvalidCertificates: true,
-  };
+  return options;
 }
 
 declare global {
@@ -29,7 +34,10 @@ export async function getMongoClient(): Promise<MongoClient> {
   if (process.env.NODE_ENV === "development") {
     if (!global._mongoClientPromise) {
       const client = new MongoClient(uri, getClientOptions());
-      global._mongoClientPromise = client.connect();
+      global._mongoClientPromise = client.connect().catch((error) => {
+        global._mongoClientPromise = undefined;
+        throw error;
+      });
     }
     return global._mongoClientPromise;
   }

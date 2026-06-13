@@ -11,8 +11,13 @@ export const trainers: FacultyMember[] = [
     role: "Certified German Trainer",
   },
   {
-    name: "Khushi Birsat",
+    name: "Khushi Bisht",
     image: "/tutors/khushi-birsat.jpg",
+    role: "Certified German Trainer",
+  },
+  {
+    name: "Preeti Sharma",
+    image: "/tutors/preeti-sharma.jpg",
     role: "Certified German Trainer",
   },
 ];

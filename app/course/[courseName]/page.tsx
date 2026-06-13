@@ -5,10 +5,15 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import SiteFooter from "../../components/SiteFooter";
-import { getCourseContent } from "../../../data/courseContents";
+import {
+  getCourseContentAsync,
+  getStoredCourseDetails,
+} from "../../../lib/courseContentStore";
 import { germanCourses, getCourseByPathName } from "../../../data/germanCourses";
 import CourseContent from "../../courses/_components/CourseContent";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 type PageProps = {
   params: { courseName: string };
 };
@@ -119,12 +124,15 @@ function ClockIcon() {
   );
 }
 
-export default function GermanCoursePage({ params }: PageProps) {
+export default async function GermanCoursePage({ params }: PageProps) {
   const course = getCourseByPathName(params.courseName);
-  const content = course ? getCourseContent(course.slug) : null;
+  const stored = course ? await getStoredCourseDetails(course.slug) : null;
+  const displayCourse = course && stored?.course ? { ...course, ...stored.course } : course;
+  const content = course ? await getCourseContentAsync(course.slug) : null;
 
-  if (!course || !content) notFound();
+  if (!course || !content || !displayCourse) notFound();
 
+  const reviewCount = String(content.reviews.length || content.reviewsSummary.total || displayCourse.reviewCount || "0");
   return (
     <>
       <Navbar />
@@ -153,27 +161,27 @@ export default function GermanCoursePage({ params }: PageProps) {
 
         <section className="course-detail-body">
           <div className="course-detail-inner">
-            <h2 className="course-detail-title">{course.title}</h2>
+            <h2 className="course-detail-title">{displayCourse.title}</h2>
 
             <div className="course-detail-stats">
               <StatItem
                 icon={<PeopleIcon />}
-                value={course.batchSize ?? "20-40 Students"}
+                value={displayCourse.batchSize ?? "20-40 Students"}
                 label="Offline Batch Size"
               />
               <StatItem
                 icon={<ListIcon />}
-                value={course.enrolled ?? "100+"}
+                value={displayCourse.enrolled ?? "100+"}
                 label="Students Enrolled"
               />
               <StatItem
-                icon={<StarRating rating={course.rating ?? "4.5"} />}
-                value={course.rating ?? "4.50"}
-                label={`Reviews (${course.reviewCount ?? "0"})`}
+                icon={<StarRating rating={displayCourse.rating ?? "4.5"} />}
+                value={displayCourse.rating ?? "4.50"}
+                label={`Reviews (${reviewCount})`}
               />
               <StatItem
                 icon={<ClockIcon />}
-                value={course.learningHours ?? course.hours}
+                value={displayCourse.learningHours ?? displayCourse.hours}
                 label="Learning Hours"
               />
             </div>
@@ -182,11 +190,10 @@ export default function GermanCoursePage({ params }: PageProps) {
 
         <CourseContent
           content={content}
-          reviewCount={course.reviewCount ?? String(content.reviewsSummary.total)}
-          courseSlug={course.slug}
-          courseTitle={course.title}
-        />
-      </main>
+          reviewCount={reviewCount}
+          courseSlug={displayCourse.slug}
+          courseTitle={displayCourse.title}
+        />      </main>
       <SiteFooter />
     </>
   );

@@ -16,11 +16,11 @@ export default function HeroSection() {
 
       <div className="hero-banner-content">
         <h1>
-          Learn German Online –{" "}
-          <span className="hero-accent-blue">A1–B2</span> German Language Course
+          Learn German Online{" "}
+          <span className="hero-accent-blue">A1–C2</span> German Language Course
         </h1>
         <p>
-          Flexible Batches | A1–B2 Goethe Certified | Live Classes
+          Flexible Batches | A1–C2 Goethe Certified | Live Classes
         </p>
 
         <div className="hero-stats">
