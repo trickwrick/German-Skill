@@ -14,6 +14,7 @@ import {
   defaultReviewItem,
   defaultReviewsSummary,
   reviewColorOptions,
+  reviewRatingOptions,
 } from "../../../data/adminCourseDetails.types";
 import { courseLevelOptions } from "../../../data/adminCourseLevels";
 import type { GermanCourse } from "../../../data/germanCourses";
@@ -479,7 +480,7 @@ export default function AdminCourseForm({
                     value={review.rating}
                     onChange={(event) => updateReview(index, "rating", Number(event.target.value))}
                   >
-                    {[5, 4, 3, 2, 1].map((rating) => (
+                    {reviewRatingOptions.map((rating) => (
                       <option key={rating} value={rating}>
                         {rating} Stars
                       </option>

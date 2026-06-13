@@ -27,19 +27,46 @@ function ObjectiveList({ items }: { items: string[] }) {
   );
 }
 
+function formatRatingDisplay(value: string) {
+  const num = parseFloat(value);
+  return Number.isNaN(num) ? value : num.toString();
+}
+
 function StarRow({ rating, size = 18 }: { rating: number; size?: number }) {
   return (
     <div className="review-stars" aria-label={`${rating} out of 5 stars`}>
-      {[1, 2, 3, 4, 5].map((star) => (
-        <svg key={star} width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
-          <path
-            d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"
-            fill={star <= rating ? "#16a34a" : "none"}
-            stroke="#16a34a"
-            strokeWidth="1.5"
-          />
-        </svg>
-      ))}
+      {[1, 2, 3, 4, 5].map((star) => {
+        const fillAmount = Math.max(0, Math.min(1, rating - star + 1));
+        const gradientId = `review-star-${star}-${String(rating).replace(".", "-")}`;
+
+        return (
+          <svg key={star} width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+            {fillAmount > 0 && fillAmount < 1 ? (
+              <>
+                <defs>
+                  <linearGradient id={gradientId}>
+                    <stop offset={`${fillAmount * 100}%`} stopColor="#16a34a" />
+                    <stop offset={`${fillAmount * 100}%`} stopColor="transparent" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"
+                  fill={`url(#${gradientId})`}
+                  stroke="#16a34a"
+                  strokeWidth="1.5"
+                />
+              </>
+            ) : (
+              <path
+                d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"
+                fill={fillAmount >= 1 ? "#16a34a" : "none"}
+                stroke="#16a34a"
+                strokeWidth="1.5"
+              />
+            )}
+          </svg>
+        );
+      })}
     </div>
   );
 }
@@ -51,8 +78,10 @@ function ReviewsPanel({ content }: { content: CourseContent }) {
     <div className="course-tab-panel reviews-panel">
       <div className="reviews-summary-grid">
         <div className="reviews-average-box">
-          <strong className="reviews-average-score">{reviewsSummary.average}</strong>
-          <StarRow rating={4} size={22} />
+          <strong className="reviews-average-score">
+            {formatRatingDisplay(reviewsSummary.average)}
+          </strong>
+          <StarRow rating={parseFloat(reviewsSummary.average) || 0} size={22} />
           <span className="reviews-count">{reviewsSummary.total} ratings</span>
         </div>
 
@@ -85,7 +114,7 @@ function ReviewsPanel({ content }: { content: CourseContent }) {
               >
                 {review.initials}
               </div>
-              <div>
+              <div className="review-card-meta">
                 <strong>{review.name}</strong>
                 <time>{review.date}</time>
               </div>

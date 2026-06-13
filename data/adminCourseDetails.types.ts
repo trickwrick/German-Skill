@@ -66,3 +66,5 @@ export const reviewColorOptions = [
   "#8b5cf6",
   "#e31e24",
 ];
+
+export const reviewRatingOptions = [5, 4.8, 4.6, 4.2, 4, 3, 2, 1];

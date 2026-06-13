@@ -176,7 +176,11 @@ export default async function GermanCoursePage({ params }: PageProps) {
               />
               <StatItem
                 icon={<StarRating rating={displayCourse.rating ?? "4.5"} />}
-                value={displayCourse.rating ?? "4.50"}
+                value={
+                  displayCourse.rating
+                    ? parseFloat(displayCourse.rating).toString()
+                    : "4.5"
+                }
                 label={`Reviews (${reviewCount})`}
               />
               <StatItem
