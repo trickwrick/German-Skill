@@ -33,7 +33,7 @@ export const faqCategories: FaqCategory[] = [
     id: "courses",
     title: "Course & Classes",
     description:
-      "Find answers about batches, online and offline classes, demo sessions, schedules, and level placement.",
+      "Find answers about batches, online classes, demo sessions, schedules, and level placement.",
   },
   {
     id: "payment",

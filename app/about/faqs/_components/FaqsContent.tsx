@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { faqCategories } from "../../../../data/faqCategories";
 import { faqItems } from "../../../../data/faqsContent";
+import { showFaqs } from "../../../../data/siteFeatures";
 import FaqAccordion from "./FaqAccordion";
 
 function scrollToCategory(categoryId: string) {
@@ -58,23 +59,29 @@ export default function FaqsContent() {
         <div className="fq-hero-texture" aria-hidden="true" />
         <div className="fq-hero-inner">
           <h1>How Can We Help?</h1>
-          <label className="fq-search-label" htmlFor="faq-search">
-            Search
-          </label>
-          <div className="fq-search-wrap">
-            <input
-              id="faq-search"
-              type="search"
-              className="fq-search-input"
-              placeholder="Search FAQs..."
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-          </div>
+          {showFaqs ? (
+            <>
+              <label className="fq-search-label" htmlFor="faq-search">
+                Search
+              </label>
+              <div className="fq-search-wrap">
+                <input
+                  id="faq-search"
+                  type="search"
+                  className="fq-search-input"
+                  placeholder="Search FAQs..."
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+              </div>
+            </>
+          ) : null}
         </div>
       </section>
 
-      <section className="fq-categories">
+      {showFaqs ? (
+        <>
+          <section className="fq-categories">
         <div className="fq-categories-inner">
           <header className="fq-categories-header">
             <h2>Top Categories</h2>
@@ -132,6 +139,8 @@ export default function FaqsContent() {
           )}
         </div>
       </section>
+        </>
+      ) : null}
 
       <section className="fq-cta">
         <div className="fq-cta-inner">

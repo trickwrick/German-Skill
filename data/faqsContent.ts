@@ -100,9 +100,9 @@ export const faqItems: FaqItem[] = [
   {
     id: "courses-1",
     categoryId: "courses",
-    question: "Do you offer online and offline classes?",
+    question: "Do you offer online classes?",
     answer:
-      "Yes. Fluent AUF offers live online batches, classroom sessions, morning/evening timings, and weekend options so students and working professionals can learn flexibly.",
+      "Yes. Fluent AUF offers live online batches, morning/evening timings, and weekend options so students and working professionals can learn flexibly.",
   },
   {
     id: "courses-2",

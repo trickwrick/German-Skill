@@ -3678,6 +3678,10 @@ a.contact-info-value:hover {
   line-height: 1.7;
 }
 
+.cr-tutor-section {
+  padding-top: 56px;
+}
+
 .cr-who-banner {
   padding: 0 16px 64px;
   background: var(--white);

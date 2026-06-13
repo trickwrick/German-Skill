@@ -32,7 +32,7 @@ const features = [
   },
   {
     title: "Flexible Learning",
-    text: "Online, offline, morning, and weekend batches designed for students and professionals.",
+    text: "Online, morning, and weekend batches designed for students and professionals.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <circle cx="12" cy="12" r="9" />
@@ -84,7 +84,7 @@ export default function OurCompanyContent() {
             <ul className="oc-intro-list">
               <li>A1 to C2 structured programs with certified trainers</li>
               <li>Goethe & telc exam preparation with mock tests</li>
-              <li>Online and offline batches with flexible timings</li>
+              <li>Online batches with flexible timings</li>
             </ul>
             <div className="oc-intro-actions">
               <Link href="/#courses" className="btn btn-primary">

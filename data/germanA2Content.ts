@@ -3,7 +3,7 @@ export const a2CourseContent = {
   includes: [
     "115 Hours Learning",
     "Discussion with Instructor",
-    "Access - Mobile, Tablet or Offline",
+    "Access - Mobile, Tablet or Online",
   ],
   instructor: {
     name: "Khushi Sharma",
@@ -79,7 +79,7 @@ export const a2CourseContent = {
   ],
   targetAudience: [
     "Learners preparing for German A2 level",
-    "Students who want structured offline or hybrid training",
+      "Students who want structured online or hybrid training",
   ],
   faqs: [
     {

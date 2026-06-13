@@ -1,76 +1,84 @@
-import Image from "next/image";
 import Link from "next/link";
+import { sitePhoneDisplay, sitePhoneTel } from "../../../../data/siteContact";
+import TutorApplicationForm from "./TutorApplicationForm";
 
-const cultureCards = [
-  {
-    title: "Learn and Grow",
-    text: "We empower employees through growth opportunities, open communication, flexible work culture, and recognition.",
-    image: "/courses/instructor.jpg",
-    theme: "blue",
-  },
-  {
-    title: "Innovate with Impact",
-    text: "We empower employees through growth opportunities, open communication, flexible work culture, and recognition.",
-    theme: "rose",
-    image: "/portal-education.jpg",
-  },
-  {
-    title: "Belong and Be You",
-    text: "We empower employees through growth opportunities, open communication, flexible work culture, and recognition.",
-    theme: "sun",
-    image: "/tutors/khushi-sharma.jpg",
-  },
-];
-
-function CultureArt({ theme }: { theme: string }) {
-  return (
-    <div className={`cr-culture-art cr-culture-art-${theme}`} aria-hidden="true">
-      <span className="cr-shape cr-shape-1" />
-      <span className="cr-shape cr-shape-2" />
-      <span className="cr-shape cr-shape-3" />
-      <span className="cr-shape cr-shape-4" />
-      <span className="cr-shape cr-shape-5" />
-    </div>
-  );
-}
-
-const galleryImages = [
-  { src: "/hero-students.jpg", alt: "Team outing at Fluent AUF", layout: "left-tall" },
-  { src: "/portal-education.jpg", alt: "Interactive classroom session", layout: "mid-top" },
-  { src: "/webinar-student.jpg", alt: "Online learning session", layout: "right-top" },
-  { src: "/courses/instructor.jpg", alt: "Faculty member at Fluent AUF", layout: "left-bottom" },
-  { src: "/courses/german-hero.jpg", alt: "Students learning German", layout: "mid-bottom" },
-  { src: "/courses/german-a1.jpg", alt: "Batch activity at institute", layout: "right-bottom" },
+const tutorHelpTopics = [
+  "Online teaching roles",
+  "Flexible batch schedules",
+  "Certified trainer opportunities",
+  "A1 to C2 level openings",
+  "Interview and onboarding support",
 ];
 
 export default function CareersContent() {
   return (
     <>
-      <section className="cr-culture">
-        <div className="cr-culture-inner">
-          <h2>At Fluent AUF we bring out the best in you.</h2>
-          <div className="cr-culture-grid">
-            {cultureCards.map((card) => (
-              <article key={card.title} className={`cr-culture-card cr-culture-${card.theme}`}>
-                <div className="cr-culture-visual">
-                  <CultureArt theme={card.theme} />
-                  <div className="cr-culture-photo-wrap">
-                    <Image
-                      src={card.image}
-                      alt=""
-                      width={220}
-                      height={280}
-                      className="cr-culture-photo"
-                    />
-                  </div>
-                </div>
-                <div className="cr-culture-body">
-                  <h3>{card.title}</h3>
-                  <p>{card.text}</p>
-                </div>
-              </article>
-            ))}
+      <section className="cr-tutor-section contact-section">
+        <div className="contact-intro">
+          <h2>Join Our German Tutor Team</h2>
+          <p>
+            Passionate about teaching German? Share your profile with us and become part of a
+            growing team that helps students achieve their language goals.
+          </p>
+        </div>
+
+        <div className="contact-layout">
+          <div id="tutor-application-form">
+            <TutorApplicationForm />
           </div>
+
+          <aside className="contact-info-panel">
+            <div className="contact-info-cards">
+              <div className="contact-info-card">
+                <span className="contact-info-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M4 4h16v16H4z" />
+                    <path d="m4 7 8 6 8-6" />
+                  </svg>
+                </span>
+                <div>
+                  <span className="contact-info-label">Email</span>
+                  <a href="mailto:fluentauf@gmail.com" className="contact-info-value">
+                    fluentauf@gmail.com
+                  </a>
+                </div>
+              </div>
+
+              <div className="contact-info-card">
+                <span className="contact-info-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                  </svg>
+                </span>
+                <div>
+                  <span className="contact-info-label">Phone, WhatsApp</span>
+                  <a href={`tel:${sitePhoneTel}`} className="contact-info-value">
+                    {sitePhoneDisplay}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="contact-help-box">
+              <h3>What We Look For</h3>
+              <ul>
+                {tutorHelpTopics.map((topic) => (
+                  <li key={topic}>{topic}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="contact-demo-box">
+              <h3>Have Questions?</h3>
+              <p>
+                Reach out to our team for more details about tutor roles, timings, and the
+                selection process.
+              </p>
+              <Link href="/contact" className="btn btn-primary contact-demo-btn">
+                Contact Us
+              </Link>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -84,25 +92,6 @@ export default function CareersContent() {
           <Link href="/about/our-company" className="cr-who-btn">
             Learn More
           </Link>
-        </div>
-      </section>
-
-      <section className="cr-life">
-        <div className="cr-life-inner">
-          <h2>Life at Fluent AUF</h2>
-          <div className="cr-gallery">
-            {galleryImages.map((item) => (
-              <div key={item.src} className={`cr-gallery-item cr-gallery-${item.layout}`}>
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  sizes="(max-width:768px) 100vw, 33vw"
-                  className="cr-gallery-image"
-                />
-              </div>
-            ))}
-          </div>
         </div>
       </section>
     </>

@@ -3,7 +3,7 @@ export const a1CourseContent = {
   includes: [
     "111 Hours Learning",
     "Discussion with Instructor",
-    "Access - Mobile, Tablet or Offline",
+    "Access - Mobile, Tablet or Online",
   ],
   instructor: {
     name: "Khushi Sharma",

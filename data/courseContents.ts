@@ -17,7 +17,7 @@ function createPlaceholderContent(course: GermanCourse): CourseContent {
     includes: [
       `${hours} Learning`,
       "Discussion with Instructor",
-      "Access - Mobile, Tablet or Offline",
+      "Access - Mobile, Tablet or Online",
     ],
     instructor: {
       name: "Khushi Sharma",
@@ -92,7 +92,7 @@ function createPlaceholderContent(course: GermanCourse): CourseContent {
     ],
     targetAudience: [
       `Learners preparing for German ${level} level`,
-      "Students who want structured offline or hybrid training",
+      "Students who want structured online or hybrid training",
     ],
     faqs: [
       {
