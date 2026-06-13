@@ -147,6 +147,7 @@ export default function AdminCourseForm({
     const payload: AdminCoursePayload = {
       ...(values as GermanCourse),
       slug: courseSlug,
+      pathName: lockedSlug ? `german-${lockedSlug}` : values.pathName ?? "",
       reviewCount: values.reviewCount ?? "0",
       faqs,
       reviewsSummary: {
@@ -223,6 +224,7 @@ export default function AdminCourseForm({
               value={values.pathName ?? ""}
               onChange={(event) => updateField("pathName", event.target.value)}
               placeholder="german-a1"
+              disabled={mode === "edit" && Boolean(lockedSlug)}
               required
             />
           </label>

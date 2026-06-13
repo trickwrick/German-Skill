@@ -8,6 +8,7 @@ import SiteFooter from "../../components/SiteFooter";
 import {
   getCourseContentAsync,
   getStoredCourseDetails,
+  mergeStoredCourse,
 } from "../../../lib/courseContentStore";
 import { germanCourses, getCourseByPathName } from "../../../data/germanCourses";
 import CourseContent from "../../courses/_components/CourseContent";
@@ -127,7 +128,7 @@ function ClockIcon() {
 export default async function GermanCoursePage({ params }: PageProps) {
   const course = getCourseByPathName(params.courseName);
   const stored = course ? await getStoredCourseDetails(course.slug) : null;
-  const displayCourse = course && stored?.course ? { ...course, ...stored.course } : course;
+  const displayCourse = course ? mergeStoredCourse(course, stored?.course) : course;
   const content = course ? await getCourseContentAsync(course.slug) : null;
 
   if (!course || !content || !displayCourse) notFound();

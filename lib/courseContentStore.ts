@@ -196,8 +196,50 @@ export async function getGermanCoursesForDisplay(): Promise<GermanCourse[]> {
   return Promise.all(
     germanCourses.map(async (course) => {
       const stored = await getStoredCourseDetails(course.slug);
-      if (!stored?.course) return course;
-      return { ...course, ...stored.course };
+      const learningHours = stored?.course?.learningHours?.trim();
+
+      if (!learningHours) {
+        return course;
+      }
+
+      return {
+        ...course,
+        learningHours,
+      };
     }),
   );
+}
+
+function normalizeCoursePrice(price: string) {
+  const cleaned = price.replace(/â‚¹/g, "₹").trim();
+  if (cleaned.includes("₹")) {
+    return cleaned;
+  }
+
+  const numeric = Number(cleaned.replace(/[^\d.]/g, ""));
+  if (Number.isNaN(numeric)) {
+    return price;
+  }
+
+  return `₹${numeric.toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
+export function mergeStoredCourse(
+  base: GermanCourse,
+  stored?: Partial<GermanCourse>,
+): GermanCourse {
+  if (!stored) {
+    return base;
+  }
+
+  return {
+    ...base,
+    ...stored,
+    slug: base.slug,
+    pathName: base.pathName,
+    price: stored.price ? normalizeCoursePrice(stored.price) : base.price,
+  };
 }
