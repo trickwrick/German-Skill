@@ -17,7 +17,9 @@ export default function HeroSection() {
       <div className="hero-banner-content">
         <h1>
           Learn German Online{" "}
-          <span className="hero-accent-blue">A1–C2</span> German Language Course
+          <span className="hero-accent-blue">A1–C2</span>
+          <br />
+          by Certified Tutors
         </h1>
         <p>
           Flexible Batches | A1–C2 Goethe Certified | Live Classes
