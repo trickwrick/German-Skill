@@ -8,6 +8,22 @@ const STORE_FILE = path.join(STORE_DIR, "course-details-store.json");
 
 type CourseDetailsStore = Record<string, StoredCourseDetails>;
 
+export function isFileStoreEnabled() {
+  if (process.env.COURSE_STORE === "file") {
+    return true;
+  }
+
+  if (process.env.COURSE_STORE === "mongodb") {
+    return false;
+  }
+
+  if (process.env.VERCEL === "1" || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    return false;
+  }
+
+  return process.env.NODE_ENV === "development";
+}
+
 function stripBom(value: string) {
   return value.charCodeAt(0) === 0xfeff ? value.slice(1) : value;
 }
@@ -34,11 +50,19 @@ async function writeStore(data: CourseDetailsStore) {
 }
 
 export async function getFileCourseDetails(slug: string) {
+  if (!isFileStoreEnabled()) {
+    return null;
+  }
+
   const store = await readStore();
   return store[slug] ?? null;
 }
 
 export async function saveFileCourseDetails(document: StoredCourseDetails) {
+  if (!isFileStoreEnabled()) {
+    throw new Error("Local file storage is disabled in this environment.");
+  }
+
   const store = await readStore();
   store[document.slug] = document;
   await writeStore(store);

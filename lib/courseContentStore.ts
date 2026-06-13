@@ -7,7 +7,7 @@ import type {
 } from "../data/adminCourseDetails.types";
 import { defaultReviewsSummary } from "../data/adminCourseDetails.types";
 import { getCourseContent } from "../data/courseContents";
-import { getFileCourseDetails, saveFileCourseDetails } from "./courseDetailsFileStore";
+import { getFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
 import { getMongoClient } from "./mongodb";
 
 const DB_NAME = "germanskill";
@@ -45,16 +45,33 @@ async function getMongoCourseDetails(slug: string): Promise<StoredCourseDetails 
   return doc;
 }
 
+async function saveMongoCourseDetails(document: StoredCourseDetails) {
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not configured. Add it in your hosting environment variables.");
+  }
+
+  const client = await getMongoClient();
+
+  await client
+    .db(DB_NAME)
+    .collection<StoredCourseDetails>(COLLECTION)
+    .updateOne({ slug: document.slug }, { $set: document }, { upsert: true });
+
+  return document;
+}
+
 export async function getStoredCourseDetails(slug: string): Promise<StoredCourseDetails | null> {
   noStore();
 
-  try {
-    const fileDoc = await getFileCourseDetails(slug);
-    if (fileDoc) {
-      return fileDoc;
+  if (isFileStoreEnabled()) {
+    try {
+      const fileDoc = await getFileCourseDetails(slug);
+      if (fileDoc) {
+        return fileDoc;
+      }
+    } catch {
+      // Continue to MongoDB fallback below.
     }
-  } catch {
-    // Continue to MongoDB fallback below.
   }
 
   try {
@@ -104,22 +121,21 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     updatedAt: new Date(),
   };
 
-  await saveFileCourseDetails(document);
+  if (isFileStoreEnabled()) {
+    await saveFileCourseDetails(document);
 
-  if (process.env.MONGODB_URI) {
-    try {
-      const client = await getMongoClient();
-
-      await client
-        .db(DB_NAME)
-        .collection<StoredCourseDetails>(COLLECTION)
-        .updateOne({ slug }, { $set: document }, { upsert: true });
-    } catch {
-      // Local file store is the source of truth when Atlas is unreachable.
+    if (process.env.MONGODB_URI) {
+      try {
+        await saveMongoCourseDetails(document);
+      } catch {
+        // Local file store remains the source of truth in development.
+      }
     }
+
+    return document;
   }
 
-  return document;
+  return saveMongoCourseDetails(document);
 }
 
 export async function getCourseContentAsync(slug: string): Promise<CourseContent | undefined> {
