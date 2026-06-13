@@ -2,6 +2,12 @@ const nextConfig = {
   reactStrictMode: true,
   async redirects() {
     return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.fluentauf.com" }],
+        destination: "https://fluentauf.com/:path*",
+        permanent: true,
+      },
       { source: "/courses/a1", destination: "/course/german-a1", permanent: true },
       { source: "/courses/a2", destination: "/course/german-a2", permanent: true },
       { source: "/courses/b1", destination: "/course/german-b1", permanent: true },
