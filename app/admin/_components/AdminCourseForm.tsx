@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import type { CourseReview } from "../../../data/courseContent.types";
 import type {
   AdminCoursePayload,
@@ -76,6 +77,9 @@ export default function AdminCourseForm({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState("");
+  const [selectedImageName, setSelectedImageName] = useState("");
 
   function updateField<K extends keyof GermanCourse>(field: K, value: GermanCourse[K]) {
     setValues((current) => ({ ...current, [field]: value }));
@@ -135,6 +139,45 @@ export default function AdminCourseForm({
         rowIndex === index ? { ...row, percent } : row,
       ),
     }));
+  }
+
+  async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    setImageUploadError("");
+    setSelectedImageName("");
+
+    if (!file) {
+      return;
+    }
+
+    setImageUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("slug", lockedSlug ?? values.slug ?? "");
+
+      const response = await fetch("/api/admin/courses/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = (await response.json()) as { error?: string; path?: string };
+
+      if (!response.ok || !data.path) {
+        setImageUploadError(data.error ?? "Could not upload image.");
+        event.target.value = "";
+        return;
+      }
+
+      updateField("image", data.path);
+      setSelectedImageName(file.name);
+    } catch {
+      setImageUploadError("Could not upload image. Please try again.");
+      event.target.value = "";
+    } finally {
+      setImageUploading(false);
+    }
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -292,16 +335,52 @@ export default function AdminCourseForm({
       <section className="adm-panel">
         <h2 className="adm-panel-title">Media & Stats</h2>
         <div className="adm-form-grid">
-          <label className="adm-form-field adm-form-field-full">
-            <span>Course Image Path</span>
-            <input
-              type="text"
-              value={values.image ?? ""}
-              onChange={(event) => updateField("image", event.target.value)}
-              placeholder="/courses/german-a1.png"
-              required
-            />
-          </label>
+          <div className="adm-form-field adm-form-field-full adm-image-field">
+            <span>Course Image</span>
+
+            {values.image ? (
+              <div className="adm-image-preview">
+                <Image
+                  src={values.image}
+                  alt={values.title ?? "Course preview"}
+                  width={640}
+                  height={427}
+                  className="adm-image-preview-img"
+                />
+              </div>
+            ) : null}
+
+            <label className="adm-file-upload">
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                onChange={handleImageUpload}
+                disabled={imageUploading}
+              />
+              <span className="adm-file-btn">
+                {imageUploading ? "Uploading..." : "Choose Image"}
+              </span>
+              <span className="adm-file-name">
+                {selectedImageName || "Upload JPG, PNG, WEBP, or GIF up to 5MB"}
+              </span>
+            </label>
+
+            {imageUploadError ? <p className="adm-file-error">{imageUploadError}</p> : null}
+
+            <label className="adm-form-field adm-form-field-full adm-image-path-field">
+              <span>Course Image Path</span>
+              <input
+                type="text"
+                value={values.image ?? ""}
+                onChange={(event) => updateField("image", event.target.value)}
+                placeholder="/courses/german-a1.png"
+                required
+              />
+              <small className="adm-field-hint">
+                Upload an image above or paste an existing image path manually.
+              </small>
+            </label>
+          </div>
 
           <label className="adm-form-field">
             <span>Enrolled Students</span>

@@ -206,15 +206,18 @@ export async function getGermanCoursesForDisplay(): Promise<GermanCourse[]> {
   return Promise.all(
     germanCourses.map(async (course) => {
       const stored = await getStoredCourseDetails(course.slug);
-      const learningHours = stored?.course?.learningHours?.trim();
+      const storedCourse = stored?.course;
+      const learningHours = storedCourse?.learningHours?.trim();
+      const image = storedCourse?.image?.trim();
 
-      if (!learningHours) {
+      if (!learningHours && !image) {
         return course;
       }
 
       return {
         ...course,
-        learningHours,
+        ...(learningHours ? { learningHours } : {}),
+        ...(image ? { image } : {}),
       };
     }),
   );

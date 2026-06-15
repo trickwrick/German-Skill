@@ -19,3 +19,13 @@ export function isAdminSessionValid(token: string | undefined) {
   const expected = getAdminSessionToken();
   return Boolean(expected && token && token === expected);
 }
+
+export function getAdminSessionFromRequest(request: Request) {
+  const cookieHeader = request.headers.get("cookie") ?? "";
+  const match = cookieHeader.match(new RegExp(`${ADMIN_SESSION_COOKIE}=([^;]+)`));
+  return match?.[1];
+}
+
+export function isAdminRequestAuthorized(request: Request) {
+  return isAdminSessionValid(getAdminSessionFromRequest(request));
+}
