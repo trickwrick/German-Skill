@@ -17,7 +17,7 @@ export async function GET(_request: Request, { params }: RouteProps) {
     return new NextResponse("Not found", { status: 404 });
   }
 
-  return new NextResponse(image.data, {
+  return new NextResponse(new Uint8Array(image.data), {
     headers: {
       "Content-Type": image.contentType,
       "Cache-Control": "public, max-age=31536000, immutable",
