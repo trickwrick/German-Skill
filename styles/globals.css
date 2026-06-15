@@ -750,15 +750,15 @@ button {
 }
 
 .course-card-image-wrap {
+  position: relative;
   display: block;
-  line-height: 0;
+  width: 100%;
+  aspect-ratio: 3 / 2;
   background: #f4f7fa;
+  overflow: hidden;
 }
 
 .course-card-image {
-  display: block;
-  width: 100%;
-  height: auto;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
