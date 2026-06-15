@@ -164,6 +164,17 @@ export default async function GermanCoursePage({ params }: PageProps) {
           <div className="course-detail-inner">
             <h2 className="course-detail-title">{displayCourse.title}</h2>
 
+            <div className="course-detail-banner">
+              <Image
+                src={displayCourse.image}
+                alt={displayCourse.title}
+                width={900}
+                height={506}
+                priority
+                className="course-detail-banner-image"
+              />
+            </div>
+
             <div className="course-detail-stats">
               <StatItem
                 icon={<PeopleIcon />}

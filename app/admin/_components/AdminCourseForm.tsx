@@ -37,7 +37,7 @@ const emptyValues: Partial<GermanCourse> = {
   hours: "",
   learningHours: "",
   price: "",
-  image: "/courses/german-a1.jpg",
+  image: "/courses/german-a1.png",
   batchSize: "20-40 Students",
   enrolled: "0",
   rating: "4.50",
@@ -298,7 +298,7 @@ export default function AdminCourseForm({
               type="text"
               value={values.image ?? ""}
               onChange={(event) => updateField("image", event.target.value)}
-              placeholder="/courses/german-a1.jpg"
+              placeholder="/courses/german-a1.png"
               required
             />
           </label>

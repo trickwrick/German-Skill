@@ -36,8 +36,8 @@ function AllCoursesSection({ courses }: { courses: GermanCourse[] }) {
                   <Image
                     src={course.image}
                     alt={course.title}
-                    width={380}
-                    height={200}
+                    width={1024}
+                    height={682}
                     className="course-card-image"
                   />
                 </span>

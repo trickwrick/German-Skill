@@ -22,7 +22,7 @@ export const germanCourses: GermanCourse[] = [
       "Learn German Language From A Native and Experienced German Teacher - Learn German Grammar, Vocabulary and Speaking from scratch.",
     hours: "111 Hours +",
     price: "₹14,999.00",
-    image: "/courses/german-a1.jpg",
+    image: "/courses/german-a1.png",
     batchSize: "20-40 Students",
     enrolled: "112",
     rating: "4.50",

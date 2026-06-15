@@ -51,7 +51,7 @@ export const blogPosts: BlogPost[] = [
     author: "Fluent AUF Team",
     excerpt:
       "Everything Indian students need to know about APS verification for German university and visa applications.",
-    image: "/courses/german-a1.jpg",
+    image: "/courses/german-a1.png",
   },
   {
     slug: "study-in-germany-requirements",
