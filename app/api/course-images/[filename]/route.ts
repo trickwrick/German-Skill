@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getCourseImage, isSafeCourseImageFilename } from "../../../../lib/courseImageStore";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 type RouteProps = {
   params: { filename: string };
 };

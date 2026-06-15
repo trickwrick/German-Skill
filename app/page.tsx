@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import HeroSection from "./components/HeroSection";
 import HomeFaqSection from "./components/HomeFaqSection";
+import CourseImage from "./components/CourseImage";
 import { showFaqs } from "../data/siteFeatures";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
@@ -33,7 +34,7 @@ function AllCoursesSection({ courses }: { courses: GermanCourse[] }) {
             return (
               <Link key={course.slug} href={courseHref} className="course-card">
                 <span className="course-card-image-wrap">
-                  <Image
+                  <CourseImage
                     src={course.image}
                     alt={course.title}
                     fill

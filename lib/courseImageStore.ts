@@ -1,3 +1,4 @@
+import { Binary } from "mongodb";
 import { existsSync } from "fs";
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
@@ -10,10 +11,46 @@ const COLLECTION = "course_images";
 
 const acceptedImageTypes: Record<string, string> = {
   "image/jpeg": "jpg",
+  "image/jpg": "jpg",
   "image/png": "png",
   "image/webp": "webp",
   "image/gif": "gif",
 };
+
+function getImageExtension(file: File) {
+  const fromType = acceptedImageTypes[file.type];
+  if (fromType) {
+    return fromType;
+  }
+
+  const lowerName = file.name.trim().toLowerCase();
+  if (lowerName.endsWith(".jpeg") || lowerName.endsWith(".jpg")) return "jpg";
+  if (lowerName.endsWith(".png")) return "png";
+  if (lowerName.endsWith(".webp")) return "webp";
+  if (lowerName.endsWith(".gif")) return "gif";
+
+  return null;
+}
+
+function readImageBuffer(value: unknown): Buffer | null {
+  if (!value) {
+    return null;
+  }
+
+  if (Buffer.isBuffer(value)) {
+    return value;
+  }
+
+  if (value instanceof Binary) {
+    return Buffer.from(value.buffer);
+  }
+
+  if (value instanceof Uint8Array) {
+    return Buffer.from(value);
+  }
+
+  return null;
+}
 
 type StoredCourseImage = {
   filename: string;
@@ -31,7 +68,7 @@ export function isSafeCourseImageFilename(filename: string) {
 }
 
 export async function saveCourseImage(file: File, slug?: string) {
-  const extension = acceptedImageTypes[file.type];
+  const extension = getImageExtension(file);
   if (!extension) {
     throw new Error("Please upload a JPG, PNG, WEBP, or GIF image.");
   }
@@ -68,7 +105,7 @@ export async function saveCourseImage(file: File, slug?: string) {
       {
         $set: {
           filename,
-          contentType: file.type,
+          contentType: file.type || `image/${extension === "jpg" ? "jpeg" : extension}`,
           data: buffer,
           uploadedAt: new Date(),
         },
@@ -94,12 +131,13 @@ export async function getCourseImage(filename: string) {
     return null;
   }
 
-  const data = Buffer.isBuffer(doc.data)
-    ? doc.data
-    : Buffer.from(doc.data as ArrayBuffer);
+  const data = readImageBuffer(doc.data);
+  if (!data) {
+    return null;
+  }
 
   return {
-    contentType: doc.contentType,
+    contentType: doc.contentType || "application/octet-stream",
     data,
   };
 }

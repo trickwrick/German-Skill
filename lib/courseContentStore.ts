@@ -280,6 +280,7 @@ export function mergeStoredCourse(
       enrolled: stored.enrolled ?? base.enrolled,
       rating: stored.rating ?? base.rating,
       reviewCount: stored.reviewCount ?? base.reviewCount,
+      image: stored.image?.trim() || base.image,
       price,
     };
   }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import SiteFooter from "../../components/SiteFooter";
+import CourseImage from "../../components/CourseImage";
 import {
   getCourseContentAsync,
   getStoredCourseDetails,
@@ -165,7 +166,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
             <h2 className="course-detail-title">{displayCourse.title}</h2>
 
             <div className="course-detail-banner">
-              <Image
+              <CourseImage
                 src={displayCourse.image}
                 alt={displayCourse.title}
                 width={900}
