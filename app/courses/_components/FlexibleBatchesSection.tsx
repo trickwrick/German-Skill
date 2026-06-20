@@ -127,7 +127,7 @@ export default function FlexibleBatchesSection({
   }, [batchesContent.discountPercent, batchesContent.originalPrice, salePrice]);
 
   return (
-    <section className="flexible-batches-section">
+    <section className="flexible-batches-section" id="flexible-batches">
       <div className="flexible-batches-inner">
         <p className="flexible-batches-subtitle">
           {batchesContent.subtitle}{" "}

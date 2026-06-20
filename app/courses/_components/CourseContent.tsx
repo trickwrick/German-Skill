@@ -1,10 +1,10 @@
 "use client";
 
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
 import type { CourseContent, CourseReview } from "../../../data/courseContent.types";
 import CourseImage from "../../components/CourseImage";
 import CourseEnrollModal from "./CourseEnrollModal";
+import CourseInstructorScroller from "./CourseInstructorScroller";
 
 function CheckIcon() {
   return (
@@ -227,33 +227,12 @@ export default function CourseContent({
   const tabs = useMemo(() => ["Description", "FAQ", reviewsTab] as const, [reviewsTab]);
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Description");
   const [enrollOpen, setEnrollOpen] = useState(false);
-  const [shareMessage, setShareMessage] = useState("");
 
-  async function handleShareCourse() {
-    const shareUrl = window.location.href;
-    const shareData = {
-      title: courseTitle,
-      text: `Check out this German course: ${courseTitle}`,
-      url: shareUrl,
-    };
-
-    try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-        return;
-      }
-
-      await navigator.clipboard.writeText(shareUrl);
-      setShareMessage("Link copied!");
-      window.setTimeout(() => setShareMessage(""), 2500);
-    } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") {
-        return;
-      }
-
-      setShareMessage("Could not share. Copy the link from your browser.");
-      window.setTimeout(() => setShareMessage(""), 3000);
-    }
+  function scrollToFlexibleBatches() {
+    document.getElementById("flexible-batches")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   }
 
   return (
@@ -295,24 +274,10 @@ export default function CourseContent({
             </ul>
           </div>
 
-          <div className="course-instructor-box">
-            <h3>Course Instructor</h3>
-            <div className="instructor-card">
-              <div className="instructor-avatar">
-                <Image
-                  src={content.instructor.image}
-                  alt={content.instructor.name}
-                  width={80}
-                  height={80}
-                />
-              </div>
-              <strong>{content.instructor.name}</strong>
-              <span className="instructor-role">Certified German Trainer</span>
-            </div>
-          </div>
+          <CourseInstructorScroller />
 
-          <button type="button" className="course-share-btn" onClick={handleShareCourse}>
-            {shareMessage || "Share This Course"}
+          <button type="button" className="course-batches-btn" onClick={scrollToFlexibleBatches}>
+            Flexible batches for you
           </button>
         </aside>
 
