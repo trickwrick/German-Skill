@@ -4,11 +4,11 @@ import { homeComparison } from "../../data/homeComparison";
 function CheckIcon() {
   return (
     <span className="comparison-icon comparison-icon-yes" aria-label="Yes">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
           d="M6 12.5l4 4L18 8"
           stroke="currentColor"
-          strokeWidth="2.4"
+          strokeWidth="2.8"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -20,11 +20,11 @@ function CheckIcon() {
 function CrossIcon() {
   return (
     <span className="comparison-icon comparison-icon-no" aria-label="No">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
           d="M8 8l8 8M16 8l-8 8"
           stroke="currentColor"
-          strokeWidth="2.4"
+          strokeWidth="2.8"
           strokeLinecap="round"
         />
       </svg>

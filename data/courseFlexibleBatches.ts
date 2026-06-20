@@ -16,6 +16,15 @@ export type CourseFlexibleBatches = {
   originalPrice: string;
   badge: string;
   discountPercent: number;
+  offerEndsAt?: string;
+};
+
+export const defaultBatchItem: CourseBatchOption = {
+  id: "batch-new",
+  date: "",
+  dayType: "Weekdays",
+  schedule: "MON - FRI (1 Month)",
+  time: "06:00PM to 07:30PM (IST)",
 };
 
 const sharedBatches: CourseBatchOption[] = [
@@ -33,6 +42,7 @@ const sharedBatches: CourseBatchOption[] = [
     dayType: "Weekdays",
     schedule: "MON - FRI (1 Month)",
     time: "06:00PM to 07:30PM (IST)",
+    defaultSelected: true,
   },
   {
     id: "batch-3",
@@ -40,7 +50,6 @@ const sharedBatches: CourseBatchOption[] = [
     dayType: "Weekdays",
     schedule: "MON - FRI (1 Month)",
     time: "06:00PM to 07:30PM (IST)",
-    defaultSelected: true,
   },
 ];
 
@@ -71,4 +80,26 @@ export const courseFlexibleBatches: Record<string, CourseFlexibleBatches> = {
 
 export function getCourseFlexibleBatches(slug: string) {
   return courseFlexibleBatches[slug] ?? courseFlexibleBatches.a1;
+}
+
+export function mergeFlexibleBatches(
+  base: CourseFlexibleBatches,
+  stored?: Partial<CourseFlexibleBatches> | null,
+): CourseFlexibleBatches {
+  if (!stored) {
+    return base;
+  }
+
+  return {
+    ...base,
+    ...stored,
+    batches: stored.batches?.length ? stored.batches : base.batches,
+  };
+}
+
+export function getDefaultOfferEndDate() {
+  const end = new Date();
+  end.setDate(end.getDate() + 15);
+  end.setHours(23, 59, 59, 999);
+  return end.toISOString();
 }

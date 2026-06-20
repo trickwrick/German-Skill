@@ -1,4 +1,5 @@
 import type { CourseReview } from "./courseContent.types";
+import type { CourseFlexibleBatches } from "./courseFlexibleBatches";
 import type { GermanCourse } from "./germanCourses";
 
 export type CourseFaqItem = {
@@ -22,6 +23,7 @@ export type StoredCourseDetails = {
   faqs: CourseFaqItem[];
   reviewsSummary: CourseReviewsSummary;
   reviews: CourseReview[];
+  flexibleBatches?: CourseFlexibleBatches;
   updatedAt: Date;
 };
 
@@ -29,6 +31,7 @@ export type AdminCoursePayload = Partial<GermanCourse> & {
   faqs: CourseFaqItem[];
   reviewsSummary: CourseReviewsSummary;
   reviews: CourseReview[];
+  flexibleBatches: CourseFlexibleBatches;
 };
 
 export const defaultReviewsSummary: CourseReviewsSummary = {

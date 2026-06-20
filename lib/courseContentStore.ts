@@ -8,6 +8,10 @@ import type {
 import { defaultReviewsSummary } from "../data/adminCourseDetails.types";
 import { getCourseBySlug, germanCourses, type GermanCourse } from "../data/germanCourses";
 import { getCourseContent } from "../data/courseContents";
+import {
+  getCourseFlexibleBatches,
+  mergeFlexibleBatches,
+} from "../data/courseFlexibleBatches";
 import { getFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
 
@@ -116,13 +120,20 @@ export async function getCourseEditableDetails(slug: string) {
   const fallback = getEditableFromContent(slug);
 
   if (!stored) {
-    return fallback;
+    return {
+      ...fallback,
+      flexibleBatches: getCourseFlexibleBatches(slug),
+    };
   }
 
   return {
     faqs: stored.faqs,
     reviewsSummary: stored.reviewsSummary,
     reviews: stored.reviews,
+    flexibleBatches: mergeFlexibleBatches(
+      getCourseFlexibleBatches(slug),
+      stored.flexibleBatches,
+    ),
   };
 }
 
@@ -131,7 +142,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     throw new Error("Course slug is required.");
   }
 
-  const { slug, faqs, reviewsSummary, reviews, ...courseFields } = payload;
+  const { slug, faqs, reviewsSummary, reviews, flexibleBatches, ...courseFields } = payload;
   const baseCourse = getCourseBySlug(slug);
 
   const document: StoredCourseDetails = {
@@ -147,6 +158,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
       total: Number(courseFields.reviewCount) || reviews.length,
     },
     reviews,
+    flexibleBatches,
     updatedAt: new Date(),
   };
 
@@ -198,6 +210,13 @@ export async function getCourseContentAsync(slug: string): Promise<CourseContent
     },
     reviews: stored.reviews,
   };
+}
+
+export async function getCourseFlexibleBatchesAsync(slug: string) {
+  noStore();
+
+  const stored = await getStoredCourseDetails(slug);
+  return mergeFlexibleBatches(getCourseFlexibleBatches(slug), stored?.flexibleBatches);
 }
 
 export async function getGermanCoursesForDisplay(): Promise<GermanCourse[]> {

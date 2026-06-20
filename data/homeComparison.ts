@@ -7,7 +7,7 @@ export type ComparisonRow = {
 export const homeComparison = {
   title: "How are we different from others?",
   brandName: "Fluent AUF",
-  competitorName: "Live Class Platform",
+  competitorName: "Other Platforms",
   rows: [
     { feature: "Affordability", fluentAuf: true, others: false },
     { feature: "Learning Flexibility", fluentAuf: true, others: false },

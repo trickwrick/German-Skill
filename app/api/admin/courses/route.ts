@@ -57,6 +57,28 @@ function validateCourse(body: AdminCoursePayload) {
     }
   }
 
+  if (!body.flexibleBatches?.title?.trim()) {
+    return "Flexible batches title is required.";
+  }
+
+  if (!body.flexibleBatches.subtitle?.trim() || !body.flexibleBatches.highlight?.trim()) {
+    return "Flexible batches subtitle and highlight are required.";
+  }
+
+  if (!body.flexibleBatches.originalPrice?.trim()) {
+    return "Flexible batches original price is required.";
+  }
+
+  if (!Array.isArray(body.flexibleBatches.batches) || body.flexibleBatches.batches.length === 0) {
+    return "Add at least one batch in Flexible batches.";
+  }
+
+  for (const batch of body.flexibleBatches.batches) {
+    if (!batch.date.trim() || !batch.schedule.trim() || !batch.time.trim()) {
+      return "Each batch needs date, schedule, and time.";
+    }
+  }
+
   return null;
 }
 
@@ -83,6 +105,7 @@ export async function GET(request: Request) {
     faqs: editable.faqs,
     reviewsSummary: editable.reviewsSummary,
     reviews: editable.reviews,
+    flexibleBatches: editable.flexibleBatches,
   });
 }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { CourseFlexibleBatches } from "../../../data/courseFlexibleBatches";
 import CourseEnrollModal from "./CourseEnrollModal";
@@ -25,20 +26,21 @@ function formatInr(value: number) {
 
 function HourglassIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
-        d="M6 2h12v4l-4 4 4 4v4H6v-4l4-4-4-4V2z"
+        d="M8 2h8v5.2L12 11l4 3.8V22H8v-7.2L12 11 8 7.2V2z"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.5"
         strokeLinejoin="round"
       />
+      <path d="M9 6h6M9 18h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
 }
 
 function LockIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.8" />
       <path
         d="M8 11V8a4 4 0 0 1 8 0v3"
@@ -50,11 +52,23 @@ function LockIcon() {
   );
 }
 
-function getOfferEndDate() {
-  const end = new Date();
-  end.setDate(end.getDate() + 15);
-  end.setHours(23, 59, 59, 999);
-  return end;
+function parseOfferEndDate(value?: string) {
+  if (!value) {
+    const end = new Date();
+    end.setDate(end.getDate() + 15);
+    end.setHours(23, 59, 59, 999);
+    return end;
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    const end = new Date();
+    end.setDate(end.getDate() + 15);
+    end.setHours(23, 59, 59, 999);
+    return end;
+  }
+
+  return parsed;
 }
 
 function getCountdownParts(target: Date) {
@@ -68,21 +82,26 @@ function getCountdownParts(target: Date) {
   return { days, hours, minutes, seconds };
 }
 
+function getDefaultBatchId(batches: CourseFlexibleBatches["batches"]) {
+  const explicitDefault = batches.find((batch) => batch.defaultSelected && !batch.soldOut);
+  if (explicitDefault) {
+    return explicitDefault.id;
+  }
+
+  return batches.find((batch) => !batch.soldOut)?.id ?? batches[0]?.id ?? "";
+}
+
 export default function FlexibleBatchesSection({
   batchesContent,
   salePrice,
   courseSlug,
   courseTitle,
 }: FlexibleBatchesSectionProps) {
-  const defaultBatchId =
-    batchesContent.batches.find((batch) => batch.defaultSelected)?.id ??
-    batchesContent.batches.find((batch) => !batch.soldOut)?.id ??
-    batchesContent.batches[0]?.id ??
-    "";
+  const defaultBatchId = getDefaultBatchId(batchesContent.batches);
 
   const [selectedBatchId, setSelectedBatchId] = useState(defaultBatchId);
   const [enrollOpen, setEnrollOpen] = useState(false);
-  const [offerEnd] = useState(getOfferEndDate);
+  const [offerEnd] = useState(() => parseOfferEndDate(batchesContent.offerEndsAt));
   const [countdown, setCountdown] = useState(getCountdownParts(offerEnd));
 
   useEffect(() => {
@@ -138,19 +157,16 @@ export default function FlexibleBatchesSection({
                     onChange={() => setSelectedBatchId(batch.id)}
                   />
 
-                  <span className="flexible-batch-radio" aria-hidden="true" />
+                  {isSoldOut ? (
+                    <span className="flexible-batch-soldout">SOLD OUT</span>
+                  ) : (
+                    <span className="flexible-batch-radio" aria-hidden="true" />
+                  )}
 
-                  <span className="flexible-batch-main">
-                    <span className="flexible-batch-date-row">
-                      {isSoldOut ? (
-                        <span className="flexible-batch-soldout">SOLD OUT</span>
-                      ) : null}
-                      <strong>{batch.date}</strong>
-                      <span className="flexible-batch-tag">{batch.dayType}</span>
-                    </span>
-                    <span className="flexible-batch-schedule">{batch.schedule}</span>
-                    <span className="flexible-batch-time">{batch.time}</span>
-                  </span>
+                  <strong className="flexible-batch-date">{batch.date}</strong>
+                  <span className="flexible-batch-tag">{batch.dayType}</span>
+                  <span className="flexible-batch-schedule">{batch.schedule}</span>
+                  <span className="flexible-batch-time">{batch.time}</span>
                 </label>
               );
             })}
@@ -188,12 +204,13 @@ export default function FlexibleBatchesSection({
             <div className="flexible-batches-secure">
               <LockIcon />
               <span>Secure Transaction</span>
-              <div className="flexible-batches-payments" aria-label="Accepted payment methods">
-                <span>Mastercard</span>
-                <span>Visa</span>
-                <span>Amex</span>
-                <span>UPI</span>
-              </div>
+              <Image
+                src="/images/secure-payment-icons.png"
+                alt="Accepted payment methods"
+                width={90}
+                height={24}
+                className="flexible-batches-payment-icons"
+              />
             </div>
           </aside>
         </div>

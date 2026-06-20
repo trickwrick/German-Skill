@@ -7,11 +7,11 @@ import Navbar from "../../components/Navbar";
 import SiteFooter from "../../components/SiteFooter";
 import {
   getCourseContentAsync,
+  getCourseFlexibleBatchesAsync,
   getStoredCourseDetails,
   mergeStoredCourse,
 } from "../../../lib/courseContentStore";
 import { germanCourses, getCourseByPathName } from "../../../data/germanCourses";
-import { getCourseFlexibleBatches } from "../../../data/courseFlexibleBatches";
 import CourseContent from "../../courses/_components/CourseContent";
 import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
 
@@ -136,7 +136,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
   if (!course || !content || !displayCourse) notFound();
 
   const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
-  const batchesContent = getCourseFlexibleBatches(displayCourse.slug);
+  const batchesContent = await getCourseFlexibleBatchesAsync(displayCourse.slug);
   const salePrice = displayCourse.price || content.sidebarPrice;
   return (
     <>

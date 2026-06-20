@@ -17,6 +17,13 @@ import {
   reviewRatingOptions,
 } from "../../../data/adminCourseDetails.types";
 import { courseLevelOptions } from "../../../data/adminCourseLevels";
+import {
+  defaultBatchItem,
+  getCourseFlexibleBatches,
+  getDefaultOfferEndDate,
+  type CourseBatchOption,
+  type CourseFlexibleBatches,
+} from "../../../data/courseFlexibleBatches";
 import type { GermanCourse } from "../../../data/germanCourses";
 
 type AdminCourseFormProps = {
@@ -27,6 +34,7 @@ type AdminCourseFormProps = {
   initialFaqs?: CourseFaqItem[];
   initialReviewsSummary?: CourseReviewsSummary;
   initialReviews?: CourseReview[];
+  initialFlexibleBatches?: CourseFlexibleBatches;
 };
 
 const emptyValues: Partial<GermanCourse> = {
@@ -53,6 +61,12 @@ function getInitials(name: string) {
     .join("");
 }
 
+function toDateTimeLocalValue(iso?: string) {
+  const date = iso ? new Date(iso) : new Date(getDefaultOfferEndDate());
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
 export default function AdminCourseForm({
   mode,
   lockedSlug,
@@ -61,7 +75,9 @@ export default function AdminCourseForm({
   initialFaqs = [{ ...defaultFaqItem }],
   initialReviewsSummary = defaultReviewsSummary,
   initialReviews = [],
+  initialFlexibleBatches,
 }: AdminCourseFormProps) {
+  const starterSlug = lockedSlug ?? initialValues?.slug ?? "a1";
   const router = useRouter();
   const [values, setValues] = useState<Partial<GermanCourse>>({
     ...emptyValues,
@@ -73,6 +89,9 @@ export default function AdminCourseForm({
   );
   const [reviewsSummary, setReviewsSummary] = useState<CourseReviewsSummary>(initialReviewsSummary);
   const [reviews, setReviews] = useState<CourseReview[]>(initialReviews);
+  const [flexibleBatches, setFlexibleBatches] = useState<CourseFlexibleBatches>(
+    initialFlexibleBatches ?? getCourseFlexibleBatches(starterSlug),
+  );
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -90,6 +109,10 @@ export default function AdminCourseForm({
       slug: level,
       pathName: current.pathName || `german-${level}`,
     }));
+
+    if (mode === "create") {
+      setFlexibleBatches(getCourseFlexibleBatches(level));
+    }
   }
 
   function updateFaq(index: number, field: keyof CourseFaqItem, value: string) {
@@ -137,6 +160,51 @@ export default function AdminCourseForm({
       breakdown: current.breakdown.map((row, rowIndex) =>
         rowIndex === index ? { ...row, percent } : row,
       ),
+    }));
+  }
+
+  function updateFlexibleField<K extends keyof CourseFlexibleBatches>(
+    field: K,
+    value: CourseFlexibleBatches[K],
+  ) {
+    setFlexibleBatches((current) => ({ ...current, [field]: value }));
+  }
+
+  function updateBatch(
+    index: number,
+    field: keyof CourseBatchOption,
+    value: string | boolean,
+  ) {
+    setFlexibleBatches((current) => ({
+      ...current,
+      batches: current.batches.map((batch, batchIndex) => {
+        if (batchIndex !== index) {
+          if (field === "defaultSelected" && value === true) {
+            return { ...batch, defaultSelected: false };
+          }
+          return batch;
+        }
+
+        const next = { ...batch, [field]: value } as CourseBatchOption;
+        if (field === "soldOut" && value === true) {
+          next.defaultSelected = false;
+        }
+        return next;
+      }),
+    }));
+  }
+
+  function addBatch() {
+    setFlexibleBatches((current) => ({
+      ...current,
+      batches: [...current.batches, { ...defaultBatchItem, id: `batch-${Date.now()}` }],
+    }));
+  }
+
+  function removeBatch(index: number) {
+    setFlexibleBatches((current) => ({
+      ...current,
+      batches: current.batches.length === 1 ? current.batches : current.batches.filter((_, i) => i !== index),
     }));
   }
 
@@ -198,6 +266,7 @@ export default function AdminCourseForm({
         average: values.rating ?? reviewsSummary.average,
       },
       reviews,
+      flexibleBatches,
     };
 
     try {
@@ -593,6 +662,187 @@ export default function AdminCourseForm({
                     rows={3}
                     required
                   />
+                </label>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="adm-panel">
+        <div className="adm-panel-head">
+          <h2 className="adm-panel-title">Flexible Batches</h2>
+          <button type="button" className="adm-btn adm-btn-secondary adm-btn-small" onClick={addBatch}>
+            + Add Batch
+          </button>
+        </div>
+
+        <p className="adm-panel-note">
+          Edit the batch section shown at the bottom of the course page, including pricing offer and
+          countdown timer.
+        </p>
+
+        <div className="adm-form-grid">
+          <label className="adm-form-field adm-form-field-full">
+            <span>Section Title</span>
+            <input
+              type="text"
+              value={flexibleBatches.title}
+              onChange={(event) => updateFlexibleField("title", event.target.value)}
+              placeholder="Flexible batches for you"
+              required
+            />
+          </label>
+
+          <label className="adm-form-field adm-form-field-full">
+            <span>Subtitle</span>
+            <input
+              type="text"
+              value={flexibleBatches.subtitle}
+              onChange={(event) => updateFlexibleField("subtitle", event.target.value)}
+              placeholder="Get Certification in A2 Level German Language Course Online Live Training with"
+              required
+            />
+          </label>
+
+          <label className="adm-form-field adm-form-field-full">
+            <span>Highlight Text</span>
+            <input
+              type="text"
+              value={flexibleBatches.highlight}
+              onChange={(event) => updateFlexibleField("highlight", event.target.value)}
+              placeholder="Goethe Exam Preparation"
+              required
+            />
+          </label>
+
+          <label className="adm-form-field">
+            <span>Original Price</span>
+            <input
+              type="text"
+              value={flexibleBatches.originalPrice}
+              onChange={(event) => updateFlexibleField("originalPrice", event.target.value)}
+              placeholder="₹35,000"
+              required
+            />
+          </label>
+
+          <label className="adm-form-field">
+            <span>Discount %</span>
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value={flexibleBatches.discountPercent}
+              onChange={(event) =>
+                updateFlexibleField("discountPercent", Number(event.target.value))
+              }
+              required
+            />
+          </label>
+
+          <label className="adm-form-field adm-form-field-full">
+            <span>Feature Badge</span>
+            <input
+              type="text"
+              value={flexibleBatches.badge}
+              onChange={(event) => updateFlexibleField("badge", event.target.value)}
+              placeholder="Live Classes + Study Material Included"
+              required
+            />
+          </label>
+
+          <label className="adm-form-field adm-form-field-full">
+            <span>Offer Ends On</span>
+            <input
+              type="datetime-local"
+              value={toDateTimeLocalValue(flexibleBatches.offerEndsAt)}
+              onChange={(event) =>
+                updateFlexibleField("offerEndsAt", new Date(event.target.value).toISOString())
+              }
+              required
+            />
+            <small className="adm-field-hint">Controls the countdown timer in the pricing box.</small>
+          </label>
+        </div>
+
+        <div className="adm-repeat-list">
+          {flexibleBatches.batches.map((batch, index) => (
+            <article key={batch.id || `batch-${index}`} className="adm-repeat-card">
+              <div className="adm-repeat-card-head">
+                <strong>Batch {index + 1}</strong>
+                <button
+                  type="button"
+                  className="adm-text-btn"
+                  onClick={() => removeBatch(index)}
+                  disabled={flexibleBatches.batches.length === 1}
+                >
+                  Remove
+                </button>
+              </div>
+
+              <div className="adm-form-grid">
+                <label className="adm-form-field">
+                  <span>Batch Date</span>
+                  <input
+                    type="text"
+                    value={batch.date}
+                    onChange={(event) => updateBatch(index, "date", event.target.value)}
+                    placeholder="June 22nd"
+                    required
+                  />
+                </label>
+
+                <label className="adm-form-field">
+                  <span>Day Type</span>
+                  <input
+                    type="text"
+                    value={batch.dayType}
+                    onChange={(event) => updateBatch(index, "dayType", event.target.value)}
+                    placeholder="Weekdays"
+                    required
+                  />
+                </label>
+
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Schedule</span>
+                  <input
+                    type="text"
+                    value={batch.schedule}
+                    onChange={(event) => updateBatch(index, "schedule", event.target.value)}
+                    placeholder="MON - FRI (1 Month)"
+                    required
+                  />
+                </label>
+
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Time</span>
+                  <input
+                    type="text"
+                    value={batch.time}
+                    onChange={(event) => updateBatch(index, "time", event.target.value)}
+                    placeholder="06:00PM to 07:30PM (IST)"
+                    required
+                  />
+                </label>
+
+                <label className="adm-form-field adm-form-field-inline">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(batch.soldOut)}
+                    onChange={(event) => updateBatch(index, "soldOut", event.target.checked)}
+                  />
+                  <span>Sold out</span>
+                </label>
+
+                <label className="adm-form-field adm-form-field-inline">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(batch.defaultSelected)}
+                    onChange={(event) => updateBatch(index, "defaultSelected", event.target.checked)}
+                    disabled={Boolean(batch.soldOut)}
+                  />
+                  <span>Selected by default</span>
                 </label>
               </div>
             </article>

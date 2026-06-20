@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { navItems } from "../../data/siteNavigation";
 import SiteLogo from "./SiteLogo";
+import TopAnnouncementBar from "./TopAnnouncementBar";
 
 function ChevronDown() {
   return (
@@ -64,7 +65,9 @@ export default function Navbar() {
   }
 
   return (
-    <header className={`site-header${menuOpen ? " nav-open" : ""}`}>
+    <div className="site-header-wrap">
+      <TopAnnouncementBar />
+      <header className={`site-header${menuOpen ? " nav-open" : ""}`}>
       <div className="site-header-inner">
         <Link href="/" className="logo-block" onClick={closeMenu}>
           <SiteLogo priority />
@@ -144,5 +147,6 @@ export default function Navbar() {
         </div>
       </div>
     </header>
+    </div>
   );
 }
