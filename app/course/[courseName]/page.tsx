@@ -11,7 +11,9 @@ import {
   mergeStoredCourse,
 } from "../../../lib/courseContentStore";
 import { germanCourses, getCourseByPathName } from "../../../data/germanCourses";
+import { getCourseFlexibleBatches } from "../../../data/courseFlexibleBatches";
 import CourseContent from "../../courses/_components/CourseContent";
+import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -134,6 +136,8 @@ export default async function GermanCoursePage({ params }: PageProps) {
   if (!course || !content || !displayCourse) notFound();
 
   const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
+  const batchesContent = getCourseFlexibleBatches(displayCourse.slug);
+  const salePrice = displayCourse.price || content.sidebarPrice;
   return (
     <>
       <Navbar />
@@ -198,7 +202,16 @@ export default async function GermanCoursePage({ params }: PageProps) {
           reviewCount={reviewCount}
           courseSlug={displayCourse.slug}
           courseTitle={displayCourse.title}
-        />      </main>
+          courseImage={displayCourse.image}
+        />
+
+        <FlexibleBatchesSection
+          batchesContent={batchesContent}
+          salePrice={salePrice}
+          courseSlug={displayCourse.slug}
+          courseTitle={displayCourse.title}
+        />
+      </main>
       <SiteFooter />
     </>
   );

@@ -3,6 +3,7 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import type { CourseContent, CourseReview } from "../../../data/courseContent.types";
+import CourseImage from "../../components/CourseImage";
 import CourseEnrollModal from "./CourseEnrollModal";
 
 function CheckIcon() {
@@ -212,6 +213,7 @@ type CourseContentProps = {
   reviewCount: string;
   courseSlug: string;
   courseTitle: string;
+  courseImage: string;
 };
 
 export default function CourseContent({
@@ -219,22 +221,62 @@ export default function CourseContent({
   reviewCount,
   courseSlug,
   courseTitle,
+  courseImage,
 }: CourseContentProps) {
   const reviewsTab = `Reviews (${reviewCount})`;
   const tabs = useMemo(() => ["Description", "FAQ", reviewsTab] as const, [reviewsTab]);
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>("Description");
   const [enrollOpen, setEnrollOpen] = useState(false);
+  const [shareMessage, setShareMessage] = useState("");
+
+  async function handleShareCourse() {
+    const shareUrl = window.location.href;
+    const shareData = {
+      title: courseTitle,
+      text: `Check out this German course: ${courseTitle}`,
+      url: shareUrl,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        return;
+      }
+
+      await navigator.clipboard.writeText(shareUrl);
+      setShareMessage("Link copied!");
+      window.setTimeout(() => setShareMessage(""), 2500);
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        return;
+      }
+
+      setShareMessage("Could not share. Copy the link from your browser.");
+      window.setTimeout(() => setShareMessage(""), 3000);
+    }
+  }
 
   return (
     <section className="course-content-section">
       <div className="course-content-layout">
         <aside className="course-sidebar">
           <div className="course-price-box">
-            <span className="course-price-label">Course Price</span>
-            <strong>{content.sidebarPrice}</strong>
-            <button type="button" className="btn btn-enroll" onClick={() => setEnrollOpen(true)}>
-              Enroll now
-            </button>
+            <div className="course-price-image-wrap">
+              <CourseImage
+                src={courseImage}
+                alt={courseTitle}
+                fill
+                sizes="300px"
+                className="course-price-image"
+              />
+            </div>
+            <div className="course-price-body">
+              <span className="course-price-label">Course Price</span>
+              <strong>{content.sidebarPrice}</strong>
+              <button type="button" className="btn btn-enroll" onClick={() => setEnrollOpen(true)}>
+                Enroll now
+              </button>
+            </div>
           </div>
 
           <CourseEnrollModal
@@ -265,11 +307,12 @@ export default function CourseContent({
                 />
               </div>
               <strong>{content.instructor.name}</strong>
+              <span className="instructor-role">Certified German Trainer</span>
             </div>
           </div>
 
-          <button type="button" className="course-share-btn">
-            Share This Course
+          <button type="button" className="course-share-btn" onClick={handleShareCourse}>
+            {shareMessage || "Share This Course"}
           </button>
         </aside>
 

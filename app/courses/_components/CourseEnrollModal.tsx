@@ -145,7 +145,7 @@ export default function CourseEnrollModal({
               <span className="enroll-modal-stat-icon" aria-hidden="true">
                 👥
               </span>
-              <span>10K+ Certified Learners</span>
+              <span>Certified tutors</span>
             </div>
           </div>
 
