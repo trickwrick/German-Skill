@@ -2983,6 +2983,8 @@ button {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: none;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -6587,8 +6589,8 @@ a.contact-info-value:hover {
   }
 
   .promo-card-batches .promo-card-body h2 {
-    font-size: clamp(0.82rem, 3.1vw, 0.98rem);
-    line-height: 1.15;
+    font-size: clamp(1.08rem, 4.8vw, 1.28rem);
+    line-height: 1.2;
     white-space: nowrap;
   }
 }

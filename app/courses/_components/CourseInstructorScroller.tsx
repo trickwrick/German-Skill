@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { trainers } from "../../../data/facultyMembers";
 
 const AUTO_PLAY_MS = 4000;
+const USER_SCROLL_PAUSE_MS = 4000;
 
 function ArrowIcon({ direction }: { direction: "prev" | "next" }) {
   return (
@@ -21,12 +22,16 @@ function ArrowIcon({ direction }: { direction: "prev" | "next" }) {
 }
 
 export default function CourseInstructorScroller() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const activeIndexRef = useRef(0);
+  const pauseUntilRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [userScrollPaused, setUserScrollPaused] = useState(false);
 
-  function scrollToIndex(index: number, loop = false) {
+  function scrollToIndex(index: number, loop = false, smooth = true) {
     const track = trackRef.current;
     if (!track || trainers.length === 0) {
       return;
@@ -37,12 +42,22 @@ export default function CourseInstructorScroller() {
       : Math.max(0, Math.min(index, trainers.length - 1));
 
     const card = track.children[nextIndex] as HTMLElement | undefined;
-    card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    if (card) {
+      const targetLeft = card.offsetLeft - (track.clientWidth - card.clientWidth) / 2;
+      const left = Math.max(0, targetLeft);
+
+      if (smooth) {
+        track.scrollTo({ left, behavior: "smooth" });
+      } else {
+        track.scrollLeft = left;
+      }
+    }
+
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
   }
 
-  function handleScroll() {
+  function handleTrackScroll() {
     const track = trackRef.current;
     if (!track || track.children.length === 0) {
       return;
@@ -66,8 +81,53 @@ export default function CourseInstructorScroller() {
     setActiveIndex(closestIndex);
   }
 
+  function pauseFromUserScroll() {
+    pauseUntilRef.current = Date.now() + USER_SCROLL_PAUSE_MS;
+    setUserScrollPaused(true);
+  }
+
   useEffect(() => {
-    if (trainers.length <= 1 || isPaused) {
+    const node = containerRef.current;
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.4, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    let resumeTimer: number | undefined;
+
+    const onPageScroll = () => {
+      pauseFromUserScroll();
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        if (Date.now() >= pauseUntilRef.current) {
+          setUserScrollPaused(false);
+        }
+      }, USER_SCROLL_PAUSE_MS);
+    };
+
+    window.addEventListener("scroll", onPageScroll, { passive: true });
+    window.addEventListener("touchmove", onPageScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onPageScroll);
+      window.removeEventListener("touchmove", onPageScroll);
+      window.clearTimeout(resumeTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (trainers.length <= 1 || isHovered || !isVisible || userScrollPaused) {
       return;
     }
 
@@ -77,21 +137,26 @@ export default function CourseInstructorScroller() {
     }
 
     const timer = window.setInterval(() => {
-      scrollToIndex(activeIndexRef.current + 1, true);
+      if (Date.now() < pauseUntilRef.current) {
+        return;
+      }
+
+      scrollToIndex(activeIndexRef.current + 1, true, false);
     }, AUTO_PLAY_MS);
 
     return () => window.clearInterval(timer);
-  }, [isPaused]);
+  }, [isHovered, isVisible, userScrollPaused]);
 
   return (
     <div
+      ref={containerRef}
       className="course-instructor-box"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocusCapture={() => setIsHovered(true)}
       onBlurCapture={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-          setIsPaused(false);
+          setIsHovered(false);
         }
       }}
     >
@@ -107,7 +172,7 @@ export default function CourseInstructorScroller() {
           <ArrowIcon direction="prev" />
         </button>
 
-        <div ref={trackRef} className="instructor-scroller-track" onScroll={handleScroll}>
+        <div ref={trackRef} className="instructor-scroller-track" onScroll={handleTrackScroll}>
           {trainers.map((tutor) => (
             <article key={tutor.name} className="instructor-card">
               <div className="instructor-avatar">
