@@ -1,11 +1,9 @@
-User-agent: Googlebot
-User-agent: Googlebot-image
-Disallow:/
 User-agent: *
-Disallow:/*
+Allow: /
 Disallow: /tag/*
 Disallow: /search/*
 Disallow: /account/*
+Disallow: /admin/*
 Disallow: /blog-tags/*
 Disallow: /public/*
 Disallow: /blogs/tag/*
