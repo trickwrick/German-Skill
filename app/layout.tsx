@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 import MobileContactBar from "./components/MobileContactBar";
 
 const siteDescription =
@@ -47,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <GoogleAnalytics />
         {children}
         <MobileContactBar />
       </body>
