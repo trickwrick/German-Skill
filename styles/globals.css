@@ -3771,6 +3771,17 @@ button {
   line-height: 1.6;
 }
 
+.contact-form-error {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
 .contact-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5778,6 +5789,32 @@ a.contact-info-value:hover {
 
 .adm-table tbody tr:hover {
   background: #fafbfc;
+}
+
+.adm-query-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+}
+
+.adm-query-contact a {
+  color: var(--primary-600);
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.adm-query-contact span {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.adm-query-message {
+  min-width: 220px;
+  max-width: 360px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.55;
 }
 
 .adm-placeholder {

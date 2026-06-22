@@ -34,6 +34,9 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: ["/og-share.png"],
   },
+  verification: {
+    google: "j7GpZqfU5BDf00hqe9oFK3iOQ1iKXOTUhmZTe5kji4Y",
+  },
 };
 
 export default function RootLayout({

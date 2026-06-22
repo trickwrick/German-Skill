@@ -1,10 +1,10 @@
-import AdminPlaceholder from "../../_components/AdminPlaceholder";
+import AdminQueriesContent from "../../_components/AdminQueriesContent";
+import { getContactQueries } from "../../../../lib/contactQueryStore";
 
-export default function AdminQueriesPage() {
-  return (
-    <AdminPlaceholder
-      title="Queries"
-      description="Contact query management will be added in the next step."
-    />
-  );
+export const dynamic = "force-dynamic";
+
+export default async function AdminQueriesPage() {
+  const queries = await getContactQueries();
+
+  return <AdminQueriesContent initialQueries={queries} />;
 }

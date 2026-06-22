@@ -16,10 +16,44 @@ const courseOptions = [
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      name: String(formData.get("name") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim(),
+      phone: String(formData.get("phone") ?? "").trim(),
+      course: String(formData.get("course") ?? "").trim(),
+      message: String(formData.get("message") ?? "").trim(),
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error || "Could not send your message.");
+      }
+
+      setSubmitted(true);
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error ? submitError.message : "Could not send your message.",
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (submitted) {
@@ -60,6 +94,8 @@ export default function ContactForm() {
         reach out shortly.
       </p>
 
+      {error ? <p className="contact-form-error">{error}</p> : null}
+
       <div className="contact-form-grid">
         <label className="contact-field">
           <span>Full Name *</span>
@@ -98,8 +134,8 @@ export default function ContactForm() {
         />
       </label>
 
-      <button type="submit" className="btn btn-primary contact-submit-btn">
-        Submit Message
+      <button type="submit" className="btn btn-primary contact-submit-btn" disabled={loading}>
+        {loading ? "Sending..." : "Submit Message"}
       </button>
     </form>
   );
