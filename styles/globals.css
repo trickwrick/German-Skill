@@ -2918,6 +2918,17 @@ button {
   font-weight: 600;
 }
 
+.enroll-modal-error {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 .course-includes-box,
 .course-instructor-box {
   background: var(--white);
@@ -5791,17 +5802,91 @@ a.contact-info-value:hover {
   background: #fafbfc;
 }
 
+.adm-queries {
+  max-width: 100%;
+}
+
+.adm-queries .adm-panel {
+  overflow: visible;
+}
+
+.adm-queries-table-wrap {
+  overflow-x: auto;
+}
+
+.adm-table-queries {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.adm-table-queries .adm-col-date {
+  width: 118px;
+}
+
+.adm-table-queries .adm-col-source {
+  width: 96px;
+}
+
+.adm-table-queries .adm-col-name {
+  width: 88px;
+}
+
+.adm-table-queries .adm-col-contact {
+  width: 18%;
+}
+
+.adm-table-queries .adm-col-course {
+  width: 16%;
+}
+
+.adm-table-queries .adm-col-meta {
+  width: 112px;
+}
+
+.adm-table-queries .adm-col-message {
+  width: auto;
+}
+
+.adm-table-queries .adm-col-actions {
+  width: 56px;
+  min-width: 56px;
+}
+
+.adm-table-queries thead th,
+.adm-table-queries tbody td {
+  padding: 12px 10px;
+  white-space: normal;
+  vertical-align: middle;
+  line-height: 1.45;
+}
+
+.adm-query-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: normal;
+  line-height: 1.35;
+}
+
+.adm-query-course {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
 .adm-query-contact {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  min-width: 180px;
+  min-width: 0;
 }
 
 .adm-query-contact a {
   color: var(--primary-600);
   font-weight: 600;
   word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .adm-query-contact span {
@@ -5810,11 +5895,78 @@ a.contact-info-value:hover {
 }
 
 .adm-query-message {
-  min-width: 220px;
-  max-width: 360px;
-  white-space: pre-wrap;
   word-break: break-word;
+  overflow-wrap: break-word;
   line-height: 1.55;
+  font-size: 0.84rem;
+}
+
+.adm-query-source {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.adm-query-source-contact {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.adm-query-source-enroll {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.adm-query-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.adm-table-queries .adm-query-actions {
+  text-align: center;
+  overflow: visible;
+  padding-inline: 4px;
+}
+
+.adm-btn-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.adm-btn-icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.adm-btn-icon-danger {
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.adm-btn-icon-danger:hover:not(:disabled) {
+  color: #b91c1c;
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.adm-btn-icon:disabled {
+  opacity: 0.55;
 }
 
 .adm-placeholder {
@@ -5896,6 +6048,39 @@ a.contact-info-value:hover {
 .adm-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.adm-btn.adm-btn-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  padding: 0;
+  gap: 0;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.adm-btn.adm-btn-icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.adm-btn.adm-btn-icon-danger {
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.adm-btn.adm-btn-icon-danger:hover:not(:disabled) {
+  color: #b91c1c;
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.adm-btn.adm-btn-icon:disabled {
+  opacity: 0.55;
 }
 
 .adm-courses {

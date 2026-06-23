@@ -93,13 +93,19 @@ export async function getContactQueries(): Promise<ContactQuery[]> {
 }
 
 export async function saveContactQuery(input: ContactQueryInput): Promise<ContactQuery> {
+  const source = input.source ?? "contact";
   const query: ContactQuery = {
     id: randomUUID(),
     name: input.name.trim(),
     email: input.email.trim(),
     phone: input.phone.trim(),
     course: input.course?.trim() || "General Inquiry",
-    message: input.message.trim(),
+    message:
+      input.message?.trim() ||
+      (source === "enroll" ? "Free demo enquiry from Enroll Now." : ""),
+    source,
+    city: input.city?.trim() || undefined,
+    level: input.level?.trim() || undefined,
     createdAt: new Date().toISOString(),
   };
 

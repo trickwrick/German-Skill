@@ -20,6 +20,8 @@ export default function CourseEnrollModal({
   onClose,
 }: CourseEnrollModalProps) {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [mounted, setMounted] = useState(false);
   const shellRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -31,6 +33,8 @@ export default function CourseEnrollModal({
   useEffect(() => {
     if (!open) {
       setSubmitted(false);
+      setError("");
+      setLoading(false);
       return;
     }
 
@@ -105,9 +109,47 @@ export default function CourseEnrollModal({
     return null;
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(event.currentTarget);
+    const levelSlug = String(formData.get("level") ?? courseSlug);
+    const levelLabel =
+      enrollCourseLevels.find((level) => level.slug === levelSlug)?.label ?? levelSlug;
+
+    const payload = {
+      name: String(formData.get("name") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim(),
+      phone: String(formData.get("phone") ?? "").trim(),
+      city: String(formData.get("city") ?? "").trim(),
+      course: courseTitle,
+      level: levelLabel,
+      courseSlug,
+    };
+
+    try {
+      const response = await fetch("/api/enroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error || "Could not submit your enquiry.");
+      }
+
+      setSubmitted(true);
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error ? submitError.message : "Could not submit your enquiry.",
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return createPortal(
@@ -171,6 +213,8 @@ export default function CourseEnrollModal({
                 <strong>{courseTitle}</strong>
               </div>
 
+              {error ? <p className="enroll-modal-error">{error}</p> : null}
+
               <input type="hidden" name="course" value={courseTitle} />
 
               <label className="enroll-modal-field">
@@ -201,8 +245,12 @@ export default function CourseEnrollModal({
               </label>
 
 
-              <button type="submit" className="btn btn-primary enroll-modal-submit">
-                Enquire Now
+              <button
+                type="submit"
+                className="btn btn-primary enroll-modal-submit"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Enquire Now"}
               </button>
             </form>
           )}

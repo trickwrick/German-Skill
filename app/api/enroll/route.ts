@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import type { ContactQueryInput } from "../../../data/contactQuery.types";
+import type { EnrollQueryInput } from "../../../data/contactQuery.types";
 import { saveContactQuery } from "../../../lib/contactQueryStore";
 
-function validateContactBody(body: ContactQueryInput) {
+function validateEnrollBody(body: EnrollQueryInput) {
   if (!body.name?.trim()) {
     return "Full name is required.";
   }
@@ -19,8 +19,16 @@ function validateContactBody(body: ContactQueryInput) {
     return "Phone number is required.";
   }
 
-  if (!body.message?.trim()) {
-    return "Message is required.";
+  if (!body.city?.trim()) {
+    return "City is required.";
+  }
+
+  if (!body.level?.trim()) {
+    return "Level is required.";
+  }
+
+  if (!body.course?.trim()) {
+    return "Course is required.";
   }
 
   return null;
@@ -28,25 +36,30 @@ function validateContactBody(body: ContactQueryInput) {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as ContactQueryInput;
-    const error = validateContactBody(body);
+    const body = (await request.json()) as EnrollQueryInput;
+    const error = validateEnrollBody(body);
 
     if (error) {
       return NextResponse.json({ error }, { status: 400 });
     }
 
     const query = await saveContactQuery({
-      ...body,
-      source: "contact",
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      city: body.city,
+      course: body.course,
+      level: body.level,
+      source: "enroll",
     });
 
     return NextResponse.json({
-      message: "Your message has been received.",
+      message: "Your enquiry has been received.",
       id: query.id,
     });
   } catch (storeError) {
     const message =
-      storeError instanceof Error ? storeError.message : "Could not save your message.";
+      storeError instanceof Error ? storeError.message : "Could not save your enquiry.";
 
     return NextResponse.json({ error: message }, { status: 500 });
   }
