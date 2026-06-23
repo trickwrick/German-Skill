@@ -1,15 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import AllCoursesSection from "./components/AllCoursesSection";
 import HeroSection from "./components/HeroSection";
 import HomeFaqSection from "./components/HomeFaqSection";
 import ComparisonSection from "./components/ComparisonSection";
-import CourseImage from "./components/CourseImage";
 import { showFaqs } from "../data/siteFeatures";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TestimonialsSection from "./components/TestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
-import { getCourseHref, type GermanCourse } from "../data/germanCourses";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
 
 const stats = [
@@ -17,54 +16,6 @@ const stats = [
   { value: "2,100+", label: "Batches Successfully Completed" },
   { value: "21+", label: "Certified Trainers" },
 ];
-
-function AllCoursesSection({ courses }: { courses: GermanCourse[] }) {
-  return (
-    <section className="all-courses-section" id="courses">
-      <div className="all-courses-inner">
-        <h2 className="all-courses-title">All Courses</h2>
-        <p className="all-courses-subtitle">
-          Take your language skills to the next level with our dynamic and engaging courses in the
-          German category, designed to meet the needs of learners at every stage.
-        </p>
-
-        <div className="all-courses-grid">
-          {courses.map((course) => {
-            const courseHref = getCourseHref(course);
-
-            return (
-              <Link key={course.slug} href={courseHref} className="course-card">
-                <span className="course-card-image-wrap">
-                  <CourseImage
-                    src={course.image}
-                    alt={course.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="course-card-image"
-                  />
-                </span>
-                <div className="course-card-body">
-                  <h3>{course.title}</h3>
-                  <p>{course.description}</p>
-                  <div className="course-card-footer">
-                    <span className="course-hours">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
-                        <path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                      </svg>
-                      {course.learningHours ?? course.hours}
-                    </span>
-                    <span className="course-price">{course.price}</span>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function StatsBanner() {
   return (
@@ -162,7 +113,7 @@ const whyChooseItems = [
 
 function WhyChooseSection() {
   return (
-    <section className="why-choose-section" id="about">
+    <section className="why-choose-section">
       <div className="why-choose-inner">
         <div className="why-choose-header">
           <span className="why-choose-tag">Advantages</span>
@@ -309,9 +260,9 @@ function WebinarSection() {
             webinars.
           </p>
         </div>
-        <a href="#webinars" className="btn btn-webinar">
+        <Link href="/contact" className="btn btn-webinar">
           Join Free Webinars
-        </a>
+        </Link>
       </div>
     </section>
   );
@@ -323,9 +274,9 @@ function CareersSection() {
       <div className="careers-inner">
         <article className="careers-card">
           <h2 className="careers-card-heading">Learn with 16000+ Students Across the Globe!</h2>
-          <a href="#careers" className="btn btn-careers">
+          <Link href="/about/careers" className="btn btn-careers">
             Know More
-          </a>
+          </Link>
         </article>
       </div>
     </section>

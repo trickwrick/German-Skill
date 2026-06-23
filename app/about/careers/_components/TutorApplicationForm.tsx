@@ -2,6 +2,7 @@
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import PhoneField from "../../../contact/_components/PhoneField";
+import { isAcceptedCareerCv } from "../../../../lib/careerCvValidation";
 
 const germanLevelOptions = [
   "German A1",
@@ -21,15 +22,12 @@ const experienceOptions = [
 
 export default function TutorApplicationForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [cvError, setCvError] = useState("");
 
   const maxCvSizeMb = 5;
-  const acceptedCvTypes = [
-    "application/pdf",
-    "application/msword",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  ];
 
   function handleCvChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -40,7 +38,7 @@ export default function TutorApplicationForm() {
       return;
     }
 
-    if (!acceptedCvTypes.includes(file.type)) {
+    if (!isAcceptedCareerCv(file)) {
       setCvFile(null);
       setCvError("Please upload a PDF, DOC, or DOCX file.");
       event.target.value = "";
@@ -57,21 +55,46 @@ export default function TutorApplicationForm() {
     setCvFile(file);
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setError("");
 
     if (!cvFile) {
-      setCvError("Please upload your CV.");
+      setCvError("Please upload your CV (PDF, DOC, or DOCX).");
       return;
     }
 
-    setSubmitted(true);
+    setLoading(true);
+
+    const formData = new FormData(event.currentTarget);
+    formData.set("cv", cvFile);
+
+    try {
+      const response = await fetch("/api/careers", {
+        method: "POST",
+        body: formData,
+      });
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error || "Could not submit your application.");
+      }
+
+      setSubmitted(true);
+    } catch (submitError) {
+      setError(
+        submitError instanceof Error ? submitError.message : "Could not submit your application.",
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   function resetForm() {
     setSubmitted(false);
     setCvFile(null);
     setCvError("");
+    setError("");
   }
 
   if (submitted) {
@@ -186,7 +209,6 @@ export default function TutorApplicationForm() {
             name="cv"
             accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             onChange={handleCvChange}
-            required
           />
           <span className="contact-file-btn">Choose File</span>
           <span className="contact-file-name">
@@ -196,8 +218,10 @@ export default function TutorApplicationForm() {
         {cvError ? <p className="contact-file-error">{cvError}</p> : null}
       </div>
 
-      <button type="submit" className="btn btn-primary contact-submit-btn">
-        Submit Application
+      {error ? <p className="adm-form-message adm-form-message-error contact-form-error">{error}</p> : null}
+
+      <button type="submit" className="btn btn-primary contact-submit-btn" disabled={loading}>
+        {loading ? "Submitting..." : "Submit Application"}
       </button>
     </form>
   );

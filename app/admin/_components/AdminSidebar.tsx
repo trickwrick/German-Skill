@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { adminNavItems } from "../../../data/adminDashboardData";
 
@@ -50,14 +51,49 @@ function NavIcon({ name }: { name: string }) {
           <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01" />
         </svg>
       );
+    case "careers":
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+        </svg>
+      );
     default:
       return null;
   }
 }
 
-export default function AdminSidebar() {
+export default function AdminSidebar({
+  queryCount = 0,
+  careerCount = 0,
+}: {
+  queryCount?: number;
+  careerCount?: number;
+}) {
   const pathname = usePathname();
   const router = useRouter();
+  const [queryBadgeDismissed, setQueryBadgeDismissed] = useState(false);
+  const [careerBadgeDismissed, setCareerBadgeDismissed] = useState(false);
+  const isQueriesPage = pathname.startsWith("/admin/queries");
+  const isCareersPage = pathname.startsWith("/admin/careers");
+  const visibleQueryCount = isQueriesPage || queryBadgeDismissed ? 0 : queryCount;
+  const visibleCareerCount = isCareersPage || careerBadgeDismissed ? 0 : careerCount;
+
+  useEffect(() => {
+    if (queryCount === 0) {
+      setQueryBadgeDismissed(false);
+    }
+  }, [queryCount]);
+
+  useEffect(() => {
+    if (careerCount === 0) {
+      setCareerBadgeDismissed(false);
+    }
+  }, [careerCount]);
+
+  function formatBadgeCount(count: number) {
+    return count > 99 ? "99+" : String(count);
+  }
 
   async function handleLogout() {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -90,9 +126,27 @@ export default function AdminSidebar() {
               key={item.href}
               href={item.href}
               className={`adm-nav-link${isActive ? " adm-nav-link-active" : ""}`}
+              onClick={() => {
+                if (item.icon === "queries") {
+                  setQueryBadgeDismissed(true);
+                }
+                if (item.icon === "careers") {
+                  setCareerBadgeDismissed(true);
+                }
+              }}
             >
               <NavIcon name={item.icon} />
-              {item.label}
+              <span className="adm-nav-link-text">{item.label}</span>
+              {item.icon === "queries" && visibleQueryCount > 0 ? (
+                <span className="adm-nav-badge" aria-label={`${visibleQueryCount} new enquiries`}>
+                  {formatBadgeCount(visibleQueryCount)}
+                </span>
+              ) : null}
+              {item.icon === "careers" && visibleCareerCount > 0 ? (
+                <span className="adm-nav-badge" aria-label={`${visibleCareerCount} new applications`}>
+                  {formatBadgeCount(visibleCareerCount)}
+                </span>
+              ) : null}
             </Link>
           );
         })}

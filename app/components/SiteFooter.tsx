@@ -7,7 +7,7 @@ import SiteLogo from "./SiteLogo";
 
 function SocialIcon({
   label,
-  href = "/#contact",
+  href = "/contact",
   children,
 }: {
   label: string;

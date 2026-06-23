@@ -157,9 +157,9 @@ export default async function GermanCoursePage({ params }: PageProps) {
             <nav className="course-breadcrumbs" aria-label="Breadcrumb">
               <Link href="/">Home</Link>
               <span aria-hidden="true">•</span>
-              <Link href="/#courses">German</Link>
+              <Link href="/courses">German</Link>
               <span aria-hidden="true">•</span>
-              <Link href="/#courses">All Courses</Link>
+              <Link href="/courses">All Courses</Link>
             </nav>
           </div>
         </section>

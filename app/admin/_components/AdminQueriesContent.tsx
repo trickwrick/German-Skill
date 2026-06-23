@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ContactQuery } from "../../../data/contactQuery.types";
 
 function formatQueryDate(value: string) {
@@ -28,6 +28,10 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
   const [queries, setQueries] = useState(initialQueries);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
 
   async function handleDelete(id: string) {
     const confirmed = window.confirm("Delete this contact query?");
@@ -63,7 +67,8 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
         <div>
           <h1 className="adm-page-title">Queries</h1>
           <p className="adm-page-subtitle">
-            Contact form and Enroll Now enquiries from the website appear here.
+            All contact and Enroll Now enquiries appear here. New submissions show a badge in the
+            sidebar until you open this page.
           </p>
         </div>
       </div>
@@ -85,7 +90,7 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
         </div>
 
         {queries.length === 0 ? (
-          <p className="adm-panel-note">No contact queries yet. New submissions will show up here.</p>
+          <p className="adm-panel-note">No enquiries yet. Contact and Enroll Now submissions will show up here.</p>
         ) : (
           <div className="adm-table-wrap adm-queries-table-wrap">
             <table className="adm-table adm-table-queries">

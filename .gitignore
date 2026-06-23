@@ -5,8 +5,13 @@ node_modules
 .env*.local
 data/course-details-store.json
 data/contact-queries-store.json
+data/career-applications-store.json
+data/admin-careers-seen.json
+data/admin-queries-seen.json
+public/career-cvs
 out
 .DS_Store
+tsconfig.tsbuildinfo
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

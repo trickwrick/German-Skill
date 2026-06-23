@@ -20,13 +20,13 @@ export const aboutLinks = showFaqs
 export const navItems = [
   {
     label: "Courses",
-    href: "/#courses",
+    href: "/courses",
     dropdown: true,
     items: courseLevels,
   },
   {
     label: "About",
-    href: "/#about",
+    href: "/about/our-company",
     dropdown: true,
     items: aboutLinks,
   },
@@ -34,7 +34,7 @@ export const navItems = [
 ];
 
 const allUsefulLinks = [
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/about/our-company" },
   { label: "Contact Us", href: "/contact" },
   { label: "Blogs", href: "/blog" },
   { label: "FAQs", href: "/about/faqs" },
@@ -45,7 +45,7 @@ export const usefulLinks = showFaqs
   : allUsefulLinks.filter((link) => link.href !== "/about/faqs");
 
 export const footerLegalLinks = [
-  { label: "Terms & Conditions", href: "/#terms" },
-  { label: "Privacy Policy", href: "/#privacy" },
-  { label: "Refund Policy", href: "/#refund" },
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Refund Policy", href: "/refund" },
 ];

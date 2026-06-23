@@ -87,7 +87,7 @@ export default function OurCompanyContent() {
               <li>Online batches with flexible timings</li>
             </ul>
             <div className="oc-intro-actions">
-              <Link href="/#courses" className="btn btn-primary">
+              <Link href="/courses" className="btn btn-primary">
                 Explore Courses
               </Link>
               <Link href="/contact" className="oc-btn-secondary">
