@@ -25,8 +25,12 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   }
 
   return {
-    title: `${post.title} | Fluent AUF Blog`,
-    description: post.excerpt,
+    title: post.seo?.metaTitle || `${post.title} | Fluent AUF Blog`,
+    description: post.seo?.metaDescription || post.excerpt,
+    keywords: post.seo?.metaKeyword,
+    // Note: We're not using otherMeta here directly as Next.js Metadata API handles specific keys.
+    // If otherMeta contains HTML tags, they'd need to be injected via layout or dangerouslySetInnerHTML elsewhere,
+    // but for now title, description, and keywords are the most important.
   };
 }
 
@@ -81,6 +85,25 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                     preparation support, reach out to our team.
                   </p>
                 </>
+              )}
+              
+              {post.faqs && post.faqs.length > 0 && (
+                <div className="blog-faqs" style={{ marginTop: '3rem', borderTop: '1px solid #eee', paddingTop: '2rem' }}>
+                  <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', color: '#333' }}>Frequently Asked Questions</h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    {post.faqs.map((faq, index) => (
+                      <details key={index} style={{ backgroundColor: '#f9f9f9', padding: '1rem', borderRadius: '8px', cursor: 'pointer' }}>
+                        <summary style={{ fontWeight: 'bold', color: '#3b5998', fontSize: '1.1rem' }}>
+                          {faq.question}
+                        </summary>
+                        <div 
+                          style={{ marginTop: '0.5rem', color: '#555', lineHeight: '1.6' }}
+                          dangerouslySetInnerHTML={{ __html: faq.answer }} 
+                        />
+                      </details>
+                    ))}
+                  </div>
+                </div>
               )}
               
               <Link href="/contact" className="btn btn-primary blog-detail-cta">

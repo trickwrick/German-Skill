@@ -18,10 +18,17 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
     slug: initialData?.slug || "",
     title: initialData?.title || "",
     date: initialData?.date || new Date().toISOString().split("T")[0],
-    author: initialData?.author || "Fluent AUF Team",
+    author: initialData?.author || "",
     excerpt: initialData?.excerpt || "",
-    image: initialData?.image || "/portal-education.jpg",
+    image: initialData?.image || "",
     content: initialData?.content || "",
+    faqs: initialData?.faqs || [],
+    seo: initialData?.seo || {
+      metaTitle: "",
+      metaKeyword: "",
+      metaDescription: "",
+      otherMeta: "",
+    },
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -54,6 +61,35 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
     } finally {
       setUploadingImage(false);
     }
+  };
+
+  const handleAddFaq = () => {
+    const currentFaqs = formData.faqs || [];
+    setFormData({ ...formData, faqs: [...currentFaqs, { question: "", answer: "" }] });
+  };
+
+  const handleRemoveFaq = (index: number) => {
+    const currentFaqs = formData.faqs || [];
+    const newFaqs = [...currentFaqs];
+    newFaqs.splice(index, 1);
+    setFormData({ ...formData, faqs: newFaqs });
+  };
+
+  const handleFaqChange = (index: number, field: "question" | "answer", value: string) => {
+    const currentFaqs = formData.faqs || [];
+    const newFaqs = [...currentFaqs];
+    newFaqs[index] = { ...newFaqs[index], [field]: value };
+    setFormData({ ...formData, faqs: newFaqs });
+  };
+
+  const handleSeoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      seo: {
+        ...(formData.seo || {}),
+        [e.target.name]: e.target.value,
+      },
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -113,9 +149,9 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
         {isEdit && <small style={{color: '#666'}}>Slug cannot be changed once created.</small>}
       </div>
 
-      <div className="adm-form-group" style={{ display: 'flex', gap: '1rem' }}>
-        <div style={{ flex: 1 }}>
-          <label>Date</label>
+      <div className="adm-form-group">
+        <label>Date</label>
+        <div>
           <input 
             type="date" 
             name="date" 
@@ -123,19 +159,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
             onChange={handleChange} 
             required 
             className="adm-input" 
-            style={{ width: '100%', padding: '0.5rem' }}
-          />
-        </div>
-        <div style={{ flex: 1 }}>
-          <label>Author</label>
-          <input 
-            type="text" 
-            name="author" 
-            value={formData.author} 
-            onChange={handleChange} 
-            required 
-            className="adm-input" 
-            style={{ width: '100%', padding: '0.5rem' }}
+            style={{ width: '200px', padding: '0.5rem' }}
           />
         </div>
       </div>
@@ -187,6 +211,110 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
           value={formData.content || ""} 
           onChange={(value) => setFormData({ ...formData, content: value })} 
         />
+      </div>
+
+      <div className="adm-form-group" style={{ backgroundColor: '#f8f9fa', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e9ecef' }}>
+        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: '#333' }}>Faq's</h3>
+        
+        {(formData.faqs || []).map((faq, index) => (
+          <div key={index} style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', backgroundColor: '#fff', padding: '1rem', borderRadius: '4px', border: '1px solid #ddd' }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <input 
+                type="text" 
+                placeholder="Question" 
+                value={faq.question}
+                onChange={(e) => handleFaqChange(index, "question", e.target.value)}
+                className="adm-input"
+                style={{ padding: '0.5rem', width: '100%' }}
+              />
+              <div style={{ marginTop: '0.5rem', flex: 1 }}>
+                <label style={{ fontSize: '0.85rem', color: '#666', marginBottom: '0.25rem', display: 'block' }}>Answer</label>
+                <RichTextEditor 
+                  value={faq.answer}
+                  onChange={(value) => handleFaqChange(index, "answer", value)}
+                />
+              </div>
+            </div>
+            <button 
+              type="button" 
+              onClick={() => handleRemoveFaq(index)}
+              style={{ background: '#ff7675', color: '#fff', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', alignSelf: 'flex-start' }}
+              title="Remove FAQ"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        ))}
+
+        <button 
+          type="button" 
+          onClick={handleAddFaq}
+          style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            background: '#3b5998', 
+            color: 'white', 
+            border: 'none', 
+            borderRadius: '4px', 
+            padding: '0.5rem 1rem', 
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            marginTop: '0.5rem'
+          }}
+        >
+          + Add FAQ
+        </button>
+      </div>
+
+      <div className="adm-form-group" style={{ backgroundColor: '#f8f9fa', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e9ecef' }}>
+        <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem', color: '#333' }}>SEO - Meta Tags</h3>
+        <p style={{ color: '#666', fontSize: '0.875rem', margin: '0 0 1.5rem 0' }}>Define page meta title, meta keywords and meta description to list your page in search engines</p>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', backgroundColor: '#fff', padding: '1.5rem', borderRadius: '4px', border: '1px solid #ddd' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Meta Title: *</label>
+            <input 
+              type="text" 
+              name="metaTitle"
+              value={formData.seo?.metaTitle || ""}
+              onChange={handleSeoChange}
+              className="adm-input"
+              style={{ width: '100%', padding: '0.5rem' }}
+            />
+            <small style={{ color: '#888' }}>Max length 70 characters</small>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Meta Keyword:</label>
+            <textarea 
+              name="metaKeyword"
+              value={formData.seo?.metaKeyword || ""}
+              onChange={handleSeoChange}
+              className="adm-input"
+              rows={2}
+              style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+            />
+            <small style={{ color: '#888' }}>Max length 160 characters</small>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Meta Description:</label>
+            <textarea 
+              name="metaDescription"
+              value={formData.seo?.metaDescription || ""}
+              onChange={handleSeoChange}
+              className="adm-input"
+              rows={3}
+              style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
+            />
+            <small style={{ color: '#888' }}>Max length 250 characters</small>
+          </div>
+
+        </div>
       </div>
 
       <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>

@@ -5,6 +5,13 @@ export type BlogPost = {
   author: string;
   excerpt: string;
   image: string;
+  faqs?: { question: string; answer: string }[];
+  seo?: {
+    metaTitle?: string;
+    metaKeyword?: string;
+    metaDescription?: string;
+    otherMeta?: string;
+  };
 };
 
 export const blogPosts: BlogPost[] = [
