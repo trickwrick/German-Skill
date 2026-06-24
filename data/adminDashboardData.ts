@@ -79,4 +79,5 @@ export const adminNavItems = [
   { label: "Testimonials", href: "/admin/testimonials", icon: "testimonials" },
   { label: "Queries", href: "/admin/queries", icon: "queries" },
   { label: "Careers", href: "/admin/careers", icon: "careers" },
+  { label: "Meta Web", href: "/admin/seo", icon: "seo" },
 ] as const;
