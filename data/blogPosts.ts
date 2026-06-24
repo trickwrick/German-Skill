@@ -12,6 +12,8 @@ export type BlogPost = {
     metaDescription?: string;
     otherMeta?: string;
   };
+  categories?: string[];
+  tags?: string[];
 };
 
 export const blogPosts: BlogPost[] = [

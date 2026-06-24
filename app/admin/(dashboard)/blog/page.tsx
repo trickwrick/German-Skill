@@ -113,7 +113,7 @@ export default function AdminBlogPage() {
                       {blog.title}
                     </td>
                     <td style={{ padding: '1rem', color: '#555' }}>
-                      General
+                      {blog.categories && blog.categories.length > 0 ? blog.categories.join(", ") : "General"}
                     </td>
                     <td style={{ padding: '1rem', textAlign: 'center' }}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" strokeWidth="2">

@@ -29,7 +29,22 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
       metaDescription: "",
       otherMeta: "",
     },
+    categories: initialData?.categories || [],
+    tags: initialData?.tags || [],
   });
+
+  const predefinedCategories = ["Goethe-Zertifikat Prep", "Learn German", "German Grammar", "Vocabulary", "Study in Germany", "German Culture", "General"];
+  const predefinedTags = [
+    "A1 exam preparation strategy",
+    "Learn German for A1 exam",
+    "B1 Goethe-Zertifikat tips",
+    "Study in Germany requirements",
+    "German Grammar rules",
+    "Top 10 German TV shows",
+    "German verbs to learn easily",
+    "Is Berlin affordable for students",
+    "Advantages of learning German"
+  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -92,6 +107,24 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
     });
   };
 
+  const handleCategoryToggle = (cat: string) => {
+    const cats = formData.categories || [];
+    if (cats.includes(cat)) {
+      setFormData({ ...formData, categories: cats.filter(c => c !== cat) });
+    } else {
+      setFormData({ ...formData, categories: [...cats, cat] });
+    }
+  };
+
+  const handleTagToggle = (tag: string) => {
+    const tgs = formData.tags || [];
+    if (tgs.includes(tag)) {
+      setFormData({ ...formData, tags: tgs.filter(t => t !== tag) });
+    } else {
+      setFormData({ ...formData, tags: [...tgs, tag] });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -120,8 +153,9 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="adm-form" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <div className="adm-form-group">
+    <form onSubmit={handleSubmit} className="adm-form" style={{ maxWidth: '1200px', display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem', alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div className="adm-form-group">
         <label>Title</label>
         <input 
           type="text" 
@@ -317,13 +351,67 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
         </div>
       </div>
 
-      <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
-        <button type="submit" disabled={loading} style={{ padding: '0.5rem 1.5rem', background: 'var(--primary-color, #0056b3)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-          {loading ? "Saving..." : (isEdit ? "Update Blog" : "Create Blog")}
-        </button>
-        <button type="button" onClick={() => router.push("/admin/blog")} style={{ padding: '0.5rem 1.5rem', background: '#ccc', color: '#333', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-          Cancel
-        </button>
+        <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
+          <button type="submit" disabled={loading} style={{ padding: '0.5rem 1.5rem', background: 'var(--primary-color, #0056b3)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+            {loading ? "Saving..." : (isEdit ? "Update Blog" : "Create Blog")}
+          </button>
+          <button type="button" onClick={() => router.push("/admin/blog")} style={{ padding: '0.5rem 1.5rem', background: '#ccc', color: '#333', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+            Cancel
+          </button>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', position: 'sticky', top: '2rem' }}>
+        
+        {/* Categories Box */}
+        <div style={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e9ecef', overflow: 'hidden' }}>
+          <div style={{ padding: '1rem', borderBottom: '1px solid #e9ecef', backgroundColor: '#f8f9fa' }}>
+            <h3 style={{ margin: 0, fontSize: '1rem', color: '#333' }}>Categories *</h3>
+          </div>
+          <div style={{ padding: '1rem', maxHeight: '250px', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {predefinedCategories.map(cat => (
+                <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={(formData.categories || []).includes(cat)}
+                    onChange={() => handleCategoryToggle(cat)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  {cat}
+                </label>
+              ))}
+            </div>
+          </div>
+          <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid #e9ecef', backgroundColor: '#fdfdfd' }}>
+            <button type="button" style={{ color: '#0056b3', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.85rem' }}>
+              + Add New Category
+            </button>
+          </div>
+        </div>
+
+        {/* Tags Box */}
+        <div style={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e9ecef', overflow: 'hidden' }}>
+          <div style={{ padding: '1rem', borderBottom: '1px solid #e9ecef', backgroundColor: '#f8f9fa' }}>
+            <h3 style={{ margin: 0, fontSize: '1rem', color: '#333' }}>Tags</h3>
+          </div>
+          <div style={{ padding: '1rem', maxHeight: '300px', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {predefinedTags.map(tag => (
+                <label key={tag} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={(formData.tags || []).includes(tag)}
+                    onChange={() => handleTagToggle(tag)}
+                    style={{ cursor: 'pointer' }}
+                  />
+                  {tag}
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+        
       </div>
     </form>
   );
