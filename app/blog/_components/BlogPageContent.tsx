@@ -1,7 +1,11 @@
 import BlogPostCard from "../../components/BlogPostCard";
-import { blogPosts } from "../../../data/blogPosts";
+import type { BlogPost } from "../../../lib/blogStore";
 
-export default function BlogPageContent() {
+type BlogPageContentProps = {
+  posts: BlogPost[];
+};
+
+export default function BlogPageContent({ posts }: BlogPageContentProps) {
   return (
     <section className="blog-page-section">
       <div className="blog-page-inner">
@@ -15,7 +19,7 @@ export default function BlogPageContent() {
         </header>
 
         <div className="blog-grid blog-page-grid">
-          {blogPosts.map((post) => (
+          {posts.map((post) => (
             <BlogPostCard key={post.slug} post={post} />
           ))}
         </div>

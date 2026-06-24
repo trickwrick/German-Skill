@@ -5,18 +5,20 @@ import { notFound } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import PageBanner from "../../components/PageBanner";
 import SiteFooter from "../../components/SiteFooter";
-import { blogPosts, formatBlogDate } from "../../../data/blogPosts";
+import { formatBlogDate } from "../../../data/blogPosts";
+import { getBlogPosts, getBlogPostBySlug } from "../../../lib/blogStore";
 
 type BlogDetailPageProps = {
   params: { slug: string };
 };
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+export async function generateStaticParams() {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
-export function generateMetadata({ params }: BlogDetailPageProps): Metadata {
-  const post = blogPosts.find((item) => item.slug === params.slug);
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
+  const post = await getBlogPostBySlug(params.slug);
 
   if (!post) {
     return { title: "Blog | Fluent AUF" };
@@ -28,8 +30,8 @@ export function generateMetadata({ params }: BlogDetailPageProps): Metadata {
   };
 }
 
-export default function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const post = blogPosts.find((item) => item.slug === params.slug);
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const post = await getBlogPostBySlug(params.slug);
 
   if (!post) {
     notFound();
@@ -69,11 +71,18 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
             </div>
 
             <div className="blog-detail-content">
-              <p>{post.excerpt}</p>
-              <p>
-                Full article content will be added soon. For course guidance or exam
-                preparation support, reach out to our team.
-              </p>
+              {post.content ? (
+                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              ) : (
+                <>
+                  <p>{post.excerpt}</p>
+                  <p>
+                    Full article content will be added soon. For course guidance or exam
+                    preparation support, reach out to our team.
+                  </p>
+                </>
+              )}
+              
               <Link href="/contact" className="btn btn-primary blog-detail-cta">
                 Contact Us
               </Link>

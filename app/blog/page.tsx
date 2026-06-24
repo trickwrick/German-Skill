@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
 import BlogPageContent from "./_components/BlogPageContent";
+import { getBlogPosts } from "../../lib/blogStore";
 
 export const metadata: Metadata = {
   title: "Blog | Fluent AUF",
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
     "Read Fluent AUF blogs on Goethe, Telc, study in Germany, APS, Uni Assist, and German language learning tips.",
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await getBlogPosts();
+
   return (
     <>
       <Navbar />
@@ -24,7 +27,7 @@ export default function BlogPage() {
             { label: "Blog" },
           ]}
         />
-        <BlogPageContent />
+        <BlogPageContent posts={posts} />
       </main>
       <SiteFooter />
     </>
