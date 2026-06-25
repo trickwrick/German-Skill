@@ -5,3 +5,7 @@ export function slugifyCoursePath(value: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+export function formatDisplayPrice(price: string) {
+  return price.replace(/â‚¹/g, "₹").trim().replace(/\.00$/, "");
+}

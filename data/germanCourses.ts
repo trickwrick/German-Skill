@@ -11,6 +11,7 @@ export type GermanCourse = {
   rating?: string;
   reviewCount?: string;
   learningHours?: string;
+  originalPrice?: string;
 };
 
 export const germanCourses: GermanCourse[] = [

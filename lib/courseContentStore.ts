@@ -15,7 +15,7 @@ import {
 } from "../data/courseFlexibleBatches";
 import { getFileCourseDetails, getAllFileCourseDetails, deleteFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
-import { slugifyCoursePath } from "./courseUtils";
+import { slugifyCoursePath, formatDisplayPrice } from "./courseUtils";
 
 const DB_NAME = "germanskill";
 const COLLECTION = "course_details";
@@ -418,16 +418,35 @@ export async function getGermanCoursesForDisplay(): Promise<GermanCourse[]> {
   const staticCourses = await Promise.all(
     germanCourses.map(async (course) => {
       const stored = await getStoredCourseDetails(course.slug);
-      return mergeStoredCourse(course, stored?.course);
+      const merged = mergeStoredCourse(course, stored?.course);
+      return enrichCourseWithOriginalPrice(merged, stored);
     }),
   );
 
   const storedCourses = await getAllStoredCourseDetailsList();
   const customCourses = storedCourses
     .filter((stored) => !isStaticCourseSlug(stored.slug))
-    .map(courseFromStored);
+    .map((stored) => enrichCourseWithOriginalPrice(courseFromStored(stored), stored));
 
   return [...staticCourses, ...customCourses];
+}
+
+function enrichCourseWithOriginalPrice(
+  course: GermanCourse,
+  stored?: StoredCourseDetails | null,
+): GermanCourse {
+  const salePrice = formatDisplayPrice(course.price);
+  const batches = mergeFlexibleBatches(
+    isStaticCourseSlug(course.slug)
+      ? getCourseFlexibleBatches(course.slug)
+      : getDefaultFlexibleBatches(course.title, salePrice),
+    stored?.flexibleBatches,
+  );
+
+  return {
+    ...course,
+    originalPrice: batches.originalPrice,
+  };
 }
 
 function normalizeCoursePrice(price: string) {

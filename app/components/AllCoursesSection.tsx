@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CourseImage from "./CourseImage";
 import { getCourseHref, type GermanCourse } from "../../data/germanCourses";
+import { formatDisplayPrice } from "../../lib/courseUtils";
 
 type AllCoursesSectionProps = {
   courses: GermanCourse[];
@@ -42,7 +43,14 @@ export default function AllCoursesSection({ courses }: AllCoursesSectionProps) {
                       </svg>
                       {course.learningHours ?? course.hours}
                     </span>
-                    <span className="course-price">{course.price}</span>
+                    <span className="course-price-row">
+                      <span className="course-price-sale">{formatDisplayPrice(course.price)}</span>
+                      {course.originalPrice ? (
+                        <span className="course-price-original">
+                          {formatDisplayPrice(course.originalPrice)}
+                        </span>
+                      ) : null}
+                    </span>
                   </div>
                 </div>
               </Link>
