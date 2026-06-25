@@ -6,12 +6,11 @@ import { notFound } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import SiteFooter from "../../components/SiteFooter";
 import {
+  getCourseByPathNameAsync,
   getCourseContentAsync,
   getCourseFlexibleBatchesAsync,
-  getStoredCourseDetails,
-  mergeStoredCourse,
+  getGermanCoursesForDisplay,
 } from "../../../lib/courseContentStore";
-import { germanCourses, getCourseByPathName } from "../../../data/germanCourses";
 import CourseContent from "../../courses/_components/CourseContent";
 import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
 
@@ -21,12 +20,13 @@ type PageProps = {
   params: { courseName: string };
 };
 
-export function generateStaticParams() {
-  return germanCourses.map((course) => ({ courseName: course.pathName }));
+export async function generateStaticParams() {
+  const courses = await getGermanCoursesForDisplay();
+  return courses.map((course) => ({ courseName: course.pathName }));
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const course = getCourseByPathName(params.courseName);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const course = await getCourseByPathNameAsync(params.courseName);
   if (!course) {
     return { title: "Course Not Found | Fluent AUF" };
   }
@@ -128,12 +128,10 @@ function ClockIcon() {
 }
 
 export default async function GermanCoursePage({ params }: PageProps) {
-  const course = getCourseByPathName(params.courseName);
-  const stored = course ? await getStoredCourseDetails(course.slug) : null;
-  const displayCourse = course ? mergeStoredCourse(course, stored?.course) : course;
-  const content = course ? await getCourseContentAsync(course.slug) : null;
+  const displayCourse = await getCourseByPathNameAsync(params.courseName);
+  const content = displayCourse ? await getCourseContentAsync(displayCourse.slug) : null;
 
-  if (!course || !content || !displayCourse) notFound();
+  if (!displayCourse || !content) notFound();
 
   const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
   const batchesContent = await getCourseFlexibleBatchesAsync(displayCourse.slug);
@@ -191,7 +189,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
               <StatItem
                 icon={<ClockIcon />}
                 value={displayCourse.learningHours ?? displayCourse.hours}
-                label="Learning Duration"
+                label="Duration"
               />
             </div>
           </div>
@@ -203,6 +201,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
           courseSlug={displayCourse.slug}
           courseTitle={displayCourse.title}
           courseImage={displayCourse.image}
+          coursePrice={displayCourse.price}
         />
 
         <FlexibleBatchesSection

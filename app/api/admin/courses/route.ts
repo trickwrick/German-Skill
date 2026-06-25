@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
 import type { AdminCoursePayload } from "../../../../data/adminCourseDetails.types";
-import { getCourseBySlug } from "../../../../data/germanCourses";
-import { getCourseContent } from "../../../../data/courseContents";
+import { getCourseBySlug, isStaticCourseSlug } from "../../../../data/germanCourses";
+import { getCourseContent, getCourseContentForCourse } from "../../../../data/courseContents";
+import { isAdminRequestAuthorized } from "../../../../lib/adminAuth";
 import {
+  getCourseBySlugAsync,
   getCourseEditableDetails,
   getStoredCourseDetails,
+  isCoursePathNameTaken,
   saveCourseDetails,
+  deleteCourseDetails,
 } from "../../../../lib/courseContentStore";
+import { slugifyCoursePath } from "../../../../lib/courseUtils";
 
 function validateCourse(body: AdminCoursePayload) {
   if (!body.title?.trim()) {
@@ -14,11 +19,15 @@ function validateCourse(body: AdminCoursePayload) {
   }
 
   if (!body.slug?.trim()) {
-    return "Course level is required.";
+    return "Course slug is required.";
   }
 
   if (!body.pathName?.trim()) {
     return "URL slug is required.";
+  }
+
+  if (!slugifyCoursePath(body.pathName)) {
+    return "URL slug can only use letters, numbers, and hyphens.";
   }
 
   if (!body.description?.trim()) {
@@ -30,7 +39,7 @@ function validateCourse(body: AdminCoursePayload) {
   }
 
   if (!body.hours?.trim()) {
-    return "Hours are required.";
+    return "Duration is required.";
   }
 
   if (!body.image?.trim()) {
@@ -83,6 +92,10 @@ function validateCourse(body: AdminCoursePayload) {
 }
 
 export async function GET(request: Request) {
+  if (!isAdminRequestAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get("slug");
 
@@ -90,12 +103,12 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Course slug is required." }, { status: 400 });
   }
 
-  const course = getCourseBySlug(slug);
+  const course = await getCourseBySlugAsync(slug);
   if (!course) {
     return NextResponse.json({ error: "Course not found." }, { status: 404 });
   }
 
-  const content = getCourseContent(slug);
+  const content = getCourseContent(slug) ?? getCourseContentForCourse(course);
   const editable = await getCourseEditableDetails(slug);
   const stored = await getStoredCourseDetails(slug);
 
@@ -109,18 +122,35 @@ export async function GET(request: Request) {
   });
 }
 
-async function persistCourse(body: AdminCoursePayload) {
+async function persistCourse(body: AdminCoursePayload, isCreate: boolean) {
   const error = validateCourse(body);
 
   if (error) {
     return NextResponse.json({ error }, { status: 400 });
   }
 
+  const slug = body.slug?.trim() ?? "";
+  const pathName = slugifyCoursePath(body.pathName?.trim() || "");
+  const isCustom = !isStaticCourseSlug(slug);
+
+  if (isCreate && isCustom) {
+    body.slug = pathName;
+  }
+
+  body.pathName = pathName;
+
+  if (await isCoursePathNameTaken(pathName, isCreate ? undefined : slug)) {
+    return NextResponse.json(
+      { error: "This URL slug is already used by another course." },
+      { status: 400 },
+    );
+  }
+
   try {
     await saveCourseDetails(body);
 
     return NextResponse.json({
-      message: "Course saved successfully.",
+      message: isCreate && isCustom ? "Course added successfully." : "Course saved successfully.",
       course: body,
     });
   } catch (storeError) {
@@ -132,11 +162,55 @@ async function persistCourse(body: AdminCoursePayload) {
 }
 
 export async function POST(request: Request) {
+  if (!isAdminRequestAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = (await request.json()) as AdminCoursePayload;
-  return persistCourse(body);
+  return persistCourse(body, true);
 }
 
 export async function PUT(request: Request) {
+  if (!isAdminRequestAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = (await request.json()) as AdminCoursePayload;
-  return persistCourse(body);
+  return persistCourse(body, false);
+}
+
+export async function DELETE(request: Request) {
+  if (!isAdminRequestAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { searchParams } = new URL(request.url);
+  const slug = searchParams.get("slug")?.trim();
+
+  if (!slug) {
+    return NextResponse.json({ error: "Course slug is required." }, { status: 400 });
+  }
+
+  try {
+    const result = await deleteCourseDetails(slug);
+
+    if (result.reset) {
+      return NextResponse.json({
+        message: "Saved changes removed. Course reset to default settings.",
+      });
+    }
+
+    if (isStaticCourseSlug(slug) && !result.removed) {
+      return NextResponse.json({
+        message: "This course is already using default settings.",
+      });
+    }
+
+    return NextResponse.json({ message: "Course deleted successfully." });
+  } catch (deleteError) {
+    const message =
+      deleteError instanceof Error ? deleteError.message : "Could not delete course.";
+
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

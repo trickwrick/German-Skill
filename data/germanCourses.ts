@@ -118,3 +118,7 @@ export function getCourseByPathName(pathName: string) {
 export function getCourseHref(course: GermanCourse) {
   return `/course/${course.pathName}`;
 }
+
+export function isStaticCourseSlug(slug: string) {
+  return germanCourses.some((course) => course.slug === slug);
+}

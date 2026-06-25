@@ -25,10 +25,13 @@ import {
   type CourseFlexibleBatches,
 } from "../../../data/courseFlexibleBatches";
 import type { GermanCourse } from "../../../data/germanCourses";
+import { getCourseBySlug } from "../../../data/germanCourses";
+import { slugifyCoursePath } from "../../../lib/courseUtils";
 
 type AdminCourseFormProps = {
   mode: "create" | "edit";
   lockedSlug?: string;
+  isCustomCourse?: boolean;
   initialValues?: Partial<GermanCourse>;
   descriptionPreview?: string[];
   initialFaqs?: CourseFaqItem[];
@@ -70,6 +73,7 @@ function toDateTimeLocalValue(iso?: string) {
 export default function AdminCourseForm({
   mode,
   lockedSlug,
+  isCustomCourse = false,
   initialValues,
   descriptionPreview = [],
   initialFaqs = [{ ...defaultFaqItem }],
@@ -79,6 +83,7 @@ export default function AdminCourseForm({
 }: AdminCourseFormProps) {
   const starterSlug = lockedSlug ?? initialValues?.slug ?? "a1";
   const router = useRouter();
+  const isNewCourseFlow = mode === "create" || isCustomCourse;
   const [values, setValues] = useState<Partial<GermanCourse>>({
     ...emptyValues,
     ...initialValues,
@@ -98,21 +103,52 @@ export default function AdminCourseForm({
   const [imageUploading, setImageUploading] = useState(false);
   const [imageUploadError, setImageUploadError] = useState("");
   const [selectedImageName, setSelectedImageName] = useState("");
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(mode === "edit");
 
   function updateField<K extends keyof GermanCourse>(field: K, value: GermanCourse[K]) {
     setValues((current) => ({ ...current, [field]: value }));
   }
 
+  function handleTitleChange(title: string) {
+    setValues((current) => {
+      const next = { ...current, title };
+
+      if (isNewCourseFlow && !slugManuallyEdited) {
+        const pathName = slugifyCoursePath(title);
+        next.pathName = pathName;
+        next.slug = pathName;
+      }
+
+      return next;
+    });
+  }
+
+  function updateDuration(value: string) {
+    setValues((current) => ({ ...current, hours: value, learningHours: value }));
+  }
+
+  function handlePathNameChange(value: string) {
+    setSlugManuallyEdited(true);
+    const pathName = slugifyCoursePath(value);
+    setValues((current) => ({
+      ...current,
+      pathName,
+      slug: pathName,
+    }));
+  }
+
   function handleLevelChange(level: string) {
+    if (!level) {
+      return;
+    }
+
     setValues((current) => ({
       ...current,
       slug: level,
-      pathName: current.pathName || `german-${level}`,
+      pathName: `german-${level}`,
     }));
 
-    if (mode === "create") {
-      setFlexibleBatches(getCourseFlexibleBatches(level));
-    }
+    setFlexibleBatches(getCourseFlexibleBatches(level));
   }
 
   function updateFaq(index: number, field: keyof CourseFaqItem, value: string) {
@@ -254,10 +290,41 @@ export default function AdminCourseForm({
     setLoading(true);
 
     const courseSlug = lockedSlug ?? values.slug ?? "";
+    const pathName = slugifyCoursePath(values.pathName || values.title || "");
+
+    if (isNewCourseFlow) {
+      if (!pathName) {
+        setError("Course title is required to create the course URL.");
+        setLoading(false);
+        return;
+      }
+    } else if (!courseSlug || !getCourseBySlug(courseSlug)) {
+      setError("Could not find this standard course level.");
+      setLoading(false);
+      return;
+    }
+
+    const duration = (values.learningHours ?? values.hours ?? "").trim();
+
+    if (!duration) {
+      setError("Duration is required.");
+      setLoading(false);
+      return;
+    }
+
+    const resolvedSlug = isNewCourseFlow ? pathName : courseSlug;
+    const resolvedPathName = isNewCourseFlow
+      ? pathName
+      : lockedSlug
+        ? `german-${lockedSlug}`
+        : values.pathName ?? `german-${courseSlug}`;
+
     const payload: AdminCoursePayload = {
       ...(values as GermanCourse),
-      slug: courseSlug,
-      pathName: lockedSlug ? `german-${lockedSlug}` : values.pathName ?? "",
+      slug: resolvedSlug,
+      pathName: resolvedPathName,
+      hours: duration,
+      learningHours: duration,
       reviewCount: values.reviewCount ?? "0",
       faqs,
       reviewsSummary: {
@@ -274,6 +341,7 @@ export default function AdminCourseForm({
         method: mode === "create" ? "POST" : "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
+        credentials: "same-origin",
       });
 
       const data = (await response.json()) as { error?: string; message?: string };
@@ -283,7 +351,9 @@ export default function AdminCourseForm({
         return;
       }
 
-      setSuccess(data.message ?? "Course saved successfully.");
+      setSuccess(
+        data.message ?? (mode === "create" ? "Course added successfully." : "Course saved successfully."),
+      );
       setTimeout(() => {
         router.push("/admin/courses");
         router.refresh();
@@ -305,40 +375,70 @@ export default function AdminCourseForm({
             <input
               type="text"
               value={values.title ?? ""}
-              onChange={(event) => updateField("title", event.target.value)}
-              placeholder="German A1 Level : For Beginners!"
+              onChange={(event) => handleTitleChange(event.target.value)}
+              placeholder="Business German for Professionals"
               required
             />
           </label>
 
-          <label className="adm-form-field">
-            <span>Level</span>
-            <select
-              value={values.slug ?? ""}
-              onChange={(event) => handleLevelChange(event.target.value)}
-              disabled={mode === "edit" && Boolean(lockedSlug)}
-              required
-            >
-              <option value="">Select level</option>
-              {courseLevelOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          {isNewCourseFlow ? (
+            <label className="adm-form-field adm-form-field-full">
+              <span>Course URL</span>
+              <input
+                type="text"
+                value={values.pathName ?? ""}
+                onChange={(event) => handlePathNameChange(event.target.value)}
+                placeholder="auto-created-from-title"
+                readOnly={mode === "create" && !slugManuallyEdited}
+                className={mode === "create" && !slugManuallyEdited ? "adm-input-readonly" : undefined}
+              />
+              <small className="adm-field-hint">
+                {mode === "create" && !slugManuallyEdited
+                  ? `Auto-created from title → /course/${values.pathName || "your-course"}`
+                  : `Course page → /course/${values.pathName || "your-course"}`}
+              </small>
+              {mode === "create" && !slugManuallyEdited ? (
+                <button
+                  type="button"
+                  className="adm-text-btn adm-slug-edit-btn"
+                  onClick={() => setSlugManuallyEdited(true)}
+                >
+                  Edit URL manually
+                </button>
+              ) : null}
+            </label>
+          ) : (
+            <>
+              <label className="adm-form-field">
+                <span>Level</span>
+                <select
+                  value={values.slug ?? ""}
+                  onChange={(event) => handleLevelChange(event.target.value)}
+                  disabled={mode === "edit" && Boolean(lockedSlug)}
+                  required
+                >
+                  <option value="">Select level</option>
+                  {courseLevelOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-          <label className="adm-form-field">
-            <span>URL Slug</span>
-            <input
-              type="text"
-              value={values.pathName ?? ""}
-              onChange={(event) => updateField("pathName", event.target.value)}
-              placeholder="german-a1"
-              disabled={mode === "edit" && Boolean(lockedSlug)}
-              required
-            />
-          </label>
+              <label className="adm-form-field">
+                <span>URL Slug</span>
+                <input
+                  type="text"
+                  value={values.pathName ?? ""}
+                  onChange={(event) => updateField("pathName", event.target.value)}
+                  placeholder="german-a1"
+                  disabled
+                  required
+                />
+              </label>
+            </>
+          )}
 
           <label className="adm-form-field adm-form-field-full">
             <span>Short Description</span>
@@ -368,24 +468,15 @@ export default function AdminCourseForm({
           </label>
 
           <label className="adm-form-field">
-            <span>Display Hours</span>
+            <span>Duration</span>
             <input
               type="text"
-              value={values.hours ?? ""}
-              onChange={(event) => updateField("hours", event.target.value)}
-              placeholder="111 Hours +"
+              value={values.learningHours ?? values.hours ?? ""}
+              onChange={(event) => updateDuration(event.target.value)}
+              placeholder="3 Months"
               required
             />
-          </label>
-
-          <label className="adm-form-field">
-            <span>Learning Duration</span>
-            <input
-              type="text"
-              value={values.learningHours ?? ""}
-              onChange={(event) => updateField("learningHours", event.target.value)}
-              placeholder="111 Hours"
-            />
+            <small className="adm-field-hint">Shown on course cards and the course detail page.</small>
           </label>
 
           <label className="adm-form-field">

@@ -6,17 +6,153 @@ import type {
   StoredCourseDetails,
 } from "../data/adminCourseDetails.types";
 import { defaultReviewsSummary } from "../data/adminCourseDetails.types";
-import { getCourseBySlug, germanCourses, type GermanCourse } from "../data/germanCourses";
-import { getCourseContent } from "../data/courseContents";
+import { getCourseBySlug, germanCourses, isStaticCourseSlug, getCourseByPathName, type GermanCourse } from "../data/germanCourses";
+import { getCourseContent, getCourseContentForCourse } from "../data/courseContents";
 import {
   getCourseFlexibleBatches,
+  getDefaultFlexibleBatches,
   mergeFlexibleBatches,
 } from "../data/courseFlexibleBatches";
-import { getFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
+import { getFileCourseDetails, getAllFileCourseDetails, deleteFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
+import { slugifyCoursePath } from "./courseUtils";
 
 const DB_NAME = "germanskill";
 const COLLECTION = "course_details";
+
+function courseFromStored(stored: StoredCourseDetails): GermanCourse {
+  const base = getCourseBySlug(stored.slug);
+  if (base) {
+    return mergeStoredCourse(base, stored.course);
+  }
+
+  const course = stored.course;
+  const duration = course.learningHours ?? course.hours ?? "";
+  const pathName = course.pathName?.trim() || stored.slug;
+
+  return {
+    slug: stored.slug,
+    pathName,
+    title: course.title?.trim() || "German Course",
+    description: course.description?.trim() || "",
+    hours: duration,
+    learningHours: duration,
+    price: normalizeCoursePrice(course.price ?? "₹0.00"),
+    image: course.image?.trim() || "/courses/german-a1.png",
+    batchSize: course.batchSize ?? "20-40 Students",
+    enrolled: course.enrolled ?? "0",
+    rating: course.rating ?? "4.50",
+    reviewCount: course.reviewCount ?? "0",
+  };
+}
+
+async function getMongoCourseDetailsList(): Promise<StoredCourseDetails[]> {
+  if (!process.env.MONGODB_URI) {
+    return [];
+  }
+
+  const client = await getMongoClient();
+  const docs = await client
+    .db(DB_NAME)
+    .collection<StoredCourseDetails>(COLLECTION)
+    .find({})
+    .toArray();
+
+  return docs;
+}
+
+export async function getAllStoredCourseDetailsList(): Promise<StoredCourseDetails[]> {
+  noStore();
+
+  const bySlug = new Map<string, StoredCourseDetails>();
+
+  if (isFileStoreEnabled()) {
+    try {
+      for (const document of await getAllFileCourseDetails()) {
+        bySlug.set(document.slug, sanitizeStoredDetails(document));
+      }
+    } catch {
+      // Continue to MongoDB fallback below.
+    }
+  }
+
+  if (process.env.MONGODB_URI) {
+    try {
+      for (const document of await getMongoCourseDetailsList()) {
+        if (!bySlug.has(document.slug)) {
+          bySlug.set(document.slug, sanitizeStoredDetails(document));
+        }
+      }
+    } catch {
+      // No stored course details available.
+    }
+  }
+
+  return Array.from(bySlug.values());
+}
+
+export async function isCoursePathNameTaken(pathName: string, excludeSlug?: string) {
+  const normalized = slugifyCoursePath(pathName);
+  if (!normalized) {
+    return true;
+  }
+
+  const staticMatch = germanCourses.find(
+    (course) => course.pathName === normalized && course.slug !== excludeSlug,
+  );
+  if (staticMatch) {
+    return true;
+  }
+
+  const storedCourses = await getAllStoredCourseDetailsList();
+  return storedCourses.some((stored) => {
+    if (stored.slug === excludeSlug) {
+      return false;
+    }
+
+    const storedPath = stored.course.pathName?.trim() || stored.slug;
+    return storedPath === normalized;
+  });
+}
+
+export async function getCourseBySlugAsync(slug: string): Promise<GermanCourse | undefined> {
+  noStore();
+
+  const base = getCourseBySlug(slug);
+  if (base) {
+    const stored = await getStoredCourseDetails(slug);
+    return mergeStoredCourse(base, stored?.course);
+  }
+
+  const stored = await getStoredCourseDetails(slug);
+  if (!stored?.course?.title?.trim()) {
+    return undefined;
+  }
+
+  return courseFromStored(stored);
+}
+
+export async function getCourseByPathNameAsync(pathName: string): Promise<GermanCourse | undefined> {
+  noStore();
+
+  const decoded = decodeURIComponent(pathName);
+  const staticCourse = getCourseByPathName(decoded);
+  if (staticCourse) {
+    return getCourseBySlugAsync(staticCourse.slug);
+  }
+
+  const storedCourses = await getAllStoredCourseDetailsList();
+  const stored = storedCourses.find((document) => {
+    const storedPath = document.course.pathName?.trim() || document.slug;
+    return storedPath === decoded;
+  });
+
+  if (!stored) {
+    return undefined;
+  }
+
+  return courseFromStored(stored);
+}
 
 function getEditableFromContent(slug: string) {
   const content = getCourseContent(slug);
@@ -144,13 +280,19 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
 
   const { slug, faqs, reviewsSummary, reviews, flexibleBatches, ...courseFields } = payload;
   const baseCourse = getCourseBySlug(slug);
+  const isCustom = !baseCourse;
+  const pathName =
+    slugifyCoursePath(courseFields.pathName?.trim() || "") ||
+    baseCourse?.pathName ||
+    slug;
 
   const document: StoredCourseDetails = {
     slug,
-    course: mergeStoredCourse(baseCourse ?? ({ slug, pathName: `german-${slug}` } as GermanCourse), {
+    isCustom,
+    course: mergeStoredCourse(baseCourse ?? ({ slug, pathName } as GermanCourse), {
       ...courseFields,
       slug,
-      pathName: `german-${slug}`,
+      pathName,
     }),
     faqs,
     reviewsSummary: {
@@ -179,22 +321,71 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
   return saveMongoCourseDetails(document);
 }
 
+async function deleteMongoCourseDetails(slug: string) {
+  if (!process.env.MONGODB_URI) {
+    return false;
+  }
+
+  const client = await getMongoClient();
+  const result = await client
+    .db(DB_NAME)
+    .collection<StoredCourseDetails>(COLLECTION)
+    .deleteOne({ slug });
+
+  return result.deletedCount > 0;
+}
+
+export async function deleteCourseDetails(slug: string) {
+  const isStandard = isStaticCourseSlug(slug);
+  let removed = false;
+
+  if (isFileStoreEnabled()) {
+    removed = await deleteFileCourseDetails(slug);
+  }
+
+  if (process.env.MONGODB_URI) {
+    try {
+      const mongoRemoved = await deleteMongoCourseDetails(slug);
+      removed = removed || mongoRemoved;
+    } catch {
+      if (!isFileStoreEnabled()) {
+        throw new Error("Could not delete course.");
+      }
+    }
+  }
+
+  if (!removed && !isStandard) {
+    throw new Error("Course not found.");
+  }
+
+  return { removed, reset: isStandard && removed };
+}
+
 export async function getCourseContentAsync(slug: string): Promise<CourseContent | undefined> {
   noStore();
 
-  const base = getCourseContent(slug);
-  if (!base) return undefined;
+  const course = await getCourseBySlugAsync(slug);
+  if (!course) {
+    return undefined;
+  }
 
-  const course = getCourseBySlug(slug);
+  const base = getCourseContent(slug) ?? getCourseContentForCourse(course);
+  if (!base) {
+    return undefined;
+  }
+
   const stored = await getStoredCourseDetails(slug);
+  const displayCourse = mergeStoredCourse(getCourseBySlug(slug) ?? course, stored?.course);
 
   if (!stored) {
     return {
       ...base,
+      sidebarPrice: displayCourse.price ?? base.sidebarPrice,
+      aboutCourse: displayCourse.description ?? base.aboutCourse,
       reviews: [],
       reviewsSummary: {
         ...base.reviewsSummary,
-        total: Number(course?.reviewCount) || base.reviewsSummary.total,
+        total: Number(displayCourse.reviewCount) || base.reviewsSummary.total,
       },
     };
   }
@@ -203,6 +394,8 @@ export async function getCourseContentAsync(slug: string): Promise<CourseContent
 
   return {
     ...base,
+    sidebarPrice: displayCourse.price ?? base.sidebarPrice,
+    aboutCourse: displayCourse.description ?? base.aboutCourse,
     faqs: stored.faqs,
     reviewsSummary: {
       ...stored.reviewsSummary,
@@ -222,24 +415,19 @@ export async function getCourseFlexibleBatchesAsync(slug: string) {
 export async function getGermanCoursesForDisplay(): Promise<GermanCourse[]> {
   noStore();
 
-  return Promise.all(
+  const staticCourses = await Promise.all(
     germanCourses.map(async (course) => {
       const stored = await getStoredCourseDetails(course.slug);
-      const storedCourse = stored?.course;
-      const learningHours = storedCourse?.learningHours?.trim();
-      const image = storedCourse?.image?.trim();
-
-      if (!learningHours && !image) {
-        return course;
-      }
-
-      return {
-        ...course,
-        ...(learningHours ? { learningHours } : {}),
-        ...(image ? { image } : {}),
-      };
+      return mergeStoredCourse(course, stored?.course);
     }),
   );
+
+  const storedCourses = await getAllStoredCourseDetailsList();
+  const customCourses = storedCourses
+    .filter((stored) => !isStaticCourseSlug(stored.slug))
+    .map(courseFromStored);
+
+  return [...staticCourses, ...customCourses];
 }
 
 function normalizeCoursePrice(price: string) {

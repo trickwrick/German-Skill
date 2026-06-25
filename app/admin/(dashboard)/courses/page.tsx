@@ -1,5 +1,10 @@
 import AdminCoursesContent from "../../_components/AdminCoursesContent";
+import { getGermanCoursesForDisplay } from "../../../../lib/courseContentStore";
 
-export default function AdminCoursesPage() {
-  return <AdminCoursesContent />;
+export const dynamic = "force-dynamic";
+
+export default async function AdminCoursesPage() {
+  const courses = await getGermanCoursesForDisplay();
+
+  return <AdminCoursesContent courses={courses} />;
 }

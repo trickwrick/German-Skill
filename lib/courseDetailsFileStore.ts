@@ -58,6 +58,15 @@ export async function getFileCourseDetails(slug: string) {
   return store[slug] ?? null;
 }
 
+export async function getAllFileCourseDetails() {
+  if (!isFileStoreEnabled()) {
+    return [];
+  }
+
+  const store = await readStore();
+  return Object.values(store);
+}
+
 export async function saveFileCourseDetails(document: StoredCourseDetails) {
   if (!isFileStoreEnabled()) {
     throw new Error("Local file storage is disabled in this environment.");
@@ -67,4 +76,19 @@ export async function saveFileCourseDetails(document: StoredCourseDetails) {
   store[document.slug] = document;
   await writeStore(store);
   return document;
+}
+
+export async function deleteFileCourseDetails(slug: string) {
+  if (!isFileStoreEnabled()) {
+    return false;
+  }
+
+  const store = await readStore();
+  if (!store[slug]) {
+    return false;
+  }
+
+  delete store[slug];
+  await writeStore(store);
+  return true;
 }

@@ -78,8 +78,12 @@ export const courseFlexibleBatches: Record<string, CourseFlexibleBatches> = {
   c2: buildBatchContent("C2 Level", "₹23,500", "₹47,000"),
 };
 
+export function getDefaultFlexibleBatches(title = "German", salePrice = "₹14,999", originalPrice = "₹29,998") {
+  return buildBatchContent(title, salePrice, originalPrice);
+}
+
 export function getCourseFlexibleBatches(slug: string) {
-  return courseFlexibleBatches[slug] ?? courseFlexibleBatches.a1;
+  return courseFlexibleBatches[slug] ?? getDefaultFlexibleBatches();
 }
 
 export function mergeFlexibleBatches(

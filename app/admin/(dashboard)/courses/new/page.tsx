@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AdminCourseForm from "../../../_components/AdminCourseForm";
 import { defaultFaqItem, defaultReviewsSummary } from "../../../../../data/adminCourseDetails.types";
+import { getDefaultFlexibleBatches } from "../../../../../data/courseFlexibleBatches";
 
 export default function AdminAddCoursePage() {
   return (
@@ -10,9 +11,10 @@ export default function AdminAddCoursePage() {
           <Link href="/admin/courses" className="adm-breadcrumb">
             ← Back to Courses
           </Link>
-          <h1 className="adm-page-title">Add Course</h1>
+          <h1 className="adm-page-title">Add New Course</h1>
           <p className="adm-page-subtitle">
-            Create a new German course with pricing, FAQ, and reviews.
+            Add a new course besides A1–C2. To edit German A1, A2, B1, B2, C1, or C2, go back and
+            use Edit on that course in the list.
           </p>
         </div>
       </div>
@@ -22,6 +24,7 @@ export default function AdminAddCoursePage() {
         initialFaqs={[{ ...defaultFaqItem }]}
         initialReviewsSummary={defaultReviewsSummary}
         initialReviews={[]}
+        initialFlexibleBatches={getDefaultFlexibleBatches()}
       />
     </div>
   );

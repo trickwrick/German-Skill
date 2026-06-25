@@ -7,7 +7,7 @@ function levelLabel(slug: string) {
   return slug.toUpperCase();
 }
 
-function createPlaceholderContent(course: GermanCourse): CourseContent {
+export function createPlaceholderContent(course: GermanCourse): CourseContent {
   const level = levelLabel(course.slug);
   const reviewCount = Number(course.reviewCount ?? "0");
 
@@ -135,6 +135,14 @@ export function getCourseContent(slug: string): CourseContent | undefined {
 
   const course = getCourseBySlug(slug);
   if (!course) return undefined;
+
+  return createPlaceholderContent(course);
+}
+
+export function getCourseContentForCourse(course: GermanCourse): CourseContent {
+  if (contentBySlug[course.slug]) {
+    return contentBySlug[course.slug];
+  }
 
   return createPlaceholderContent(course);
 }

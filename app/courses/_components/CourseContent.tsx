@@ -214,6 +214,7 @@ type CourseContentProps = {
   courseSlug: string;
   courseTitle: string;
   courseImage: string;
+  coursePrice?: string;
 };
 
 export default function CourseContent({
@@ -222,6 +223,7 @@ export default function CourseContent({
   courseSlug,
   courseTitle,
   courseImage,
+  coursePrice,
 }: CourseContentProps) {
   const reviewsTab = `Reviews (${reviewCount})`;
   const tabs = useMemo(() => ["Description", "FAQ", reviewsTab] as const, [reviewsTab]);
@@ -251,7 +253,7 @@ export default function CourseContent({
             </div>
             <div className="course-price-body">
               <span className="course-price-label">Course Price</span>
-              <strong>{content.sidebarPrice}</strong>
+              <strong>{coursePrice ?? content.sidebarPrice}</strong>
               <button type="button" className="btn btn-enroll" onClick={() => setEnrollOpen(true)}>
                 Enroll now
               </button>

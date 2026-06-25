@@ -19,6 +19,7 @@ export type CourseReviewsSummary = {
 
 export type StoredCourseDetails = {
   slug: string;
+  isCustom?: boolean;
   course: Partial<GermanCourse>;
   faqs: CourseFaqItem[];
   reviewsSummary: CourseReviewsSummary;

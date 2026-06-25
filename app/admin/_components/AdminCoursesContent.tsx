@@ -1,15 +1,20 @@
 import Link from "next/link";
 import { getCourseLevelLabel } from "../../../data/adminCourseLevels";
-import { germanCourses, getCourseHref } from "../../../data/germanCourses";
+import { isStaticCourseSlug, type GermanCourse } from "../../../data/germanCourses";
+import AdminCourseActions from "./AdminCourseActions";
 
-export default function AdminCoursesContent() {
+type AdminCoursesContentProps = {
+  courses: GermanCourse[];
+};
+
+export default function AdminCoursesContent({ courses }: AdminCoursesContentProps) {
   return (
     <div className="adm-courses">
       <div className="adm-page-head">
         <div>
           <h1 className="adm-page-title">Courses</h1>
           <p className="adm-page-subtitle">
-            Manage German language courses, pricing, and course page details.
+            A1–C2 courses are always available. Use Edit to update them, or Add Course for a new one.
           </p>
         </div>
         <Link href="/admin/courses/new" className="adm-btn adm-btn-primary">
@@ -21,7 +26,7 @@ export default function AdminCoursesContent() {
         <article className="adm-stat-card">
           <div>
             <p className="adm-stat-label">Total Courses</p>
-            <p className="adm-stat-value">{germanCourses.length}</p>
+            <p className="adm-stat-value">{courses.length}</p>
           </div>
         </article>
         <article className="adm-stat-card">
@@ -33,7 +38,7 @@ export default function AdminCoursesContent() {
         <article className="adm-stat-card">
           <div>
             <p className="adm-stat-label">Live on Website</p>
-            <p className="adm-stat-value">{germanCourses.length}</p>
+            <p className="adm-stat-value">{courses.length}</p>
           </div>
         </article>
       </div>
@@ -50,13 +55,13 @@ export default function AdminCoursesContent() {
                 <th>Course</th>
                 <th>Level</th>
                 <th>Price</th>
-                <th>Hours</th>
+                <th>Duration</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {germanCourses.map((course) => (
+              {courses.map((course) => (
                 <tr key={course.slug}>
                   <td>
                     <div className="adm-course-cell">
@@ -65,23 +70,22 @@ export default function AdminCoursesContent() {
                     </div>
                   </td>
                   <td>
-                    <span className="adm-badge">{course.slug.toUpperCase()}</span>
-                    <span className="adm-course-level">{getCourseLevelLabel(course.slug)}</span>
+                    {isStaticCourseSlug(course.slug) ? (
+                      <>
+                        <span className="adm-badge">{course.slug.toUpperCase()}</span>
+                        <span className="adm-course-level">{getCourseLevelLabel(course.slug)}</span>
+                      </>
+                    ) : (
+                      <span className="adm-badge adm-badge-custom">Custom</span>
+                    )}
                   </td>
                   <td>{course.price}</td>
-                  <td>{course.hours}</td>
+                  <td>{course.learningHours ?? course.hours}</td>
                   <td>
                     <span className="adm-status adm-status-live">Live</span>
                   </td>
                   <td>
-                    <div className="adm-table-actions">
-                      <Link href={getCourseHref(course)} className="adm-table-link" target="_blank">
-                        View
-                      </Link>
-                      <Link href={`/admin/courses/${course.slug}/edit`} className="adm-table-link">
-                        Edit
-                      </Link>
-                    </div>
+                    <AdminCourseActions course={course} />
                   </td>
                 </tr>
               ))}

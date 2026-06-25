@@ -6195,6 +6195,51 @@ a.contact-info-value:hover {
   background: var(--primary-50);
 }
 
+.adm-badge-custom {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.adm-course-type-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.adm-course-type-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.adm-course-type-option:has(input:checked) {
+  border-color: var(--primary-400);
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+
+.adm-course-type-option input {
+  accent-color: var(--primary-600);
+}
+
+.adm-input-readonly {
+  background: #f8fafc;
+  color: var(--text-secondary);
+  cursor: default;
+}
+
+.adm-slug-edit-btn {
+  margin-top: 8px;
+}
+
 .adm-status {
   display: inline-flex;
   align-items: center;
@@ -6223,6 +6268,32 @@ a.contact-info-value:hover {
 
 .adm-table-link:hover {
   text-decoration: underline;
+}
+
+.adm-table-link-danger {
+  color: #dc2626;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.adm-table-link-danger:hover {
+  text-decoration: underline;
+}
+
+.adm-table-link-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.adm-table-action-error {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  color: #dc2626;
 }
 
 .adm-course-form {
