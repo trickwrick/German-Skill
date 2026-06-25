@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { BlogPost } from "../../../../../lib/blogStore";
+import { slugifyCoursePath } from "../../../../../lib/courseUtils";
 import RichTextEditor from "./RichTextEditor";
 
 type BlogFormProps = {
@@ -14,6 +15,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(Boolean(isEdit));
   const [formData, setFormData] = useState<Partial<BlogPost>>({
     slug: initialData?.slug || "",
     title: initialData?.title || "",
@@ -47,7 +49,31 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
   ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "title") {
+      setFormData((current) => {
+        const next = { ...current, title: value };
+
+        if (!isEdit && !slugManuallyEdited) {
+          next.slug = slugifyCoursePath(value);
+        }
+
+        return next;
+      });
+      return;
+    }
+
+    if (name === "slug") {
+      setSlugManuallyEdited(true);
+      setFormData((current) => ({
+        ...current,
+        slug: slugifyCoursePath(value),
+      }));
+      return;
+    }
+
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +88,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
       const res = await fetch("/api/admin/blog-images", {
         method: "POST",
         body: form,
+        credentials: "same-origin",
       });
 
       if (!res.ok) {
@@ -130,21 +157,30 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
     setLoading(true);
 
     try {
-      const url = isEdit ? `/api/admin/blog/${initialData?.slug}` : `/api/admin/blog`;
+      const url = isEdit
+        ? `/api/admin/blog/${encodeURIComponent(initialData?.slug ?? "")}`
+        : "/api/admin/blog";
       const method = isEdit ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
+        credentials: "same-origin",
       });
 
+      const saved = (await res.json()) as BlogPost & { error?: string };
+
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to save blog");
+        throw new Error(saved.error || "Failed to save blog");
       }
 
-      router.push("/admin/blog");
+      if (isEdit && saved.slug && saved.slug !== initialData?.slug) {
+        router.replace(`/admin/blog/${encodeURIComponent(saved.slug)}/edit`);
+      } else {
+        router.push("/admin/blog");
+      }
+      router.refresh();
     } catch (error: any) {
       alert(error.message);
     } finally {
@@ -176,11 +212,33 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
           value={formData.slug} 
           onChange={handleChange} 
           required 
-          disabled={isEdit}
-          className="adm-input" 
+          readOnly={!isEdit && !slugManuallyEdited}
+          className={!isEdit && !slugManuallyEdited ? "adm-input adm-input-readonly" : "adm-input"}
           style={{ width: '100%', padding: '0.5rem' }}
         />
-        {isEdit && <small style={{color: '#666'}}>Slug cannot be changed once created.</small>}
+        <small style={{ color: '#666' }}>
+          {!isEdit && !slugManuallyEdited
+            ? `Auto-created from title → /blog/${formData.slug || "your-post"}`
+            : `Blog page → /blog/${formData.slug || "your-post"}`}
+        </small>
+        {!isEdit && !slugManuallyEdited ? (
+          <button
+            type="button"
+            onClick={() => setSlugManuallyEdited(true)}
+            style={{
+              display: 'block',
+              marginTop: '0.5rem',
+              background: 'none',
+              border: 'none',
+              color: '#0056b3',
+              cursor: 'pointer',
+              padding: 0,
+              fontSize: '0.875rem',
+            }}
+          >
+            Edit slug manually
+          </button>
+        ) : null}
       </div>
 
       <div className="adm-form-group">

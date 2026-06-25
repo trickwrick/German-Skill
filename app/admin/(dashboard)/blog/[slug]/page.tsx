@@ -3,12 +3,15 @@ import { notFound } from "next/navigation";
 import { getBlogPostBySlug } from "../../../../../lib/blogStore";
 import BlogForm from "../_components/BlogForm";
 
+export const dynamic = "force-dynamic";
+
 type EditBlogPageProps = {
   params: { slug: string };
 };
 
 export default async function EditBlogPage({ params }: EditBlogPageProps) {
-  const blog = await getBlogPostBySlug(params.slug);
+  const slug = decodeURIComponent(params.slug);
+  const blog = await getBlogPostBySlug(slug);
 
   if (!blog) {
     notFound();

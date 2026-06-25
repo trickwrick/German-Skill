@@ -19,7 +19,7 @@ export default function AdminBlogPage() {
   async function fetchBlogs() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/blog");
+      const res = await fetch("/api/admin/blog", { credentials: "same-origin" });
       if (res.ok) {
         const data = await res.json();
         setBlogs(data);
@@ -38,16 +38,21 @@ export default function AdminBlogPage() {
   async function handleDelete(slug: string) {
     if (!confirm("Are you sure you want to delete this blog post?")) return;
     try {
-      const res = await fetch(`/api/admin/blog/${slug}`, {
+      const res = await fetch(`/api/admin/blog/${encodeURIComponent(slug)}`, {
         method: "DELETE",
+        credentials: "same-origin",
       });
+      const data = (await res.json()) as { error?: string };
+
       if (res.ok) {
         fetchBlogs();
-      } else {
-        alert("Failed to delete blog post.");
+        return;
       }
+
+      alert(data.error || "Failed to delete blog post.");
     } catch (error) {
       console.error("Failed to delete", error);
+      alert("Failed to delete blog post.");
     }
   }
 
@@ -139,7 +144,7 @@ export default function AdminBlogPage() {
                     <td style={{ padding: '1rem', textAlign: 'center' }}>
                       <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem' }}>
                         <Link 
-                          href={`/admin/blog/${blog.slug}`} 
+                          href={`/admin/blog/${encodeURIComponent(blog.slug)}`} 
                           style={{ color: '#00b894', background: '#e6fcec', padding: '0.4rem', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                           title="Edit"
                         >

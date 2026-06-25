@@ -9,6 +9,7 @@ data/career-applications-store.json
 data/admin-careers-seen.json
 data/admin-queries-seen.json
 public/career-cvs
+data/blog-store.json
 out
 .DS_Store
 tsconfig.tsbuildinfo
