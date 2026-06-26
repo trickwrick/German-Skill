@@ -2719,12 +2719,17 @@ button {
   margin-bottom: 8px;
 }
 
-.course-price-box strong {
-  display: block;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #16a34a;
+.course-price-box .course-price-row-sidebar {
+  justify-content: center;
   margin-bottom: 16px;
+}
+
+.course-price-box .course-price-sale {
+  font-size: 1.75rem;
+}
+
+.course-price-box .course-price-original {
+  font-size: 1.35rem;
 }
 
 .btn-enroll {

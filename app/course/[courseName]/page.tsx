@@ -201,7 +201,8 @@ export default async function GermanCoursePage({ params }: PageProps) {
           courseSlug={displayCourse.slug}
           courseTitle={displayCourse.title}
           courseImage={displayCourse.image}
-          coursePrice={displayCourse.price}
+          coursePrice={salePrice}
+          originalPrice={displayCourse.originalPrice}
         />
 
         <FlexibleBatchesSection

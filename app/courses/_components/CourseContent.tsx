@@ -5,6 +5,7 @@ import type { CourseContent, CourseReview } from "../../../data/courseContent.ty
 import CourseImage from "../../components/CourseImage";
 import CourseEnrollModal from "./CourseEnrollModal";
 import CourseInstructorScroller from "./CourseInstructorScroller";
+import { formatDisplayPrice } from "../../../lib/courseUtils";
 
 function CheckIcon() {
   return (
@@ -215,6 +216,7 @@ type CourseContentProps = {
   courseTitle: string;
   courseImage: string;
   coursePrice?: string;
+  originalPrice?: string;
 };
 
 export default function CourseContent({
@@ -224,6 +226,7 @@ export default function CourseContent({
   courseTitle,
   courseImage,
   coursePrice,
+  originalPrice,
 }: CourseContentProps) {
   const reviewsTab = `Reviews (${reviewCount})`;
   const tabs = useMemo(() => ["Description", "FAQ", reviewsTab] as const, [reviewsTab]);
@@ -253,7 +256,16 @@ export default function CourseContent({
             </div>
             <div className="course-price-body">
               <span className="course-price-label">Course Price</span>
-              <strong>{coursePrice ?? content.sidebarPrice}</strong>
+              <div className="course-price-row course-price-row-sidebar">
+                <span className="course-price-sale">
+                  {formatDisplayPrice(coursePrice ?? content.sidebarPrice)}
+                </span>
+                {originalPrice ? (
+                  <span className="course-price-original">
+                    {formatDisplayPrice(originalPrice)}
+                  </span>
+                ) : null}
+              </div>
               <button type="button" className="btn btn-enroll" onClick={() => setEnrollOpen(true)}>
                 Enroll now
               </button>

@@ -121,7 +121,7 @@ export async function getCourseBySlugAsync(slug: string): Promise<GermanCourse |
   const base = getCourseBySlug(slug);
   if (base) {
     const stored = await getStoredCourseDetails(slug);
-    return mergeStoredCourse(base, stored?.course);
+    return enrichCourseWithOriginalPrice(mergeStoredCourse(base, stored?.course), stored);
   }
 
   const stored = await getStoredCourseDetails(slug);
@@ -129,7 +129,7 @@ export async function getCourseBySlugAsync(slug: string): Promise<GermanCourse |
     return undefined;
   }
 
-  return courseFromStored(stored);
+  return enrichCourseWithOriginalPrice(courseFromStored(stored), stored);
 }
 
 export async function getCourseByPathNameAsync(pathName: string): Promise<GermanCourse | undefined> {
@@ -151,7 +151,7 @@ export async function getCourseByPathNameAsync(pathName: string): Promise<German
     return undefined;
   }
 
-  return courseFromStored(stored);
+  return enrichCourseWithOriginalPrice(courseFromStored(stored), stored);
 }
 
 function getEditableFromContent(slug: string) {
