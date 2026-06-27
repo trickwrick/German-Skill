@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBlogPostBySlug } from "../../../../../lib/blogStore";
+import { toEditableBlogPost } from "../../../../../lib/blogFormUtils";
 import BlogForm from "../_components/BlogForm";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +27,7 @@ export default async function EditBlogPage({ params }: EditBlogPageProps) {
         <h1 className="adm-page-title">Edit Blog Post: {blog.title}</h1>
       </div>
       
-      <BlogForm initialData={blog} isEdit={true} />
+      <BlogForm initialData={toEditableBlogPost(blog)} isEdit={true} />
     </div>
   );
 }

@@ -176,7 +176,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
       }
 
       if (isEdit && saved.slug && saved.slug !== initialData?.slug) {
-        router.replace(`/admin/blog/${encodeURIComponent(saved.slug)}/edit`);
+        router.replace(`/admin/blog/${encodeURIComponent(saved.slug)}`);
       } else {
         router.push("/admin/blog");
       }
@@ -299,9 +299,10 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
 
       <div className="adm-form-group">
         <label style={{ display: 'block', marginBottom: '0.5rem' }}>Content (Rich Text)</label>
-        <RichTextEditor 
-          value={formData.content || ""} 
-          onChange={(value) => setFormData({ ...formData, content: value })} 
+        <RichTextEditor
+          value={formData.content || ""}
+          onChange={(value) => setFormData({ ...formData, content: value })}
+          editorKey="blog-content"
         />
       </div>
 
@@ -321,9 +322,10 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
               />
               <div style={{ marginTop: '0.5rem', flex: 1 }}>
                 <label style={{ fontSize: '0.85rem', color: '#666', marginBottom: '0.25rem', display: 'block' }}>Answer</label>
-                <RichTextEditor 
-                  value={faq.answer}
+                <RichTextEditor
+                  value={faq.answer || ""}
                   onChange={(value) => handleFaqChange(index, "answer", value)}
+                  editorKey={`faq-answer-${index}`}
                 />
               </div>
             </div>

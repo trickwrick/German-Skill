@@ -2145,6 +2145,54 @@ button {
   margin: 1rem 0;
 }
 
+.blog-prose table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  margin: 1.5rem 0;
+  display: table;
+}
+
+.blog-prose thead {
+  display: table-header-group;
+}
+
+.blog-prose tbody {
+  display: table-row-group;
+}
+
+.blog-prose tr {
+  display: table-row;
+}
+
+.blog-prose th,
+.blog-prose td {
+  display: table-cell;
+  border: 1px solid #dbe3ec;
+  padding: 10px 12px;
+  vertical-align: top;
+  text-align: left;
+  line-height: 1.5;
+  white-space: normal;
+}
+
+.blog-prose th {
+  background: #f3f6fa;
+  font-weight: 700;
+  color: #1e2f42;
+}
+
+.blog-prose td p,
+.blog-prose th p {
+  margin: 0 0 0.5rem;
+}
+
+.blog-prose td p:last-child,
+.blog-prose th p:last-child {
+  margin-bottom: 0;
+}
+
 .blog-faqs {
   margin-top: 2.5rem;
   padding-top: 2rem;
@@ -6348,6 +6396,19 @@ a.contact-info-value:hover {
 
 .adm-course-type-option input {
   accent-color: var(--primary-600);
+}
+
+.blog-html-editor-note {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.blog-html-editor-textarea {
+  width: 100%;
+  min-height: 320px;
+  font-family: Consolas, "Courier New", monospace;
+  line-height: 1.5;
 }
 
 .adm-input-readonly {
