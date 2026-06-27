@@ -1,24 +1,22 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import PageBanner from "../../components/PageBanner";
 import SiteFooter from "../../components/SiteFooter";
+import BlogImage from "../../components/BlogImage";
 import { formatBlogDate } from "../../../data/blogPosts";
-import { getBlogPosts, getBlogPostBySlug } from "../../../lib/blogStore";
+import { getBlogPostBySlug } from "../../../lib/blogStore";
+
+export const dynamic = "force-dynamic";
 
 type BlogDetailPageProps = {
   params: { slug: string };
 };
 
-export async function generateStaticParams() {
-  const posts = await getBlogPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
-
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
-  const post = await getBlogPostBySlug(params.slug);
+  const slug = decodeURIComponent(params.slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     return { title: "Blog | Fluent AUF" };
@@ -27,15 +25,13 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   return {
     title: post.seo?.metaTitle || `${post.title} | Fluent AUF Blog`,
     description: post.seo?.metaDescription || post.excerpt,
-    keywords: post.seo?.metaKeyword,
-    // Note: We're not using otherMeta here directly as Next.js Metadata API handles specific keys.
-    // If otherMeta contains HTML tags, they'd need to be injected via layout or dangerouslySetInnerHTML elsewhere,
-    // but for now title, description, and keywords are the most important.
+    keywords: post.seo?.metaKeyword || undefined,
   };
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const post = await getBlogPostBySlug(params.slug);
+  const slug = decodeURIComponent(params.slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -47,8 +43,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <main>
         <PageBanner
           layout="stacked"
-          title={post.title}
-          description={post.excerpt}
+          title="Blog"
+          description="Guides, exam tips, and language learning insights."
           breadcrumbs={[
             { label: "Home", href: "/" },
             { label: "Blog", href: "/blog" },
@@ -58,15 +54,18 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         <article className="blog-detail">
           <div className="blog-detail-inner">
-            <div className="blog-detail-meta">
-              <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
-              <span>{post.author}</span>
-            </div>
+            <header className="blog-detail-header">
+              <h1>{post.title}</h1>
+              <div className="blog-detail-meta">
+                <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
+                <span>{post.author}</span>
+              </div>
+            </header>
 
             <div className="blog-detail-image-wrap">
-              <Image
+              <BlogImage
                 src={post.image}
-                alt=""
+                alt={post.title}
                 width={960}
                 height={540}
                 className="blog-detail-image"
@@ -74,7 +73,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               />
             </div>
 
-            <div className="blog-detail-content">
+            <div className="blog-detail-content blog-prose">
               {post.content ? (
                 <div dangerouslySetInnerHTML={{ __html: post.content }} />
               ) : (
@@ -86,34 +85,33 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   </p>
                 </>
               )}
-              
-              {post.faqs && post.faqs.length > 0 && (
-                <div className="blog-faqs" style={{ marginTop: '3rem', borderTop: '1px solid #eee', paddingTop: '2rem' }}>
-                  <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', color: '#333' }}>Frequently Asked Questions</h2>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+
+              {post.faqs && post.faqs.length > 0 ? (
+                <section className="blog-faqs">
+                  <h2>FAQ&apos;s</h2>
+                  <div className="blog-faq-list">
                     {post.faqs.map((faq, index) => (
-                      <details key={index} style={{ backgroundColor: '#f9f9f9', padding: '1rem', borderRadius: '8px', cursor: 'pointer' }}>
-                        <summary style={{ fontWeight: 'bold', color: '#3b5998', fontSize: '1.1rem' }}>
-                          {faq.question}
-                        </summary>
-                        <div 
-                          style={{ marginTop: '0.5rem', color: '#555', lineHeight: '1.6' }}
-                          dangerouslySetInnerHTML={{ __html: faq.answer }} 
+                      <details key={index} className="blog-faq-item">
+                        <summary>{faq.question}</summary>
+                        <div
+                          className="blog-faq-answer blog-prose"
+                          dangerouslySetInnerHTML={{ __html: faq.answer }}
                         />
                       </details>
                     ))}
                   </div>
-                </div>
-              )}
-              
-              <Link href="/contact" className="btn btn-primary blog-detail-cta">
-                Contact Us
-              </Link>
-            </div>
+                </section>
+              ) : null}
 
-            <Link href="/blog" className="blog-detail-back">
-              ← Back to all blogs
-            </Link>
+              <div className="blog-detail-actions">
+                <Link href="/contact" className="btn btn-primary blog-detail-cta">
+                  Contact Us
+                </Link>
+                <Link href="/blog" className="blog-detail-back">
+                  ← Back to all blogs
+                </Link>
+              </div>
+            </div>
           </div>
         </article>
       </main>

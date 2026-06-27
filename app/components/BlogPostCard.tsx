@@ -1,6 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
-import { formatBlogDate, type BlogPost } from "../../data/blogPosts";
+import BlogImage from "./BlogImage";
+import { formatBlogDate } from "../../data/blogPosts";
+import type { BlogPost } from "../../lib/blogStore";
 
 type BlogPostCardProps = {
   post: BlogPost;
@@ -8,12 +9,14 @@ type BlogPostCardProps = {
 };
 
 export default function BlogPostCard({ post, showExcerpt = true }: BlogPostCardProps) {
+  const postHref = `/blog/${encodeURIComponent(post.slug)}`;
+
   return (
     <article className="blog-post-card">
-      <Link href={`/blog/${post.slug}`} className="blog-post-image-wrap">
-        <Image
+      <Link href={postHref} className="blog-post-image-wrap">
+        <BlogImage
           src={post.image}
-          alt=""
+          alt={post.title}
           width={380}
           height={200}
           className="blog-post-image"
@@ -21,11 +24,11 @@ export default function BlogPostCard({ post, showExcerpt = true }: BlogPostCardP
       </Link>
       <div className="blog-post-body">
         <h3>
-          <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+          <Link href={postHref}>{post.title}</Link>
         </h3>
         <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
-        {showExcerpt && <p className="blog-post-excerpt">{post.excerpt}</p>}
-        <Link href={`/blog/${post.slug}`} className="blog-post-link">
+        {showExcerpt ? <p className="blog-post-excerpt">{post.excerpt}</p> : null}
+        <Link href={postHref} className="blog-post-link">
           Read article →
         </Link>
       </div>

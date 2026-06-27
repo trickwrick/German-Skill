@@ -5,6 +5,8 @@ import SiteFooter from "../components/SiteFooter";
 import BlogPageContent from "./_components/BlogPageContent";
 import { getBlogPosts } from "../../lib/blogStore";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Blog | Fluent AUF",
   description:

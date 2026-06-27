@@ -1,5 +1,17 @@
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "fluentauf.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.fluentauf.com",
+      },
+    ],
+  },
   async redirects() {
     return [
       { source: "/courses/a1", destination: "/course/german-a1", permanent: true },

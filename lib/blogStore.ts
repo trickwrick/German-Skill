@@ -10,6 +10,7 @@ import {
 } from "./blogFileStore";
 import { isFileStoreEnabled } from "./courseDetailsFileStore";
 import { slugifyCoursePath } from "./courseUtils";
+import { resolveBlogImageSrc } from "./blogImageUtils";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
 
 export type BlogPost = StaticBlogPost & {
@@ -27,6 +28,79 @@ type DeletedSlugsDoc = {
   _id: string;
   slugs: string[];
 };
+
+function normalizeBlogDate(value: unknown) {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString().split("T")[0];
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    return value.trim();
+  }
+
+  return new Date().toISOString().split("T")[0];
+}
+
+function normalizeBlogSeo(value: unknown): BlogPost["seo"] {
+  if (!value || typeof value !== "object") {
+    return undefined;
+  }
+
+  const seo = value as Record<string, unknown>;
+
+  return {
+    metaTitle: typeof seo.metaTitle === "string" ? seo.metaTitle : "",
+    metaKeyword: typeof seo.metaKeyword === "string" ? seo.metaKeyword : "",
+    metaDescription: typeof seo.metaDescription === "string" ? seo.metaDescription : "",
+    otherMeta: typeof seo.otherMeta === "string" ? seo.otherMeta : "",
+  };
+}
+
+function normalizeBlogFaqs(value: unknown): BlogPost["faqs"] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((item) => {
+      if (!item || typeof item !== "object") {
+        return null;
+      }
+
+      const faq = item as Record<string, unknown>;
+      const question = typeof faq.question === "string" ? faq.question.trim() : "";
+      const answer = typeof faq.answer === "string" ? faq.answer : "";
+
+      if (!question) {
+        return null;
+      }
+
+      return { question, answer };
+    })
+    .filter((item): item is NonNullable<typeof item> => Boolean(item));
+}
+
+export function sanitizeBlogPost(post: Partial<BlogPost> & { slug: string }): BlogPost {
+  return {
+    slug: slugifyCoursePath(post.slug),
+    title: typeof post.title === "string" ? post.title : "Blog Post",
+    date: normalizeBlogDate(post.date),
+    author: typeof post.author === "string" && post.author.trim() ? post.author : "Fluent AUF Team",
+    excerpt: typeof post.excerpt === "string" ? post.excerpt : "",
+    image: resolveBlogImageSrc(typeof post.image === "string" ? post.image : ""),
+    content: typeof post.content === "string" ? post.content : undefined,
+    faqs: normalizeBlogFaqs(post.faqs),
+    seo: normalizeBlogSeo(post.seo),
+    categories: Array.isArray(post.categories)
+      ? post.categories.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+      : undefined,
+    tags: Array.isArray(post.tags)
+      ? post.tags.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+      : undefined,
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
+  };
+}
 
 async function getMongoCollection() {
   const client = await getMongoClient();
@@ -65,13 +139,7 @@ async function getMongoStoredPosts(): Promise<BlogPost[]> {
   const collection = await getMongoCollection();
   const docs = await collection.find({}).toArray();
 
-  return docs.map(
-    (doc) =>
-      ({
-        ...doc,
-        _id: undefined,
-      }) as BlogPost,
-  );
+  return docs.map((doc) => sanitizeBlogPost({ ...doc, _id: undefined } as BlogPost));
 }
 
 async function getMongoDeletedSlugs(): Promise<string[]> {
@@ -160,22 +228,23 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     getDeletedSlugs(),
   ]);
 
-  return mergeBlogLists(storedPosts, deletedSlugs);
+  return mergeBlogLists(storedPosts, deletedSlugs).map((post) => sanitizeBlogPost(post));
 }
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   noStore();
 
+  const normalizedSlug = decodeURIComponent(slug).trim();
   const deletedSlugs = await getDeletedSlugs();
-  if (deletedSlugs.has(slug)) {
+  if (deletedSlugs.has(normalizedSlug)) {
     return null;
   }
 
   if (isFileStoreEnabled()) {
     try {
-      const filePost = await getFileBlogPostBySlug(slug);
+      const filePost = await getFileBlogPostBySlug(normalizedSlug);
       if (filePost) {
-        return filePost;
+        return sanitizeBlogPost(filePost);
       }
     } catch {
       // Fall through to MongoDB/static.
@@ -185,19 +254,17 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
   if (process.env.MONGODB_URI) {
     try {
       const collection = await getMongoCollection();
-      const doc = await collection.findOne({ slug });
+      const doc = await collection.findOne({ slug: normalizedSlug });
       if (doc) {
-        return {
-          ...doc,
-          _id: undefined,
-        } as BlogPost;
+        return sanitizeBlogPost({ ...doc, _id: undefined } as BlogPost);
       }
     } catch (error) {
-      console.error(`Failed to fetch blog post ${slug} from DB`, error);
+      console.error(`Failed to fetch blog post ${normalizedSlug} from DB`, error);
     }
   }
 
-  return staticBlogPosts.find((post) => post.slug === slug) ?? null;
+  const staticPost = staticBlogPosts.find((post) => post.slug === normalizedSlug);
+  return staticPost ? sanitizeBlogPost(staticPost) : null;
 }
 
 export async function saveBlogPost(payload: BlogPost) {

@@ -1,6 +1,6 @@
 import { Binary } from "mongodb";
 import { existsSync } from "fs";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 import { isFileStoreEnabled } from "./courseDetailsFileStore";
 import { getMongoClient } from "./mongodb";
@@ -111,7 +111,29 @@ export async function saveBlogImage(file: File) {
 }
 
 export async function getBlogImage(filename: string) {
-  if (!isSafeBlogImageFilename(filename) || !process.env.MONGODB_URI) {
+  const safeName = decodeURIComponent(filename);
+
+  if (!isSafeBlogImageFilename(safeName)) {
+    return null;
+  }
+
+  const publicPath = path.join(PUBLIC_BLOGS_DIR, safeName);
+  if (existsSync(publicPath)) {
+    const data = await readFile(publicPath);
+    const extension = safeName.split(".").pop()?.toLowerCase();
+    const contentType =
+      extension === "png"
+        ? "image/png"
+        : extension === "webp"
+          ? "image/webp"
+          : extension === "gif"
+            ? "image/gif"
+            : "image/jpeg";
+
+    return { contentType, data };
+  }
+
+  if (!process.env.MONGODB_URI) {
     return null;
   }
 
@@ -119,7 +141,7 @@ export async function getBlogImage(filename: string) {
   const doc = await client
     .db(DB_NAME)
     .collection<StoredBlogImage>(COLLECTION)
-    .findOne({ filename });
+    .findOne({ filename: safeName });
 
   if (!doc?.data) {
     return null;
