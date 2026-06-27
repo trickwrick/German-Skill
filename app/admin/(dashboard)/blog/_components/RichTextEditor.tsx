@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { hasUnsupportedQuillHtml } from "../../../lib/blogFormUtils";
+import { hasUnsupportedQuillHtml } from "../../../../../lib/blogFormUtils";
 import "react-quill/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
