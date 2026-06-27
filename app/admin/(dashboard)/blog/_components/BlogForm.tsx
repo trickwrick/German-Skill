@@ -322,10 +322,12 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
               />
               <div style={{ marginTop: '0.5rem', flex: 1 }}>
                 <label style={{ fontSize: '0.85rem', color: '#666', marginBottom: '0.25rem', display: 'block' }}>Answer</label>
-                <RichTextEditor
+                <textarea
                   value={faq.answer || ""}
-                  onChange={(value) => handleFaqChange(index, "answer", value)}
-                  editorKey={`faq-answer-${index}`}
+                  onChange={(e) => handleFaqChange(index, "answer", e.target.value)}
+                  rows={6}
+                  className="adm-input"
+                  style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
                 />
               </div>
             </div>

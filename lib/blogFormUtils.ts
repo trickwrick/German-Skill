@@ -24,6 +24,39 @@ export function toEditableBlogPost(blog: BlogPost): BlogPost {
   };
 }
 
-export function hasUnsupportedQuillHtml(value: string) {
-  return /<(table|colgroup|col|tbody|thead|tfoot)\b/i.test(value);
+export function shouldUseHtmlEditor(value: string) {
+  const trimmed = value?.trim() ?? "";
+  if (!trimmed) {
+    return false;
+  }
+
+  if (
+    /<(table|colgroup|col|tbody|thead|tfoot|tr|td|th|iframe|video|svg|o:p|w:tbl)\b/i.test(
+      trimmed,
+    )
+  ) {
+    return true;
+  }
+
+  if ((trimmed.match(/<div\b/gi)?.length ?? 0) > 3) {
+    return true;
+  }
+
+  if (/style\s*=\s*['"]/i.test(trimmed)) {
+    return true;
+  }
+
+  if (/class\s*=\s*['"][^'"]*Mso/i.test(trimmed)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function blogFormNeedsHtmlEditor(data?: Partial<BlogPost>) {
+  if (shouldUseHtmlEditor(data?.content ?? "")) {
+    return true;
+  }
+
+  return (data?.faqs ?? []).some((faq) => shouldUseHtmlEditor(faq.answer ?? ""));
 }
