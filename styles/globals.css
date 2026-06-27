@@ -2375,11 +2375,17 @@ button {
 }
 
 .tutors-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
   width: min(960px, 100%);
   margin: 0 auto;
+}
+
+.tutors-grid .tutor-card {
+  width: min(100%, 280px);
+  flex: 0 1 280px;
 }
 
 .tutors-track-wrap {
@@ -2501,10 +2507,6 @@ button {
 }
 
 @media (max-width: 960px) {
-  .tutors-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .tutors-slide:not(.tutors-slide-duo) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2522,8 +2524,8 @@ button {
 }
 
 @media (max-width: 560px) {
-  .tutors-grid {
-    grid-template-columns: 1fr;
+  .tutors-grid .tutor-card {
+    flex-basis: 100%;
     max-width: 320px;
   }
 

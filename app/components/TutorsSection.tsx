@@ -1,22 +1,5 @@
 import Image from "next/image";
-
-const tutors = [
-  {
-    name: "Khushi Sharma",
-    image: "/tutors/khushi-sharma.jpg",
-    qualification: "Certified German Trainer",
-  },
-  {
-    name: "Khushi Bisht",
-    image: "/tutors/khushi-birsat.jpg",
-    qualification: "Certified German Trainer",
-  },
-  {
-    name: "Preeti Sharma",
-    image: "/tutors/preeti-sharma.jpg",
-    qualification: "Certified German Trainer",
-  },
-];
+import { trainers } from "../../data/facultyMembers";
 
 export default function TutorsSection() {
   return (
@@ -31,7 +14,7 @@ export default function TutorsSection() {
         </div>
 
         <div className="tutors-grid">
-          {tutors.map((tutor) => (
+          {trainers.map((tutor) => (
             <article key={tutor.name} className="tutor-card">
               <div className="tutor-card-image-wrap">
                 <Image
@@ -44,7 +27,7 @@ export default function TutorsSection() {
               </div>
               <div className="tutor-card-body">
                 <div className="tutor-card-name">{tutor.name}</div>
-                <p className="tutor-card-qualification">{tutor.qualification}</p>
+                <p className="tutor-card-qualification">{tutor.role}</p>
               </div>
             </article>
           ))}
