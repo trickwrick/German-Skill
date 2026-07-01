@@ -172,7 +172,34 @@ function getEditableFromContent(slug: string) {
       ...content.reviewsSummary,
       total: Number(course?.reviewCount) || content.reviewsSummary.total,
     },
-    reviews: [] as CourseReview[],
+    reviews: content.reviews ?? [],
+  };
+}
+
+function mergeCourseEditableFields(
+  slug: string,
+  stored: StoredCourseDetails | null,
+) {
+  const fallback = getEditableFromContent(slug);
+
+  if (!stored) {
+    return fallback;
+  }
+
+  const reviewCount =
+    Number(stored.course?.reviewCount) ||
+    stored.reviewsSummary?.total ||
+    fallback.reviewsSummary.total;
+
+  return {
+    faqs: stored.faqs?.length ? stored.faqs : fallback.faqs,
+    reviews: stored.reviews?.length ? stored.reviews : fallback.reviews,
+    reviewsSummary: {
+      ...fallback.reviewsSummary,
+      ...stored.reviewsSummary,
+      total: reviewCount,
+      average: stored.reviewsSummary?.average || fallback.reviewsSummary.average,
+    },
   };
 }
 
@@ -253,22 +280,13 @@ export async function getCourseEditableDetails(slug: string) {
   noStore();
 
   const stored = await getStoredCourseDetails(slug);
-  const fallback = getEditableFromContent(slug);
-
-  if (!stored) {
-    return {
-      ...fallback,
-      flexibleBatches: getCourseFlexibleBatches(slug),
-    };
-  }
+  const editable = mergeCourseEditableFields(slug, stored);
 
   return {
-    faqs: stored.faqs,
-    reviewsSummary: stored.reviewsSummary,
-    reviews: stored.reviews,
+    ...editable,
     flexibleBatches: mergeFlexibleBatches(
       getCourseFlexibleBatches(slug),
-      stored.flexibleBatches,
+      stored?.flexibleBatches,
     ),
   };
 }
@@ -376,32 +394,15 @@ export async function getCourseContentAsync(slug: string): Promise<CourseContent
 
   const stored = await getStoredCourseDetails(slug);
   const displayCourse = mergeStoredCourse(getCourseBySlug(slug) ?? course, stored?.course);
-
-  if (!stored) {
-    return {
-      ...base,
-      sidebarPrice: displayCourse.price ?? base.sidebarPrice,
-      aboutCourse: displayCourse.description ?? base.aboutCourse,
-      reviews: [],
-      reviewsSummary: {
-        ...base.reviewsSummary,
-        total: Number(displayCourse.reviewCount) || base.reviewsSummary.total,
-      },
-    };
-  }
-
-  const reviewCount = Number(stored.course.reviewCount) || stored.reviewsSummary.total;
+  const editable = mergeCourseEditableFields(slug, stored);
 
   return {
     ...base,
     sidebarPrice: displayCourse.price ?? base.sidebarPrice,
     aboutCourse: displayCourse.description ?? base.aboutCourse,
-    faqs: stored.faqs,
-    reviewsSummary: {
-      ...stored.reviewsSummary,
-      total: reviewCount,
-    },
-    reviews: stored.reviews,
+    faqs: editable.faqs,
+    reviews: editable.reviews,
+    reviewsSummary: editable.reviewsSummary,
   };
 }
 
@@ -477,14 +478,12 @@ function sanitizeStoredDetails(stored: StoredCourseDetails): StoredCourseDetails
     return stored;
   }
 
-  const identityMismatch = hasStoredIdentityMismatch(base, stored.course);
-  const content = getCourseContent(stored.slug);
-
   return {
     ...stored,
     course: mergeStoredCourse(base, stored.course),
-    faqs: identityMismatch ? (content?.faqs ?? stored.faqs) : stored.faqs,
-    reviews: identityMismatch ? [] : stored.reviews,
+    faqs: Array.isArray(stored.faqs) ? stored.faqs : [],
+    reviews: Array.isArray(stored.reviews) ? stored.reviews : [],
+    reviewsSummary: stored.reviewsSummary ?? defaultReviewsSummary,
   };
 }
 

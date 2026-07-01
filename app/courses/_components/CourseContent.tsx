@@ -361,12 +361,16 @@ export default function CourseContent({
           {activeTab === "FAQ" && (
             <div className="course-tab-panel">
               <h3>Frequently Asked Questions</h3>
-              {content.faqs.map((faq) => (
-                <div key={faq.q} className="faq-item">
-                  <h4>{faq.q}</h4>
-                  <p>{faq.a}</p>
-                </div>
-              ))}
+              {content.faqs.length === 0 ? (
+                <p className="reviews-empty-note">No FAQs have been added for this course yet.</p>
+              ) : (
+                content.faqs.map((faq) => (
+                  <div key={faq.q} className="faq-item">
+                    <h4>{faq.q}</h4>
+                    <p>{faq.a}</p>
+                  </div>
+                ))
+              )}
             </div>
           )}
 
