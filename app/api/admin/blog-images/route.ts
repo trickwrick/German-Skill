@@ -9,14 +9,20 @@ export async function POST(request: Request) {
 
   try {
     const formData = await request.formData();
-    const file = formData.get("file");
+    const file = formData.get("file") ?? formData.get("upload");
 
     if (!file || !(file instanceof File)) {
       return NextResponse.json({ error: "No image file provided." }, { status: 400 });
     }
 
     const result = await saveBlogImage(file);
-    return NextResponse.json(result, { status: 201 });
+    return NextResponse.json(
+      {
+        ...result,
+        url: result.path,
+      },
+      { status: 201 },
+    );
   } catch (error) {
     console.error("Failed to upload blog image", error);
     return NextResponse.json(

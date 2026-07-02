@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { BlogPost } from "../../../../../lib/blogStore";
 import { slugifyCoursePath } from "../../../../../lib/courseUtils";
-import RichTextEditor from "./RichTextEditor";
+import BlogContentEditor from "./BlogContentEditor";
+import { normalizeBlogHtml } from "../../../../../lib/blogHtmlUtils";
 
 type BlogFormProps = {
   initialData?: BlogPost;
@@ -165,7 +166,14 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          content: normalizeBlogHtml(formData.content || ""),
+          faqs: (formData.faqs || []).map((faq) => ({
+            ...faq,
+            answer: normalizeBlogHtml(faq.answer || ""),
+          })),
+        }),
         credentials: "same-origin",
       });
 
@@ -298,11 +306,10 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
       </div>
 
       <div className="adm-form-group">
-        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Content (Rich Text)</label>
-        <RichTextEditor
+        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Content</label>
+        <BlogContentEditor
           value={formData.content || ""}
           onChange={(value) => setFormData({ ...formData, content: value })}
-          editorKey="blog-content"
         />
       </div>
 

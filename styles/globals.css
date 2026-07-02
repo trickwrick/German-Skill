@@ -2306,11 +2306,20 @@ button {
 .blog-prose ul,
 .blog-prose ol {
   margin: 0 0 1rem 1.25rem;
-  padding: 0;
+  padding-left: 1.25rem;
+}
+
+.blog-prose ul {
+  list-style-type: disc;
+}
+
+.blog-prose ol {
+  list-style-type: decimal;
 }
 
 .blog-prose li {
   margin-bottom: 0.5rem;
+  display: list-item;
 }
 
 .blog-prose a {
@@ -2326,13 +2335,36 @@ button {
   margin: 1rem 0;
 }
 
+.blog-prose figure.table {
+  display: block;
+  overflow-x: auto;
+  margin: 20px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
 .blog-prose table {
   width: 100%;
-  max-width: 100%;
   border-collapse: collapse;
-  table-layout: auto;
-  margin: 1.5rem 0;
-  display: table;
+  margin: 20px 0;
+}
+
+.blog-prose figure.table table {
+  margin: 0;
+}
+
+.blog-prose table,
+.blog-prose th,
+.blog-prose td {
+  border: 1px solid #d1d5db;
+}
+
+.blog-prose th,
+.blog-prose td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.5;
+  white-space: normal;
 }
 
 .blog-prose thead {
@@ -2350,18 +2382,12 @@ button {
 .blog-prose th,
 .blog-prose td {
   display: table-cell;
-  border: 1px solid #dbe3ec;
-  padding: 10px 12px;
-  vertical-align: top;
-  text-align: left;
-  line-height: 1.5;
-  white-space: normal;
 }
 
 .blog-prose th {
-  background: #f3f6fa;
   font-weight: 700;
   color: #1e2f42;
+  background: #ffffff;
 }
 
 .blog-prose td p,
@@ -6585,6 +6611,102 @@ a.contact-info-value:hover {
   margin: 0 0 10px;
   font-size: 0.85rem;
   color: #64748b;
+}
+
+.blog-ckeditor-wrap {
+  border: 1px solid #dbe3ec;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  min-height: 520px;
+}
+
+.blog-ckeditor4-wrap .cke_chrome {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.blog-ckeditor4-wrap .cke_top {
+  border-bottom: 1px solid #e8eef4 !important;
+  background: #f8fafc !important;
+}
+
+.blog-ckeditor4-wrap .cke_bottom {
+  border-top: 1px solid #e8eef4 !important;
+  background: #f8fafc !important;
+}
+
+.blog-ckeditor4-wrap .cke_editable table,
+.blog-ckeditor4-wrap .cke_wysiwyg_div table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  border: 1px solid #d1d5db;
+}
+
+.blog-ckeditor4-wrap .cke_editable th,
+.blog-ckeditor4-wrap .cke_editable td,
+.blog-ckeditor4-wrap .cke_wysiwyg_div th,
+.blog-ckeditor4-wrap .cke_wysiwyg_div td {
+  border: 1px solid #d1d5db;
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.blog-ckeditor4-wrap .cke_editable th,
+.blog-ckeditor4-wrap .cke_wysiwyg_div th {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.blog-ckeditor4-wrap .cke_editable ul,
+.blog-ckeditor4-wrap .cke_editable ol,
+.blog-ckeditor4-wrap .cke_wysiwyg_div ul,
+.blog-ckeditor4-wrap .cke_wysiwyg_div ol {
+  margin: 0 0 14px;
+  padding-left: 1.5rem;
+}
+
+.blog-ckeditor4-wrap .cke_editable ul,
+.blog-ckeditor4-wrap .cke_wysiwyg_div ul {
+  list-style-type: disc;
+}
+
+.blog-ckeditor4-wrap .cke_editable ol,
+.blog-ckeditor4-wrap .cke_wysiwyg_div ol {
+  list-style-type: decimal;
+}
+
+.blog-ckeditor4-wrap .cke_editable li,
+.blog-ckeditor4-wrap .cke_wysiwyg_div li {
+  margin-bottom: 6px;
+  display: list-item;
+}
+
+.blog-ckeditor-wrap .ck-editor__editable {
+  min-height: 420px;
+  max-height: 720px;
+}
+
+.blog-ckeditor-wrap .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+  border-color: transparent;
+}
+
+.blog-ckeditor-loading {
+  margin: 0;
+  padding: 16px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.blog-ckeditor-error {
+  margin: 0;
+  padding: 16px;
+  color: #b91c1c;
+  font-size: 0.9rem;
+  background: #fef2f2;
+  border-bottom: 1px solid #fecaca;
 }
 
 .blog-html-editor-textarea {
