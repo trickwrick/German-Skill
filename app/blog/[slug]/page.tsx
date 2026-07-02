@@ -118,6 +118,19 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   </section>
                 ) : null}
 
+                {post.tags && post.tags.length > 0 ? (
+                  <section className="blog-detail-tags">
+                    <h2>Tags</h2>
+                    <div className="blog-detail-tags-list">
+                      {post.tags.map((tag) => (
+                        <span key={tag} className="blog-detail-tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
                 <div className="blog-detail-actions">
                   <Link href="/contact" className="btn btn-primary blog-detail-cta">
                     Contact Us

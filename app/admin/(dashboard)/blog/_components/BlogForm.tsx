@@ -37,7 +37,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
   });
 
   const predefinedCategories = ["Goethe-Zertifikat Prep", "Learn German", "German Grammar", "Vocabulary", "Study in Germany", "German Culture", "General"];
-  const predefinedTags = [
+  const defaultTags = [
     "A1 exam preparation strategy",
     "Learn German for A1 exam",
     "B1 Goethe-Zertifikat tips",
@@ -46,8 +46,25 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
     "Top 10 German TV shows",
     "German verbs to learn easily",
     "Is Berlin affordable for students",
-    "Advantages of learning German"
+    "Advantages of learning German",
   ];
+
+  const mergeAvailableTags = (selectedTags: string[]) => {
+    const merged = [...defaultTags];
+    for (const tag of selectedTags) {
+      const trimmed = tag.trim();
+      if (!trimmed) {
+        continue;
+      }
+      if (!merged.some((item) => item.toLowerCase() === trimmed.toLowerCase())) {
+        merged.push(trimmed);
+      }
+    }
+    return merged;
+  };
+
+  const [availableTags, setAvailableTags] = useState(() => mergeAvailableTags(initialData?.tags || []));
+  const [newTagInput, setNewTagInput] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -151,6 +168,29 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
     } else {
       setFormData({ ...formData, tags: [...tgs, tag] });
     }
+  };
+
+  const handleAddTag = () => {
+    const trimmed = newTagInput.trim();
+    if (!trimmed) {
+      return;
+    }
+
+    const existingTag = availableTags.find(
+      (tag) => tag.toLowerCase() === trimmed.toLowerCase(),
+    );
+    const tagToAdd = existingTag ?? trimmed;
+
+    if (!existingTag) {
+      setAvailableTags((current) => [...current, tagToAdd]);
+    }
+
+    const selectedTags = formData.tags || [];
+    if (!selectedTags.some((tag) => tag.toLowerCase() === tagToAdd.toLowerCase())) {
+      setFormData({ ...formData, tags: [...selectedTags, tagToAdd] });
+    }
+
+    setNewTagInput("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -466,7 +506,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
           </div>
           <div style={{ padding: '1rem', maxHeight: '300px', overflowY: 'auto' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {predefinedTags.map(tag => (
+              {availableTags.map(tag => (
                 <label key={tag} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem' }}>
                   <input 
                     type="checkbox" 
@@ -478,6 +518,29 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
                 </label>
               ))}
             </div>
+          </div>
+          <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid #e9ecef', backgroundColor: '#fdfdfd' }}>
+            <input
+              type="text"
+              value={newTagInput}
+              onChange={(event) => setNewTagInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  handleAddTag();
+                }
+              }}
+              placeholder="Type a new tag..."
+              className="adm-input"
+              style={{ width: '100%', padding: '0.5rem', marginBottom: '0.5rem' }}
+            />
+            <button
+              type="button"
+              onClick={handleAddTag}
+              style={{ color: '#0056b3', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.85rem', padding: 0 }}
+            >
+              + Add Tag
+            </button>
           </div>
         </div>
         

@@ -2443,6 +2443,35 @@ button {
   color: #4a5d73;
 }
 
+.blog-detail-tags {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e8eef4;
+}
+
+.blog-detail-tags h2 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  color: #1e2f42;
+}
+
+.blog-detail-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.blog-detail-tag {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #1a4fd6;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
 .blog-detail-actions {
   display: flex;
   flex-wrap: wrap;
