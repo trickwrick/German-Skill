@@ -371,21 +371,10 @@ export async function saveBlogPost(payload: BlogPost) {
     throw new Error("MONGODB_URI is not configured. Add it in your hosting environment variables.");
   }
 
-  try {
-    await saveMongoBlogPost(document);
-    await removeMongoDeletedSlug(slug);
-    safeRevalidatePublicBlogData(slug);
-    return document;
-  } catch (error) {
-    if (!isServerlessHosting()) {
-      console.warn("MongoDB save failed locally, saved to file instead.", error);
-      const saved = await saveToLocalFile();
-      safeRevalidatePublicBlogData(slug);
-      return saved;
-    }
-
-    throw new Error(getMongoConnectionErrorMessage(error));
-  }
+  await saveMongoBlogPost(document);
+  await removeMongoDeletedSlug(slug);
+  safeRevalidatePublicBlogData(slug);
+  return document;
 }
 
 export async function isBlogSlugTaken(slug: string, excludeSlug?: string) {
