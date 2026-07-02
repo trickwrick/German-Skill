@@ -1,21 +1,22 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #1e2f42;
+  font-family: "Segoe UI", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: #475569;
 }
 
 p {
-  margin: 0 0 12px;
+  margin: 0 0 16px;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  margin: 18px 0 10px;
+  margin: 1.75rem 0 0.85rem;
   line-height: 1.35;
   color: #1e2f42;
+  font-family: inherit;
 }
 
 h2 {
@@ -26,10 +27,18 @@ h3 {
   font-size: 1.25rem;
 }
 
+h4 {
+  font-size: 1.1rem;
+}
+
 ul,
 ol {
-  margin: 0 0 14px;
+  margin: 0 0 1rem 0;
   padding-left: 1.5rem;
+  list-style-position: outside;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
 }
 
 ul {
@@ -41,7 +50,24 @@ ol {
 }
 
 li {
-  margin-bottom: 6px;
+  margin: 0 0 0.5rem 0;
+  padding: 0;
+}
+
+li p {
+  margin: 0;
+}
+
+li > p:first-child:last-child {
+  display: inline;
+}
+
+span,
+div {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  color: inherit !important;
+  line-height: inherit !important;
 }
 
 strong,
@@ -67,9 +93,13 @@ td {
   padding: 12px;
   text-align: left;
   vertical-align: top;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
 }
 
 th {
   background: #f8fafc;
   font-weight: 700;
+  color: #1e2f42;
 }

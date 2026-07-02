@@ -105,9 +105,32 @@ async function getMongoCollection() {
   return client.db(DB_NAME).collection<BlogPost>(COLLECTION);
 }
 
+function getPostSortTimestamp(post: BlogPost): number {
+  if (post.createdAt) {
+    const created = new Date(post.createdAt).getTime();
+    if (!Number.isNaN(created)) {
+      return created;
+    }
+  }
+
+  const date = new Date(post.date).getTime();
+  if (!Number.isNaN(date)) {
+    return date;
+  }
+
+  if (post.updatedAt) {
+    const updated = new Date(post.updatedAt).getTime();
+    if (!Number.isNaN(updated)) {
+      return updated;
+    }
+  }
+
+  return 0;
+}
+
 function sortPosts(posts: BlogPost[]) {
   return [...posts].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    (a, b) => getPostSortTimestamp(b) - getPostSortTimestamp(a),
   );
 }
 
@@ -271,10 +294,16 @@ export async function saveBlogPost(payload: BlogPost) {
     throw new Error("Blog slug is required.");
   }
 
+  const existing = await getBlogPostBySlug(slug);
+  const now = new Date();
   const document: BlogPost = {
     ...payload,
     slug,
-    updatedAt: new Date(),
+    date: payload.date || now.toISOString().split("T")[0],
+    updatedAt: now,
+    ...(existing?.createdAt || payload.createdAt
+      ? { createdAt: existing?.createdAt || payload.createdAt }
+      : { createdAt: now }),
   };
 
   if (isFileStoreEnabled()) {

@@ -2,9 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CKEditor } from "ckeditor4-react";
-import { normalizeBlogHtml, plainTextListsToHtml, plainTextTableToHtml } from "../../../../../lib/blogHtmlUtils";
+import { convertPlainTextPaste, preparePastedBlogHtml } from "../../../../../lib/blogHtmlUtils";
 
-// 4.22.1 is the last open-source build; 4.23+ LTS requires a paid license key.
 const CKEDITOR_CDN = "https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js";
 const CKEDITOR_CONTENTS_CSS = "/ckeditor-blog-contents.css";
 
@@ -13,11 +12,13 @@ const editorConfig = {
   toolbar: "Full",
   allowedContent: true,
   extraAllowedContent: "*(*);*{*}",
-  pasteFromWordRemoveFontStyles: false,
+  pasteFromWordRemoveFontStyles: true,
   pasteFromWordRemoveStyles: false,
   pasteFromWordPromptCleanup: false,
   forcePasteAsPlainText: false,
   ignoreEmptyParagraph: true,
+  font_defaultLabel: "Segoe UI",
+  fontSize_defaultLabel: "14",
   removePlugins: "exportpdf",
   contentsCss: CKEDITOR_CONTENTS_CSS,
   table_defaultAttributes: {
@@ -66,7 +67,7 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
     }
 
     const currentData = editor.getData();
-    const nextData = normalizeBlogHtml(value || "");
+    const nextData = value || "";
     if (currentData !== nextData) {
       editor.setData(nextData);
     }
@@ -92,7 +93,7 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
       ) : null}
       <CKEditor
         editorUrl={CKEDITOR_CDN}
-        initData={normalizeBlogHtml(value || "")}
+        initData={value || ""}
         config={editorConfig}
         onInstanceReady={(event) => {
           const editor = event.editor;
@@ -105,29 +106,14 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
               const html = (pasteEvent.data.dataValue ?? "").trim();
               const plainText = pasteEvent.data.dataTransfer?.getData("text/plain") ?? "";
 
-              if (!/<table\b/i.test(html)) {
-                const tableHtml = plainTextTableToHtml(plainText);
-                if (tableHtml) {
-                  pasteEvent.cancel();
-                  editor.insertHtml(tableHtml);
-                  return;
-                }
-              }
-
-              if (!/<(ul|ol)\b/i.test(html)) {
-                const listHtml = plainTextListsToHtml(plainText);
-                if (listHtml) {
-                  pasteEvent.cancel();
-                  editor.insertHtml(listHtml);
-                  return;
-                }
-              }
-
               if (html) {
-                const normalized = normalizeBlogHtml(html);
-                if (normalized !== html) {
-                  pasteEvent.data.dataValue = normalized;
-                }
+                pasteEvent.data.dataValue = preparePastedBlogHtml(html);
+                return;
+              }
+
+              if (plainText) {
+                pasteEvent.cancel();
+                editor.insertHtml(convertPlainTextPaste(plainText));
               }
             },
             null,
@@ -141,7 +127,7 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
           }
 
           isInternalChangeRef.current = true;
-          onChange(normalizeBlogHtml(event.editor.getData()));
+          onChange(event.editor.getData());
           window.requestAnimationFrame(() => {
             isInternalChangeRef.current = false;
           });
