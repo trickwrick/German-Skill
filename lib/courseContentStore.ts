@@ -15,6 +15,12 @@ import {
 } from "../data/courseFlexibleBatches";
 import { getFileCourseDetails, getAllFileCourseDetails, deleteFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
+import {
+  CACHE_TAGS,
+  getCachedPublicData,
+  revalidatePublicCourseData,
+  type PublicDataOptions,
+} from "./publicDataCache";
 import { slugifyCoursePath, formatDisplayPrice } from "./courseUtils";
 
 const DB_NAME = "germanskill";
@@ -61,9 +67,7 @@ async function getMongoCourseDetailsList(): Promise<StoredCourseDetails[]> {
   return docs;
 }
 
-export async function getAllStoredCourseDetailsList(): Promise<StoredCourseDetails[]> {
-  noStore();
-
+async function fetchAllStoredCourseDetailsList(): Promise<StoredCourseDetails[]> {
   const bySlug = new Map<string, StoredCourseDetails>();
 
   if (isFileStoreEnabled()) {
@@ -91,6 +95,21 @@ export async function getAllStoredCourseDetailsList(): Promise<StoredCourseDetai
   return Array.from(bySlug.values());
 }
 
+export async function getAllStoredCourseDetailsList(
+  options: PublicDataOptions = {},
+): Promise<StoredCourseDetails[]> {
+  if (options.fresh) {
+    noStore();
+    return fetchAllStoredCourseDetailsList();
+  }
+
+  return getCachedPublicData(
+    ["all-course-details"],
+    [CACHE_TAGS.courses],
+    fetchAllStoredCourseDetailsList,
+  );
+}
+
 export async function isCoursePathNameTaken(pathName: string, excludeSlug?: string) {
   const normalized = slugifyCoursePath(pathName);
   if (!normalized) {
@@ -104,7 +123,7 @@ export async function isCoursePathNameTaken(pathName: string, excludeSlug?: stri
     return true;
   }
 
-  const storedCourses = await getAllStoredCourseDetailsList();
+  const storedCourses = await fetchAllStoredCourseDetailsList();
   return storedCourses.some((stored) => {
     if (stored.slug === excludeSlug) {
       return false;
@@ -115,16 +134,17 @@ export async function isCoursePathNameTaken(pathName: string, excludeSlug?: stri
   });
 }
 
-export async function getCourseBySlugAsync(slug: string): Promise<GermanCourse | undefined> {
-  noStore();
+async function fetchCourseBySlugAsync(slug: string): Promise<GermanCourse | undefined> {
+  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const storedBySlug = new Map(storedCourses.map((stored) => [stored.slug, stored]));
 
   const base = getCourseBySlug(slug);
   if (base) {
-    const stored = await getStoredCourseDetails(slug);
+    const stored = storedBySlug.get(slug) ?? null;
     return enrichCourseWithOriginalPrice(mergeStoredCourse(base, stored?.course), stored);
   }
 
-  const stored = await getStoredCourseDetails(slug);
+  const stored = storedBySlug.get(slug) ?? null;
   if (!stored?.course?.title?.trim()) {
     return undefined;
   }
@@ -132,16 +152,30 @@ export async function getCourseBySlugAsync(slug: string): Promise<GermanCourse |
   return enrichCourseWithOriginalPrice(courseFromStored(stored), stored);
 }
 
-export async function getCourseByPathNameAsync(pathName: string): Promise<GermanCourse | undefined> {
-  noStore();
+export async function getCourseBySlugAsync(
+  slug: string,
+  options: PublicDataOptions = {},
+): Promise<GermanCourse | undefined> {
+  if (options.fresh) {
+    noStore();
+    return fetchCourseBySlugAsync(slug);
+  }
 
+  return getCachedPublicData(
+    ["course-by-slug", slug],
+    [CACHE_TAGS.courses, CACHE_TAGS.course(slug)],
+    () => fetchCourseBySlugAsync(slug),
+  );
+}
+
+async function fetchCourseByPathNameAsync(pathName: string): Promise<GermanCourse | undefined> {
   const decoded = decodeURIComponent(pathName);
   const staticCourse = getCourseByPathName(decoded);
   if (staticCourse) {
-    return getCourseBySlugAsync(staticCourse.slug);
+    return fetchCourseBySlugAsync(staticCourse.slug);
   }
 
-  const storedCourses = await getAllStoredCourseDetailsList();
+  const storedCourses = await fetchAllStoredCourseDetailsList();
   const stored = storedCourses.find((document) => {
     const storedPath = document.course.pathName?.trim() || document.slug;
     return storedPath === decoded;
@@ -152,6 +186,24 @@ export async function getCourseByPathNameAsync(pathName: string): Promise<German
   }
 
   return enrichCourseWithOriginalPrice(courseFromStored(stored), stored);
+}
+
+export async function getCourseByPathNameAsync(
+  pathName: string,
+  options: PublicDataOptions = {},
+): Promise<GermanCourse | undefined> {
+  const decoded = decodeURIComponent(pathName);
+
+  if (options.fresh) {
+    noStore();
+    return fetchCourseByPathNameAsync(decoded);
+  }
+
+  return getCachedPublicData(
+    ["course-by-path", decoded],
+    [CACHE_TAGS.courses],
+    () => fetchCourseByPathNameAsync(decoded),
+  );
 }
 
 function getEditableFromContent(slug: string) {
@@ -246,9 +298,7 @@ async function saveMongoCourseDetails(document: StoredCourseDetails) {
   return document;
 }
 
-export async function getStoredCourseDetails(slug: string): Promise<StoredCourseDetails | null> {
-  noStore();
-
+async function fetchStoredCourseDetails(slug: string): Promise<StoredCourseDetails | null> {
   let stored: StoredCourseDetails | null = null;
 
   if (isFileStoreEnabled()) {
@@ -276,10 +326,26 @@ export async function getStoredCourseDetails(slug: string): Promise<StoredCourse
   return sanitizeStoredDetails(stored);
 }
 
+export async function getStoredCourseDetails(
+  slug: string,
+  options: PublicDataOptions = { fresh: true },
+): Promise<StoredCourseDetails | null> {
+  if (options.fresh) {
+    noStore();
+    return fetchStoredCourseDetails(slug);
+  }
+
+  return getCachedPublicData(
+    ["course-details", slug],
+    [CACHE_TAGS.courses, CACHE_TAGS.course(slug)],
+    () => fetchStoredCourseDetails(slug),
+  );
+}
+
 export async function getCourseEditableDetails(slug: string) {
   noStore();
 
-  const stored = await getStoredCourseDetails(slug);
+  const stored = await fetchStoredCourseDetails(slug);
   const editable = mergeCourseEditableFields(slug, stored);
 
   return {
@@ -333,10 +399,13 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
       }
     }
 
+    revalidatePublicCourseData(slug);
     return document;
   }
 
-  return saveMongoCourseDetails(document);
+  const saved = await saveMongoCourseDetails(document);
+  revalidatePublicCourseData(slug);
+  return saved;
 }
 
 async function deleteMongoCourseDetails(slug: string) {
@@ -376,13 +445,12 @@ export async function deleteCourseDetails(slug: string) {
     throw new Error("Course not found.");
   }
 
+  revalidatePublicCourseData(slug);
   return { removed, reset: isStandard && removed };
 }
 
-export async function getCourseContentAsync(slug: string): Promise<CourseContent | undefined> {
-  noStore();
-
-  const course = await getCourseBySlugAsync(slug);
+async function fetchCourseContentAsync(slug: string): Promise<CourseContent | undefined> {
+  const course = await fetchCourseBySlugAsync(slug);
   if (!course) {
     return undefined;
   }
@@ -392,7 +460,8 @@ export async function getCourseContentAsync(slug: string): Promise<CourseContent
     return undefined;
   }
 
-  const stored = await getStoredCourseDetails(slug);
+  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const stored = storedCourses.find((item) => item.slug === slug) ?? null;
   const displayCourse = mergeStoredCourse(getCourseBySlug(slug) ?? course, stored?.course);
   const editable = mergeCourseEditableFields(slug, stored);
 
@@ -406,30 +475,74 @@ export async function getCourseContentAsync(slug: string): Promise<CourseContent
   };
 }
 
-export async function getCourseFlexibleBatchesAsync(slug: string) {
-  noStore();
+export async function getCourseContentAsync(
+  slug: string,
+  options: PublicDataOptions = {},
+): Promise<CourseContent | undefined> {
+  if (options.fresh) {
+    noStore();
+    return fetchCourseContentAsync(slug);
+  }
 
-  const stored = await getStoredCourseDetails(slug);
+  return getCachedPublicData(
+    ["course-content", slug],
+    [CACHE_TAGS.courses, CACHE_TAGS.course(slug)],
+    () => fetchCourseContentAsync(slug),
+  );
+}
+
+async function fetchCourseFlexibleBatchesAsync(slug: string) {
+  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const stored = storedCourses.find((item) => item.slug === slug) ?? null;
   return mergeFlexibleBatches(getCourseFlexibleBatches(slug), stored?.flexibleBatches);
 }
 
-export async function getGermanCoursesForDisplay(): Promise<GermanCourse[]> {
-  noStore();
+export async function getCourseFlexibleBatchesAsync(
+  slug: string,
+  options: PublicDataOptions = {},
+) {
+  if (options.fresh) {
+    noStore();
+    return fetchCourseFlexibleBatchesAsync(slug);
+  }
 
-  const staticCourses = await Promise.all(
-    germanCourses.map(async (course) => {
-      const stored = await getStoredCourseDetails(course.slug);
-      const merged = mergeStoredCourse(course, stored?.course);
-      return enrichCourseWithOriginalPrice(merged, stored);
-    }),
+  return getCachedPublicData(
+    ["course-batches", slug],
+    [CACHE_TAGS.courses, CACHE_TAGS.course(slug)],
+    () => fetchCourseFlexibleBatchesAsync(slug),
   );
+}
 
-  const storedCourses = await getAllStoredCourseDetailsList();
+async function fetchGermanCoursesForDisplay(): Promise<GermanCourse[]> {
+  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const storedBySlug = new Map(storedCourses.map((stored) => [stored.slug, stored]));
+
+  const staticCourses = germanCourses.map((course) => {
+    const stored = storedBySlug.get(course.slug) ?? null;
+    const merged = mergeStoredCourse(course, stored?.course);
+    return enrichCourseWithOriginalPrice(merged, stored);
+  });
+
   const customCourses = storedCourses
     .filter((stored) => !isStaticCourseSlug(stored.slug))
     .map((stored) => enrichCourseWithOriginalPrice(courseFromStored(stored), stored));
 
   return [...staticCourses, ...customCourses];
+}
+
+export async function getGermanCoursesForDisplay(
+  options: PublicDataOptions = {},
+): Promise<GermanCourse[]> {
+  if (options.fresh) {
+    noStore();
+    return fetchGermanCoursesForDisplay();
+  }
+
+  return getCachedPublicData(
+    ["german-courses-display"],
+    [CACHE_TAGS.courses],
+    fetchGermanCoursesForDisplay,
+  );
 }
 
 function enrichCourseWithOriginalPrice(

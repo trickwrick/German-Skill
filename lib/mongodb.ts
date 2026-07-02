@@ -27,6 +27,7 @@ function getClientOptions(): MongoClientOptions {
     connectTimeoutMS: 15000,
     socketTimeoutMS: 45000,
     maxPoolSize: 10,
+    minPoolSize: 1,
     family: 4,
   };
 

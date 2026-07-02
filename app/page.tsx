@@ -10,6 +10,9 @@ import SiteFooter from "./components/SiteFooter";
 import TestimonialsSection from "./components/TestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
+import { PUBLIC_REVALIDATE_SECONDS } from "../lib/publicDataCache";
+
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 const stats = [
   { value: "10,500+", label: "Happy Students" },

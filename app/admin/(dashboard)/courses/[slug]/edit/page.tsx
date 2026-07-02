@@ -18,7 +18,7 @@ type EditCoursePageProps = {
 };
 
 export default async function AdminEditCoursePage({ params }: EditCoursePageProps) {
-  const course = await getCourseBySlugAsync(params.slug);
+  const course = await getCourseBySlugAsync(params.slug, { fresh: true });
 
   if (!course) {
     notFound();

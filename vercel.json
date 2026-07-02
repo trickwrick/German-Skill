@@ -3,11 +3,20 @@
   "framework": "nextjs",
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/admin/:path*",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=0, s-maxage=0, must-revalidate"
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/api/admin/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
         }
       ]
     }

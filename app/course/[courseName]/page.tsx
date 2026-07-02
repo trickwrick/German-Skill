@@ -14,8 +14,9 @@ import {
 import CourseContent from "../../courses/_components/CourseContent";
 import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
+
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 type PageProps = {
   params: { courseName: string };
 };

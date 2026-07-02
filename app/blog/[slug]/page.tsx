@@ -10,7 +10,9 @@ import { formatBlogDate } from "../../../data/blogPosts";
 import { getBlogPostBySlug, getBlogPosts } from "../../../lib/blogStore";
 import { sanitizeBlogHtml } from "../../../lib/blogHtmlUtils";
 
-export const dynamic = "force-dynamic";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
+
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 type BlogDetailPageProps = {
   params: { slug: string };

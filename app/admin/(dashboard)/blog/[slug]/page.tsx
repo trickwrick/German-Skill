@@ -12,7 +12,7 @@ type EditBlogPageProps = {
 
 export default async function EditBlogPage({ params }: EditBlogPageProps) {
   const slug = decodeURIComponent(params.slug);
-  const blog = await getBlogPostBySlug(slug);
+  const blog = await getBlogPostBySlug(slug, { fresh: true });
 
   if (!blog) {
     notFound();

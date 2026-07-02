@@ -4,6 +4,9 @@ import Navbar from "../components/Navbar";
 import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
 import { getGermanCoursesForDisplay } from "../../lib/courseContentStore";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
+
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = {
   title: "German Courses A1–C2 | Fluent AUF",

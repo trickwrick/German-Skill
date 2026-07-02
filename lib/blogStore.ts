@@ -1,6 +1,12 @@
 import { unstable_noStore as noStore } from "next/cache";
 import { blogPosts as staticBlogPosts, type BlogPost as StaticBlogPost } from "../data/blogPosts";
 import {
+  CACHE_TAGS,
+  getCachedPublicData,
+  revalidatePublicBlogData,
+  type PublicDataOptions,
+} from "./publicDataCache";
+import {
   addFileDeletedBlogSlug,
   deleteFileBlogPost,
   getFileBlogPostBySlug,
@@ -241,9 +247,7 @@ async function getStoredPosts(): Promise<BlogPost[]> {
   }
 }
 
-export async function getBlogPosts(): Promise<BlogPost[]> {
-  noStore();
-
+async function fetchBlogPosts(): Promise<BlogPost[]> {
   const [storedPosts, deletedSlugs] = await Promise.all([
     getStoredPosts(),
     getDeletedSlugs(),
@@ -252,10 +256,20 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   return mergeBlogLists(storedPosts, deletedSlugs).map((post) => sanitizeBlogPost(post));
 }
 
-export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  noStore();
+export async function getBlogPosts(options: PublicDataOptions = {}): Promise<BlogPost[]> {
+  if (options.fresh) {
+    noStore();
+    return fetchBlogPosts();
+  }
 
-  const normalizedSlug = decodeURIComponent(slug).trim();
+  return getCachedPublicData(
+    ["blog-posts"],
+    [CACHE_TAGS.blogPosts],
+    fetchBlogPosts,
+  );
+}
+
+async function fetchBlogPostBySlug(normalizedSlug: string): Promise<BlogPost | null> {
   const deletedSlugs = await getDeletedSlugs();
   if (deletedSlugs.has(normalizedSlug)) {
     return null;
@@ -288,13 +302,31 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
   return staticPost ? sanitizeBlogPost(staticPost) : null;
 }
 
+export async function getBlogPostBySlug(
+  slug: string,
+  options: PublicDataOptions = {},
+): Promise<BlogPost | null> {
+  const normalizedSlug = decodeURIComponent(slug).trim();
+
+  if (options.fresh) {
+    noStore();
+    return fetchBlogPostBySlug(normalizedSlug);
+  }
+
+  return getCachedPublicData(
+    ["blog-post", normalizedSlug],
+    [CACHE_TAGS.blogPosts, CACHE_TAGS.blogPost(normalizedSlug)],
+    () => fetchBlogPostBySlug(normalizedSlug),
+  );
+}
+
 export async function saveBlogPost(payload: BlogPost) {
   const slug = slugifyCoursePath(payload.slug || payload.title || "");
   if (!slug) {
     throw new Error("Blog slug is required.");
   }
 
-  const existing = await getBlogPostBySlug(slug);
+  const existing = await fetchBlogPostBySlug(slug);
   const now = new Date();
   const document: BlogPost = {
     ...payload,
@@ -318,6 +350,7 @@ export async function saveBlogPost(payload: BlogPost) {
       }
     }
 
+    revalidatePublicBlogData(slug);
     return saved;
   }
 
@@ -327,6 +360,7 @@ export async function saveBlogPost(payload: BlogPost) {
 
   await saveMongoBlogPost(document);
   await removeMongoDeletedSlug(slug);
+  revalidatePublicBlogData(slug);
   return document;
 }
 
@@ -336,7 +370,7 @@ export async function isBlogSlugTaken(slug: string, excludeSlug?: string) {
     return false;
   }
 
-  const post = await getBlogPostBySlug(normalized);
+  const post = await fetchBlogPostBySlug(normalized);
   return Boolean(post);
 }
 
@@ -405,7 +439,11 @@ export async function updateBlogPost(oldSlug: string, payload: BlogPost) {
     }
   }
 
-  return saveBlogPost({ ...payload, slug: nextSlug });
+  const saved = await saveBlogPost({ ...payload, slug: nextSlug });
+  if (nextSlug !== previousSlug) {
+    revalidatePublicBlogData(previousSlug);
+  }
+  return saved;
 }
 
 async function saveMongoBlogPost(document: BlogPost) {
@@ -451,6 +489,7 @@ export async function deleteBlogPost(slug: string) {
       }
     }
 
+    revalidatePublicBlogData(slug);
     return true;
   }
 
@@ -462,6 +501,7 @@ export async function deleteBlogPost(slug: string) {
     const collection = await getMongoCollection();
     await collection.deleteOne({ slug });
     await addMongoDeletedSlug(slug);
+    revalidatePublicBlogData(slug);
     return true;
   } catch (error) {
     console.error(`Failed to delete blog post ${slug}`, error);

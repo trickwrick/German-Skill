@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const posts = await getBlogPosts();
+    const posts = await getBlogPosts({ fresh: true });
     return NextResponse.json(posts);
   } catch (error) {
     console.error("Failed to fetch blog posts", error);
