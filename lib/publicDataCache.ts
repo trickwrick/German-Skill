@@ -48,3 +48,23 @@ export function revalidatePublicCourseData(...slugs: string[]) {
 export function revalidatePublicSeoData() {
   revalidateTag(CACHE_TAGS.seoSettings);
 }
+
+function safeRevalidate(run: () => void) {
+  try {
+    run();
+  } catch (error) {
+    console.error("Cache revalidation failed", error);
+  }
+}
+
+export function safeRevalidatePublicBlogData(...slugs: string[]) {
+  safeRevalidate(() => revalidatePublicBlogData(...slugs));
+}
+
+export function safeRevalidatePublicCourseData(...slugs: string[]) {
+  safeRevalidate(() => revalidatePublicCourseData(...slugs));
+}
+
+export function safeRevalidatePublicSeoData() {
+  safeRevalidate(() => revalidatePublicSeoData());
+}

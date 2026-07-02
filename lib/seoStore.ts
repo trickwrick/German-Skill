@@ -3,7 +3,7 @@ import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from
 import {
   CACHE_TAGS,
   getCachedPublicData,
-  revalidatePublicSeoData,
+  safeRevalidatePublicSeoData,
   type PublicDataOptions,
 } from "./publicDataCache";
 
@@ -93,7 +93,7 @@ export async function saveSeoSettings(payload: Partial<SeoSettings>) {
     }
   }
 
-  revalidatePublicSeoData();
+  safeRevalidatePublicSeoData();
 
   const { _id, ...savedSettings } = document;
   return savedSettings as SeoSettings;

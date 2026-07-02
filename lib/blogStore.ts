@@ -4,7 +4,7 @@ import { blogPosts as staticBlogPosts, type BlogPost as StaticBlogPost } from ".
 import {
   CACHE_TAGS,
   getCachedPublicData,
-  revalidatePublicBlogData,
+  safeRevalidatePublicBlogData,
   type PublicDataOptions,
 } from "./publicDataCache";
 import {
@@ -15,7 +15,7 @@ import {
   removeFileBlogPostOnly,
   saveFileBlogPost,
 } from "./blogFileStore";
-import { isFileStoreEnabled } from "./courseDetailsFileStore";
+import { isFileStoreEnabled, isServerlessHosting } from "./courseDetailsFileStore";
 import { slugifyCoursePath } from "./courseUtils";
 import { resolveBlogImageSrc } from "./blogImageUtils";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
@@ -343,30 +343,49 @@ export async function saveBlogPost(payload: BlogPost) {
       : { createdAt: now }),
   };
 
+  const saveToLocalFile = () => saveFileBlogPost(document, { forceLocal: !isServerlessHosting() });
+
   if (isFileStoreEnabled()) {
-    const saved = await saveFileBlogPost(document);
+    const saved = await saveToLocalFile();
 
     if (process.env.MONGODB_URI) {
       try {
         await saveMongoBlogPost(document);
         await removeMongoDeletedSlug(slug);
-      } catch {
-        // Local file store remains the source of truth in development.
+      } catch (error) {
+        console.warn("MongoDB sync skipped after local file save.", error);
       }
     }
 
-    revalidatePublicBlogData(slug);
+    safeRevalidatePublicBlogData(slug);
     return saved;
   }
 
   if (!process.env.MONGODB_URI) {
+    if (!isServerlessHosting()) {
+      const saved = await saveToLocalFile();
+      safeRevalidatePublicBlogData(slug);
+      return saved;
+    }
+
     throw new Error("MONGODB_URI is not configured. Add it in your hosting environment variables.");
   }
 
-  await saveMongoBlogPost(document);
-  await removeMongoDeletedSlug(slug);
-  revalidatePublicBlogData(slug);
-  return document;
+  try {
+    await saveMongoBlogPost(document);
+    await removeMongoDeletedSlug(slug);
+    safeRevalidatePublicBlogData(slug);
+    return document;
+  } catch (error) {
+    if (!isServerlessHosting()) {
+      console.warn("MongoDB save failed locally, saved to file instead.", error);
+      const saved = await saveToLocalFile();
+      safeRevalidatePublicBlogData(slug);
+      return saved;
+    }
+
+    throw new Error(getMongoConnectionErrorMessage(error));
+  }
 }
 
 export async function isBlogSlugTaken(slug: string, excludeSlug?: string) {
@@ -446,7 +465,7 @@ export async function updateBlogPost(oldSlug: string, payload: BlogPost) {
 
   const saved = await saveBlogPost({ ...payload, slug: nextSlug });
   if (nextSlug !== previousSlug) {
-    revalidatePublicBlogData(previousSlug);
+    safeRevalidatePublicBlogData(previousSlug);
   }
   return saved;
 }
@@ -494,7 +513,7 @@ export async function deleteBlogPost(slug: string) {
       }
     }
 
-    revalidatePublicBlogData(slug);
+    safeRevalidatePublicBlogData(slug);
     return true;
   }
 
@@ -506,7 +525,7 @@ export async function deleteBlogPost(slug: string) {
     const collection = await getMongoCollection();
     await collection.deleteOne({ slug });
     await addMongoDeletedSlug(slug);
-    revalidatePublicBlogData(slug);
+    safeRevalidatePublicBlogData(slug);
     return true;
   } catch (error) {
     console.error(`Failed to delete blog post ${slug}`, error);

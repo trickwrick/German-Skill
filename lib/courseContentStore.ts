@@ -19,7 +19,7 @@ import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from
 import {
   CACHE_TAGS,
   getCachedPublicData,
-  revalidatePublicCourseData,
+  safeRevalidatePublicCourseData,
   type PublicDataOptions,
 } from "./publicDataCache";
 import { slugifyCoursePath, formatDisplayPrice } from "./courseUtils";
@@ -402,12 +402,12 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
       }
     }
 
-    revalidatePublicCourseData(slug);
+    safeRevalidatePublicCourseData(slug);
     return document;
   }
 
   const saved = await saveMongoCourseDetails(document);
-  revalidatePublicCourseData(slug);
+  safeRevalidatePublicCourseData(slug);
   return saved;
 }
 
@@ -448,7 +448,7 @@ export async function deleteCourseDetails(slug: string) {
     throw new Error("Course not found.");
   }
 
-  revalidatePublicCourseData(slug);
+  safeRevalidatePublicCourseData(slug);
   return { removed, reset: isStandard && removed };
 }
 

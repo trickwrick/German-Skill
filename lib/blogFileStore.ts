@@ -64,8 +64,11 @@ export async function getFileBlogPostBySlug(slug: string) {
   return store.posts.find((post) => post.slug === slug) ?? null;
 }
 
-export async function saveFileBlogPost(post: StoredBlogPost) {
-  if (!isFileStoreEnabled()) {
+export async function saveFileBlogPost(
+  post: StoredBlogPost,
+  options: { forceLocal?: boolean } = {},
+) {
+  if (!options.forceLocal && !isFileStoreEnabled()) {
     throw new Error("Local file storage is disabled in this environment.");
   }
 

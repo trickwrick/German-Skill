@@ -8,6 +8,10 @@ const STORE_FILE = path.join(STORE_DIR, "course-details-store.json");
 
 type CourseDetailsStore = Record<string, StoredCourseDetails>;
 
+export function isServerlessHosting() {
+  return process.env.VERCEL === "1" || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+}
+
 export function isFileStoreEnabled() {
   if (process.env.COURSE_STORE === "file") {
     return true;
@@ -17,11 +21,12 @@ export function isFileStoreEnabled() {
     return false;
   }
 
-  if (process.env.VERCEL === "1" || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  if (isServerlessHosting()) {
     return false;
   }
 
-  return process.env.NODE_ENV === "development";
+  // On a local machine, use file storage for dev and `npm start`.
+  return true;
 }
 
 function stripBom(value: string) {
