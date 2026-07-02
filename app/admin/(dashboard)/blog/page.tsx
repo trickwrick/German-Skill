@@ -143,6 +143,18 @@ export default function AdminBlogPage() {
                     </td>
                     <td style={{ padding: '1rem', textAlign: 'center' }}>
                       <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem' }}>
+                        <Link
+                          href={`/blog/${encodeURIComponent(blog.slug)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: '#0984e3', background: '#e7f3ff', padding: '0.4rem', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                          title="View Blog"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                          </svg>
+                        </Link>
                         <Link 
                           href={`/admin/blog/${encodeURIComponent(blog.slug)}`} 
                           style={{ color: '#00b894', background: '#e6fcec', padding: '0.4rem', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
