@@ -477,14 +477,15 @@ export async function updateBlogPost(oldSlug: string, payload: BlogPost) {
 
 async function saveMongoBlogPost(document: BlogPost) {
   const mongoDocument = cleanMongoDocument(document);
+  const { createdAt, ...fieldsToSet } = mongoDocument;
 
   async function writeDocument() {
     const collection = await getMongoCollection();
     await collection.updateOne(
       { slug: mongoDocument.slug },
       {
-        $set: mongoDocument,
-        $setOnInsert: { createdAt: mongoDocument.createdAt ?? new Date() },
+        $set: fieldsToSet,
+        $setOnInsert: { createdAt: createdAt ?? new Date() },
       },
       { upsert: true },
     );
