@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { videoTestimonialRatingOptions, type VideoTestimonial } from "../../../data/videoTestimonials";
-import { formatTestimonialRating, getYoutubeVideoId, slugifyTestimonialId } from "../../../lib/videoTestimonialUtils";
+import { formatTestimonialRating, getDefaultTestimonialDescription, getYoutubeVideoId, slugifyTestimonialId } from "../../../lib/videoTestimonialUtils";
 
 const emptyForm: VideoTestimonial = {
   id: "",
@@ -11,6 +11,7 @@ const emptyForm: VideoTestimonial = {
   rating: 5,
   youtubeUrl: "",
   image: "",
+  description: "",
   sortOrder: 1,
   isActive: true,
 };
@@ -111,6 +112,7 @@ export default function AdminVideoTestimonialsContent() {
       name: form.name.trim(),
       youtubeUrl: form.youtubeUrl.trim(),
       image: form.image.trim() || "/webinar-student.jpg",
+      description: form.description.trim() || getDefaultTestimonialDescription(form.name.trim()),
       rating: Number(form.rating),
       sortOrder: editingId ? Number(form.sortOrder) || 1 : 1,
       isActive: form.isActive !== false,
@@ -223,6 +225,16 @@ export default function AdminVideoTestimonialsContent() {
                 </option>
               ))}
             </select>
+          </label>
+
+          <label className="adm-form-field adm-form-field-full">
+            <span>Paragraph</span>
+            <textarea
+              value={form.description}
+              onChange={(event) => setForm((current) => ({ ...current, description: event.target.value }))}
+              rows={4}
+              placeholder="Hear how this student improved their German skills with Fluent AUF..."
+            />
           </label>
 
           <label className="adm-form-field adm-form-field-full">

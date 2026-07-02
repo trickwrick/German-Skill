@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { VideoTestimonial } from "../../data/videoTestimonials";
-import { formatTestimonialRating, getYoutubeEmbedUrl } from "../../lib/videoTestimonialUtils";
+import { formatTestimonialRating, getTestimonialDescription, getYoutubeEmbedUrl } from "../../lib/videoTestimonialUtils";
 
 type VideoTestimonialsSectionProps = {
   testimonials: VideoTestimonial[];
@@ -56,10 +57,13 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
-function StarRow({ rating }: { rating: number }) {
+function StarRow({ rating, className = "" }: { rating: number; className?: string }) {
   const filled = Math.round(rating);
   return (
-    <div className="video-testimonial-stars" aria-label={`${formatTestimonialRating(rating)} out of 5 stars`}>
+    <div
+      className={`video-testimonial-stars ${className}`.trim()}
+      aria-label={`${formatTestimonialRating(rating)} out of 5 stars`}
+    >
       {Array.from({ length: 5 }, (_, index) => (
         <span key={index} className={index < filled ? "is-filled" : ""}>
           ★
@@ -70,11 +74,31 @@ function StarRow({ rating }: { rating: number }) {
   );
 }
 
-function VideoModal({ embedUrl, onClose }: { embedUrl: string; onClose: () => void }) {
+type VideoModalProps = {
+  testimonials: VideoTestimonial[];
+  activeIndex: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+  onSelect: (index: number) => void;
+};
+
+function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext, onSelect }: VideoModalProps) {
+  const current = testimonials[activeIndex];
+  const embedUrl = current ? getYoutubeEmbedUrl(current.youtubeUrl) : null;
+  const hasPrev = activeIndex > 0;
+  const hasNext = activeIndex < testimonials.length - 1;
+
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         onClose();
+      }
+      if (event.key === "ArrowLeft" && hasPrev) {
+        onPrev();
+      }
+      if (event.key === "ArrowRight" && hasNext) {
+        onNext();
       }
     }
 
@@ -85,24 +109,86 @@ function VideoModal({ embedUrl, onClose }: { embedUrl: string; onClose: () => vo
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [onClose]);
+  }, [onClose, onNext, onPrev, hasNext, hasPrev]);
+
+  if (!current || !embedUrl) {
+    return null;
+  }
 
   return (
     <div className="video-testimonial-modal" role="dialog" aria-modal="true" aria-label="Student video testimonial">
       <button type="button" className="video-testimonial-modal-backdrop" onClick={onClose} aria-label="Close video" />
-      <div className="video-testimonial-modal-panel">
+
+      <button
+        type="button"
+        className="video-testimonial-modal-nav video-testimonial-modal-nav-prev"
+        onClick={onPrev}
+        disabled={!hasPrev}
+        aria-label="Previous testimonial video"
+      >
+        <ChevronIcon direction="left" />
+      </button>
+
+      <div className="video-testimonial-modal-shell">
         <button type="button" className="video-testimonial-modal-close" onClick={onClose} aria-label="Close">
           ×
         </button>
-        <div className="video-testimonial-modal-frame">
-          <iframe
-            src={embedUrl}
-            title="Student testimonial video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+
+        <div className="video-testimonial-modal-split">
+          <div className="video-testimonial-modal-video">
+            <iframe
+              key={`${current.id}-${activeIndex}`}
+              src={embedUrl}
+              title={`${current.name} testimonial video`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+
+          <aside className="video-testimonial-modal-side">
+            <div className="video-testimonial-modal-thumb-strip" aria-label="All testimonial videos">
+              {testimonials.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`video-testimonial-modal-thumb${index === activeIndex ? " is-active" : ""}`}
+                  onClick={() => onSelect(index)}
+                  aria-label={`Play ${item.name}'s video`}
+                  aria-current={index === activeIndex}
+                >
+                  <Image src={item.image} alt={item.name} fill sizes="72px" />
+                </button>
+              ))}
+            </div>
+
+            <div className="video-testimonial-modal-side-body">
+              <span className="video-testimonial-modal-label">Fluent AUF Student</span>
+              <h3>{current.name}</h3>
+              <StarRow rating={current.rating} className="video-testimonial-stars-modal" />
+              <p className="video-testimonial-modal-copy">{getTestimonialDescription(current)}</p>
+
+              <div className="video-testimonial-modal-actions">
+                <Link href="/contact" className="btn video-testimonial-modal-btn">
+                  Join Free Demo
+                </Link>
+                <Link href="/courses" className="video-testimonial-modal-link">
+                  Explore Courses →
+                </Link>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
+
+      <button
+        type="button"
+        className="video-testimonial-modal-nav video-testimonial-modal-nav-next"
+        onClick={onNext}
+        disabled={!hasNext}
+        aria-label="Next testimonial video"
+      >
+        <ChevronIcon direction="right" />
+      </button>
     </div>
   );
 }
@@ -110,7 +196,7 @@ function VideoModal({ embedUrl, onClose }: { embedUrl: string; onClose: () => vo
 export default function VideoTestimonialsSection({ testimonials }: VideoTestimonialsSectionProps) {
   const slidesPerView = useSlidesPerView();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null);
+  const [activeModalIndex, setActiveModalIndex] = useState<number | null>(null);
 
   const maxIndex = Math.max(0, testimonials.length - slidesPerView);
   const pageCount = maxIndex + 1;
@@ -119,16 +205,25 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
     setActiveIndex((current) => Math.min(current, maxIndex));
   }, [maxIndex]);
 
-  const openVideo = useCallback((youtubeUrl: string) => {
-    const embedUrl = getYoutubeEmbedUrl(youtubeUrl);
-    if (embedUrl) {
-      setActiveVideoUrl(embedUrl);
+  const openVideo = useCallback((index: number) => {
+    if (getYoutubeEmbedUrl(testimonials[index]?.youtubeUrl ?? "")) {
+      setActiveModalIndex(index);
     }
-  }, []);
+  }, [testimonials]);
 
   const closeVideo = useCallback(() => {
-    setActiveVideoUrl(null);
+    setActiveModalIndex(null);
   }, []);
+
+  const goToPrevVideo = useCallback(() => {
+    setActiveModalIndex((current) => (current !== null && current > 0 ? current - 1 : current));
+  }, []);
+
+  const goToNextVideo = useCallback(() => {
+    setActiveModalIndex((current) =>
+      current !== null && current < testimonials.length - 1 ? current + 1 : current,
+    );
+  }, [testimonials.length]);
 
   const trackStyle = useMemo(
     () => ({
@@ -166,12 +261,12 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
 
           <div className="video-testimonials-viewport">
             <div className="video-testimonials-track" style={trackStyle}>
-              {testimonials.map((item) => (
+              {testimonials.map((item, index) => (
                 <article key={item.id} className="video-testimonial-card" style={{ flex: `0 0 ${100 / slidesPerView}%` }}>
                   <button
                     type="button"
                     className="video-testimonial-media"
-                    onClick={() => openVideo(item.youtubeUrl)}
+                    onClick={() => openVideo(index)}
                     aria-label={`Play ${item.name}'s testimonial video`}
                   >
                     <Image
@@ -224,7 +319,16 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
         ) : null}
       </div>
 
-      {activeVideoUrl ? <VideoModal embedUrl={activeVideoUrl} onClose={closeVideo} /> : null}
+      {activeModalIndex !== null ? (
+        <VideoModal
+          testimonials={testimonials}
+          activeIndex={activeModalIndex}
+          onClose={closeVideo}
+          onPrev={goToPrevVideo}
+          onNext={goToNextVideo}
+          onSelect={setActiveModalIndex}
+        />
+      ) : null}
     </section>
   );
 }

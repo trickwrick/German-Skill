@@ -35,6 +35,16 @@ export function formatTestimonialRating(rating: number) {
   return safe.toFixed(1);
 }
 
+export function getDefaultTestimonialDescription(name: string) {
+  const firstName = name.trim().split(/\s+/)[0] || "this student";
+  return `Hear how ${firstName} improved their German skills with Fluent AUF live classes and exam-focused training.`;
+}
+
+export function getTestimonialDescription(item: { name: string; description?: string }) {
+  const description = typeof item.description === "string" ? item.description.trim() : "";
+  return description || getDefaultTestimonialDescription(item.name);
+}
+
 export function slugifyTestimonialId(value: string) {
   return value
     .toLowerCase()

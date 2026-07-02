@@ -4,6 +4,7 @@ export type VideoTestimonial = {
   rating: number;
   youtubeUrl: string;
   image: string;
+  description: string;
   sortOrder: number;
   isActive: boolean;
 };
@@ -17,6 +18,8 @@ export const defaultVideoTestimonials: VideoTestimonial[] = [
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     image: "/webinar-student.jpg",
+    description:
+      "Hear how Payal improved her German skills with Fluent AUF live classes and exam-focused training.",
     sortOrder: 1,
     isActive: true,
   },
@@ -26,6 +29,8 @@ export const defaultVideoTestimonials: VideoTestimonial[] = [
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     image: "/hero-students.jpg",
+    description:
+      "Hear how Aditi improved her German skills with Fluent AUF live classes and exam-focused training.",
     sortOrder: 2,
     isActive: true,
   },
@@ -35,6 +40,8 @@ export const defaultVideoTestimonials: VideoTestimonial[] = [
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     image: "/portal-education.jpg",
+    description:
+      "Hear how Kunjal improved his German skills with Fluent AUF live classes and exam-focused training.",
     sortOrder: 3,
     isActive: true,
   },
@@ -44,6 +51,8 @@ export const defaultVideoTestimonials: VideoTestimonial[] = [
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     image: "/webinar-student.jpg",
+    description:
+      "Hear how Preetam improved his German skills with Fluent AUF live classes and exam-focused training.",
     sortOrder: 4,
     isActive: true,
   },

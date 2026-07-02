@@ -3,7 +3,7 @@ import { defaultVideoTestimonials, type VideoTestimonial } from "../data/videoTe
 import { getMongoClient, cleanMongoDocument, throwMongoWriteError, resetMongoClient } from "./mongodb";
 import { getFileVideoTestimonials, saveFileVideoTestimonials } from "./videoTestimonialFileStore";
 import { isFileStoreEnabled, isServerlessHosting } from "./courseDetailsFileStore";
-import { getYoutubeVideoId, slugifyTestimonialId } from "./videoTestimonialUtils";
+import { getYoutubeVideoId, slugifyTestimonialId, getDefaultTestimonialDescription } from "./videoTestimonialUtils";
 import {
   CACHE_TAGS,
   getCachedPublicData,
@@ -26,6 +26,10 @@ function sanitizeItem(item: Partial<VideoTestimonial> & { id: string }): VideoTe
     rating: Number.isFinite(rating) ? Math.min(5, Math.max(0, rating)) : 5,
     youtubeUrl,
     image: typeof item.image === "string" && item.image.trim() ? item.image.trim() : "/webinar-student.jpg",
+    description:
+      typeof item.description === "string" && item.description.trim()
+        ? item.description.trim()
+        : getDefaultTestimonialDescription(typeof item.name === "string" ? item.name : "Student"),
     sortOrder: Number.isFinite(Number(item.sortOrder)) ? Number(item.sortOrder) : 0,
     isActive: item.isActive !== false,
   };
