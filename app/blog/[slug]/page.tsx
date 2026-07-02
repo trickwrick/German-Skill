@@ -5,8 +5,9 @@ import Navbar from "../../components/Navbar";
 import PageBanner from "../../components/PageBanner";
 import SiteFooter from "../../components/SiteFooter";
 import BlogImage from "../../components/BlogImage";
+import BlogSidebar from "../_components/BlogSidebar";
 import { formatBlogDate } from "../../../data/blogPosts";
-import { getBlogPostBySlug } from "../../../lib/blogStore";
+import { getBlogPostBySlug, getBlogPosts } from "../../../lib/blogStore";
 
 export const dynamic = "force-dynamic";
 
@@ -31,11 +32,13 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const slug = decodeURIComponent(params.slug);
-  const post = await getBlogPostBySlug(slug);
+  const [post, posts] = await Promise.all([getBlogPostBySlug(slug), getBlogPosts()]);
 
   if (!post) {
     notFound();
   }
+
+  const primaryCategory = post.categories?.[0]?.trim();
 
   return (
     <>
@@ -53,65 +56,79 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         />
 
         <article className="blog-detail">
-          <div className="blog-detail-inner">
-            <header className="blog-detail-header">
-              <h1>{post.title}</h1>
-              <div className="blog-detail-meta">
+          <div className="blog-detail-inner blog-layout">
+            <div className="blog-layout-main">
+              <header className="blog-detail-header">
+                <h1>{post.title}</h1>
+              </header>
+
+              <div className="blog-detail-image-wrap">
+                <BlogImage
+                  src={post.image}
+                  alt={post.title}
+                  width={960}
+                  height={540}
+                  className="blog-detail-image"
+                  priority
+                />
+              </div>
+
+              <div className="blog-detail-post-meta">
+                {primaryCategory ? (
+                  <Link
+                    href={`/blog?category=${encodeURIComponent(primaryCategory)}`}
+                    className="blog-detail-category"
+                  >
+                    {primaryCategory}
+                  </Link>
+                ) : (
+                  <span className="blog-detail-category-fallback">Blog</span>
+                )}
                 <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
-                <span>{post.author}</span>
               </div>
-            </header>
 
-            <div className="blog-detail-image-wrap">
-              <BlogImage
-                src={post.image}
-                alt={post.title}
-                width={960}
-                height={540}
-                className="blog-detail-image"
-                priority
-              />
-            </div>
+              <div className="blog-detail-content blog-prose">
+                {post.content ? (
+                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                ) : (
+                  <>
+                    <p>{post.excerpt}</p>
+                    <p>
+                      Full article content will be added soon. For course guidance or exam
+                      preparation support, reach out to our team.
+                    </p>
+                  </>
+                )}
 
-            <div className="blog-detail-content blog-prose">
-              {post.content ? (
-                <div dangerouslySetInnerHTML={{ __html: post.content }} />
-              ) : (
-                <>
-                  <p>{post.excerpt}</p>
-                  <p>
-                    Full article content will be added soon. For course guidance or exam
-                    preparation support, reach out to our team.
-                  </p>
-                </>
-              )}
+                {post.faqs && post.faqs.length > 0 ? (
+                  <section className="blog-faqs">
+                    <h2>FAQ&apos;s</h2>
+                    <div className="blog-faq-list">
+                      {post.faqs.map((faq, index) => (
+                        <details key={index} className="blog-faq-item">
+                          <summary>{faq.question}</summary>
+                          <div
+                            className="blog-faq-answer blog-prose"
+                            dangerouslySetInnerHTML={{ __html: faq.answer }}
+                          />
+                        </details>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
 
-              {post.faqs && post.faqs.length > 0 ? (
-                <section className="blog-faqs">
-                  <h2>FAQ&apos;s</h2>
-                  <div className="blog-faq-list">
-                    {post.faqs.map((faq, index) => (
-                      <details key={index} className="blog-faq-item">
-                        <summary>{faq.question}</summary>
-                        <div
-                          className="blog-faq-answer blog-prose"
-                          dangerouslySetInnerHTML={{ __html: faq.answer }}
-                        />
-                      </details>
-                    ))}
-                  </div>
-                </section>
-              ) : null}
-
-              <div className="blog-detail-actions">
-                <Link href="/contact" className="btn btn-primary blog-detail-cta">
-                  Contact Us
-                </Link>
-                <Link href="/blog" className="blog-detail-back">
-                  ← Back to all blogs
-                </Link>
+                <div className="blog-detail-actions">
+                  <Link href="/contact" className="btn btn-primary blog-detail-cta">
+                    Contact Us
+                  </Link>
+                  <Link href="/blog" className="blog-detail-back">
+                    ← Back to all blogs
+                  </Link>
+                </div>
               </div>
             </div>
+
+            <BlogSidebar posts={posts} currentSlug={post.slug} />
           </div>
         </article>
       </main>

@@ -3,7 +3,9 @@ import Navbar from "../components/Navbar";
 import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
 import BlogPageContent from "./_components/BlogPageContent";
+import BlogSidebar from "./_components/BlogSidebar";
 import { getBlogPosts } from "../../lib/blogStore";
+import { filterBlogPostsByCategory } from "../../lib/blogUtils";
 
 export const dynamic = "force-dynamic";
 
@@ -13,8 +15,14 @@ export const metadata: Metadata = {
     "Read Fluent AUF blogs on Goethe, Telc, study in Germany, APS, Uni Assist, and German language learning tips.",
 };
 
-export default async function BlogPage() {
+type BlogPageProps = {
+  searchParams?: { category?: string };
+};
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
   const posts = await getBlogPosts();
+  const activeCategory = searchParams?.category?.trim();
+  const filteredPosts = filterBlogPostsByCategory(posts, activeCategory);
 
   return (
     <>
@@ -29,7 +37,14 @@ export default async function BlogPage() {
             { label: "Blog" },
           ]}
         />
-        <BlogPageContent posts={posts} />
+        <section className="blog-page-section">
+          <div className="blog-page-inner blog-layout">
+            <div className="blog-layout-main">
+              <BlogPageContent posts={filteredPosts} activeCategory={activeCategory} />
+            </div>
+            <BlogSidebar posts={posts} activeCategory={activeCategory} />
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </>
