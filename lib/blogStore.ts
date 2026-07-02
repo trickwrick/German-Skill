@@ -18,7 +18,7 @@ import {
 import { isFileStoreEnabled, isServerlessHosting } from "./courseDetailsFileStore";
 import { slugifyCoursePath } from "./courseUtils";
 import { resolveBlogImageSrc } from "./blogImageUtils";
-import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
+import { cleanMongoDocument, getMongoClient, resetMongoClient, throwMongoWriteError } from "./mongodb";
 
 export type BlogPost = StaticBlogPost & {
   content?: string;
@@ -88,7 +88,7 @@ function normalizeBlogFaqs(value: unknown): BlogPost["faqs"] {
 }
 
 export function sanitizeBlogPost(post: Partial<BlogPost> & { slug: string }): BlogPost {
-  return {
+  const sanitized: BlogPost = {
     slug: slugifyCoursePath(post.slug),
     title: typeof post.title === "string" ? post.title : "Blog Post",
     date: normalizeBlogDate(post.date),
@@ -104,6 +104,27 @@ export function sanitizeBlogPost(post: Partial<BlogPost> & { slug: string }): Bl
     tags: Array.isArray(post.tags)
       ? post.tags.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
       : undefined,
+  };
+
+  if (post.createdAt) {
+    sanitized.createdAt = new Date(post.createdAt);
+  }
+
+  if (post.updatedAt) {
+    sanitized.updatedAt = new Date(post.updatedAt);
+  }
+
+  return sanitized;
+}
+
+function buildBlogDocumentForStorage(payload: BlogPost, existing: BlogPost | null): BlogPost {
+  const slug = slugifyCoursePath(payload.slug || payload.title || "");
+  const now = new Date();
+
+  return {
+    ...sanitizeBlogPost({ ...payload, slug }),
+    updatedAt: now,
+    createdAt: existing?.createdAt ?? payload.createdAt ?? now,
   };
 }
 
@@ -332,16 +353,7 @@ export async function saveBlogPost(payload: BlogPost) {
   }
 
   const existing = await fetchBlogPostBySlug(slug);
-  const now = new Date();
-  const document: BlogPost = {
-    ...payload,
-    slug,
-    date: payload.date || now.toISOString().split("T")[0],
-    updatedAt: now,
-    ...(existing?.createdAt || payload.createdAt
-      ? { createdAt: existing?.createdAt || payload.createdAt }
-      : { createdAt: now }),
-  };
+  const document = buildBlogDocumentForStorage({ ...payload, slug }, existing);
 
   const saveToLocalFile = () => saveFileBlogPost(document, { forceLocal: !isServerlessHosting() });
 
@@ -372,7 +384,11 @@ export async function saveBlogPost(payload: BlogPost) {
   }
 
   await saveMongoBlogPost(document);
-  await removeMongoDeletedSlug(slug);
+  try {
+    await removeMongoDeletedSlug(slug);
+  } catch (error) {
+    console.error(`Failed to clear deleted slug marker for ${slug}`, error);
+  }
   safeRevalidatePublicBlogData(slug);
   return document;
 }
@@ -460,13 +476,15 @@ export async function updateBlogPost(oldSlug: string, payload: BlogPost) {
 }
 
 async function saveMongoBlogPost(document: BlogPost) {
+  const mongoDocument = cleanMongoDocument(document);
+
   async function writeDocument() {
     const collection = await getMongoCollection();
     await collection.updateOne(
-      { slug: document.slug },
+      { slug: mongoDocument.slug },
       {
-        $set: document,
-        $setOnInsert: { createdAt: new Date() },
+        $set: mongoDocument,
+        $setOnInsert: { createdAt: mongoDocument.createdAt ?? new Date() },
       },
       { upsert: true },
     );
@@ -479,7 +497,7 @@ async function saveMongoBlogPost(document: BlogPost) {
     try {
       await writeDocument();
     } catch (retryError) {
-      throw new Error(getMongoConnectionErrorMessage(retryError));
+      throwMongoWriteError(retryError);
     }
   }
 }

@@ -3,6 +3,8 @@ import { isAdminRequestAuthorized } from "../../../../../lib/adminAuth";
 import { saveBlogPost, deleteBlogPost, getBlogPostBySlug, updateBlogPost, BlogPost } from "../../../../../lib/blogStore";
 import { slugifyCoursePath } from "../../../../../lib/courseUtils";
 
+export const runtime = "nodejs";
+
 export async function PUT(request: Request, { params }: { params: { slug: string } }) {
   if (!isAdminRequestAuthorized(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

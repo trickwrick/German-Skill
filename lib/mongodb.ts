@@ -20,7 +20,8 @@ function getMongoUri() {
 function getClientOptions(): MongoClientOptions {
   const allowInsecureTls =
     process.env.MONGODB_TLS_INSECURE === "true" ||
-    process.env.NODE_ENV === "development";
+    process.env.NODE_ENV === "development" ||
+    process.env.VERCEL === "1";
 
   const options: MongoClientOptions = {
     serverSelectionTimeoutMS: 15000,
@@ -44,6 +45,51 @@ declare global {
 
 export function resetMongoClient() {
   global._mongoClientPromise = undefined;
+}
+
+export function cleanMongoDocument<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => cleanMongoDocument(item))
+      .filter((item) => item !== undefined) as T;
+  }
+
+  if (value instanceof Date) {
+    return value;
+  }
+
+  if (value && typeof value === "object") {
+    const next: Record<string, unknown> = {};
+
+    for (const [key, entry] of Object.entries(value)) {
+      if (entry === undefined) {
+        continue;
+      }
+
+      next[key] = cleanMongoDocument(entry);
+    }
+
+    return next as T;
+  }
+
+  return value;
+}
+
+export function isMongoConnectionError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+
+  return /SSL|TLS|tlsv1|alert number 80|ECONNREFUSED|ENOTFOUND|ETIMEDOUT|Server selection timed out|MongoNetworkError|MongoServerSelectionError|connection closed|failed to connect|Client must be connected/i.test(
+    message,
+  );
+}
+
+export function throwMongoWriteError(error: unknown): never {
+  if (isMongoConnectionError(error)) {
+    throw new Error(getMongoConnectionErrorMessage(error));
+  }
+
+  const message = error instanceof Error ? error.message : String(error);
+  throw new Error(message || "Failed to save to database.");
 }
 
 export function getMongoConnectionErrorMessage(error: unknown) {
