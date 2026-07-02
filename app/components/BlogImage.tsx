@@ -4,7 +4,7 @@ import {
   shouldUseUnoptimizedBlogImage,
 } from "../../lib/blogImageUtils";
 
-export default function BlogImage({ src, alt = "", ...props }: ImageProps) {
+export default function BlogImage({ src, alt = "", style, ...props }: ImageProps) {
   const resolved =
     typeof src === "string" ? resolveBlogImageSrc(src) : resolveBlogImageSrc(null);
 
@@ -14,6 +14,7 @@ export default function BlogImage({ src, alt = "", ...props }: ImageProps) {
       src={resolved}
       alt={alt}
       unoptimized={shouldUseUnoptimizedBlogImage(resolved)}
+      style={{ width: "100%", height: "auto", ...style }}
     />
   );
 }
