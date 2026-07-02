@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 import type { CourseContent, CourseReview } from "../data/courseContent.types";
 import type {
@@ -95,6 +96,8 @@ async function fetchAllStoredCourseDetailsList(): Promise<StoredCourseDetails[]>
   return Array.from(bySlug.values());
 }
 
+const loadStoredCourseDetailsList = cache(fetchAllStoredCourseDetailsList);
+
 export async function getAllStoredCourseDetailsList(
   options: PublicDataOptions = {},
 ): Promise<StoredCourseDetails[]> {
@@ -135,7 +138,7 @@ export async function isCoursePathNameTaken(pathName: string, excludeSlug?: stri
 }
 
 async function fetchCourseBySlugAsync(slug: string): Promise<GermanCourse | undefined> {
-  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const storedCourses = await loadStoredCourseDetailsList();
   const storedBySlug = new Map(storedCourses.map((stored) => [stored.slug, stored]));
 
   const base = getCourseBySlug(slug);
@@ -175,7 +178,7 @@ async function fetchCourseByPathNameAsync(pathName: string): Promise<GermanCours
     return fetchCourseBySlugAsync(staticCourse.slug);
   }
 
-  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const storedCourses = await loadStoredCourseDetailsList();
   const stored = storedCourses.find((document) => {
     const storedPath = document.course.pathName?.trim() || document.slug;
     return storedPath === decoded;
@@ -460,7 +463,7 @@ async function fetchCourseContentAsync(slug: string): Promise<CourseContent | un
     return undefined;
   }
 
-  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const storedCourses = await loadStoredCourseDetailsList();
   const stored = storedCourses.find((item) => item.slug === slug) ?? null;
   const displayCourse = mergeStoredCourse(getCourseBySlug(slug) ?? course, stored?.course);
   const editable = mergeCourseEditableFields(slug, stored);
@@ -492,7 +495,7 @@ export async function getCourseContentAsync(
 }
 
 async function fetchCourseFlexibleBatchesAsync(slug: string) {
-  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const storedCourses = await loadStoredCourseDetailsList();
   const stored = storedCourses.find((item) => item.slug === slug) ?? null;
   return mergeFlexibleBatches(getCourseFlexibleBatches(slug), stored?.flexibleBatches);
 }
@@ -514,7 +517,7 @@ export async function getCourseFlexibleBatchesAsync(
 }
 
 async function fetchGermanCoursesForDisplay(): Promise<GermanCourse[]> {
-  const storedCourses = await fetchAllStoredCourseDetailsList();
+  const storedCourses = await loadStoredCourseDetailsList();
   const storedBySlug = new Map(storedCourses.map((stored) => [stored.slug, stored]));
 
   const staticCourses = germanCourses.map((course) => {

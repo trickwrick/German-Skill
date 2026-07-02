@@ -1,12 +1,13 @@
 import { revalidateTag, unstable_cache } from "next/cache";
 
-export const PUBLIC_REVALIDATE_SECONDS = 60;
+export const PUBLIC_REVALIDATE_SECONDS = 300;
 
 export const CACHE_TAGS = {
   blogPosts: "blog-posts",
   blogPost: (slug: string) => `blog-post:${slug}`,
   courses: "courses",
   course: (slug: string) => `course:${slug}`,
+  seoSettings: "seo-settings",
 } as const;
 
 export type PublicDataOptions = {
@@ -42,4 +43,8 @@ export function revalidatePublicCourseData(...slugs: string[]) {
       revalidateTag(CACHE_TAGS.course(slug.trim()));
     }
   }
+}
+
+export function revalidatePublicSeoData() {
+  revalidateTag(CACHE_TAGS.seoSettings);
 }

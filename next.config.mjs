@@ -1,5 +1,7 @@
 const nextConfig = {
   reactStrictMode: true,
+  compress: true,
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {
@@ -11,6 +13,46 @@ const nextConfig = {
         hostname: "www.fluentauf.com",
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/blog/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=300, stale-while-revalidate=600",
+          },
+        ],
+      },
+      {
+        source: "/course/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=300, stale-while-revalidate=600",
+          },
+        ],
+      },
+      {
+        source: "/courses",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=300, stale-while-revalidate=600",
+          },
+        ],
+      },
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=300, stale-while-revalidate=600",
+          },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [

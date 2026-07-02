@@ -1,5 +1,11 @@
 import { unstable_noStore as noStore } from "next/cache";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
+import {
+  CACHE_TAGS,
+  getCachedPublicData,
+  revalidatePublicSeoData,
+  type PublicDataOptions,
+} from "./publicDataCache";
 
 export type SeoSettings = {
   title: string;
@@ -21,9 +27,7 @@ async function getMongoCollection() {
   return client.db(DB_NAME).collection<SeoSettings & { _id: string }>(COLLECTION);
 }
 
-export async function getSeoSettings(): Promise<SeoSettings> {
-  noStore();
-  
+async function fetchSeoSettings(): Promise<SeoSettings> {
   if (!process.env.MONGODB_URI) {
     return defaultSeoSettings;
   }
@@ -31,17 +35,30 @@ export async function getSeoSettings(): Promise<SeoSettings> {
   try {
     const collection = await getMongoCollection();
     const doc = await collection.findOne({ _id: SETTINGS_ID });
-    
+
     if (!doc) {
       return defaultSeoSettings;
     }
-    
+
     const { _id, ...settings } = doc;
     return settings as SeoSettings;
   } catch (error) {
     console.error("Failed to fetch SEO settings from DB", error);
     return defaultSeoSettings;
   }
+}
+
+export async function getSeoSettings(options: PublicDataOptions = {}): Promise<SeoSettings> {
+  if (options.fresh) {
+    noStore();
+    return fetchSeoSettings();
+  }
+
+  return getCachedPublicData(
+    ["seo-settings"],
+    [CACHE_TAGS.seoSettings],
+    fetchSeoSettings,
+  );
 }
 
 export async function saveSeoSettings(payload: Partial<SeoSettings>) {
@@ -59,9 +76,9 @@ export async function saveSeoSettings(payload: Partial<SeoSettings>) {
   async function writeDocument() {
     const collection = await getMongoCollection();
     await collection.updateOne(
-      { _id: SETTINGS_ID }, 
-      { $set: document }, 
-      { upsert: true }
+      { _id: SETTINGS_ID },
+      { $set: document },
+      { upsert: true },
     );
   }
 
@@ -75,6 +92,8 @@ export async function saveSeoSettings(payload: Partial<SeoSettings>) {
       throw new Error(getMongoConnectionErrorMessage(retryError));
     }
   }
+
+  revalidatePublicSeoData();
 
   const { _id, ...savedSettings } = document;
   return savedSettings as SeoSettings;

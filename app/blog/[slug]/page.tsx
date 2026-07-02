@@ -14,6 +14,11 @@ import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
 
 export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
+export async function generateStaticParams() {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
+
 type BlogDetailPageProps = {
   params: { slug: string };
 };

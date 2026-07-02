@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 import { blogPosts as staticBlogPosts, type BlogPost as StaticBlogPost } from "../data/blogPosts";
 import {
@@ -256,6 +257,8 @@ async function fetchBlogPosts(): Promise<BlogPost[]> {
   return mergeBlogLists(storedPosts, deletedSlugs).map((post) => sanitizeBlogPost(post));
 }
 
+const loadBlogPosts = cache(fetchBlogPosts);
+
 export async function getBlogPosts(options: PublicDataOptions = {}): Promise<BlogPost[]> {
   if (options.fresh) {
     noStore();
@@ -265,7 +268,7 @@ export async function getBlogPosts(options: PublicDataOptions = {}): Promise<Blo
   return getCachedPublicData(
     ["blog-posts"],
     [CACHE_TAGS.blogPosts],
-    fetchBlogPosts,
+    () => loadBlogPosts(),
   );
 }
 
@@ -302,6 +305,8 @@ async function fetchBlogPostBySlug(normalizedSlug: string): Promise<BlogPost | n
   return staticPost ? sanitizeBlogPost(staticPost) : null;
 }
 
+const loadBlogPostBySlug = cache(fetchBlogPostBySlug);
+
 export async function getBlogPostBySlug(
   slug: string,
   options: PublicDataOptions = {},
@@ -316,7 +321,7 @@ export async function getBlogPostBySlug(
   return getCachedPublicData(
     ["blog-post", normalizedSlug],
     [CACHE_TAGS.blogPosts, CACHE_TAGS.blogPost(normalizedSlug)],
-    () => fetchBlogPostBySlug(normalizedSlug),
+    () => loadBlogPostBySlug(normalizedSlug),
   );
 }
 

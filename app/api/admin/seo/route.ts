@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const settings = await getSeoSettings();
+    const settings = await getSeoSettings({ fresh: true });
     return NextResponse.json(settings);
   } catch (error) {
     console.error("Failed to fetch SEO settings", error);
