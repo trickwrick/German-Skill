@@ -1,10 +1,7 @@
-import AdminPlaceholder from "../../_components/AdminPlaceholder";
+import AdminVideoTestimonialsContent from "../../_components/AdminVideoTestimonialsContent";
+
+export const dynamic = "force-dynamic";
 
 export default function AdminTestimonialsPage() {
-  return (
-    <AdminPlaceholder
-      title="Testimonials"
-      description="Testimonial management will be added in the next step."
-    />
-  );
+  return <AdminVideoTestimonialsContent />;
 }

@@ -8,6 +8,7 @@ export const CACHE_TAGS = {
   courses: "courses",
   course: (slug: string) => `course:${slug}`,
   seoSettings: "seo-settings",
+  videoTestimonials: "video-testimonials",
 } as const;
 
 export type PublicDataOptions = {

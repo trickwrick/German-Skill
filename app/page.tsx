@@ -8,8 +8,10 @@ import { showFaqs } from "../data/siteFeatures";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TestimonialsSection from "./components/TestimonialsSection";
+import VideoTestimonialsSection from "./components/VideoTestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
+import { getVideoTestimonials } from "../lib/videoTestimonialStore";
 import { PUBLIC_REVALIDATE_SECONDS } from "../lib/publicDataCache";
 
 export const revalidate = PUBLIC_REVALIDATE_SECONDS;
@@ -329,7 +331,10 @@ function PromoCards() {
 }
 
 export default async function HomePage() {
-  const courses = await getGermanCoursesForDisplay();
+  const [courses, videoTestimonials] = await Promise.all([
+    getGermanCoursesForDisplay(),
+    getVideoTestimonials(),
+  ]);
 
   return (
     <>
@@ -344,6 +349,7 @@ export default async function HomePage() {
         <WhyChooseSection />
         <ComparisonSection />
         <CertificateSection />
+        <VideoTestimonialsSection testimonials={videoTestimonials} />
         <TestimonialsSection />
         <WebinarSection />
         {showFaqs ? <HomeFaqSection /> : null}
