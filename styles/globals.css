@@ -2509,15 +2509,16 @@ button {
 }
 
 .blog-sidebar {
-  align-self: start;
-  padding-top: 4px;
+  align-self: stretch;
+  min-height: 0;
 }
 
 .blog-sidebar-widget {
+  position: sticky;
+  top: 96px;
   border: 1px solid #e8eef4;
   border-radius: 12px;
   background: #fff;
-  overflow: hidden;
   box-shadow: 0 8px 24px rgba(17, 17, 17, 0.04);
 }
 
@@ -2635,6 +2636,11 @@ button {
 
   .blog-page-grid-with-sidebar {
     grid-template-columns: 1fr;
+  }
+
+  .blog-sidebar-widget {
+    position: static;
+    top: auto;
   }
 }
 
@@ -2868,6 +2874,12 @@ button {
   display: table-header-group;
 }
 
+.blog-prose thead th {
+  background: #f1f5f9;
+  color: #0b1f44;
+  font-weight: 700;
+}
+
 .blog-prose tbody {
   display: table-row-group;
 }
@@ -2884,7 +2896,7 @@ button {
 .blog-prose th {
   font-weight: 700;
   color: #1e2f42;
-  background: #ffffff;
+  background: #f1f5f9;
 }
 
 .blog-prose td p,
@@ -7182,7 +7194,8 @@ a.contact-info-value:hover {
 
 .blog-ckeditor4-wrap .cke_editable th,
 .blog-ckeditor4-wrap .cke_wysiwyg_div th {
-  background: #f8fafc;
+  background: #f1f5f9;
+  color: #0b1f44;
   font-weight: 700;
 }
 

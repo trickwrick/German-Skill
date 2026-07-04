@@ -658,6 +658,43 @@ function normalizeTypography(html: string): string {
   return unwrapRedundantSpans(result);
 }
 
+function ensureTableHeader(html: string): string {
+  if (!TABLE_TAG.test(html)) {
+    return html;
+  }
+
+  return html.replace(/<table\b[^>]*>([\s\S]*?)<\/table>/gi, (tableMatch, inner) => {
+    if (/<thead\b/i.test(inner)) {
+      return tableMatch;
+    }
+
+    const firstRowMatch = inner.match(/<tr\b[^>]*>([\s\S]*?)<\/tr>/i);
+    if (!firstRowMatch) {
+      return tableMatch;
+    }
+
+    const firstRow = firstRowMatch[0];
+    const firstRowCells = firstRow.match(/<(td|th)\b[^>]*>[\s\S]*?<\/\1>/gi);
+    if (!firstRowCells || firstRowCells.length === 0) {
+      return tableMatch;
+    }
+
+    const headerCells = firstRowCells
+      .map((cell) =>
+        cell.replace(/^<td\b/i, "<th").replace(/<\/td>$/i, "</th>"),
+      )
+      .join("");
+    const headerRow = `<thead><tr>${headerCells}</tr></thead>`;
+    const rest = inner.replace(firstRow, "").replace(/^\s*<tbody\b[^>]*>/i, "").replace(/<\/tbody>\s*$/i, "");
+    const bodyContent = rest.trim();
+
+    return tableMatch.replace(
+      inner,
+      `${headerRow}${bodyContent ? `<tbody>${bodyContent}</tbody>` : ""}`,
+    );
+  });
+}
+
 function ensureCellBorders(html: string): string {
   if (!TABLE_CELL_TAGS.test(html)) {
     return html;
@@ -668,7 +705,7 @@ function ensureCellBorders(html: string): string {
       if (/style\s*=/i.test(attrs)) {
         return match;
       }
-      return `<th style="border:1px solid #d1d5db;padding:12px;text-align:left;vertical-align:top;background:#f8fafc;font-weight:700;"${attrs}>`;
+      return `<th style="border:1px solid #d1d5db;padding:12px;text-align:left;vertical-align:top;background:#f1f5f9;font-weight:700;color:#0b1f44;"${attrs}>`;
     })
     .replace(/<td\b([^>]*)>/gi, (match, attrs) => {
       if (/style\s*=/i.test(attrs)) {
@@ -697,7 +734,7 @@ export function preparePastedBlogHtml(html: string): string {
   let result = cleanupPastedHtml(trimmed);
 
   if (TABLE_TAG.test(result)) {
-    result = ensureCellBorders(ensureTableMarkup(result));
+    result = ensureTableHeader(ensureCellBorders(ensureTableMarkup(result)));
   }
 
   return result;
