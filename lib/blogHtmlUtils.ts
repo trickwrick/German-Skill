@@ -680,7 +680,7 @@ function ensureTableHeader(html: string): string {
     }
 
     const headerCells = firstRowCells
-      .map((cell) =>
+      .map((cell: string) =>
         cell.replace(/^<td\b/i, "<th").replace(/<\/td>$/i, "</th>"),
       )
       .join("");
