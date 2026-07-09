@@ -46,8 +46,56 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "EducationalOrganization",
+        "@id": "https://fluentauf.com/#organization",
+        "name": "Fluent AUF",
+        "url": "https://fluentauf.com/",
+        "logo": "https://fluentauf.com/fluent-logo.png",
+        "description": "Fluent AUF provides online German language courses from A1 to C2 with live classes, experienced trainers, doubt-solving sessions, and certification support.",
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://fluentauf.com/#website",
+        "url": "https://fluentauf.com/",
+        "name": "Fluent AUF",
+        "publisher": {
+          "@id": "https://fluentauf.com/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://fluentauf.com/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://fluentauf.com/#webpage",
+        "url": "https://fluentauf.com/",
+        "name": "Fluent AUF: Online German Language Courses & Classes",
+        "isPartOf": {
+          "@id": "https://fluentauf.com/#website"
+        },
+        "about": {
+          "@id": "https://fluentauf.com/#organization"
+        },
+        "description": "Join online German language classes from A1 to C2. Learn with certified trainers through live interactive sessions, study materials, doubt support, and certification guidance."
+      }
+    ]
+  };
+
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body>
         <GoogleAnalytics />
         {children}
