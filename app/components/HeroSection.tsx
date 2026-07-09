@@ -6,7 +6,7 @@ export default function HeroSection() {
     <section className="hero-banner" id="home">
       <Image
         src="/hero-students.jpg"
-        alt=""
+        alt="Students learning German online with Fluent AUF"
         fill
         priority
         sizes="100vw"
