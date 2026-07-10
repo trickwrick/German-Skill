@@ -9,7 +9,8 @@ function getRequestOrigin(request: Request) {
 }
 
 function buildCkeUploadResponse(funcNum: string, url: string, message = "") {
-  return `<script type="text/javascript">window.parent.CKEDITOR.tools.callFunction(${funcNum}, ${JSON.stringify(url)}, ${JSON.stringify(message)});</script>`;
+  const script = `window.parent.CKEDITOR.tools.callFunction(${funcNum}, ${JSON.stringify(url)}, ${JSON.stringify(message)});`;
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"/></head><body><script type="text/javascript">${script}<\/script></body></html>`;
 }
 
 export async function POST(request: Request) {
