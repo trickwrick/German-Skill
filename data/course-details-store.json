@@ -1,0 +1,248 @@
+{
+  "a1": {
+    "slug": "a1",
+    "course": {
+      "slug": "a1",
+      "pathName": "german-a1",
+      "title": "German A1 Level : For Beginners!",
+      "description": "Learn German Language From A Native and Experienced German Teacher - Learn German Grammar, Vocabulary and Speaking from scratch.",
+      "hours": "3 month",
+      "price": "₹14,999.00",
+      "image": "/courses/german-a1-1781517209979.png",
+      "batchSize": "20-40 Students",
+      "enrolled": "112",
+      "rating": "4.50",
+      "reviewCount": "50",
+      "learningHours": "3 month"
+    },
+    "faqs": [
+      {
+        "q": "Do I need any prior knowledge of German?",
+        "a": "No. This course is designed for complete beginners starting from the German alphabet."
+      },
+      {
+        "q": "How long do I have access to the course?",
+        "a": "You get lifetime access on mobile, tablet, and desktop."
+      },
+      {
+        "q": "Is this course suitable for Goethe A1 exam preparation?",
+        "a": "Yes. The course includes preparation for the speaking and writing parts of the official A1 certification."
+      }
+    ],
+    "reviewsSummary": {
+      "average": "4.50",
+      "total": 50,
+      "breakdown": [
+        {
+          "stars": 5,
+          "percent": 50
+        },
+        {
+          "stars": 4,
+          "percent": 50
+        },
+        {
+          "stars": 3,
+          "percent": 0
+        },
+        {
+          "stars": 2,
+          "percent": 0
+        },
+        {
+          "stars": 1,
+          "percent": 0
+        }
+      ],
+      "note": ""
+    },
+    "reviews": [],
+    "flexibleBatches": {
+      "subtitle": "Get Certification in A1 Level German Language Course Online Live Training with",
+      "highlight": "Goethe Exam Preparation",
+      "title": "Flexible batches for you",
+      "batches": [
+        {
+          "id": "batch-1",
+          "date": "June 8th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "soldOut": true
+        },
+        {
+          "id": "batch-2",
+          "date": "June 22nd",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "defaultSelected": true
+        },
+        {
+          "id": "batch-3",
+          "date": "July 6th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)"
+        }
+      ],
+      "originalPrice": "₹29,998",
+      "badge": "Live Classes + Study Material Included",
+      "discountPercent": 50
+    },
+    "updatedAt": "2026-06-25T11:15:51.287Z"
+  },
+  "a2": {
+    "slug": "a2",
+    "course": {
+      "slug": "a2",
+      "pathName": "german-a2",
+      "title": "German A2 Level : Elementary",
+      "description": "Learn The German Grammar From A Native and Experienced German Teacher - Learn German Grammar For Advanced Beginners.",
+      "hours": "115 Hours +",
+      "price": "₹17,500.00",
+      "image": "/courses/german-a2-1781517189489.png",
+      "batchSize": "20-40 Students",
+      "enrolled": "98",
+      "rating": "4.50",
+      "reviewCount": "4",
+      "learningHours": "115 Hours"
+    },
+    "faqs": [
+      {
+        "q": "How long do I have access to the course?",
+        "a": "You get lifetime access on mobile, tablet, and desktop."
+      },
+      {
+        "q": "Is this course suitable for Goethe A2 exam preparation?",
+        "a": "Yes. The course includes preparation support for speaking, writing, and core skills required at A2 level."
+      },
+      {
+        "q": "How long do I have access to the course?",
+        "a": "You get lifetime access on mobile, tablet, and desktop."
+      }
+    ],
+    "reviewsSummary": {
+      "average": "4.50",
+      "total": 4,
+      "breakdown": [
+        {
+          "stars": 5,
+          "percent": 50
+        },
+        {
+          "stars": 4,
+          "percent": 50
+        },
+        {
+          "stars": 3,
+          "percent": 0
+        },
+        {
+          "stars": 2,
+          "percent": 0
+        },
+        {
+          "stars": 1,
+          "percent": 0
+        }
+      ],
+      "note": "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews."
+    },
+    "reviews": [
+      {
+        "initials": "CS",
+        "name": "Chitra Sharma",
+        "date": "May 30, 2023",
+        "rating": 4,
+        "text": "I completed my A2 from Fluent AUF Language Studio. Excellent teaching methodology and very helpful for exam preparation.",
+        "color": "#ec4899"
+      },
+      {
+        "initials": "AK",
+        "name": "Akhil Kumaria",
+        "date": "June 18, 2023",
+        "rating": 4,
+        "text": "Teachers are very knowledgeable and patient. German grammar became much easier to understand at A2 level.",
+        "color": "#14b8a6"
+      },
+      {
+        "initials": "VC",
+        "name": "Virendra Chaudhary",
+        "date": "May 18, 2023",
+        "rating": 4,
+        "text": "I highly recommend Fluent AUF as one of the best language institutes for learning German in Jaipur.",
+        "color": "#f59e0b"
+      },
+      {
+        "initials": "GS",
+        "name": "Gaurav Sharma",
+        "date": "May 30, 2023",
+        "rating": 4,
+        "text": "Excellent A2 course! The trainer explains everything clearly with real-life examples. Highly recommended.",
+        "color": "#e31e24"
+      }
+    ],
+    "updatedAt": "2026-06-15T09:53:13.567Z"
+  },
+  "b1": {
+    "slug": "b1",
+    "course": {
+      "pathName": "german-b1",
+      "title": "German B1 Level : Intermediate",
+      "description": "Test",
+      "hours": "130 Hours +",
+      "learningHours": "130 Hours",
+      "price": "₹21,000.00",
+      "image": "/courses/german-hero.jpg",
+      "batchSize": "20-40 Students",
+      "enrolled": "86",
+      "rating": "4.50",
+      "reviewCount": "1"
+    },
+    "faqs": [
+      {
+        "q": "Q1",
+        "a": "A1"
+      }
+    ],
+    "reviewsSummary": {
+      "average": "4.50",
+      "total": 1,
+      "breakdown": [
+        {
+          "stars": 5,
+          "percent": 100
+        },
+        {
+          "stars": 4,
+          "percent": 0
+        },
+        {
+          "stars": 3,
+          "percent": 0
+        },
+        {
+          "stars": 2,
+          "percent": 0
+        },
+        {
+          "stars": 1,
+          "percent": 0
+        }
+      ],
+      "note": "Test note"
+    },
+    "reviews": [
+      {
+        "initials": "M",
+        "name": "Mohan ",
+        "date": "June 2026",
+        "rating": 5,
+        "text": "Single saved review",
+        "color": "#6366f1"
+      }
+    ],
+    "updatedAt": "2026-06-13T08:24:14.416Z"
+  }
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "1ad70591-49bf-44b3-b9d9-ed76da06f0c6",
+    "name": "Rahul",
+    "email": "rahulrathor88670@gmail.com",
+    "phone": "+917568450691",
+    "course": "German Level B2",
+    "message": "test",
+    "source": "contact",
+    "createdAt": "2026-06-23T11:06:31.528Z"
+  },
+  {
+    "id": "921af1db-154a-4e60-aee9-4021f96bfabf",
+    "name": "abhisek",
+    "email": "rahulrathor88670@gmail.com",
+    "phone": "07568450691",
+    "course": "German A1 Level : For Beginners!",
+    "message": "Free demo enquiry from Enroll Now.",
+    "source": "enroll",
+    "city": "Jaipur",
+    "level": "C1 - Advance Level German",
+    "createdAt": "2026-06-23T11:06:07.704Z"
+  },
+  {
+    "id": "c701b395-1323-4164-a696-0f0f7dfe52a7",
+    "name": "abhisek",
+    "email": "rahulrathor88670@gmail.com",
+    "phone": "07568450691",
+    "course": "German A1 Level : For Beginners!",
+    "message": "Free demo enquiry from Enroll Now.",
+    "source": "enroll",
+    "city": "Jaipur",
+    "level": "A1 - For Beginners!",
+    "createdAt": "2026-06-23T09:00:43.804Z"
+  },
+  {
+    "id": "42576ba9-15c6-4fa5-825a-030db9b370b2",
+    "name": "Rahul",
+    "email": "rahulrathor88670@gmail.com",
+    "phone": "+917568450691",
+    "course": "German Level A1",
+    "message": "testing",
+    "createdAt": "2026-06-22T12:45:52.522Z"
+  },
+  {
+    "id": "9f665897-9ab3-4bf8-8039-cfd7b572f4ad",
+    "name": "Test User",
+    "email": "test@example.com",
+    "phone": "+919876543210",
+    "course": "German Level A1",
+    "message": "Testing contact form save",
+    "createdAt": "2026-06-22T12:44:46.341Z"
+  }
+]
