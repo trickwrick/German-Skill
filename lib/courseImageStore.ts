@@ -1,6 +1,6 @@
 import { Binary } from "mongodb";
 import { existsSync } from "fs";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, writeFile, readFile } from "fs/promises";
 import path from "path";
 import { isFileStoreEnabled } from "./courseDetailsFileStore";
 import { getMongoClient } from "./mongodb";
@@ -89,7 +89,7 @@ export async function saveCourseImage(file: File, slug?: string) {
     }
 
     await writeFile(path.join(PUBLIC_COURSES_DIR, filename), buffer);
-    return { path: `/courses/${filename}` };
+    return { path: `/api/course-images/${filename}` };
   }
 
   if (!process.env.MONGODB_URI) {
@@ -117,7 +117,29 @@ export async function saveCourseImage(file: File, slug?: string) {
 }
 
 export async function getCourseImage(filename: string) {
-  if (!isSafeCourseImageFilename(filename) || !process.env.MONGODB_URI) {
+  const safeName = decodeURIComponent(filename);
+
+  if (!isSafeCourseImageFilename(safeName)) {
+    return null;
+  }
+
+  const publicPath = path.join(PUBLIC_COURSES_DIR, safeName);
+  if (existsSync(publicPath)) {
+    const data = await readFile(publicPath);
+    const extension = safeName.split(".").pop()?.toLowerCase();
+    const contentType =
+      extension === "png"
+        ? "image/png"
+        : extension === "webp"
+          ? "image/webp"
+          : extension === "gif"
+            ? "image/gif"
+            : "image/jpeg";
+
+    return { contentType, data };
+  }
+
+  if (!process.env.MONGODB_URI) {
     return null;
   }
 

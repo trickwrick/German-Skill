@@ -83,7 +83,7 @@ export async function saveBlogImage(file: File) {
     }
 
     await writeFile(path.join(PUBLIC_BLOGS_DIR, filename), buffer);
-    return { path: `/blogs/${filename}` };
+    return { path: `/api/blog-images/${filename}` };
   }
 
   if (!process.env.MONGODB_URI) {
