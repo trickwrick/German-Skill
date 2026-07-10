@@ -112,6 +112,10 @@ button {
   animation: top-announcement-scroll 40s linear infinite;
 }
 
+.top-announcement-bar:hover .top-announcement-track {
+  animation-play-state: paused;
+}
+
 .top-announcement-content {
   display: flex;
   align-items: center;
@@ -869,6 +873,7 @@ button {
   color: #5a6d80;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
