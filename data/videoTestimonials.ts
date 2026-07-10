@@ -17,7 +17,7 @@ export const defaultVideoTestimonials: VideoTestimonial[] = [
     name: "Payal Sharma",
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    image: "/webinar-student.jpg",
+    image: "/blogs/blog-1782993443682.jpg",
     description:
       "Hear how Payal improved her German skills with Fluent AUF live classes and exam-focused training.",
     sortOrder: 1,
@@ -28,7 +28,7 @@ export const defaultVideoTestimonials: VideoTestimonial[] = [
     name: "Aditi Verma",
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    image: "/hero-students.jpg",
+    image: "/tutors/khushi-sharma.jpg",
     description:
       "Hear how Aditi improved her German skills with Fluent AUF live classes and exam-focused training.",
     sortOrder: 2,
@@ -39,7 +39,7 @@ export const defaultVideoTestimonials: VideoTestimonial[] = [
     name: "Kunjal Mehta",
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    image: "/portal-education.jpg",
+    image: "/tutors/preeti-sharma.jpg",
     description:
       "Hear how Kunjal improved his German skills with Fluent AUF live classes and exam-focused training.",
     sortOrder: 3,
@@ -50,7 +50,7 @@ export const defaultVideoTestimonials: VideoTestimonial[] = [
     name: "Preetam Singh",
     rating: 5,
     youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    image: "/webinar-student.jpg",
+    image: "/tutors/khushi-birsat.jpg",
     description:
       "Hear how Preetam improved his German skills with Fluent AUF live classes and exam-focused training.",
     sortOrder: 4,

@@ -16,7 +16,7 @@ export type CourseReviewsSummary = {
   }[];
   note: string;
 };
-
+  
 export type StoredCourseDetails = {
   slug: string;
   isCustom?: boolean;

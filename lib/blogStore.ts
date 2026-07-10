@@ -104,6 +104,7 @@ export function sanitizeBlogPost(post: Partial<BlogPost> & { slug: string }): Bl
     tags: Array.isArray(post.tags)
       ? post.tags.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
       : undefined,
+    featured: Boolean(post.featured),
   };
 
   if (post.createdAt) {

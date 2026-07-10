@@ -26,6 +26,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
     image: initialData?.image || "",
     content: initialData?.content || "",
     faqs: initialData?.faqs || [],
+    featured: initialData?.featured || false,
     seo: initialData?.seo || {
       metaTitle: "",
       metaKeyword: "",
@@ -472,6 +473,27 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', position: 'sticky', top: '2rem' }}>
         
+        {/* Featured Box */}
+        <div style={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e9ecef', overflow: 'hidden' }}>
+          <div style={{ padding: '1rem', borderBottom: '1px solid #e9ecef', backgroundColor: '#f8f9fa' }}>
+            <h3 style={{ margin: 0, fontSize: '1rem', color: '#333' }}>Featured</h3>
+          </div>
+          <div style={{ padding: '1rem' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', fontSize: '0.9rem' }}>
+              <input
+                type="checkbox"
+                checked={Boolean(formData.featured)}
+                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#6c5ce7' }}
+              />
+              <span>Mark as Featured post</span>
+            </label>
+            <small style={{ display: 'block', marginTop: '0.5rem', color: '#888' }}>
+              Featured posts are highlighted with a ★ in the admin list.
+            </small>
+          </div>
+        </div>
+
         {/* Categories Box */}
         <div style={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e9ecef', overflow: 'hidden' }}>
           <div style={{ padding: '1rem', borderBottom: '1px solid #e9ecef', backgroundColor: '#f8f9fa' }}>
