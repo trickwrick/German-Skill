@@ -1,4 +1,4 @@
-import { revalidateTag, unstable_cache } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 
 export const PUBLIC_REVALIDATE_SECONDS = 300;
 
@@ -28,10 +28,13 @@ export function getCachedPublicData<T>(
 
 export function revalidatePublicBlogData(...slugs: string[]) {
   revalidateTag(CACHE_TAGS.blogPosts);
+  revalidatePath("/blog");
 
   for (const slug of slugs) {
-    if (slug.trim()) {
-      revalidateTag(CACHE_TAGS.blogPost(slug.trim()));
+    const trimmed = slug.trim();
+    if (trimmed) {
+      revalidateTag(CACHE_TAGS.blogPost(trimmed));
+      revalidatePath(`/blog/${trimmed}`);
     }
   }
 }

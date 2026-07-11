@@ -7,9 +7,7 @@ import BlogSidebar from "./_components/BlogSidebar";
 import { getBlogPosts } from "../../lib/blogStore";
 import { filterBlogPostsByCategory } from "../../lib/blogUtils";
 
-import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
-
-export const revalidate = PUBLIC_REVALIDATE_SECONDS;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Blog | Fluent AUF",

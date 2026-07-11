@@ -288,8 +288,13 @@ async function fetchBlogPosts(): Promise<BlogPost[]> {
 
 const loadBlogPosts = cache(fetchBlogPosts);
 
+function shouldBypassBlogCache() {
+  // Live/Vercel must always read MongoDB directly — stale ISR cache hid admin posts.
+  return isServerlessHosting();
+}
+
 export async function getBlogPosts(options: PublicDataOptions = {}): Promise<BlogPost[]> {
-  if (options.fresh) {
+  if (options.fresh || shouldBypassBlogCache()) {
     noStore();
     return fetchBlogPosts();
   }
@@ -348,7 +353,7 @@ export async function getBlogPostBySlug(
 ): Promise<BlogPost | null> {
   const normalizedSlug = decodeURIComponent(slug).trim();
 
-  if (options.fresh) {
+  if (options.fresh || shouldBypassBlogCache()) {
     noStore();
     return fetchBlogPostBySlug(normalizedSlug);
   }

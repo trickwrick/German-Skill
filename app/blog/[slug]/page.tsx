@@ -10,14 +10,7 @@ import { formatBlogDate } from "../../../data/blogPosts";
 import { getBlogPostBySlug, getBlogPosts } from "../../../lib/blogStore";
 import { sanitizeBlogHtml } from "../../../lib/blogHtmlUtils";
 
-import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
-
-export const revalidate = PUBLIC_REVALIDATE_SECONDS;
-
-export async function generateStaticParams() {
-  const posts = await getBlogPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
+export const dynamic = "force-dynamic";
 
 type BlogDetailPageProps = {
   params: { slug: string };
