@@ -163,12 +163,19 @@ function sortPosts(posts: BlogPost[]) {
   );
 }
 
+/** Static seed posts are for local file-store dev only — never on Vercel/live. */
+function shouldMergeStaticBlogPosts() {
+  return isFileStoreEnabled();
+}
+
 function mergeBlogLists(storedPosts: BlogPost[], deletedSlugs: Set<string>) {
   const bySlug = new Map<string, BlogPost>();
 
-  for (const post of staticBlogPosts) {
-    if (!deletedSlugs.has(post.slug)) {
-      bySlug.set(post.slug, post);
+  if (shouldMergeStaticBlogPosts()) {
+    for (const post of staticBlogPosts) {
+      if (!deletedSlugs.has(post.slug)) {
+        bySlug.set(post.slug, post);
+      }
     }
   }
 
@@ -323,8 +330,14 @@ async function fetchBlogPostBySlug(normalizedSlug: string): Promise<BlogPost | n
     }
   }
 
-  const staticPost = staticBlogPosts.find((post) => post.slug === normalizedSlug);
-  return staticPost ? sanitizeBlogPost(staticPost) : null;
+  if (shouldMergeStaticBlogPosts()) {
+    const staticPost = staticBlogPosts.find((post) => post.slug === normalizedSlug);
+    if (staticPost) {
+      return sanitizeBlogPost(staticPost);
+    }
+  }
+
+  return null;
 }
 
 const loadBlogPostBySlug = cache(fetchBlogPostBySlug);
