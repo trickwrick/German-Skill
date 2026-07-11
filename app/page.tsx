@@ -12,9 +12,7 @@ import VideoTestimonialsSection from "./components/VideoTestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
 import { getVideoTestimonials } from "../lib/videoTestimonialStore";
-import { PUBLIC_REVALIDATE_SECONDS } from "../lib/publicDataCache";
-
-export const revalidate = PUBLIC_REVALIDATE_SECONDS;
+export const dynamic = "force-dynamic";
 
 const stats = [
   { value: "10,500+", label: "Happy Students" },

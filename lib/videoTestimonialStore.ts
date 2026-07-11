@@ -7,9 +7,10 @@ import { getYoutubeVideoId, slugifyTestimonialId, getDefaultTestimonialDescripti
 import {
   CACHE_TAGS,
   getCachedPublicData,
+  safeRevalidatePublicVideoTestimonialsData,
+  shouldBypassPublicDataCache,
   type PublicDataOptions,
 } from "./publicDataCache";
-import { revalidateTag } from "next/cache";
 
 const DB_NAME = "germanskill";
 const COLLECTION = "video_testimonials";
@@ -83,22 +84,18 @@ async function fetchAllVideoTestimonials(): Promise<VideoTestimonial[]> {
   }
 
   if (items.length === 0) {
-    return defaultVideoTestimonials;
+    return isFileStoreEnabled() ? defaultVideoTestimonials : [];
   }
 
   return sortItems(items.map((item) => sanitizeItem(item)));
 }
 
 function revalidateVideoTestimonials() {
-  try {
-    revalidateTag(CACHE_TAGS.videoTestimonials);
-  } catch (error) {
-    console.error("Failed to revalidate video testimonials cache", error);
-  }
+  safeRevalidatePublicVideoTestimonialsData();
 }
 
 export async function getAllVideoTestimonials(options: PublicDataOptions = {}): Promise<VideoTestimonial[]> {
-  if (options.fresh) {
+  if (options.fresh || shouldBypassPublicDataCache()) {
     noStore();
     return fetchAllVideoTestimonials();
   }

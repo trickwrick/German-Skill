@@ -14,17 +14,11 @@ import {
 import CourseContent from "../../courses/_components/CourseContent";
 import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
 
-import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
+export const dynamic = "force-dynamic";
 
-export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 type PageProps = {
   params: { courseName: string };
 };
-
-export async function generateStaticParams() {
-  const courses = await getGermanCoursesForDisplay();
-  return courses.map((course) => ({ courseName: course.pathName }));
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const course = await getCourseByPathNameAsync(params.courseName);

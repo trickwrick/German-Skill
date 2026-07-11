@@ -20,6 +20,7 @@ import {
   CACHE_TAGS,
   getCachedPublicData,
   safeRevalidatePublicCourseData,
+  shouldBypassPublicDataCache,
   type PublicDataOptions,
 } from "./publicDataCache";
 import { slugifyCoursePath, formatDisplayPrice } from "./courseUtils";
@@ -88,8 +89,8 @@ async function fetchAllStoredCourseDetailsList(): Promise<StoredCourseDetails[]>
           bySlug.set(document.slug, sanitizeStoredDetails(document));
         }
       }
-    } catch {
-      // No stored course details available.
+    } catch (error) {
+      console.error("Failed to fetch course details from MongoDB", error);
     }
   }
 
@@ -101,7 +102,7 @@ const loadStoredCourseDetailsList = cache(fetchAllStoredCourseDetailsList);
 export async function getAllStoredCourseDetailsList(
   options: PublicDataOptions = {},
 ): Promise<StoredCourseDetails[]> {
-  if (options.fresh) {
+  if (options.fresh || shouldBypassPublicDataCache()) {
     noStore();
     return fetchAllStoredCourseDetailsList();
   }
@@ -159,7 +160,7 @@ export async function getCourseBySlugAsync(
   slug: string,
   options: PublicDataOptions = {},
 ): Promise<GermanCourse | undefined> {
-  if (options.fresh) {
+  if (options.fresh || shouldBypassPublicDataCache()) {
     noStore();
     return fetchCourseBySlugAsync(slug);
   }
@@ -197,7 +198,7 @@ export async function getCourseByPathNameAsync(
 ): Promise<GermanCourse | undefined> {
   const decoded = decodeURIComponent(pathName);
 
-  if (options.fresh) {
+  if (options.fresh || shouldBypassPublicDataCache()) {
     noStore();
     return fetchCourseByPathNameAsync(decoded);
   }
@@ -482,7 +483,7 @@ export async function getCourseContentAsync(
   slug: string,
   options: PublicDataOptions = {},
 ): Promise<CourseContent | undefined> {
-  if (options.fresh) {
+  if (options.fresh || shouldBypassPublicDataCache()) {
     noStore();
     return fetchCourseContentAsync(slug);
   }
@@ -504,7 +505,7 @@ export async function getCourseFlexibleBatchesAsync(
   slug: string,
   options: PublicDataOptions = {},
 ) {
-  if (options.fresh) {
+  if (options.fresh || shouldBypassPublicDataCache()) {
     noStore();
     return fetchCourseFlexibleBatchesAsync(slug);
   }
@@ -536,7 +537,7 @@ async function fetchGermanCoursesForDisplay(): Promise<GermanCourse[]> {
 export async function getGermanCoursesForDisplay(
   options: PublicDataOptions = {},
 ): Promise<GermanCourse[]> {
-  if (options.fresh) {
+  if (options.fresh || shouldBypassPublicDataCache()) {
     noStore();
     return fetchGermanCoursesForDisplay();
   }

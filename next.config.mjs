@@ -22,7 +22,7 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=600",
+            value: "public, s-maxage=0, must-revalidate",
           },
         ],
       },
@@ -31,7 +31,7 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=600",
+            value: "public, s-maxage=0, must-revalidate",
           },
         ],
       },
@@ -40,7 +40,7 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=600",
+            value: "public, s-maxage=0, must-revalidate",
           },
         ],
       },
@@ -49,7 +49,7 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, s-maxage=300, stale-while-revalidate=600",
+            value: "public, s-maxage=0, must-revalidate",
           },
         ],
       },

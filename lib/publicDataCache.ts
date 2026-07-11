@@ -1,4 +1,6 @@
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
+import { isServerlessHosting } from "./courseDetailsFileStore";
+import { getCourseBySlug } from "../data/germanCourses";
 
 export const PUBLIC_REVALIDATE_SECONDS = 300;
 
@@ -14,6 +16,11 @@ export const CACHE_TAGS = {
 export type PublicDataOptions = {
   fresh?: boolean;
 };
+
+/** Live/Vercel must read MongoDB directly — stale ISR/CDN cache reverts admin content. */
+export function shouldBypassPublicDataCache() {
+  return isServerlessHosting();
+}
 
 export function getCachedPublicData<T>(
   key: string[],
@@ -41,12 +48,24 @@ export function revalidatePublicBlogData(...slugs: string[]) {
 
 export function revalidatePublicCourseData(...slugs: string[]) {
   revalidateTag(CACHE_TAGS.courses);
+  revalidatePath("/");
+  revalidatePath("/courses");
 
   for (const slug of slugs) {
-    if (slug.trim()) {
-      revalidateTag(CACHE_TAGS.course(slug.trim()));
+    const trimmed = slug.trim();
+    if (!trimmed) {
+      continue;
     }
+
+    revalidateTag(CACHE_TAGS.course(trimmed));
+    const course = getCourseBySlug(trimmed);
+    revalidatePath(`/course/${course?.pathName ?? trimmed}`);
   }
+}
+
+export function revalidatePublicVideoTestimonialsData() {
+  revalidateTag(CACHE_TAGS.videoTestimonials);
+  revalidatePath("/");
 }
 
 export function revalidatePublicSeoData() {
@@ -67,6 +86,10 @@ export function safeRevalidatePublicBlogData(...slugs: string[]) {
 
 export function safeRevalidatePublicCourseData(...slugs: string[]) {
   safeRevalidate(() => revalidatePublicCourseData(...slugs));
+}
+
+export function safeRevalidatePublicVideoTestimonialsData() {
+  safeRevalidate(() => revalidatePublicVideoTestimonialsData());
 }
 
 export function safeRevalidatePublicSeoData() {
