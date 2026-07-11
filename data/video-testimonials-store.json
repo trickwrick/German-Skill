@@ -6,6 +6,7 @@
       "rating": 4.2,
       "youtubeUrl": "https://www.youtube.com/shorts/RXTHWmME7iM?si=H1Vu5Iy5TQKkKXbY",
       "image": "/blogs/blog-1782993443682.jpg",
+      "description": "Hear how Mohit improved their German skills with Fluent AUF live classes and exam-focused training.",
       "sortOrder": 1,
       "isActive": true
     },
@@ -14,7 +15,8 @@
       "name": "Payal Sharma",
       "rating": 5,
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "image": "/tutors/khushi-sharma.jpg",
+      "image": "/webinar-student.jpg",
+      "description": "Hear how Payal improved her German skills with Fluent AUF live classes and exam-focused training.",
       "sortOrder": 2,
       "isActive": true
     },
@@ -23,7 +25,8 @@
       "name": "Aditi Verma",
       "rating": 5,
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "image": "/tutors/khushi-birsat.jpg",
+      "image": "/hero-students.jpg",
+      "description": "Hear how Aditi improved her German skills with Fluent AUF live classes and exam-focused training.",
       "sortOrder": 3,
       "isActive": true
     },
@@ -32,7 +35,8 @@
       "name": "Kunjal Mehta",
       "rating": 5,
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "image": "/tutors/preeti-sharma.jpg",
+      "image": "/portal-education.jpg",
+      "description": "Hear how Kunjal improved his German skills with Fluent AUF live classes and exam-focused training.",
       "sortOrder": 4,
       "isActive": true
     },
@@ -41,10 +45,10 @@
       "name": "Preetam Singh",
       "rating": 5,
       "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "image": "/blogs/blog-1782993217859.jpg",
+      "image": "/webinar-student.jpg",
+      "description": "Hear how Preetam improved his German skills with Fluent AUF live classes and exam-focused training.",
       "sortOrder": 5,
       "isActive": true
     }
   ]
 }
-
