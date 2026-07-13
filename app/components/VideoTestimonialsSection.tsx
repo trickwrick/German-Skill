@@ -89,10 +89,16 @@ function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext }: Vide
   const hasPrev = activeIndex > 0;
   const hasNext = activeIndex < testimonials.length - 1;
   const [mounted, setMounted] = useState(false);
+  const [reviewExpanded, setReviewExpanded] = useState(false);
+  const description = current ? getTestimonialDescription(current) : "";
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setReviewExpanded(false);
+  }, [activeIndex]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -164,10 +170,32 @@ function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext }: Vide
 
           <aside className="video-testimonial-modal-side">
             <div className="video-testimonial-modal-side-body">
-              <span className="video-testimonial-modal-label">Fluent AUF Student</span>
-              <h3>{current.name}</h3>
-              <StarRow rating={current.rating} className="video-testimonial-stars-modal" />
-              <p className="video-testimonial-modal-copy">{getTestimonialDescription(current)}</p>
+              <div className="video-testimonial-modal-review-row">
+                <div className="video-testimonial-modal-identity">
+                  <span className="video-testimonial-modal-label">Fluent AUF Student</span>
+                  <h3>{current.name}</h3>
+                  <StarRow rating={current.rating} className="video-testimonial-stars-modal" />
+                </div>
+
+                <div className="video-testimonial-modal-review">
+                  <p
+                    className={`video-testimonial-modal-copy ${
+                      reviewExpanded ? "is-expanded" : "is-clamped"
+                    }`}
+                  >
+                    {description}
+                  </p>
+                  {description.length > 60 ? (
+                    <button
+                      type="button"
+                      className="video-testimonial-modal-more"
+                      onClick={() => setReviewExpanded((value) => !value)}
+                    >
+                      {reviewExpanded ? "View less" : "View more"}
+                    </button>
+                  ) : null}
+                </div>
+              </div>
 
               <div className="video-testimonial-modal-actions">
                 <Link href="/contact" className="btn video-testimonial-modal-btn">
