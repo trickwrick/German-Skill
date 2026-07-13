@@ -6,6 +6,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import type { CourseReview } from "../../../data/courseContent.types";
 import type {
   AdminCoursePayload,
+  CourseDescriptionTab,
+  CourseCurriculumSection,
   CourseFaqItem,
   CourseReviewsSummary,
 } from "../../../data/adminCourseDetails.types";
@@ -27,13 +29,21 @@ import {
 import type { GermanCourse } from "../../../data/germanCourses";
 import { getCourseBySlug } from "../../../data/germanCourses";
 import { slugifyCoursePath } from "../../../lib/courseUtils";
+import {
+  defaultCurriculumSection,
+  getDescriptionTabForSlug,
+  joinLines,
+  joinParagraphs,
+  splitLines,
+  splitParagraphs,
+} from "../../../lib/courseDescriptionTabUtils";
 
 type AdminCourseFormProps = {
   mode: "create" | "edit";
   lockedSlug?: string;
   isCustomCourse?: boolean;
   initialValues?: Partial<GermanCourse>;
-  descriptionPreview?: string[];
+  initialDescriptionTab?: CourseDescriptionTab;
   initialFaqs?: CourseFaqItem[];
   initialReviewsSummary?: CourseReviewsSummary;
   initialReviews?: CourseReview[];
@@ -70,12 +80,20 @@ function toDateTimeLocalValue(iso?: string) {
   return local.toISOString().slice(0, 16);
 }
 
+function updateDescriptionTabField<K extends keyof CourseDescriptionTab>(
+  current: CourseDescriptionTab,
+  field: K,
+  value: CourseDescriptionTab[K],
+): CourseDescriptionTab {
+  return { ...current, [field]: value };
+}
+
 export default function AdminCourseForm({
   mode,
   lockedSlug,
   isCustomCourse = false,
   initialValues,
-  descriptionPreview = [],
+  initialDescriptionTab,
   initialFaqs = [{ ...defaultFaqItem }],
   initialReviewsSummary = defaultReviewsSummary,
   initialReviews = [],
@@ -96,6 +114,9 @@ export default function AdminCourseForm({
   const [reviews, setReviews] = useState<CourseReview[]>(initialReviews);
   const [flexibleBatches, setFlexibleBatches] = useState<CourseFlexibleBatches>(
     initialFlexibleBatches ?? getCourseFlexibleBatches(starterSlug),
+  );
+  const [descriptionTab, setDescriptionTab] = useState<CourseDescriptionTab>(
+    initialDescriptionTab ?? getDescriptionTabForSlug(starterSlug),
   );
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -149,6 +170,44 @@ export default function AdminCourseForm({
     }));
 
     setFlexibleBatches(getCourseFlexibleBatches(level));
+    setDescriptionTab(getDescriptionTabForSlug(level));
+  }
+
+  function updateDescriptionField<K extends keyof CourseDescriptionTab>(
+    field: K,
+    value: CourseDescriptionTab[K],
+  ) {
+    setDescriptionTab((current) => updateDescriptionTabField(current, field, value));
+  }
+
+  function updateCurriculumSection(
+    index: number,
+    field: keyof CourseCurriculumSection,
+    value: string | string[],
+  ) {
+    setDescriptionTab((current) => ({
+      ...current,
+      curriculumSections: current.curriculumSections.map((section, sectionIndex) =>
+        sectionIndex === index ? { ...section, [field]: value } : section,
+      ),
+    }));
+  }
+
+  function addCurriculumSection() {
+    setDescriptionTab((current) => ({
+      ...current,
+      curriculumSections: [...current.curriculumSections, { ...defaultCurriculumSection }],
+    }));
+  }
+
+  function removeCurriculumSection(index: number) {
+    setDescriptionTab((current) => ({
+      ...current,
+      curriculumSections:
+        current.curriculumSections.length === 1
+          ? current.curriculumSections
+          : current.curriculumSections.filter((_, sectionIndex) => sectionIndex !== index),
+    }));
   }
 
   function updateFaq(index: number, field: keyof CourseFaqItem, value: string) {
@@ -334,6 +393,7 @@ export default function AdminCourseForm({
       },
       reviews,
       flexibleBatches,
+      descriptionTab,
     };
 
     try {
@@ -574,22 +634,143 @@ export default function AdminCourseForm({
         </div>
       </section>
 
-      <section className="adm-panel adm-panel-readonly">
+      <section className="adm-panel">
         <div className="adm-panel-head">
           <h2 className="adm-panel-title">Description Tab</h2>
-          <span className="adm-readonly-tag">Fixed</span>
         </div>
         <p className="adm-panel-note">
-          Course details page par Description tab ka content same rahega. Is section ko admin se change
-          nahi kiya ja sakta.
+          Edit all content shown on the course details page Description tab. One item per line for
+          lists. Leave a blank line between paragraphs in Course Description.
         </p>
-        <div className="adm-readonly-content">
-          {descriptionPreview.length ? (
-            descriptionPreview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
-          ) : (
-            <p>Description content is generated automatically for this course level.</p>
-          )}
+
+        <label className="adm-form-field adm-form-field-full">
+          <span>About This Course</span>
+          <textarea
+            value={descriptionTab.aboutCourse}
+            onChange={(event) => updateDescriptionField("aboutCourse", event.target.value)}
+            rows={3}
+          />
+        </label>
+
+        <div className="adm-form-grid">
+          <label className="adm-form-field adm-form-field-full">
+            <span>Objectives — Left Column</span>
+            <textarea
+              value={joinLines(descriptionTab.objectivesLeft)}
+              onChange={(event) =>
+                updateDescriptionField("objectivesLeft", splitLines(event.target.value))
+              }
+              rows={10}
+            />
+            <small className="adm-field-hint">One objective per line.</small>
+          </label>
+
+          <label className="adm-form-field adm-form-field-full">
+            <span>Objectives — Right Column</span>
+            <textarea
+              value={joinLines(descriptionTab.objectivesRight)}
+              onChange={(event) =>
+                updateDescriptionField("objectivesRight", splitLines(event.target.value))
+              }
+              rows={10}
+            />
+            <small className="adm-field-hint">One objective per line.</small>
+          </label>
         </div>
+
+        <label className="adm-form-field adm-form-field-full">
+          <span>Course Description</span>
+          <textarea
+            value={joinParagraphs(descriptionTab.courseDescription)}
+            onChange={(event) =>
+              updateDescriptionField("courseDescription", splitParagraphs(event.target.value))
+            }
+            rows={10}
+          />
+          <small className="adm-field-hint">Separate paragraphs with a blank line.</small>
+        </label>
+
+        <label className="adm-form-field adm-form-field-full">
+          <span>Goals / Lessons</span>
+          <textarea
+            value={joinLines(descriptionTab.goalsLessons)}
+            onChange={(event) =>
+              updateDescriptionField("goalsLessons", splitLines(event.target.value))
+            }
+            rows={8}
+          />
+          <small className="adm-field-hint">One goal per line.</small>
+        </label>
+
+        <div className="adm-panel-head" style={{ marginTop: "1rem" }}>
+          <h3 className="adm-panel-title" style={{ fontSize: "1rem" }}>
+            You Will Learn The Following
+          </h3>
+          <button
+            type="button"
+            className="adm-btn adm-btn-secondary adm-btn-small"
+            onClick={addCurriculumSection}
+          >
+            + Add Section
+          </button>
+        </div>
+
+        <div className="adm-repeat-list">
+          {descriptionTab.curriculumSections.map((section, index) => (
+            <article key={`curriculum-${index}`} className="adm-repeat-card">
+              <div className="adm-repeat-card-head">
+                <strong>Section {index + 1}</strong>
+                <button
+                  type="button"
+                  className="adm-text-btn"
+                  onClick={() => removeCurriculumSection(index)}
+                  disabled={descriptionTab.curriculumSections.length === 1}
+                >
+                  Remove
+                </button>
+              </div>
+
+              <label className="adm-form-field adm-form-field-full">
+                <span>Section Title</span>
+                <input
+                  type="text"
+                  value={section.title}
+                  onChange={(event) =>
+                    updateCurriculumSection(index, "title", event.target.value)
+                  }
+                  placeholder="German Grammar"
+                />
+              </label>
+
+              <label className="adm-form-field adm-form-field-full">
+                <span>Topics</span>
+                <textarea
+                  value={joinLines(section.topics)}
+                  onChange={(event) =>
+                    updateCurriculumSection(index, "topics", splitLines(event.target.value))
+                  }
+                  rows={5}
+                  placeholder="The Alphabet"
+                />
+                <small className="adm-field-hint">
+                  One topic per line. They appear separated by | on the course page.
+                </small>
+              </label>
+            </article>
+          ))}
+        </div>
+
+        <label className="adm-form-field adm-form-field-full">
+          <span>Who This Course Is For</span>
+          <textarea
+            value={joinLines(descriptionTab.targetAudience)}
+            onChange={(event) =>
+              updateDescriptionField("targetAudience", splitLines(event.target.value))
+            }
+            rows={4}
+          />
+          <small className="adm-field-hint">One audience line per row.</small>
+        </label>
       </section>
 
       <section className="adm-panel">

@@ -17,10 +17,28 @@ export type CourseReviewsSummary = {
   note: string;
 };
   
+export type CourseCurriculumSection = {
+  title: string;
+  topics: string[];
+};
+
+export type CourseDescriptionTab = {
+  aboutCourse: string;
+  objectivesLeft: string[];
+  objectivesRight: string[];
+  courseDescription: string[];
+  goalsLessons: string[];
+  curriculumSections: CourseCurriculumSection[];
+  targetAudience: string[];
+};
+
 export type StoredCourseDetails = {
   slug: string;
   isCustom?: boolean;
   course: Partial<GermanCourse>;
+  /** @deprecated Use descriptionTab.courseDescription */
+  courseDescription?: string[];
+  descriptionTab?: CourseDescriptionTab;
   faqs: CourseFaqItem[];
   reviewsSummary: CourseReviewsSummary;
   reviews: CourseReview[];
@@ -29,6 +47,7 @@ export type StoredCourseDetails = {
 };
 
 export type AdminCoursePayload = Partial<GermanCourse> & {
+  descriptionTab: CourseDescriptionTab;
   faqs: CourseFaqItem[];
   reviewsSummary: CourseReviewsSummary;
   reviews: CourseReview[];

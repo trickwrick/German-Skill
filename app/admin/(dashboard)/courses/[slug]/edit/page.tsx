@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AdminCourseForm from "../../../../_components/AdminCourseForm";
-import { getCourseContent, getCourseContentForCourse } from "../../../../../../data/courseContents";
 import { isStaticCourseSlug } from "../../../../../../data/germanCourses";
 import {
   getCourseBySlugAsync,
@@ -25,7 +24,6 @@ export default async function AdminEditCoursePage({ params }: EditCoursePageProp
   }
 
   const isCustomCourse = !isStaticCourseSlug(params.slug);
-  const content = getCourseContent(params.slug) ?? getCourseContentForCourse(course);
   const editable = await getCourseEditableDetails(params.slug);
   const stored = await getStoredCourseDetails(params.slug);
 
@@ -48,7 +46,7 @@ export default async function AdminEditCoursePage({ params }: EditCoursePageProp
         lockedSlug={params.slug}
         isCustomCourse={isCustomCourse}
         initialValues={mergeStoredCourse(course, stored?.course)}
-        descriptionPreview={content?.courseDescription ?? []}
+        initialDescriptionTab={editable.descriptionTab}
         initialFaqs={editable.faqs}
         initialReviewsSummary={editable.reviewsSummary}
         initialReviews={editable.reviews}

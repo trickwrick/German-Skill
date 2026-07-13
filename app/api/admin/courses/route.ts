@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { AdminCoursePayload } from "../../../../data/adminCourseDetails.types";
 import { getCourseBySlug, isStaticCourseSlug } from "../../../../data/germanCourses";
-import { getCourseContent, getCourseContentForCourse } from "../../../../data/courseContents";
 import { isAdminRequestAuthorized } from "../../../../lib/adminAuth";
 import {
   getCourseBySlugAsync,
@@ -108,13 +107,12 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Course not found." }, { status: 404 });
   }
 
-  const content = getCourseContent(slug) ?? getCourseContentForCourse(course);
   const editable = await getCourseEditableDetails(slug);
   const stored = await getStoredCourseDetails(slug);
 
   return NextResponse.json({
     course: stored?.course ?? course,
-    descriptionPreview: content?.courseDescription ?? [],
+    descriptionTab: editable.descriptionTab,
     faqs: editable.faqs,
     reviewsSummary: editable.reviewsSummary,
     reviews: editable.reviews,

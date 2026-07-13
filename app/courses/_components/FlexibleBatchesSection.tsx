@@ -185,7 +185,7 @@ export default function FlexibleBatchesSection({
 
             <div className="flexible-batches-timer">
               <HourglassIcon />
-              <span>
+              <span suppressHydrationWarning>
                 Ends in {countdown.days}d : {countdown.hours}h : {countdown.minutes}m :{" "}
                 {countdown.seconds}s
               </span>

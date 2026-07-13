@@ -24,6 +24,7 @@ import {
   type PublicDataOptions,
 } from "./publicDataCache";
 import { slugifyCoursePath, formatDisplayPrice } from "./courseUtils";
+import { mergeDescriptionTab } from "./courseDescriptionTabUtils";
 
 const DB_NAME = "germanskill";
 const COLLECTION = "course_details";
@@ -216,6 +217,7 @@ function getEditableFromContent(slug: string) {
 
   if (!content) {
     return {
+      descriptionTab: mergeDescriptionTab(slug, null),
       faqs: [] as CourseFaqItem[],
       reviewsSummary: defaultReviewsSummary,
       reviews: [] as CourseReview[],
@@ -223,6 +225,7 @@ function getEditableFromContent(slug: string) {
   }
 
   return {
+    descriptionTab: mergeDescriptionTab(slug, null),
     faqs: content.faqs,
     reviewsSummary: {
       ...content.reviewsSummary,
@@ -248,6 +251,11 @@ function mergeCourseEditableFields(
     fallback.reviewsSummary.total;
 
   return {
+    descriptionTab: mergeDescriptionTab(
+      slug,
+      stored.descriptionTab,
+      stored.courseDescription,
+    ),
     faqs: stored.faqs?.length ? stored.faqs : fallback.faqs,
     reviews: stored.reviews?.length ? stored.reviews : fallback.reviews,
     reviewsSummary: {
@@ -366,7 +374,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     throw new Error("Course slug is required.");
   }
 
-  const { slug, faqs, reviewsSummary, reviews, flexibleBatches, ...courseFields } = payload;
+  const { slug, faqs, reviewsSummary, reviews, flexibleBatches, descriptionTab, ...courseFields } = payload;
   const baseCourse = getCourseBySlug(slug);
   const isCustom = !baseCourse;
   const pathName =
@@ -382,6 +390,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
       slug,
       pathName,
     }),
+    descriptionTab,
     faqs,
     reviewsSummary: {
       ...reviewsSummary,
@@ -468,11 +477,18 @@ async function fetchCourseContentAsync(slug: string): Promise<CourseContent | un
   const stored = storedCourses.find((item) => item.slug === slug) ?? null;
   const displayCourse = mergeStoredCourse(getCourseBySlug(slug) ?? course, stored?.course);
   const editable = mergeCourseEditableFields(slug, stored);
+  const descriptionTab = editable.descriptionTab;
 
   return {
     ...base,
     sidebarPrice: displayCourse.price ?? base.sidebarPrice,
-    aboutCourse: displayCourse.description ?? base.aboutCourse,
+    aboutCourse: descriptionTab.aboutCourse,
+    objectivesLeft: descriptionTab.objectivesLeft,
+    objectivesRight: descriptionTab.objectivesRight,
+    courseDescription: descriptionTab.courseDescription,
+    goalsLessons: descriptionTab.goalsLessons,
+    curriculumSections: descriptionTab.curriculumSections,
+    targetAudience: descriptionTab.targetAudience,
     faqs: editable.faqs,
     reviews: editable.reviews,
     reviewsSummary: editable.reviewsSummary,
