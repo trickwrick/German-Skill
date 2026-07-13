@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import MobileContactBar from "./components/MobileContactBar";
+import WelcomeDiscountPopup from "./components/WelcomeDiscountPopup";
 import { getSeoSettings } from "../lib/seoStore";
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSeoSettings();
@@ -99,6 +100,7 @@ export default function RootLayout({
       <body>
         <GoogleAnalytics />
         {children}
+        <WelcomeDiscountPopup />
         <MobileContactBar />
       </body>
     </html>

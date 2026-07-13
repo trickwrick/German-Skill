@@ -11,6 +11,7 @@ export const CACHE_TAGS = {
   course: (slug: string) => `course:${slug}`,
   seoSettings: "seo-settings",
   videoTestimonials: "video-testimonials",
+  homeFaqs: "home-faqs",
 } as const;
 
 export type PublicDataOptions = {
@@ -68,6 +69,11 @@ export function revalidatePublicVideoTestimonialsData() {
   revalidatePath("/");
 }
 
+export function revalidatePublicHomeFaqsData() {
+  revalidateTag(CACHE_TAGS.homeFaqs);
+  revalidatePath("/");
+}
+
 export function revalidatePublicSeoData() {
   revalidateTag(CACHE_TAGS.seoSettings);
 }
@@ -90,6 +96,10 @@ export function safeRevalidatePublicCourseData(...slugs: string[]) {
 
 export function safeRevalidatePublicVideoTestimonialsData() {
   safeRevalidate(() => revalidatePublicVideoTestimonialsData());
+}
+
+export function safeRevalidatePublicHomeFaqsData() {
+  safeRevalidate(() => revalidatePublicHomeFaqsData());
 }
 
 export function safeRevalidatePublicSeoData() {

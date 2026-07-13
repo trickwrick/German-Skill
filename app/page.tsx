@@ -4,13 +4,13 @@ import AllCoursesSection from "./components/AllCoursesSection";
 import HeroSection from "./components/HeroSection";
 import HomeFaqSection from "./components/HomeFaqSection";
 import ComparisonSection from "./components/ComparisonSection";
-import { showFaqs } from "../data/siteFeatures";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TestimonialsSection from "./components/TestimonialsSection";
 import VideoTestimonialsSection from "./components/VideoTestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
+import { getActiveHomeFaqItems } from "../lib/homeFaqStore";
 import { getVideoTestimonials } from "../lib/videoTestimonialStore";
 export const dynamic = "force-dynamic";
 
@@ -329,9 +329,10 @@ function PromoCards() {
 }
 
 export default async function HomePage() {
-  const [courses, videoTestimonials] = await Promise.all([
+  const [courses, videoTestimonials, homeFaqs] = await Promise.all([
     getGermanCoursesForDisplay(),
     getVideoTestimonials(),
+    getActiveHomeFaqItems(),
   ]);
 
   return (
@@ -350,7 +351,7 @@ export default async function HomePage() {
         <VideoTestimonialsSection testimonials={videoTestimonials} />
         <TestimonialsSection />
         <WebinarSection />
-        {showFaqs ? <HomeFaqSection /> : null}
+        <HomeFaqSection content={homeFaqs} />
         <CareersSection />
     </main>
       <SiteFooter />

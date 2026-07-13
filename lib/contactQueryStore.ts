@@ -102,7 +102,11 @@ export async function saveContactQuery(input: ContactQueryInput): Promise<Contac
     course: input.course?.trim() || "General Inquiry",
     message:
       input.message?.trim() ||
-      (source === "enroll" ? "Free demo enquiry from Enroll Now." : ""),
+      (source === "enroll"
+        ? "Free demo enquiry from Enroll Now."
+        : source === "discount-popup"
+          ? "Discount coupon request from welcome popup."
+          : ""),
     source,
     city: input.city?.trim() || undefined,
     level: input.level?.trim() || undefined,

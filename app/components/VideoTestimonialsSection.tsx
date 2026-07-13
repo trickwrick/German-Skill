@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import type { VideoTestimonial } from "../../data/videoTestimonials";
 import { formatTestimonialRating, getTestimonialDescription, getYoutubeEmbedUrl } from "../../lib/videoTestimonialUtils";
 
@@ -88,6 +89,11 @@ function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext, onSele
   const embedUrl = current ? getYoutubeEmbedUrl(current.youtubeUrl) : null;
   const hasPrev = activeIndex > 0;
   const hasNext = activeIndex < testimonials.length - 1;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -111,11 +117,11 @@ function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext, onSele
     };
   }, [onClose, onNext, onPrev, hasNext, hasPrev]);
 
-  if (!current || !embedUrl) {
+  if (!current || !embedUrl || !mounted) {
     return null;
   }
 
-  return (
+  return createPortal(
     <div className="video-testimonial-modal" role="dialog" aria-modal="true" aria-label="Student video testimonial">
       <button type="button" className="video-testimonial-modal-backdrop" onClick={onClose} aria-label="Close video" />
 
@@ -189,7 +195,8 @@ function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext, onSele
       >
         <ChevronIcon direction="right" />
       </button>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

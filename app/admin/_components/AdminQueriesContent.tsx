@@ -4,6 +4,18 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { ContactQuery } from "../../../data/contactQuery.types";
 
+function getQuerySourceLabel(source: ContactQuery["source"]) {
+  if (source === "enroll") {
+    return "Enroll Now";
+  }
+
+  if (source === "discount-popup") {
+    return "Discount Popup";
+  }
+
+  return "Contact";
+}
+
 function formatQueryDate(value: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
@@ -67,8 +79,8 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
         <div>
           <h1 className="adm-page-title">Queries</h1>
           <p className="adm-page-subtitle">
-            All contact and Enroll Now enquiries appear here. New submissions show a badge in the
-            sidebar until you open this page.
+            All contact, Enroll Now, and discount popup enquiries appear here. New submissions show a
+            badge in the sidebar until you open this page.
           </p>
         </div>
       </div>
@@ -90,7 +102,7 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
         </div>
 
         {queries.length === 0 ? (
-          <p className="adm-panel-note">No enquiries yet. Contact and Enroll Now submissions will show up here.</p>
+          <p className="adm-panel-note">No enquiries yet. Contact, Enroll Now, and discount popup submissions will show up here.</p>
         ) : (
           <div className="adm-table-wrap adm-queries-table-wrap">
             <table className="adm-table adm-table-queries">
@@ -125,7 +137,7 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                     <td className="adm-query-date">{formatQueryDate(query.createdAt)}</td>
                     <td>
                       <span className={`adm-query-source adm-query-source-${source}`}>
-                        {source === "enroll" ? "Enroll Now" : "Contact"}
+                        {getQuerySourceLabel(source)}
                       </span>
                     </td>
                     <td>
