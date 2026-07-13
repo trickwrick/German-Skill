@@ -2955,6 +2955,39 @@ button {
 .blog-faq-answer {
   padding: 0 18px 16px;
   color: #4a5d73;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.blog-faq-answer.blog-prose p,
+.blog-faq-answer.blog-prose li,
+.blog-faq-answer.blog-prose span,
+.blog-faq-answer.blog-prose div {
+  font-weight: 400 !important;
+  font-size: 0.95rem !important;
+  color: #4a5d73 !important;
+  line-height: 1.65 !important;
+}
+
+.blog-faq-answer.blog-prose strong,
+.blog-faq-answer.blog-prose b {
+  font-weight: 400 !important;
+}
+
+.blog-faq-answer.blog-prose h2,
+.blog-faq-answer.blog-prose h3,
+.blog-faq-answer.blog-prose h4 {
+  margin: 0 0 0.5rem;
+  font-weight: 400 !important;
+  font-size: 0.95rem !important;
+  color: #4a5d73 !important;
+  line-height: 1.65 !important;
+}
+
+.blog-faq-item[open] summary {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e8eef4;
 }
 
 .blog-detail-tags {
