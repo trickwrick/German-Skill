@@ -12,6 +12,7 @@ export const CACHE_TAGS = {
   seoSettings: "seo-settings",
   videoTestimonials: "video-testimonials",
   homeFaqs: "home-faqs",
+  generalPages: "general-pages",
 } as const;
 
 export type PublicDataOptions = {
@@ -74,6 +75,14 @@ export function revalidatePublicHomeFaqsData() {
   revalidatePath("/");
 }
 
+export function revalidatePublicGeneralPagesData() {
+  revalidateTag(CACHE_TAGS.generalPages);
+  revalidatePath("/terms");
+  revalidatePath("/privacy");
+  revalidatePath("/refund");
+  revalidatePath("/about/our-company");
+}
+
 export function revalidatePublicSeoData() {
   revalidateTag(CACHE_TAGS.seoSettings);
 }
@@ -100,6 +109,10 @@ export function safeRevalidatePublicVideoTestimonialsData() {
 
 export function safeRevalidatePublicHomeFaqsData() {
   safeRevalidate(() => revalidatePublicHomeFaqsData());
+}
+
+export function safeRevalidatePublicGeneralPagesData() {
+  safeRevalidate(() => revalidatePublicGeneralPagesData());
 }
 
 export function safeRevalidatePublicSeoData() {

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type { BlogPost } from "../../../../../lib/blogStore";
 import { slugifyCoursePath } from "../../../../../lib/courseUtils";
 import BlogContentEditor from "./BlogContentEditor";
-import { sanitizeBlogHtml } from "../../../../../lib/blogHtmlUtils";
+import { sanitizeBlogHtml, sanitizeFaqAnswer } from "../../../../../lib/blogHtmlUtils";
 
 type BlogFormProps = {
   initialData?: BlogPost;
@@ -212,7 +212,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
           content: sanitizeBlogHtml(formData.content || ""),
           faqs: (formData.faqs || []).map((faq) => ({
             ...faq,
-            answer: sanitizeBlogHtml(faq.answer || ""),
+            answer: sanitizeFaqAnswer(faq.answer || ""),
           })),
         }),
         credentials: "same-origin",

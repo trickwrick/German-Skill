@@ -1,8 +1,11 @@
 import Image from "next/image";
-import type { FacultyMember } from "../../data/facultyMembers";
-import { trainers } from "../../data/facultyMembers";
+import { defaultOurCompanyContent, type OurCompanyPageData } from "../../data/generalPages";
 
-function FacultyCard({ member }: { member: FacultyMember }) {
+type FacultyTeamsSectionProps = {
+  content?: OurCompanyPageData["faculty"];
+};
+
+function FacultyCard({ member }: { member: OurCompanyPageData["faculty"]["members"][number] }) {
   return (
     <article className="of-member-card">
       <div className="of-member-photo-wrap">
@@ -22,24 +25,21 @@ function FacultyCard({ member }: { member: FacultyMember }) {
   );
 }
 
-export default function FacultyTeamsSection() {
+export default function FacultyTeamsSection({
+  content = defaultOurCompanyContent.faculty,
+}: FacultyTeamsSectionProps) {
   return (
-    <>
-      <section className="of-trainers">
-        <div className="of-section-head">
-          <span className="of-tag of-tag-gold">Faculty Team</span>
-          <h2>Meet our German trainers</h2>
-          <p>
-            Certified mentors who guide you through grammar, speaking, writing, and exam strategy —
-            in live classes and focused doubt sessions.
-          </p>
-        </div>
-        <div className="of-grid">
-          {trainers.map((member) => (
-            <FacultyCard key={member.name} member={member} />
-          ))}
-        </div>
-      </section>
-    </>
+    <section className="of-trainers">
+      <div className="of-section-head">
+        <span className="of-tag of-tag-gold">{content.tag}</span>
+        <h2>{content.heading}</h2>
+        <p>{content.description}</p>
+      </div>
+      <div className="of-grid">
+        {content.members.map((member) => (
+          <FacultyCard key={`${member.name}-${member.image}`} member={member} />
+        ))}
+      </div>
+    </section>
   );
 }

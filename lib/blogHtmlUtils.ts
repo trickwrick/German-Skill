@@ -43,8 +43,42 @@ function buildTableHtml(rows: string[][]): string {
   return `<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;border:1px solid #d1d5db;"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
 }
 
+function decodeHtmlEntities(value: string): string {
+  let result = value;
+
+  for (let pass = 0; pass < 3; pass += 1) {
+    const next = result
+      .replace(/&nbsp;/gi, " ")
+      .replace(/&amp;quot;?/gi, '"')
+      .replace(/&amp;#39;?/gi, "'")
+      .replace(/&amp;lt;?/gi, "<")
+      .replace(/&amp;gt;?/gi, ">")
+      .replace(/&amp;nbsp;?/gi, " ")
+      .replace(/&quot;?/gi, '"')
+      .replace(/&#39;?/g, "'")
+      .replace(/&apos;?/gi, "'")
+      .replace(/&lt;?/gi, "<")
+      .replace(/&gt;?/gi, ">")
+      .replace(/&amp;/g, "&");
+
+    if (next === result) {
+      break;
+    }
+
+    result = next;
+  }
+
+  return result;
+}
+
+function repairBrokenHtmlEntities(html: string): string {
+  return decodeHtmlEntities(html);
+}
+
 function escapeHtml(value: string): string {
-  return value
+  const decoded = decodeHtmlEntities(value);
+
+  return decoded
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -52,16 +86,13 @@ function escapeHtml(value: string): string {
 }
 
 function stripHtml(value: string): string {
-  return value
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<\/p>/gi, "\n")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .trim();
+  return decodeHtmlEntities(
+    value
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/p>/gi, "\n")
+      .replace(/<[^>]+>/g, "")
+      .trim(),
+  );
 }
 
 export function plainTextTableToHtml(text: string): string | null {
@@ -378,20 +409,18 @@ function isListItemLine(line: string, listMode: boolean): boolean {
 }
 
 function htmlLinesToPlainText(html: string): string {
-  return html
-    .replace(/<\/p>/gi, "\n")
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<\/h[1-6]>/gi, "\n")
-    .replace(/<\/li>/gi, "\n")
-    .replace(/<\/tr>/gi, "\n")
-    .replace(/<\/t[dh]>/gi, "\t")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+  return decodeHtmlEntities(
+    html
+      .replace(/<\/p>/gi, "\n")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/h[1-6]>/gi, "\n")
+      .replace(/<\/li>/gi, "\n")
+      .replace(/<\/tr>/gi, "\n")
+      .replace(/<\/t[dh]>/gi, "\t")
+      .replace(/<[^>]+>/g, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim(),
+  );
 }
 
 export function structureBlogPlainText(text: string): string {
@@ -741,7 +770,27 @@ export function preparePastedBlogHtml(html: string): string {
 }
 
 export function sanitizeBlogHtml(html: string): string {
-  return normalizeTypography(preparePastedBlogHtml(html));
+  return normalizeTypography(preparePastedBlogHtml(repairBrokenHtmlEntities(html)));
+}
+
+export function sanitizeFaqAnswer(html: string): string {
+  const trimmed = repairBrokenHtmlEntities(html?.trim() ?? "");
+  if (!trimmed) {
+    return "";
+  }
+
+  if (!/<[a-z]/i.test(trimmed)) {
+    return `<p>${escapeHtml(trimmed)}</p>`;
+  }
+
+  let result = sanitizeBlogHtml(trimmed);
+  const singleHeading = result.match(/^<h[1-6]>([\s\S]*)<\/h[1-6]>$/i);
+
+  if (singleHeading) {
+    return `<p>${escapeHtml(decodeHtmlEntities(singleHeading[1]))}</p>`;
+  }
+
+  return result;
 }
 
 export function convertPlainTextPaste(text: string): string {
@@ -750,7 +799,7 @@ export function convertPlainTextPaste(text: string): string {
     return "";
   }
 
-  if (/<[a-z][\s>]/i.test(trimmed)) {
+  if (/<[a-z]/i.test(trimmed)) {
     return preparePastedBlogHtml(trimmed);
   }
 

@@ -78,6 +78,7 @@ export const adminNavItems = [
   { label: "Blog", href: "/admin/blog", icon: "blog" },
   { label: "Testimonials", href: "/admin/testimonials", icon: "testimonials" },
   { label: "Homepage FAQs", href: "/admin/home-faqs", icon: "faqs" },
+  { label: "General", href: "/admin/general", icon: "general" },
   { label: "Queries", href: "/admin/queries", icon: "queries" },
   { label: "Careers", href: "/admin/careers", icon: "careers" },
   { label: "Meta Web", href: "/admin/seo", icon: "seo" },

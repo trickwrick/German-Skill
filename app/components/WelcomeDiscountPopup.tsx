@@ -118,12 +118,12 @@ export default function WelcomeDiscountPopup() {
 
             <label className="welcome-popup-field">
               <span className="welcome-popup-field-label">Full Name</span>
-              <input type="text" name="name" required placeholder="Your full name" autoComplete="name" />
+              <input type="text" name="name" required autoComplete="name" />
             </label>
 
             <label className="welcome-popup-field">
               <span className="welcome-popup-field-label">Email Address</span>
-              <input type="email" name="email" required placeholder="you@example.com" autoComplete="email" />
+              <input type="email" name="email" required autoComplete="email" />
             </label>
 
             <div className="welcome-popup-field welcome-popup-phone-field">
@@ -136,7 +136,7 @@ export default function WelcomeDiscountPopup() {
                   countries={shortLabelCountries}
                   forceDialCode
                   preferredCountries={["in", "de", "ae", "us", "gb", "ca", "au", "np", "bd", "sg"]}
-                  placeholder="88269 67151"
+                  placeholder=""
                   required
                 />
               </div>

@@ -2317,10 +2317,11 @@ button {
   width: min(100%, 420px);
   padding: 30px 26px 26px;
   border-radius: 22px;
-  background: linear-gradient(160deg, #111111 0%, #7a1018 42%, #e31e24 100%);
-  color: #ffffff;
+  background: #ffffff;
+  color: #111111;
   text-align: center;
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.18);
   animation: welcome-popup-in 0.45s ease;
   overflow: visible;
 }
@@ -2345,8 +2346,8 @@ button {
   height: 34px;
   border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
+  background: #f3f4f6;
+  color: #111111;
   font-size: 1.45rem;
   line-height: 1;
   cursor: pointer;
@@ -2354,7 +2355,7 @@ button {
 }
 
 .welcome-popup-close:hover {
-  background: rgba(255, 255, 255, 0.24);
+  background: #e5e7eb;
 }
 
 .welcome-popup-header h2 {
@@ -2362,19 +2363,21 @@ button {
   font-size: clamp(1.55rem, 4vw, 1.9rem);
   font-weight: 800;
   line-height: 1.15;
+  color: #111111;
 }
 
 .welcome-popup-title {
   margin: 0 0 8px;
   font-size: 1.05rem;
   font-weight: 600;
+  color: #111111;
 }
 
 .welcome-popup-subtitle {
   margin: 0 0 22px;
   font-size: 0.9rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.88);
+  color: #475569;
 }
 
 .welcome-popup-form {
@@ -2387,8 +2390,8 @@ button {
   margin: 0;
   padding: 10px 12px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.14);
-  color: #fff8e1;
+  background: #fef2f2;
+  color: #b8141d;
   font-size: 0.86rem;
 }
 
@@ -2413,13 +2416,13 @@ button {
 .welcome-popup-field > input {
   width: 100%;
   padding: 14px 16px;
-  border: 0;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
   background: #ffffff;
   color: #111111;
   font-size: 0.95rem;
   outline: none;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: none;
 }
 
 .welcome-popup-field > input:focus {
@@ -2454,10 +2457,10 @@ button {
 
 .welcome-popup-phone .react-international-phone-input-container {
   width: 100%;
-  border: 0;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
   background: #ffffff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: none;
   overflow: visible;
 }
 
@@ -2580,13 +2583,20 @@ button {
   font-weight: 800;
   letter-spacing: 0.06em;
   cursor: pointer;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
-  transition: transform 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .welcome-popup-submit:hover:not(:disabled) {
-  transform: translateY(-1px);
-  filter: brightness(1.03);
+  transform: translateY(-2px);
+  background: var(--gradient-gold-btn-hover);
+  color: #ffffff;
+  box-shadow: 0 14px 28px rgba(227, 30, 36, 0.32);
+}
+
+.welcome-popup-submit:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(227, 30, 36, 0.24);
 }
 
 .welcome-popup-submit:disabled {
@@ -2602,11 +2612,12 @@ button {
   display: block;
   margin-bottom: 8px;
   font-size: 1.2rem;
+  color: #111111;
 }
 
 .welcome-popup-success p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: #475569;
   line-height: 1.6;
 }
 
@@ -7911,6 +7922,25 @@ a.contact-info-value:hover {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.adm-form-field select {
+  appearance: none;
+  padding-right: 42px;
+  cursor: pointer;
+  background-color: var(--white);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px 18px;
+}
+
+.adm-general-page-select select {
+  min-height: 48px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-color: #d7dee8;
+  background-color: #f8fafc;
+}
+
 .adm-form-field textarea {
   resize: vertical;
   min-height: 110px;
@@ -7948,6 +7978,61 @@ a.contact-info-value:hover {
   color: #15803d;
   background: #dcfce7;
   border: 1px solid #bbf7d0;
+}
+
+.adm-general-legal-editor,
+.adm-general-company-editor {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.adm-general-paragraph-row {
+  display: grid;
+  gap: 10px;
+}
+
+.adm-general-remove-btn {
+  justify-self: start;
+}
+
+.adm-general-section {
+  display: grid;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid #edf1f5;
+}
+
+.adm-general-section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.adm-general-card-editor {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #edf1f5;
+  border-radius: 12px;
+  background: #fafbfc;
+}
+
+.adm-general-card-editor h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.adm-general-inline-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .adm-general-inline-pair {
+    grid-template-columns: 1fr;
+  }
 }
 
 .adm-panel-readonly {

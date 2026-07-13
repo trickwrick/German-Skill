@@ -1,0 +1,879 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import {
+  defaultGeneralPagesContent,
+  generalPageOptions,
+  type GeneralPageId,
+  type GeneralPagesContent,
+  type LegalPageContentData,
+  type OurCompanyPageData,
+} from "../../../data/generalPages";
+import AdminImageUploadField from "./AdminImageUploadField";
+
+function isLegalPage(pageId: GeneralPageId): pageId is "terms" | "privacy" | "refund" {
+  return pageId === "terms" || pageId === "privacy" || pageId === "refund";
+}
+
+export default function AdminGeneralContent() {
+  const [content, setContent] = useState<GeneralPagesContent>(defaultGeneralPagesContent);
+  const [selectedPage, setSelectedPage] = useState<GeneralPageId>("terms");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const selectedLabel = useMemo(
+    () => generalPageOptions.find((option) => option.id === selectedPage)?.label ?? "Page",
+    [selectedPage],
+  );
+
+  async function loadContent() {
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/admin/general-pages", { credentials: "same-origin" });
+      if (!response.ok) {
+        throw new Error("Could not load general pages.");
+      }
+
+      const data = (await response.json()) as GeneralPagesContent;
+      setContent(data);
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : "Could not load general pages.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void loadContent();
+  }, []);
+
+  function updateLegalParagraph(index: number, value: string) {
+    if (!isLegalPage(selectedPage)) {
+      return;
+    }
+
+    setContent((current) => {
+      const nextParagraphs = [...current[selectedPage].paragraphs];
+      nextParagraphs[index] = value;
+      return {
+        ...current,
+        [selectedPage]: { paragraphs: nextParagraphs },
+      };
+    });
+  }
+
+  function addLegalParagraph() {
+    if (!isLegalPage(selectedPage)) {
+      return;
+    }
+
+    setContent((current) => ({
+      ...current,
+      [selectedPage]: {
+        paragraphs: [...current[selectedPage].paragraphs, ""],
+      },
+    }));
+  }
+
+  function removeLegalParagraph(index: number) {
+    if (!isLegalPage(selectedPage)) {
+      return;
+    }
+
+    setContent((current) => ({
+      ...current,
+      [selectedPage]: {
+        paragraphs: current[selectedPage].paragraphs.filter((_, itemIndex) => itemIndex !== index),
+      },
+    }));
+  }
+
+  function updateOurCompany(updater: (current: OurCompanyPageData) => OurCompanyPageData) {
+    setContent((current) => ({
+      ...current,
+      ourCompany: updater(current.ourCompany),
+    }));
+  }
+
+  async function handleSave(event: React.FormEvent) {
+    event.preventDefault();
+    setSaving(true);
+    setError("");
+    setSuccess("");
+
+    const payload = isLegalPage(selectedPage)
+      ? { pageId: selectedPage, content: content[selectedPage] as LegalPageContentData }
+      : { pageId: selectedPage, content: content.ourCompany as OurCompanyPageData };
+
+    try {
+      const response = await fetch("/api/admin/general-pages", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(payload),
+      });
+
+      const data = (await response.json()) as GeneralPagesContent & { error?: string };
+      if (!response.ok) {
+        throw new Error(data.error || "Could not save page content.");
+      }
+
+      setContent(data);
+      setSuccess(`${selectedLabel} saved successfully.`);
+    } catch (saveError) {
+      setError(saveError instanceof Error ? saveError.message : "Could not save page content.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (loading) {
+    return <div className="adm-page-content">Loading general pages...</div>;
+  }
+
+  const ourCompany = content.ourCompany;
+
+  return (
+    <div className="adm-general-pages">
+      <div className="adm-page-head">
+        <div>
+          <h1 className="adm-page-title">General</h1>
+          <p className="adm-page-subtitle">
+            Edit Terms &amp; Conditions, Privacy Policy, Refund Policy, and Our Company content.
+          </p>
+        </div>
+      </div>
+
+      {error ? <p className="adm-form-message adm-form-message-error">{error}</p> : null}
+      {success ? <p className="adm-form-message adm-form-message-success">{success}</p> : null}
+
+      <form onSubmit={handleSave} className="adm-panel">
+        <div className="adm-panel-head">
+          <h2 className="adm-panel-title">Page Content</h2>
+        </div>
+
+        <div className="adm-form-grid">
+          <label className="adm-form-field adm-form-field-full adm-general-page-select">
+            <span>Select Page</span>
+            <select
+              value={selectedPage}
+              onChange={(event) => {
+                setSelectedPage(event.target.value as GeneralPageId);
+                setSuccess("");
+                setError("");
+              }}
+            >
+              {generalPageOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        {isLegalPage(selectedPage) ? (
+          <div className="adm-general-legal-editor">
+            <div className="adm-panel-head">
+              <h3 className="adm-panel-title">{selectedLabel}</h3>
+              <button type="button" className="adm-btn adm-btn-secondary" onClick={addLegalParagraph}>
+                + Add Paragraph
+              </button>
+            </div>
+
+            {content[selectedPage].paragraphs.map((paragraph, index) => (
+              <div key={`${selectedPage}-${index}`} className="adm-general-paragraph-row">
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Paragraph {index + 1}</span>
+                  <textarea
+                    rows={4}
+                    value={paragraph}
+                    onChange={(event) => updateLegalParagraph(index, event.target.value)}
+                    required
+                  />
+                </label>
+                {content[selectedPage].paragraphs.length > 1 ? (
+                  <button
+                    type="button"
+                    className="adm-btn adm-btn-secondary adm-general-remove-btn"
+                    onClick={() => removeLegalParagraph(index)}
+                  >
+                    Remove
+                  </button>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="adm-general-company-editor">
+            <section className="adm-general-section">
+              <div className="adm-panel-head">
+                <h3 className="adm-panel-title">Intro Section</h3>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateOurCompany((current) => ({
+                      ...current,
+                      intro: { ...current.intro, listItems: [...current.intro.listItems, ""] },
+                    }))
+                  }
+                >
+                  + Add List Item
+                </button>
+              </div>
+              <div className="adm-form-grid">
+                <label className="adm-form-field">
+                  <span>Tag</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.tag}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, tag: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field">
+                  <span>Badge Value</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.badgeValue}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, badgeValue: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Heading</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.heading}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, heading: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Heading Highlight</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.headingHighlight}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, headingHighlight: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Heading Suffix</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.headingSuffix}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, headingSuffix: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Description</span>
+                  <textarea
+                    rows={4}
+                    value={ourCompany.intro.description}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, description: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field">
+                  <span>Primary Button</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.primaryButtonText}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, primaryButtonText: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field">
+                  <span>Secondary Button</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.secondaryButtonText}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, secondaryButtonText: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field">
+                  <span>Badge Label</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.badgeLabel}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, badgeLabel: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <AdminImageUploadField
+                  label="Intro Image"
+                  value={ourCompany.intro.imageSrc}
+                  folder="general"
+                  uploadLabel="intro"
+                  placeholder="/hero-students.jpg"
+                  onChange={(path) =>
+                    updateOurCompany((current) => ({
+                      ...current,
+                      intro: { ...current.intro, imageSrc: path },
+                    }))
+                  }
+                />
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Image Alt Text</span>
+                  <input
+                    type="text"
+                    value={ourCompany.intro.imageAlt}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        intro: { ...current.intro, imageAlt: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+              </div>
+
+              {ourCompany.intro.listItems.map((item, index) => (
+                <div key={`intro-list-${index}`} className="adm-general-paragraph-row">
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>List Item {index + 1}</span>
+                    <input
+                      type="text"
+                      value={item}
+                      onChange={(event) =>
+                        updateOurCompany((current) => {
+                          const listItems = [...current.intro.listItems];
+                          listItems[index] = event.target.value;
+                          return { ...current, intro: { ...current.intro, listItems } };
+                        })
+                      }
+                    />
+                  </label>
+                  {ourCompany.intro.listItems.length > 1 ? (
+                    <button
+                      type="button"
+                      className="adm-btn adm-btn-secondary adm-general-remove-btn"
+                      onClick={() =>
+                        updateOurCompany((current) => ({
+                          ...current,
+                          intro: {
+                            ...current.intro,
+                            listItems: current.intro.listItems.filter((_, itemIndex) => itemIndex !== index),
+                          },
+                        }))
+                      }
+                    >
+                      Remove
+                    </button>
+                  ) : null}
+                </div>
+              ))}
+            </section>
+
+            <section className="adm-general-section">
+              <div className="adm-panel-head">
+                <h3 className="adm-panel-title">Stats</h3>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateOurCompany((current) => ({
+                      ...current,
+                      stats: [...current.stats, { value: "", label: "" }],
+                    }))
+                  }
+                >
+                  + Add Stat
+                </button>
+              </div>
+              <div className="adm-form-grid">
+                {ourCompany.stats.map((item, index) => (
+                  <div key={`stat-${index}`} className="adm-form-field adm-form-field-full adm-general-inline-pair">
+                    <label className="adm-form-field">
+                      <span>Stat {index + 1} Value</span>
+                      <input
+                        type="text"
+                        value={item.value}
+                        onChange={(event) =>
+                          updateOurCompany((current) => {
+                            const stats = [...current.stats];
+                            stats[index] = { ...stats[index], value: event.target.value };
+                            return { ...current, stats };
+                          })
+                        }
+                      />
+                    </label>
+                    <label className="adm-form-field">
+                      <span>Stat {index + 1} Label</span>
+                      <input
+                        type="text"
+                        value={item.label}
+                        onChange={(event) =>
+                          updateOurCompany((current) => {
+                            const stats = [...current.stats];
+                            stats[index] = { ...stats[index], label: event.target.value };
+                            return { ...current, stats };
+                          })
+                        }
+                      />
+                    </label>
+                    {ourCompany.stats.length > 1 ? (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-secondary adm-general-remove-btn"
+                        onClick={() =>
+                          updateOurCompany((current) => ({
+                            ...current,
+                            stats: current.stats.filter((_, itemIndex) => itemIndex !== index),
+                          }))
+                        }
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="adm-general-section">
+              <div className="adm-panel-head">
+                <h3 className="adm-panel-title">Features Section</h3>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateOurCompany((current) => ({
+                      ...current,
+                      features: {
+                        ...current.features,
+                        items: [...current.features.items, { title: "", text: "" }],
+                      },
+                    }))
+                  }
+                >
+                  + Add Feature
+                </button>
+              </div>
+              <div className="adm-form-grid">
+                <label className="adm-form-field">
+                  <span>Tag</span>
+                  <input
+                    type="text"
+                    value={ourCompany.features.tag}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        features: { ...current.features, tag: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Heading</span>
+                  <input
+                    type="text"
+                    value={ourCompany.features.heading}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        features: { ...current.features, heading: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Description</span>
+                  <textarea
+                    rows={3}
+                    value={ourCompany.features.description}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        features: { ...current.features, description: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+              </div>
+
+              {ourCompany.features.items.map((item, index) => (
+                <div key={`feature-${index}`} className="adm-general-card-editor">
+                  <div className="adm-panel-head">
+                    <h4>Feature {index + 1}</h4>
+                    {ourCompany.features.items.length > 1 ? (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-secondary adm-general-remove-btn"
+                        onClick={() =>
+                          updateOurCompany((current) => ({
+                            ...current,
+                            features: {
+                              ...current.features,
+                              items: current.features.items.filter((_, itemIndex) => itemIndex !== index),
+                            },
+                          }))
+                        }
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Title</span>
+                    <input
+                      type="text"
+                      value={item.title}
+                      onChange={(event) =>
+                        updateOurCompany((current) => {
+                          const items = [...current.features.items];
+                          items[index] = { ...items[index], title: event.target.value };
+                          return { ...current, features: { ...current.features, items } };
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Text</span>
+                    <textarea
+                      rows={3}
+                      value={item.text}
+                      onChange={(event) =>
+                        updateOurCompany((current) => {
+                          const items = [...current.features.items];
+                          items[index] = { ...items[index], text: event.target.value };
+                          return { ...current, features: { ...current.features, items } };
+                        })
+                      }
+                    />
+                  </label>
+                </div>
+              ))}
+            </section>
+
+            <section className="adm-general-section">
+              <div className="adm-panel-head">
+                <h3 className="adm-panel-title">Values Section</h3>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateOurCompany((current) => ({
+                      ...current,
+                      values: {
+                        ...current.values,
+                        items: [...current.values.items, { title: "", text: "" }],
+                      },
+                    }))
+                  }
+                >
+                  + Add Value
+                </button>
+              </div>
+              <div className="adm-form-grid">
+                <label className="adm-form-field">
+                  <span>Tag</span>
+                  <input
+                    type="text"
+                    value={ourCompany.values.tag}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        values: { ...current.values, tag: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Heading</span>
+                  <input
+                    type="text"
+                    value={ourCompany.values.heading}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        values: { ...current.values, heading: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+              </div>
+
+              {ourCompany.values.items.map((item, index) => (
+                <div key={`value-${index}`} className="adm-general-card-editor">
+                  <div className="adm-panel-head">
+                    <h4>Value {index + 1}</h4>
+                    {ourCompany.values.items.length > 1 ? (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-secondary adm-general-remove-btn"
+                        onClick={() =>
+                          updateOurCompany((current) => ({
+                            ...current,
+                            values: {
+                              ...current.values,
+                              items: current.values.items.filter((_, itemIndex) => itemIndex !== index),
+                            },
+                          }))
+                        }
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Title</span>
+                    <input
+                      type="text"
+                      value={item.title}
+                      onChange={(event) =>
+                        updateOurCompany((current) => {
+                          const items = [...current.values.items];
+                          items[index] = { ...items[index], title: event.target.value };
+                          return { ...current, values: { ...current.values, items } };
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Text</span>
+                    <textarea
+                      rows={3}
+                      value={item.text}
+                      onChange={(event) =>
+                        updateOurCompany((current) => {
+                          const items = [...current.values.items];
+                          items[index] = { ...items[index], text: event.target.value };
+                          return { ...current, values: { ...current.values, items } };
+                        })
+                      }
+                    />
+                  </label>
+                </div>
+              ))}
+            </section>
+
+            <section className="adm-general-section">
+              <div className="adm-panel-head">
+                <h3 className="adm-panel-title">Faculty Section</h3>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateOurCompany((current) => ({
+                      ...current,
+                      faculty: {
+                        ...current.faculty,
+                        members: [...current.faculty.members, { name: "", image: "", role: "" }],
+                      },
+                    }))
+                  }
+                >
+                  + Add Faculty Member
+                </button>
+              </div>
+              <div className="adm-form-grid">
+                <label className="adm-form-field">
+                  <span>Tag</span>
+                  <input
+                    type="text"
+                    value={ourCompany.faculty.tag}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        faculty: { ...current.faculty, tag: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Heading</span>
+                  <input
+                    type="text"
+                    value={ourCompany.faculty.heading}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        faculty: { ...current.faculty, heading: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Description</span>
+                  <textarea
+                    rows={3}
+                    value={ourCompany.faculty.description}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        faculty: { ...current.faculty, description: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+              </div>
+
+              {ourCompany.faculty.members.map((member, index) => (
+                <div key={`faculty-${index}`} className="adm-general-card-editor">
+                  <div className="adm-panel-head">
+                    <h4>Faculty Member {index + 1}</h4>
+                    {ourCompany.faculty.members.length > 1 ? (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-secondary adm-general-remove-btn"
+                        onClick={() =>
+                          updateOurCompany((current) => ({
+                            ...current,
+                            faculty: {
+                              ...current.faculty,
+                              members: current.faculty.members.filter((_, itemIndex) => itemIndex !== index),
+                            },
+                          }))
+                        }
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Name</span>
+                    <input
+                      type="text"
+                      value={member.name}
+                      onChange={(event) =>
+                        updateOurCompany((current) => {
+                          const members = [...current.faculty.members];
+                          members[index] = { ...members[index], name: event.target.value };
+                          return { ...current, faculty: { ...current.faculty, members } };
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Role</span>
+                    <input
+                      type="text"
+                      value={member.role}
+                      onChange={(event) =>
+                        updateOurCompany((current) => {
+                          const members = [...current.faculty.members];
+                          members[index] = { ...members[index], role: event.target.value };
+                          return { ...current, faculty: { ...current.faculty, members } };
+                        })
+                      }
+                    />
+                  </label>
+                  <AdminImageUploadField
+                    label="Faculty Photo"
+                    value={member.image}
+                    folder="tutors"
+                    uploadLabel={member.name || `member-${index + 1}`}
+                    placeholder="/tutors/name.jpg"
+                    onChange={(path) =>
+                      updateOurCompany((current) => {
+                        const members = [...current.faculty.members];
+                        members[index] = { ...members[index], image: path };
+                        return { ...current, faculty: { ...current.faculty, members } };
+                      })
+                    }
+                  />
+                </div>
+              ))}
+            </section>
+
+            <section className="adm-general-section">
+              <h3 className="adm-panel-title">CTA Section</h3>
+              <div className="adm-form-grid">
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Heading</span>
+                  <input
+                    type="text"
+                    value={ourCompany.cta.heading}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        cta: { ...current.cta, heading: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Description</span>
+                  <textarea
+                    rows={3}
+                    value={ourCompany.cta.description}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        cta: { ...current.cta, description: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+                <label className="adm-form-field">
+                  <span>Button Text</span>
+                  <input
+                    type="text"
+                    value={ourCompany.cta.buttonText}
+                    onChange={(event) =>
+                      updateOurCompany((current) => ({
+                        ...current,
+                        cta: { ...current.cta, buttonText: event.target.value },
+                      }))
+                    }
+                  />
+                </label>
+              </div>
+            </section>
+          </div>
+        )}
+
+        <div className="adm-form-actions">
+          <button type="submit" className="adm-btn adm-btn-primary" disabled={saving}>
+            {saving ? "Saving..." : `Save ${selectedLabel}`}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}

@@ -8,7 +8,7 @@ import BlogImage from "../../components/BlogImage";
 import BlogSidebar from "../_components/BlogSidebar";
 import { formatBlogDate } from "../../../data/blogPosts";
 import { getBlogPostBySlug, getBlogPosts } from "../../../lib/blogStore";
-import { sanitizeBlogHtml } from "../../../lib/blogHtmlUtils";
+import { sanitizeBlogHtml, sanitizeFaqAnswer } from "../../../lib/blogHtmlUtils";
 
 export const dynamic = "force-dynamic";
 
@@ -110,7 +110,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                           <summary>{faq.question}</summary>
                           <div
                             className="blog-faq-answer blog-prose"
-                            dangerouslySetInnerHTML={{ __html: sanitizeBlogHtml(faq.answer) }}
+                            dangerouslySetInnerHTML={{ __html: sanitizeFaqAnswer(faq.answer) }}
                           />
                         </details>
                       ))}
