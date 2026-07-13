@@ -81,10 +81,9 @@ type VideoModalProps = {
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
-  onSelect: (index: number) => void;
 };
 
-function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext, onSelect }: VideoModalProps) {
+function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext }: VideoModalProps) {
   const current = testimonials[activeIndex];
   const embedUrl = current ? getYoutubeEmbedUrl(current.youtubeUrl) : null;
   const hasPrev = activeIndex > 0;
@@ -125,48 +124,45 @@ function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext, onSele
     <div className="video-testimonial-modal" role="dialog" aria-modal="true" aria-label="Student video testimonial">
       <button type="button" className="video-testimonial-modal-backdrop" onClick={onClose} aria-label="Close video" />
 
-      <button
-        type="button"
-        className="video-testimonial-modal-nav video-testimonial-modal-nav-prev"
-        onClick={onPrev}
-        disabled={!hasPrev}
-        aria-label="Previous testimonial video"
-      >
-        <ChevronIcon direction="left" />
-      </button>
-
       <div className="video-testimonial-modal-shell">
         <button type="button" className="video-testimonial-modal-close" onClick={onClose} aria-label="Close">
           ×
         </button>
 
         <div className="video-testimonial-modal-split">
-          <div className="video-testimonial-modal-video">
-            <iframe
-              key={`${current.id}-${activeIndex}`}
-              src={embedUrl}
-              title={`${current.name} testimonial video`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
+          <div className="video-testimonial-modal-video-stage">
+            <button
+              type="button"
+              className="video-testimonial-modal-video-nav video-testimonial-modal-video-nav-prev"
+              onClick={onPrev}
+              disabled={!hasPrev}
+              aria-label="Previous testimonial video"
+            >
+              <ChevronIcon direction="left" />
+            </button>
+
+            <div className="video-testimonial-modal-video">
+              <iframe
+                key={`${current.id}-${activeIndex}`}
+                src={embedUrl}
+                title={`${current.name} testimonial video`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+
+            <button
+              type="button"
+              className="video-testimonial-modal-video-nav video-testimonial-modal-video-nav-next"
+              onClick={onNext}
+              disabled={!hasNext}
+              aria-label="Next testimonial video"
+            >
+              <ChevronIcon direction="right" />
+            </button>
           </div>
 
           <aside className="video-testimonial-modal-side">
-            <div className="video-testimonial-modal-thumb-strip" aria-label="All testimonial videos">
-              {testimonials.map((item, index) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`video-testimonial-modal-thumb${index === activeIndex ? " is-active" : ""}`}
-                  onClick={() => onSelect(index)}
-                  aria-label={`Play ${item.name}'s video`}
-                  aria-current={index === activeIndex}
-                >
-                  <Image src={item.image} alt={item.name} fill sizes="72px" />
-                </button>
-              ))}
-            </div>
-
             <div className="video-testimonial-modal-side-body">
               <span className="video-testimonial-modal-label">Fluent AUF Student</span>
               <h3>{current.name}</h3>
@@ -185,16 +181,6 @@ function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext, onSele
           </aside>
         </div>
       </div>
-
-      <button
-        type="button"
-        className="video-testimonial-modal-nav video-testimonial-modal-nav-next"
-        onClick={onNext}
-        disabled={!hasNext}
-        aria-label="Next testimonial video"
-      >
-        <ChevronIcon direction="right" />
-      </button>
     </div>,
     document.body,
   );
@@ -333,7 +319,6 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
           onClose={closeVideo}
           onPrev={goToPrevVideo}
           onNext={goToNextVideo}
-          onSelect={setActiveModalIndex}
         />
       ) : null}
     </section>

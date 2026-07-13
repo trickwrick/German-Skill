@@ -2065,7 +2065,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 88px;
+  padding: 24px;
 }
 
 .video-testimonial-modal-backdrop {
@@ -2077,37 +2077,14 @@ button {
 }
 
 .video-testimonial-modal-nav {
-  position: relative;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 52px;
-  height: 52px;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  color: #111111;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.video-testimonial-modal-nav:hover:not(:disabled) {
-  transform: scale(1.05);
-  background: #ffffff;
-}
-
-.video-testimonial-modal-nav:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
+  display: none;
 }
 
 .video-testimonial-modal-shell {
   position: relative;
   z-index: 2;
   width: min(980px, 100%);
-  margin: 0 18px;
+  margin: 0 auto;
 }
 
 .video-testimonial-modal-close {
@@ -2137,8 +2114,49 @@ button {
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
 }
 
+.video-testimonial-modal-video-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 100%;
+  padding: 18px 14px;
+  background: #000000;
+}
+
+.video-testimonial-modal-video-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #111111;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.video-testimonial-modal-video-nav:hover:not(:disabled) {
+  transform: scale(1.05);
+  background: #ffffff;
+}
+
+.video-testimonial-modal-video-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 .video-testimonial-modal-video {
   position: relative;
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   background: #000000;
   min-height: 100%;
 }
@@ -8321,27 +8339,6 @@ a.contact-info-value:hover {
     margin: 0 auto;
   }
 
-  .video-testimonial-modal-nav {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
-    z-index: 1201;
-  }
-
-  .video-testimonial-modal-nav:hover:not(:disabled) {
-    transform: translateY(-50%) scale(1.05);
-  }
-
-  .video-testimonial-modal-nav-prev {
-    left: 10px;
-  }
-
-  .video-testimonial-modal-nav-next {
-    right: 10px;
-  }
-
   .video-testimonial-modal-split {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -8349,12 +8346,23 @@ a.contact-info-value:hover {
     justify-items: stretch;
   }
 
+  .video-testimonial-modal-video-stage {
+    gap: 8px;
+    padding: 14px 10px;
+    background: #ffffff;
+  }
+
+  .video-testimonial-modal-video-nav {
+    width: 36px;
+    height: 36px;
+  }
+
   .video-testimonial-modal-video {
-    width: min(56vw, 250px, calc(40vh * 9 / 16));
+    width: min(54vw, 230px, calc(36vh * 9 / 16));
     aspect-ratio: 9 / 16;
-    max-height: 40vh;
-    margin: 14px auto 12px;
-    justify-self: center;
+    max-height: 36vh;
+    flex: 0 1 auto;
+    margin: 0;
     overflow: hidden;
     border-radius: 14px;
   }
@@ -8364,10 +8372,6 @@ a.contact-info-value:hover {
     justify-self: stretch;
     padding: 8px 20px 22px;
     text-align: left;
-  }
-
-  .video-testimonial-modal-thumb-strip {
-    justify-content: flex-start;
   }
 
   .video-testimonial-modal-side-body {
@@ -8426,23 +8430,19 @@ a.contact-info-value:hover {
     margin: auto;
   }
 
-  .video-testimonial-modal-nav {
-    display: none;
+  .video-testimonial-modal-video-stage {
+    gap: 6px;
+    padding: 12px 8px;
   }
 
-  .video-testimonial-modal-split {
-    width: 100%;
-    justify-items: stretch;
+  .video-testimonial-modal-video-nav {
+    width: 34px;
+    height: 34px;
   }
 
   .video-testimonial-modal-video {
-    width: min(54vw, 230px, calc(36vh * 9 / 16));
-    aspect-ratio: 9 / 16;
-    max-height: 36vh;
-    margin: 12px auto 10px;
-    justify-self: center;
-    overflow: hidden;
-    border-radius: 14px;
+    width: min(50vw, 210px, calc(34vh * 9 / 16));
+    max-height: 34vh;
   }
 
   .video-testimonial-modal-side {
@@ -8458,11 +8458,6 @@ a.contact-info-value:hover {
     width: 34px;
     height: 34px;
     font-size: 1.35rem;
-  }
-
-  .video-testimonial-modal-thumb-strip {
-    justify-content: flex-start;
-    gap: 12px;
   }
 
   .video-testimonial-modal-side-body {
