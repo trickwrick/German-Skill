@@ -10,6 +10,7 @@ import {
 export type SeoSettings = {
   title: string;
   description: string;
+  keywords: string;
   updatedAt?: Date;
 };
 
@@ -20,6 +21,7 @@ const SETTINGS_ID = "global_seo";
 const defaultSeoSettings: SeoSettings = {
   title: "Fluent AUF: Online German Language Classes",
   description: "A1–C2 Goethe certified live classes. Book your free demo class today.",
+  keywords: "Online German Classes, Learn German, German Language Course",
 };
 
 async function getMongoCollection() {
@@ -41,7 +43,12 @@ async function fetchSeoSettings(): Promise<SeoSettings> {
     }
 
     const { _id, ...settings } = doc;
-    return settings as SeoSettings;
+    return {
+      title: settings.title || defaultSeoSettings.title,
+      description: settings.description || defaultSeoSettings.description,
+      keywords: settings.keywords || defaultSeoSettings.keywords,
+      updatedAt: settings.updatedAt,
+    };
   } catch (error) {
     console.error("Failed to fetch SEO settings from DB", error);
     return defaultSeoSettings;
@@ -70,6 +77,7 @@ export async function saveSeoSettings(payload: Partial<SeoSettings>) {
     _id: SETTINGS_ID,
     title: payload.title || defaultSeoSettings.title,
     description: payload.description || defaultSeoSettings.description,
+    keywords: payload.keywords?.trim() || defaultSeoSettings.keywords,
     updatedAt: new Date(),
   };
 

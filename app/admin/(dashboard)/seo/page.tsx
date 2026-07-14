@@ -9,6 +9,7 @@ export default function AdminSeoPage() {
   const [formData, setFormData] = useState<SeoSettings>({
     title: "",
     description: "",
+    keywords: "",
   });
 
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function AdminSeoPage() {
           setFormData({
             title: data.title || "",
             description: data.description || "",
+            keywords: data.keywords || "",
           });
         }
       } catch (error) {
@@ -86,6 +88,25 @@ export default function AdminSeoPage() {
           />
           <small style={{ color: '#666', display: 'block', marginTop: '0.25rem' }}>
             This title appears in the browser tab and search engine results.
+          </small>
+        </div>
+
+        <div className="adm-form-group">
+          <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+            Site Meta Keywords (Global)
+          </label>
+          <input
+            type="text"
+            name="keywords"
+            value={formData.keywords}
+            onChange={handleChange}
+            required
+            className="adm-input"
+            style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ccc' }}
+            placeholder="Online German Classes, Learn German, German Language Course"
+          />
+          <small style={{ color: '#666', display: 'block', marginTop: '0.25rem' }}>
+            Comma-separated keywords for the homepage and global site metadata.
           </small>
         </div>
 

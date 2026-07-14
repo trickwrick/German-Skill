@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL("https://fluentauf.com"),
     title: settings.title,
     description: settings.description,
+    keywords: settings.keywords,
     alternates: {
       canonical: "/",
     },
