@@ -4,12 +4,14 @@ import Navbar from "../components/Navbar";
 import SiteFooter from "../components/SiteFooter";
 import ContactForm from "./_components/ContactForm";
 import { sitePhoneDisplay, sitePhoneTel } from "../../data/siteContact";
+import { buildPageMetadata } from "../../lib/siteSeo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Contact Us | Fluent AUF",
   description:
     "Get in touch with Fluent AUF for course enquiries, batch schedules, demo classes, and admissions support.",
-};
+  path: "/contact",
+});
 
 const contactDetails = [
   {

@@ -4,16 +4,16 @@ import Navbar from "../components/Navbar";
 import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
 import { getGermanCoursesForDisplay } from "../../lib/courseContentStore";
+import { buildPageMetadata } from "../../lib/siteSeo";
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "German Courses A1–C2 | Fluent AUF",
   description:
     "Explore Fluent AUF German language courses from A1 to C2 with live classes, certified tutors, and Goethe-focused preparation.",
-  alternates: {
-    canonical: "/courses",
-  },
-};
+  path: "/courses",
+  keywords: "German Language Course, Online German Classes, Learn German",
+});
 
 export default async function CoursesPage() {
   const courses = await getGermanCoursesForDisplay();

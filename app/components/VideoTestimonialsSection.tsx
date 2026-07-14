@@ -293,6 +293,7 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
                     <Image
                       src={item.image}
                       alt={`${item.name} video testimonial`}
+                      title={`${item.name} — Fluent AUF student testimonial`}
                       fill
                       sizes="(max-width: 640px) 88vw, (max-width: 1024px) 44vw, 22vw"
                       className="video-testimonial-image"

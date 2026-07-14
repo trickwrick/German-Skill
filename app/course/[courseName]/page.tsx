@@ -13,6 +13,12 @@ import {
 } from "../../../lib/courseContentStore";
 import CourseContent from "../../courses/_components/CourseContent";
 import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
+import JsonLd from "../../components/JsonLd";
+import {
+  buildBreadcrumbSchema,
+  buildCourseSchema,
+  buildPageMetadata,
+} from "../../../lib/siteSeo";
 
 export const dynamic = "force-dynamic";
 
@@ -23,13 +29,22 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const course = await getCourseByPathNameAsync(params.courseName);
   if (!course) {
-    return { title: "Course Not Found | Fluent AUF" };
+    return buildPageMetadata({
+      title: "Course Not Found | Fluent AUF",
+      description: "The requested German language course could not be found on Fluent AUF.",
+      path: "/courses",
+      noIndex: true,
+    });
   }
 
-  return {
+  return buildPageMetadata({
     title: `${course.title} | Fluent AUF`,
     description: course.description,
-  };
+    path: `/course/${course.pathName}`,
+    keywords: `${course.title}, German Language Course, Learn German, Online German Classes`,
+    ogImage: course.image || undefined,
+    ogImageAlt: `${course.title} — Fluent AUF German Course`,
+  });
 }
 
 function PeopleIcon() {
@@ -131,14 +146,31 @@ export default async function GermanCoursePage({ params }: PageProps) {
   const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
   const batchesContent = await getCourseFlexibleBatchesAsync(displayCourse.slug);
   const salePrice = displayCourse.price || content.sidebarPrice;
+  const coursePath = `/course/${displayCourse.pathName}`;
+  const courseSchema = [
+    buildCourseSchema({
+      name: displayCourse.title,
+      description: displayCourse.description,
+      path: coursePath,
+      image: displayCourse.image,
+    }),
+    buildBreadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Courses", path: "/courses" },
+      { name: displayCourse.title, path: coursePath },
+    ]),
+  ];
+
   return (
     <>
+      <JsonLd data={courseSchema} />
       <Navbar />
       <main>
         <section className="course-detail-hero">
           <Image
             src="/courses/german-hero.jpg"
-            alt=""
+            alt="German language course students learning online with Fluent AUF"
+            title="German language course students learning online with Fluent AUF"
             fill
             priority
             sizes="100vw"

@@ -3,12 +3,14 @@ import Navbar from "../../components/Navbar";
 import PageBanner from "../../components/PageBanner";
 import SiteFooter from "../../components/SiteFooter";
 import CareersContent from "./_components/CareersContent";
+import { buildPageMetadata } from "../../../lib/siteSeo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Careers | Fluent AUF",
   description:
     "Join Fluent AUF — build a rewarding career in German language education. Grow, lead, and thrive with our team.",
-};
+  path: "/about/careers",
+});
 
 export default function CareersPage() {
   return (

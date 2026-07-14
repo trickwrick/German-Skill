@@ -7,6 +7,7 @@ export default function HeroSection() {
       <Image
         src="/hero-students.jpg"
         alt="Students learning German online with Fluent AUF"
+        title="Learn German Online with Fluent AUF"
         fill
         priority
         sizes="100vw"

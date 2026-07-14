@@ -57,6 +57,8 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/index.php", destination: "/", permanent: true },
       { source: "/courses/a1", destination: "/course/german-a1", permanent: true },
       { source: "/courses/a2", destination: "/course/german-a2", permanent: true },
       { source: "/courses/b1", destination: "/course/german-b1", permanent: true },

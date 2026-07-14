@@ -11,7 +11,8 @@ function FacultyCard({ member }: { member: OurCompanyPageData["faculty"]["member
       <div className="of-member-photo-wrap">
         <Image
           src={member.image}
-          alt={member.name}
+          alt={`${member.name} — ${member.role}`}
+          title={`${member.name} — ${member.role}`}
           width={280}
           height={320}
           className="of-member-photo"

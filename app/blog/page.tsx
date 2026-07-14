@@ -6,14 +6,17 @@ import BlogPageContent from "./_components/BlogPageContent";
 import BlogSidebar from "./_components/BlogSidebar";
 import { getBlogPosts } from "../../lib/blogStore";
 import { filterBlogPostsByCategory } from "../../lib/blogUtils";
+import { buildPageMetadata } from "../../lib/siteSeo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Blog | Fluent AUF",
   description:
     "Read Fluent AUF blogs on Goethe, Telc, study in Germany, APS, Uni Assist, and German language learning tips.",
-};
+  path: "/blog",
+  keywords: "Learn German, German Grammar, Study in Germany, Goethe-Zertifikat Prep",
+});
 
 type BlogPageProps = {
   searchParams?: { category?: string };

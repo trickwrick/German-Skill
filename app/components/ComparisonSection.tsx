@@ -52,6 +52,7 @@ export default function ComparisonSection() {
                     <Image
                       src="/fluent-logo.png"
                       alt={homeComparison.brandName}
+                      title={homeComparison.brandName}
                       width={120}
                       height={36}
                       className="comparison-brand-logo"

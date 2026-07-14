@@ -19,7 +19,8 @@ export default function TutorsSection() {
               <div className="tutor-card-image-wrap">
                 <Image
                   src={tutor.image}
-                  alt={tutor.name}
+                  alt={`${tutor.name} — German language trainer at Fluent AUF`}
+                  title={`${tutor.name} — German language trainer at Fluent AUF`}
                   width={280}
                   height={320}
                   className="tutor-card-image"

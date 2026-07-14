@@ -69,7 +69,11 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
     const currentData = editor.getData();
     const nextData = value || "";
     if (currentData !== nextData) {
+      isInternalChangeRef.current = true;
       editor.setData(nextData);
+      window.requestAnimationFrame(() => {
+        isInternalChangeRef.current = false;
+      });
     }
   }, [value]);
 
@@ -122,7 +126,7 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
           );
         }}
         onChange={(event) => {
-          if (!event.editor) {
+          if (!event.editor || isInternalChangeRef.current) {
             return;
           }
 

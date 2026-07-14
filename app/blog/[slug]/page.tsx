@@ -9,6 +9,13 @@ import BlogSidebar from "../_components/BlogSidebar";
 import { formatBlogDate } from "../../../data/blogPosts";
 import { getBlogPostBySlug, getBlogPosts } from "../../../lib/blogStore";
 import { sanitizeBlogHtml, sanitizeFaqAnswer } from "../../../lib/blogHtmlUtils";
+import {
+  buildArticleSchema,
+  buildBreadcrumbSchema,
+  buildFaqSchema,
+  buildPageMetadata,
+} from "../../../lib/siteSeo";
+import JsonLd from "../../components/JsonLd";
 
 export const dynamic = "force-dynamic";
 
@@ -21,14 +28,25 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   const post = await getBlogPostBySlug(slug);
 
   if (!post) {
-    return { title: "Blog | Fluent AUF" };
+    return buildPageMetadata({
+      title: "Blog | Fluent AUF",
+      description: "Read German language learning tips and exam guidance on the Fluent AUF blog.",
+      path: "/blog",
+    });
   }
 
-  return {
-    title: post.seo?.metaTitle || `${post.title} | Fluent AUF Blog`,
-    description: post.seo?.metaDescription || post.excerpt,
+  const title = post.seo?.metaTitle || `${post.title} | Fluent AUF Blog`;
+  const description = post.seo?.metaDescription || post.excerpt;
+
+  return buildPageMetadata({
+    title,
+    description,
+    path: `/blog/${post.slug}`,
     keywords: post.seo?.metaKeyword || undefined,
-  };
+    ogType: "article",
+    ogImage: post.image || undefined,
+    ogImageAlt: `${post.title} — Fluent AUF Blog`,
+  });
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
@@ -40,9 +58,31 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   }
 
   const primaryCategory = post.categories?.[0]?.trim();
+  const blogSchema = [
+    buildArticleSchema({
+      title: post.title,
+      description: post.excerpt,
+      path: `/blog/${post.slug}`,
+      image: post.image,
+      datePublished: post.date,
+      author: post.author,
+    }),
+    buildBreadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Blog", path: "/blog" },
+      { name: post.title, path: `/blog/${post.slug}` },
+    ]),
+    buildFaqSchema(
+      (post.faqs ?? []).map((faq) => ({
+        question: faq.question,
+        answer: faq.answer,
+      })),
+    ),
+  ];
 
   return (
     <>
+      <JsonLd data={blogSchema} />
       <Navbar />
       <main>
         <PageBanner

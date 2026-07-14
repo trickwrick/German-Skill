@@ -207,6 +207,7 @@ export default function FlexibleBatchesSection({
               <Image
                 src="/images/secure-payment-icons.png"
                 alt="Accepted payment methods"
+                title="Accepted payment methods"
                 width={90}
                 height={24}
                 className="flexible-batches-payment-icons"

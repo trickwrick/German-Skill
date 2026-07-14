@@ -176,7 +176,7 @@ export default function CourseInstructorScroller() {
           {trainers.map((tutor) => (
             <article key={tutor.name} className="instructor-card">
               <div className="instructor-avatar">
-                <Image src={tutor.image} alt={tutor.name} width={80} height={80} />
+                <Image src={tutor.image} alt={tutor.name} title={tutor.name} width={80} height={80} />
               </div>
               <strong>{tutor.name}</strong>
               <span className="instructor-role">{tutor.role}</span>

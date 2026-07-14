@@ -9,6 +9,7 @@ export default function SiteLogo({ className = "site-logo", priority = false }: 
     <img
       src="/fluent-logo.png"
       alt="Fluent AUF — Learn German with Confidence"
+      title="Fluent AUF — Learn German with Confidence"
       className={className}
       width={230}
       height={56}

@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import AllCoursesSection from "./components/AllCoursesSection";
 import HeroSection from "./components/HeroSection";
 import HomeFaqSection from "./components/HomeFaqSection";
 import ComparisonSection from "./components/ComparisonSection";
+import JsonLd from "./components/JsonLd";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TestimonialsSection from "./components/TestimonialsSection";
@@ -12,7 +14,20 @@ import TutorsSection from "./components/TutorsSection";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
 import { getActiveHomeFaqItems } from "../lib/homeFaqStore";
 import { getVideoTestimonials } from "../lib/videoTestimonialStore";
+import { getSeoSettings } from "../lib/seoStore";
+import { buildFaqSchema, buildPageMetadata, buildWebPageSchema } from "../lib/siteSeo";
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSeoSettings();
+
+  return buildPageMetadata({
+    title: settings.title,
+    description: settings.description,
+    path: "/",
+    keywords: settings.keywords,
+  });
+}
 
 const stats = [
   { value: "10,500+", label: "Happy Students" },
@@ -151,6 +166,7 @@ function StudentPortalSection() {
             <Image
               src="/portal-education.jpg"
               alt="Students using digital learning platform in classroom"
+              title="Students using digital learning platform in classroom"
               width={520}
               height={340}
               className="portal-image"
@@ -231,6 +247,7 @@ function CertificateSection() {
           <Image
             src="/certificate-sample.svg"
             alt="Sample German language course certificate from Fluent AUF"
+            title="Sample German language course certificate from Fluent AUF"
             width={560}
             height={392}
             className="certificate-image"
@@ -249,6 +266,7 @@ function WebinarSection() {
           <Image
             src="/webinar-student.jpg"
             alt="Student attending online webinar on tablet"
+            title="Student attending online webinar on tablet"
             width={160}
             height={160}
             className="webinar-image"
@@ -329,14 +347,30 @@ function PromoCards() {
 }
 
 export default async function HomePage() {
-  const [courses, videoTestimonials, homeFaqs] = await Promise.all([
+  const [courses, videoTestimonials, homeFaqs, seoSettings] = await Promise.all([
     getGermanCoursesForDisplay(),
     getVideoTestimonials(),
     getActiveHomeFaqItems(),
+    getSeoSettings(),
   ]);
+
+  const homeSchema = [
+    buildWebPageSchema({
+      name: seoSettings.title,
+      description: seoSettings.description,
+      path: "/",
+    }),
+    buildFaqSchema(
+      homeFaqs.items.map((item) => ({
+        question: item.question,
+        answer: item.answer,
+      })),
+    ),
+  ];
 
   return (
     <>
+      <JsonLd data={homeSchema} />
       <Navbar />
       <main>
         <HeroSection />

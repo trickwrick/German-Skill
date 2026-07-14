@@ -65,6 +65,7 @@ export default function OurCompanyContent({ content = defaultOurCompanyContent }
               <Image
                 src={content.intro.imageSrc}
                 alt={content.intro.imageAlt}
+                title={content.intro.imageAlt}
                 width={560}
                 height={420}
                 className="oc-intro-photo"

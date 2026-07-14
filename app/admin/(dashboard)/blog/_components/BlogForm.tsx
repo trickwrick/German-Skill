@@ -92,7 +92,11 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
       return;
     }
 
-    setFormData({ ...formData, [name]: value });
+    setFormData((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleContentChange = (value: string) => {
+    setFormData((current) => ({ ...current, content: value }));
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +120,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
       }
 
       const data = await res.json();
-      setFormData({ ...formData, image: data.path });
+      setFormData((current) => ({ ...current, image: data.path }));
     } catch (error: any) {
       alert(error.message);
     } finally {
@@ -125,50 +129,55 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
   };
 
   const handleAddFaq = () => {
-    const currentFaqs = formData.faqs || [];
-    setFormData({ ...formData, faqs: [...currentFaqs, { question: "", answer: "" }] });
+    setFormData((current) => ({
+      ...current,
+      faqs: [...(current.faqs || []), { question: "", answer: "" }],
+    }));
   };
 
   const handleRemoveFaq = (index: number) => {
-    const currentFaqs = formData.faqs || [];
-    const newFaqs = [...currentFaqs];
-    newFaqs.splice(index, 1);
-    setFormData({ ...formData, faqs: newFaqs });
+    setFormData((current) => ({
+      ...current,
+      faqs: (current.faqs || []).filter((_, itemIndex) => itemIndex !== index),
+    }));
   };
 
   const handleFaqChange = (index: number, field: "question" | "answer", value: string) => {
-    const currentFaqs = formData.faqs || [];
-    const newFaqs = [...currentFaqs];
-    newFaqs[index] = { ...newFaqs[index], [field]: value };
-    setFormData({ ...formData, faqs: newFaqs });
-  };
-
-  const handleSeoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      seo: {
-        ...(formData.seo || {}),
-        [e.target.name]: e.target.value,
-      },
+    setFormData((current) => {
+      const newFaqs = [...(current.faqs || [])];
+      newFaqs[index] = { ...newFaqs[index], [field]: value };
+      return { ...current, faqs: newFaqs };
     });
   };
 
+  const handleSeoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((current) => ({
+      ...current,
+      seo: {
+        ...(current.seo || {}),
+        [e.target.name]: e.target.value,
+      },
+    }));
+  };
+
   const handleCategoryToggle = (cat: string) => {
-    const cats = formData.categories || [];
-    if (cats.includes(cat)) {
-      setFormData({ ...formData, categories: cats.filter(c => c !== cat) });
-    } else {
-      setFormData({ ...formData, categories: [...cats, cat] });
-    }
+    setFormData((current) => {
+      const cats = current.categories || [];
+      return {
+        ...current,
+        categories: cats.includes(cat) ? cats.filter((item) => item !== cat) : [...cats, cat],
+      };
+    });
   };
 
   const handleTagToggle = (tag: string) => {
-    const tgs = formData.tags || [];
-    if (tgs.includes(tag)) {
-      setFormData({ ...formData, tags: tgs.filter(t => t !== tag) });
-    } else {
-      setFormData({ ...formData, tags: [...tgs, tag] });
-    }
+    setFormData((current) => {
+      const tgs = current.tags || [];
+      return {
+        ...current,
+        tags: tgs.includes(tag) ? tgs.filter((item) => item !== tag) : [...tgs, tag],
+      };
+    });
   };
 
   const handleAddTag = () => {
@@ -188,7 +197,10 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
 
     const selectedTags = formData.tags || [];
     if (!selectedTags.some((tag) => tag.toLowerCase() === tagToAdd.toLowerCase())) {
-      setFormData({ ...formData, tags: [...selectedTags, tagToAdd] });
+      setFormData((current) => ({
+        ...current,
+        tags: [...(current.tags || []), tagToAdd],
+      }));
     }
 
     setNewTagInput("");
@@ -350,7 +362,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
         <label style={{ display: 'block', marginBottom: '0.5rem' }}>Content</label>
         <BlogContentEditor
           value={formData.content || ""}
-          onChange={(value) => setFormData({ ...formData, content: value })}
+          onChange={handleContentChange}
         />
       </div>
 
@@ -483,7 +495,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
               <input
                 type="checkbox"
                 checked={Boolean(formData.featured)}
-                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                onChange={(e) => setFormData((current) => ({ ...current, featured: e.target.checked }))}
                 style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#6c5ce7' }}
               />
               <span>Mark as Featured post</span>
