@@ -1,7 +1,7 @@
 const announcements = [
   {
     text: "Trusted by",
-    highlight: "10,500+",
+    highlight: "16,500+",
     rest: "students learning German with us",
   },
   {
