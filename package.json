@@ -6,6 +6,7 @@
     "dev": "next dev -p 3001",
     "build": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch(e){}\" && next build",
     "start": "next start",
+    "generate-favicons": "node scripts/generate-favicons.mjs",
     "test:db": "node scripts/test-db-connection.js"
   },
   "dependencies": {
@@ -20,6 +21,8 @@
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
+    "png-to-ico": "^3.0.2",
+    "sharp": "^0.35.3",
     "typescript": "^5.6.2"
   }
 }
