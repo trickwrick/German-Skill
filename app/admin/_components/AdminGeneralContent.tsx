@@ -10,6 +10,7 @@ import {
   type OurCompanyPageData,
 } from "../../../data/generalPages";
 import AdminImageUploadField from "./AdminImageUploadField";
+import BlogCKEditor from "../(dashboard)/blog/_components/BlogCKEditor";
 
 function isLegalPage(pageId: GeneralPageId): pageId is "terms" | "privacy" | "refund" {
   return pageId === "terms" || pageId === "privacy" || pageId === "refund";
@@ -51,44 +52,14 @@ export default function AdminGeneralContent() {
     void loadContent();
   }, []);
 
-  function updateLegalParagraph(index: number, value: string) {
-    if (!isLegalPage(selectedPage)) {
-      return;
-    }
-
-    setContent((current) => {
-      const nextParagraphs = [...current[selectedPage].paragraphs];
-      nextParagraphs[index] = value;
-      return {
-        ...current,
-        [selectedPage]: { paragraphs: nextParagraphs },
-      };
-    });
-  }
-
-  function addLegalParagraph() {
+  function updateLegalHtml(html: string) {
     if (!isLegalPage(selectedPage)) {
       return;
     }
 
     setContent((current) => ({
       ...current,
-      [selectedPage]: {
-        paragraphs: [...current[selectedPage].paragraphs, ""],
-      },
-    }));
-  }
-
-  function removeLegalParagraph(index: number) {
-    if (!isLegalPage(selectedPage)) {
-      return;
-    }
-
-    setContent((current) => ({
-      ...current,
-      [selectedPage]: {
-        paragraphs: current[selectedPage].paragraphs.filter((_, itemIndex) => itemIndex !== index),
-      },
+      [selectedPage]: { html },
     }));
   }
 
@@ -178,35 +149,15 @@ export default function AdminGeneralContent() {
 
         {isLegalPage(selectedPage) ? (
           <div className="adm-general-legal-editor">
-            <div className="adm-panel-head">
-              <h3 className="adm-panel-title">{selectedLabel}</h3>
-              <button type="button" className="adm-btn adm-btn-secondary" onClick={addLegalParagraph}>
-                + Add Paragraph
-              </button>
-            </div>
-
-            {content[selectedPage].paragraphs.map((paragraph, index) => (
-              <div key={`${selectedPage}-${index}`} className="adm-general-paragraph-row">
-                <label className="adm-form-field adm-form-field-full">
-                  <span>Paragraph {index + 1}</span>
-                  <textarea
-                    rows={4}
-                    value={paragraph}
-                    onChange={(event) => updateLegalParagraph(index, event.target.value)}
-                    required
-                  />
-                </label>
-                {content[selectedPage].paragraphs.length > 1 ? (
-                  <button
-                    type="button"
-                    className="adm-btn adm-btn-secondary adm-general-remove-btn"
-                    onClick={() => removeLegalParagraph(index)}
-                  >
-                    Remove
-                  </button>
-                ) : null}
-              </div>
-            ))}
+            <p className="adm-panel-note">
+              Edit the full page content in one place. Use headings, lists, links, and formatting as
+              needed — same editor as blog posts.
+            </p>
+            <BlogCKEditor
+              key={`legal-editor-${selectedPage}`}
+              value={content[selectedPage].html}
+              onChange={updateLegalHtml}
+            />
           </div>
         ) : (
           <div className="adm-general-company-editor">

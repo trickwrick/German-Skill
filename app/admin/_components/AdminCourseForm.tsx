@@ -1133,12 +1133,12 @@ export default function AdminCourseForm({
 
       <section className="adm-panel">
         <div className="adm-panel-head">
-          <h2 className="adm-panel-title">About Course SEO Content</h2>
+          <h2 className="adm-panel-title">About Course — Main Content</h2>
         </div>
 
         <p className="adm-panel-note">
-          Rich content shown below the Flexible Batches section on the course page. Use headings,
-          lists, and paragraphs for SEO — similar to the About Course section on reference sites.
+          Edit the full About Course section in one editor below Flexible Batches on the course page.
+          Paste or format headings, lists, and paragraphs together — no separate line fields.
         </p>
 
         <BlogCKEditor value={seoContent} onChange={setSeoContent} />

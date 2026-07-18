@@ -15,7 +15,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function PrivacyPage() {
-  const { paragraphs } = await getLegalPageContent("privacy");
+  const { html } = await getLegalPageContent("privacy");
 
   return (
     <>
@@ -28,7 +28,7 @@ export default async function PrivacyPage() {
             { label: "Privacy Policy" },
           ]}
         />
-        <LegalPageContent paragraphs={paragraphs} />
+        <LegalPageContent html={html} />
       </main>
       <SiteFooter />
     </>

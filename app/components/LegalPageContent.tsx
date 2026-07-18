@@ -1,15 +1,21 @@
+import { sanitizeBlogHtml } from "../../lib/blogHtmlUtils";
+
 type LegalPageContentProps = {
-  paragraphs: string[];
+  html: string;
 };
 
-export default function LegalPageContent({ paragraphs }: LegalPageContentProps) {
+export default function LegalPageContent({ html }: LegalPageContentProps) {
+  const content = html.trim();
+  if (!content) {
+    return null;
+  }
+
   return (
     <section className="legal-page">
-      <div className="legal-page-inner">
-        {paragraphs.map((paragraph, index) => (
-          <p key={`${index}-${paragraph.slice(0, 24)}`}>{paragraph}</p>
-        ))}
-      </div>
+      <div
+        className="legal-page-inner blog-prose"
+        dangerouslySetInnerHTML={{ __html: sanitizeBlogHtml(content) }}
+      />
     </section>
   );
 }

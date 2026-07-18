@@ -16,6 +16,7 @@ import {
   shouldBypassPublicDataCache,
   type PublicDataOptions,
 } from "./publicDataCache";
+import { getLegalPageHtml } from "./generalPageUtils";
 
 const DB_NAME = "germanskill";
 const COLLECTION = "general_pages";
@@ -39,7 +40,7 @@ function sanitizeStringList(value: unknown, fallback: string[]) {
 
 function sanitizeLegalContent(value: Partial<LegalPageContentData> | undefined, fallback: LegalPageContentData) {
   return {
-    paragraphs: sanitizeStringList(value?.paragraphs, fallback.paragraphs),
+    html: getLegalPageHtml(value, fallback.html),
   };
 }
 
@@ -337,8 +338,8 @@ async function saveMongoContent(content: GeneralPagesContent) {
 
 export async function saveGeneralPagesContent(content: GeneralPagesContent) {
   for (const page of ["terms", "privacy", "refund"] as const) {
-    if (!content[page].paragraphs.length || content[page].paragraphs.some((item) => !item.trim())) {
-      throw new Error(`Each paragraph is required for ${page}.`);
+    if (!content[page].html?.trim()) {
+      throw new Error(`Main content is required for ${page}.`);
     }
   }
 
@@ -363,8 +364,8 @@ export async function saveGeneralPageContent(
   }
 
   const legalContent = sanitizeLegalContent(pageContent as LegalPageContentData, content[pageId]);
-  if (!legalContent.paragraphs.length) {
-    throw new Error("At least one paragraph is required.");
+  if (!legalContent.html?.trim()) {
+    throw new Error("Main content is required.");
   }
 
   return persistContent({

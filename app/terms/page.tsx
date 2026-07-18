@@ -15,7 +15,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function TermsPage() {
-  const { paragraphs } = await getLegalPageContent("terms");
+  const { html } = await getLegalPageContent("terms");
 
   return (
     <>
@@ -28,7 +28,7 @@ export default async function TermsPage() {
             { label: "Terms & Conditions" },
           ]}
         />
-        <LegalPageContent paragraphs={paragraphs} />
+        <LegalPageContent html={html} />
       </main>
       <SiteFooter />
     </>

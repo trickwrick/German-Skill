@@ -2873,6 +2873,19 @@ button {
   margin-bottom: 0;
 }
 
+.legal-page-inner.blog-prose h2,
+.legal-page-inner.blog-prose h3,
+.legal-page-inner.blog-prose h4 {
+  margin: 1.5rem 0 0.75rem;
+  color: #1e2f42;
+}
+
+.legal-page-inner.blog-prose ul,
+.legal-page-inner.blog-prose ol {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+}
+
 /* Blog listing page */
 .blog-page-section {
   background: var(--white);

@@ -1,7 +1,9 @@
 export type GeneralPageId = "terms" | "privacy" | "refund" | "our-company";
 
 export type LegalPageContentData = {
-  paragraphs: string[];
+  html: string;
+  /** @deprecated Use html instead */
+  paragraphs?: string[];
 };
 
 export type OurCompanyStat = {
@@ -79,31 +81,33 @@ export const generalPageOptions: Array<{ id: GeneralPageId; label: string }> = [
   { id: "our-company", label: "Our Company" },
 ];
 
+import { legalParagraphsToHtml } from "../lib/generalPageUtils";
+
 export const defaultTermsContent: LegalPageContentData = {
-  paragraphs: [
+  html: legalParagraphsToHtml([
     "By enrolling in Fluent AUF courses or using our website, you agree to follow our class schedules, payment terms, and communication guidelines.",
     "Course access, batch timings, and study material are provided as per the selected program. Students are expected to attend live sessions regularly and maintain respectful conduct during classes.",
     "Fluent AUF may update course content, faculty assignments, or batch schedules when required for academic quality or operational reasons.",
     "For questions about these terms, contact us at fluentauf@gmail.com or +91 88269 67151.",
-  ],
+  ]),
 };
 
 export const defaultPrivacyContent: LegalPageContentData = {
-  paragraphs: [
+  html: legalParagraphsToHtml([
     "Fluent AUF collects information such as your name, email address, phone number, and course preferences when you submit enquiry or enrollment forms.",
     "We use this information to contact you about classes, batches, demos, and support related to your German learning journey.",
     "Your details are not sold to third parties. Information may be shared only with trusted service providers required to operate our website, communication tools, or payment systems.",
     "You may request correction or deletion of your contact details by writing to fluentauf@gmail.com.",
-  ],
+  ]),
 };
 
 export const defaultRefundContent: LegalPageContentData = {
-  paragraphs: [
+  html: legalParagraphsToHtml([
     "Refund eligibility depends on the course selected, batch start date, and number of classes attended.",
     "If you need to cancel enrollment, please contact our team before the batch begins for the best available resolution.",
     "Approved refunds, when applicable, are processed to the original payment method within the timelines shared by our admissions team.",
     "For refund-related questions, email fluentauf@gmail.com or call +91 88269 67151 before enrolling.",
-  ],
+  ]),
 };
 
 export const defaultOurCompanyContent: OurCompanyPageData = {

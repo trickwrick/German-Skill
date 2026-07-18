@@ -15,7 +15,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function RefundPage() {
-  const { paragraphs } = await getLegalPageContent("refund");
+  const { html } = await getLegalPageContent("refund");
 
   return (
     <>
@@ -28,7 +28,7 @@ export default async function RefundPage() {
             { label: "Refund Policy" },
           ]}
         />
-        <LegalPageContent paragraphs={paragraphs} />
+        <LegalPageContent html={html} />
       </main>
       <SiteFooter />
     </>
