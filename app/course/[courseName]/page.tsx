@@ -148,8 +148,6 @@ export default async function GermanCoursePage({ params }: PageProps) {
   const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
   const batchesContent = await getCourseFlexibleBatchesAsync(displayCourse.slug);
   const seoContent = await getCourseSeoContentAsync(displayCourse.slug);
-  const seoSectionTitle =
-    displayCourse.slug === "a1" ? "About German A1 Course" : `About ${displayCourse.title}`;
   const salePrice = displayCourse.price || content.sidebarPrice;
   const coursePath = `/course/${displayCourse.pathName}`;
   const courseSchema = [
@@ -183,7 +181,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
           />
           <div className="course-detail-hero-overlay" aria-hidden="true" />
           <div className="course-detail-hero-content">
-            <h1>Course Details</h1>
+            <p className="course-detail-hero-label">Course Details</p>
             <nav className="course-breadcrumbs" aria-label="Breadcrumb">
               <Link href="/">Home</Link>
               <span aria-hidden="true">•</span>
@@ -196,7 +194,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
 
         <section className="course-detail-body">
           <div className="course-detail-inner">
-            <h2 className="course-detail-title">{displayCourse.title}</h2>
+            <h1 className="course-detail-title">{displayCourse.title}</h1>
 
             <div className="course-detail-stats">
               <StatItem
@@ -244,7 +242,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
           courseTitle={displayCourse.title}
         />
 
-        <CourseSeoContentSection html={seoContent} title={seoSectionTitle} />
+        <CourseSeoContentSection html={seoContent} />
       </main>
       <SiteFooter />
     </>

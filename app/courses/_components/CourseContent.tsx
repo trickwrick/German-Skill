@@ -317,36 +317,36 @@ export default function CourseContent({
 
           {activeTab === "Description" && (
             <div className="course-tab-panel">
-              <h3>About This Course</h3>
+              <p className="course-section-label">About This Course</p>
               <p>{content.aboutCourse}</p>
 
-              <h3>Course&apos;s Objectives (What you&apos;ll learn)</h3>
+              <p className="course-section-label">Course&apos;s Objectives (What you&apos;ll learn)</p>
               <div className="objectives-grid">
                 <ObjectiveList items={content.objectivesLeft} />
                 <ObjectiveList items={content.objectivesRight} />
               </div>
 
-              <h3>Course Description</h3>
+              <p className="course-section-label">Course Description</p>
               {content.courseDescription.map((para) => (
                 <p key={para.slice(0, 40)}>{para}</p>
               ))}
 
-              <h3>GOALS/LESSONS</h3>
+              <p className="course-section-label">GOALS/LESSONS</p>
               <ul className="goals-list">
                 {content.goalsLessons.map((goal) => (
                   <li key={goal}>{goal}</li>
                 ))}
               </ul>
 
-              <h3>You will learn the following:</h3>
+              <p className="course-section-label">You will learn the following:</p>
               {content.curriculumSections.map((section) => (
                 <div key={section.title} className="curriculum-block">
-                  <h4>{section.title}</h4>
+                  <p className="course-section-sub-label">{section.title}</p>
                   <p>{section.topics.join(" | ")}</p>
                 </div>
               ))}
 
-              <h3>Who This Course Is For:</h3>
+              <p className="course-section-label">Who This Course Is For:</p>
               <ul className="audience-list">
                 {content.targetAudience.map((item) => (
                   <li key={item}>

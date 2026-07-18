@@ -946,7 +946,7 @@ button {
   padding: 48px 20px;
 }
 
-.course-detail-hero-content h1 {
+.course-detail-hero-content .course-detail-hero-label {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2rem, 4vw, 2.75rem);
@@ -4570,6 +4570,26 @@ button {
   font-size: 0.92rem;
   line-height: 1.75;
   color: var(--text-secondary);
+}
+
+.course-tab-panel p.course-section-label {
+  margin: 28px 0 14px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+
+.course-tab-panel p.course-section-label:first-child {
+  margin-top: 0;
+}
+
+.course-tab-panel p.course-section-sub-label {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-primary);
 }
 
 .objectives-grid {
