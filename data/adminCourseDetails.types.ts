@@ -43,6 +43,7 @@ export type StoredCourseDetails = {
   reviewsSummary: CourseReviewsSummary;
   reviews: CourseReview[];
   flexibleBatches?: CourseFlexibleBatches;
+  seoContent?: string;
   updatedAt: Date;
 };
 
@@ -52,6 +53,7 @@ export type AdminCoursePayload = Partial<GermanCourse> & {
   reviewsSummary: CourseReviewsSummary;
   reviews: CourseReview[];
   flexibleBatches: CourseFlexibleBatches;
+  seoContent?: string;
 };
 
 export const defaultReviewsSummary: CourseReviewsSummary = {

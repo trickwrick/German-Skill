@@ -9,10 +9,12 @@ import {
   getCourseByPathNameAsync,
   getCourseContentAsync,
   getCourseFlexibleBatchesAsync,
+  getCourseSeoContentAsync,
   getGermanCoursesForDisplay,
 } from "../../../lib/courseContentStore";
 import CourseContent from "../../courses/_components/CourseContent";
 import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
+import CourseSeoContentSection from "../../courses/_components/CourseSeoContentSection";
 import JsonLd from "../../components/JsonLd";
 import {
   buildBreadcrumbSchema,
@@ -145,6 +147,9 @@ export default async function GermanCoursePage({ params }: PageProps) {
 
   const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
   const batchesContent = await getCourseFlexibleBatchesAsync(displayCourse.slug);
+  const seoContent = await getCourseSeoContentAsync(displayCourse.slug);
+  const seoSectionTitle =
+    displayCourse.slug === "a1" ? "About German A1 Course" : `About ${displayCourse.title}`;
   const salePrice = displayCourse.price || content.sidebarPrice;
   const coursePath = `/course/${displayCourse.pathName}`;
   const courseSchema = [
@@ -238,6 +243,8 @@ export default async function GermanCoursePage({ params }: PageProps) {
           courseSlug={displayCourse.slug}
           courseTitle={displayCourse.title}
         />
+
+        <CourseSeoContentSection html={seoContent} title={seoSectionTitle} />
       </main>
       <SiteFooter />
     </>

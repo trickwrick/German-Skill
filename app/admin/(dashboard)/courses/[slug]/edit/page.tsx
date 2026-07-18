@@ -51,6 +51,7 @@ export default async function AdminEditCoursePage({ params }: EditCoursePageProp
         initialReviewsSummary={editable.reviewsSummary}
         initialReviews={editable.reviews}
         initialFlexibleBatches={editable.flexibleBatches}
+        initialSeoContent={editable.seoContent}
       />
     </div>
   );

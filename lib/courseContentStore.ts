@@ -7,6 +7,7 @@ import type {
   StoredCourseDetails,
 } from "../data/adminCourseDetails.types";
 import { defaultReviewsSummary } from "../data/adminCourseDetails.types";
+import { getDefaultCourseSeoContent } from "../data/courseSeoContentDefaults";
 import { getCourseBySlug, germanCourses, isStaticCourseSlug, getCourseByPathName, type GermanCourse } from "../data/germanCourses";
 import { getCourseContent, getCourseContentForCourse } from "../data/courseContents";
 import {
@@ -221,6 +222,7 @@ function getEditableFromContent(slug: string) {
       faqs: [] as CourseFaqItem[],
       reviewsSummary: defaultReviewsSummary,
       reviews: [] as CourseReview[],
+      seoContent: getDefaultCourseSeoContent(slug),
     };
   }
 
@@ -232,6 +234,7 @@ function getEditableFromContent(slug: string) {
       total: Number(course?.reviewCount) || content.reviewsSummary.total,
     },
     reviews: content.reviews ?? [],
+    seoContent: getDefaultCourseSeoContent(slug),
   };
 }
 
@@ -264,6 +267,7 @@ function mergeCourseEditableFields(
       total: reviewCount,
       average: stored.reviewsSummary?.average || fallback.reviewsSummary.average,
     },
+    seoContent: stored.seoContent?.trim() || fallback.seoContent,
   };
 }
 
@@ -366,7 +370,19 @@ export async function getCourseEditableDetails(slug: string) {
       getCourseFlexibleBatches(slug),
       stored?.flexibleBatches,
     ),
+    seoContent: stored?.seoContent?.trim() || editable.seoContent || getDefaultCourseSeoContent(slug),
   };
+}
+
+export async function getCourseSeoContentAsync(slug: string): Promise<string> {
+  noStore();
+
+  const stored = await fetchStoredCourseDetails(slug);
+  if (stored?.seoContent?.trim()) {
+    return stored.seoContent.trim();
+  }
+
+  return getDefaultCourseSeoContent(slug);
 }
 
 export async function saveCourseDetails(payload: AdminCoursePayload) {
@@ -374,7 +390,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     throw new Error("Course slug is required.");
   }
 
-  const { slug, faqs, reviewsSummary, reviews, flexibleBatches, descriptionTab, ...courseFields } = payload;
+  const { slug, faqs, reviewsSummary, reviews, flexibleBatches, descriptionTab, seoContent, ...courseFields } = payload;
   const baseCourse = getCourseBySlug(slug);
   const isCustom = !baseCourse;
   const pathName =
@@ -398,6 +414,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     },
     reviews,
     flexibleBatches,
+    seoContent: seoContent?.trim() || undefined,
     updatedAt: new Date(),
   };
 

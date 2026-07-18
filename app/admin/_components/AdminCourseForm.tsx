@@ -37,6 +37,8 @@ import {
   splitLines,
   splitParagraphs,
 } from "../../../lib/courseDescriptionTabUtils";
+import { getDefaultCourseSeoContent } from "../../../data/courseSeoContentDefaults";
+import BlogCKEditor from "../(dashboard)/blog/_components/BlogCKEditor";
 
 type AdminCourseFormProps = {
   mode: "create" | "edit";
@@ -48,6 +50,7 @@ type AdminCourseFormProps = {
   initialReviewsSummary?: CourseReviewsSummary;
   initialReviews?: CourseReview[];
   initialFlexibleBatches?: CourseFlexibleBatches;
+  initialSeoContent?: string;
 };
 
 const emptyValues: Partial<GermanCourse> = {
@@ -98,6 +101,7 @@ export default function AdminCourseForm({
   initialReviewsSummary = defaultReviewsSummary,
   initialReviews = [],
   initialFlexibleBatches,
+  initialSeoContent,
 }: AdminCourseFormProps) {
   const starterSlug = lockedSlug ?? initialValues?.slug ?? "a1";
   const router = useRouter();
@@ -117,6 +121,9 @@ export default function AdminCourseForm({
   );
   const [descriptionTab, setDescriptionTab] = useState<CourseDescriptionTab>(
     initialDescriptionTab ?? getDescriptionTabForSlug(starterSlug),
+  );
+  const [seoContent, setSeoContent] = useState(
+    initialSeoContent ?? getDefaultCourseSeoContent(starterSlug),
   );
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -171,6 +178,7 @@ export default function AdminCourseForm({
 
     setFlexibleBatches(getCourseFlexibleBatches(level));
     setDescriptionTab(getDescriptionTabForSlug(level));
+    setSeoContent(getDefaultCourseSeoContent(level));
   }
 
   function updateDescriptionField<K extends keyof CourseDescriptionTab>(
@@ -394,6 +402,7 @@ export default function AdminCourseForm({
       reviews,
       flexibleBatches,
       descriptionTab,
+      seoContent,
     };
 
     try {
@@ -1120,6 +1129,19 @@ export default function AdminCourseForm({
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="adm-panel">
+        <div className="adm-panel-head">
+          <h2 className="adm-panel-title">About Course SEO Content</h2>
+        </div>
+
+        <p className="adm-panel-note">
+          Rich content shown below the Flexible Batches section on the course page. Use headings,
+          lists, and paragraphs for SEO — similar to the About Course section on reference sites.
+        </p>
+
+        <BlogCKEditor value={seoContent} onChange={setSeoContent} />
       </section>
 
       {error ? <p className="adm-form-message adm-form-message-error">{error}</p> : null}
