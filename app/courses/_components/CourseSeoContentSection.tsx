@@ -21,7 +21,7 @@ export default function CourseSeoContentSection({
           {title}
         </h2>
         <div
-          className="course-seo-content-body blog-prose"
+          className="course-seo-content-body"
           dangerouslySetInnerHTML={{ __html: sanitizeBlogHtml(content) }}
         />
       </div>
