@@ -18,6 +18,15 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: "/blogs",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=0, must-revalidate",
+          },
+        ],
+      },
+      {
         source: "/blog/:path*",
         headers: [
           {
@@ -77,6 +86,7 @@ const nextConfig = {
       { source: "/course/German%20B2", destination: "/course/german-b2", permanent: true },
       { source: "/course/German%20C1", destination: "/course/german-c1", permanent: true },
       { source: "/course/German%20C2", destination: "/course/german-c2", permanent: true },
+      { source: "/blog", destination: "/blogs", permanent: true },
     ];
   },
 };

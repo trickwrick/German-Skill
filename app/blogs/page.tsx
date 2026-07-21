@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Navbar from "../components/Navbar";
 import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
-import BlogPageContent from "./_components/BlogPageContent";
-import BlogSidebar from "./_components/BlogSidebar";
+import BlogPageContent from "../blog/_components/BlogPageContent";
+import BlogSidebar from "../blog/_components/BlogSidebar";
 import { getBlogPosts } from "../../lib/blogStore";
 import { filterBlogPostsByCategory } from "../../lib/blogUtils";
 import { buildPageMetadata } from "../../lib/siteSeo";
@@ -14,16 +14,16 @@ export const metadata: Metadata = buildPageMetadata({
   title: "Blog | Fluent AUF",
   description:
     "Read Fluent AUF blogs on Goethe, Telc, study in Germany, APS, Uni Assist, and German language learning tips.",
-  path: "/blog",
+  path: "/blogs",
   keywords: "Learn German, German Grammar, Study in Germany, Goethe-Zertifikat Prep",
 });
 
-type BlogPageProps = {
+type BlogsPageProps = {
   searchParams?: { category?: string };
 };
 
-export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const posts = await getBlogPosts();
+export default async function BlogsPage({ searchParams }: BlogsPageProps) {
+  const posts = await getBlogPosts({ fresh: true });
   const activeCategory = searchParams?.category?.trim();
   const filteredPosts = filterBlogPostsByCategory(posts, activeCategory);
 

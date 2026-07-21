@@ -25,13 +25,13 @@ type BlogDetailPageProps = {
 
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const slug = decodeURIComponent(params.slug);
-  const post = await getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug, { fresh: true });
 
   if (!post) {
     return buildPageMetadata({
       title: "Blog | Fluent AUF",
       description: "Read German language learning tips and exam guidance on the Fluent AUF blog.",
-      path: "/blog",
+      path: "/blogs",
     });
   }
 
@@ -51,7 +51,10 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const slug = decodeURIComponent(params.slug);
-  const [post, posts] = await Promise.all([getBlogPostBySlug(slug), getBlogPosts()]);
+  const [post, posts] = await Promise.all([
+    getBlogPostBySlug(slug, { fresh: true }),
+    getBlogPosts({ fresh: true }),
+  ]);
 
   if (!post) {
     notFound();
@@ -69,7 +72,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     }),
     buildBreadcrumbSchema([
       { name: "Home", path: "/" },
-      { name: "Blog", path: "/blog" },
+      { name: "Blog", path: "/blogs" },
       { name: post.title, path: `/blog/${post.slug}` },
     ]),
     buildFaqSchema(
@@ -87,11 +90,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <main>
         <PageBanner
           layout="stacked"
-          title="Blog"
-          description="Guides, exam tips, and language learning insights."
+          title={post.title}
+          description={post.excerpt}
           breadcrumbs={[
             { label: "Home", href: "/" },
-            { label: "Blog", href: "/blog" },
+            { label: "Blog", href: "/blogs" },
             { label: post.title },
           ]}
         />
@@ -99,10 +102,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         <article className="blog-detail">
           <div className="blog-detail-inner blog-layout">
             <div className="blog-layout-main">
-              <header className="blog-detail-header">
-                <h1>{post.title}</h1>
-              </header>
-
               <div className="blog-detail-image-wrap">
                 <BlogImage
                   src={post.image}
@@ -117,7 +116,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               <div className="blog-detail-post-meta">
                 {primaryCategory ? (
                   <Link
-                    href={`/blog?category=${encodeURIComponent(primaryCategory)}`}
+                    href={`/blogs?category=${encodeURIComponent(primaryCategory)}`}
                     className="blog-detail-category"
                   >
                     {primaryCategory}
@@ -175,7 +174,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   <Link href="/contact" className="btn btn-primary blog-detail-cta">
                     Contact Us
                   </Link>
-                  <Link href="/blog" className="blog-detail-back">
+                  <Link href="/blogs" className="blog-detail-back">
                     ← Back to all blogs
                   </Link>
                 </div>

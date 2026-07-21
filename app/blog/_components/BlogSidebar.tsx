@@ -1,6 +1,6 @@
 import Link from "next/link";
 import BlogImage from "../../components/BlogImage";
-import { DEFAULT_BLOG_CATEGORIES, getRecentBlogPosts } from "../../../lib/blogUtils";
+import { DEFAULT_BLOG_CATEGORIES, getSidebarBlogPosts } from "../../../lib/blogUtils";
 import type { BlogPost } from "../../../lib/blogStore";
 
 type BlogSidebarProps = {
@@ -14,17 +14,18 @@ export default function BlogSidebar({
   currentSlug,
   activeCategory,
 }: BlogSidebarProps) {
-  const recentPosts = getRecentBlogPosts(posts, 3, currentSlug);
+  const sidebarPosts = getSidebarBlogPosts(posts, currentSlug);
+  const sidebarTitle = currentSlug ? "Recent Posts" : "All Posts";
 
   return (
     <aside className="blog-sidebar" aria-label="Blog sidebar">
       <div className="blog-sidebar-widget">
         <details className="blog-sidebar-section" open>
-          <summary>Recent Posts</summary>
+          <summary>{sidebarTitle}</summary>
           <div className="blog-sidebar-section-body">
-            {recentPosts.length > 0 ? (
+            {sidebarPosts.length > 0 ? (
               <ul className="blog-sidebar-recent-list">
-                {recentPosts.map((post) => (
+                {sidebarPosts.map((post) => (
                   <li key={post.slug}>
                     <Link
                       href={`/blog/${encodeURIComponent(post.slug)}`}
@@ -61,7 +62,7 @@ export default function BlogSidebar({
                   return (
                     <li key={category}>
                       <Link
-                        href={`/blog?category=${encodeURIComponent(category)}`}
+                        href={`/blogs?category=${encodeURIComponent(category)}`}
                         className={
                           isActive
                             ? "blog-sidebar-category-link is-active"

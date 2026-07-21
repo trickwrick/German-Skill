@@ -37,7 +37,7 @@ export function getCachedPublicData<T>(
 
 export function revalidatePublicBlogData(...slugs: string[]) {
   revalidateTag(CACHE_TAGS.blogPosts);
-  revalidatePath("/blog");
+  revalidatePath("/blogs");
 
   for (const slug of slugs) {
     const trimmed = slug.trim();

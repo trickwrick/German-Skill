@@ -19,6 +19,18 @@ export function getRecentBlogPosts(posts: BlogPost[], limit = 3, excludeSlug?: s
   return sorted.slice(0, limit);
 }
 
+export function getSidebarBlogPosts(posts: BlogPost[], currentSlug?: string) {
+  const sorted = [...posts].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+
+  if (currentSlug) {
+    return getRecentBlogPosts(sorted, 3, currentSlug);
+  }
+
+  return sorted;
+}
+
 export function getBlogCategories(posts: BlogPost[]) {
   const categories = new Set<string>(DEFAULT_BLOG_CATEGORIES);
 

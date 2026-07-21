@@ -2,6 +2,7 @@ import { existsSync } from "fs";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 import type { BlogPost as StaticBlogPost } from "../data/blogPosts";
+import { slugifyCoursePath } from "./courseUtils";
 import { isFileStoreEnabled } from "./courseDetailsFileStore";
 
 const STORE_DIR = path.join(process.cwd(), "data");
@@ -61,7 +62,8 @@ export async function getFileBlogStore() {
 
 export async function getFileBlogPostBySlug(slug: string) {
   const store = await readStore();
-  return store.posts.find((post) => post.slug === slug) ?? null;
+  const normalized = slugifyCoursePath(slug);
+  return store.posts.find((post) => slugifyCoursePath(post.slug) === normalized) ?? null;
 }
 
 export async function saveFileBlogPost(

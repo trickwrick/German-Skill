@@ -30,13 +30,13 @@ export const navItems = [
     dropdown: true,
     items: aboutLinks,
   },
-  { label: "Blog", href: "/blog", dropdown: false },
+  { label: "Blog", href: "/blogs", dropdown: false },
 ];
 
 const allUsefulLinks = [
   { label: "About", href: "/about/our-company" },
   { label: "Contact Us", href: "/contact" },
-  { label: "Blogs", href: "/blog" },
+  { label: "Blogs", href: "/blogs" },
   { label: "FAQs", href: "/about/faqs" },
 ];
 

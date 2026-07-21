@@ -87,9 +87,13 @@ function normalizeBlogFaqs(value: unknown): BlogPost["faqs"] {
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
 }
 
+export function normalizeBlogSlug(value: string) {
+  return slugifyCoursePath(decodeURIComponent(value));
+}
+
 export function sanitizeBlogPost(post: Partial<BlogPost> & { slug: string }): BlogPost {
   const sanitized: BlogPost = {
-    slug: slugifyCoursePath(post.slug),
+    slug: slugifyCoursePath(post.slug || post.title || ""),
     title: typeof post.title === "string" ? post.title : "Blog Post",
     date: normalizeBlogDate(post.date),
     author: typeof post.author === "string" && post.author.trim() ? post.author : "Fluent AUF Team",
@@ -173,16 +177,20 @@ function mergeBlogLists(storedPosts: BlogPost[], deletedSlugs: Set<string>) {
 
   if (shouldMergeStaticBlogPosts()) {
     for (const post of staticBlogPosts) {
-      if (!deletedSlugs.has(post.slug)) {
-        bySlug.set(post.slug, post);
+      const slug = normalizeBlogSlug(post.slug);
+      if (!slug || deletedSlugs.has(slug)) {
+        continue;
       }
+      bySlug.set(slug, { ...post, slug });
     }
   }
 
   for (const post of storedPosts) {
-    if (!deletedSlugs.has(post.slug)) {
-      bySlug.set(post.slug, post);
+    const slug = normalizeBlogSlug(post.slug || post.title || "");
+    if (!slug || deletedSlugs.has(slug)) {
+      continue;
     }
+    bySlug.set(slug, { ...post, slug });
   }
 
   return sortPosts(Array.from(bySlug.values()));
@@ -242,39 +250,70 @@ async function removeMongoDeletedSlug(slug: string) {
 }
 
 async function getDeletedSlugs(): Promise<Set<string>> {
+  const slugs = new Set<string>();
+
   if (isFileStoreEnabled()) {
     try {
       const store = await getFileBlogStore();
-      return new Set(store?.deletedSlugs ?? []);
+      for (const slug of store?.deletedSlugs ?? []) {
+        const normalized = normalizeBlogSlug(slug);
+        if (normalized) {
+          slugs.add(normalized);
+        }
+      }
     } catch {
-      return new Set();
+      // Fall through to MongoDB deleted slugs when available.
     }
   }
 
-  try {
-    const slugs = await getMongoDeletedSlugs();
-    return new Set(slugs);
-  } catch {
-    return new Set();
+  if (process.env.MONGODB_URI) {
+    try {
+      const mongoSlugs = await getMongoDeletedSlugs();
+      for (const slug of mongoSlugs) {
+        const normalized = normalizeBlogSlug(slug);
+        if (normalized) {
+          slugs.add(normalized);
+        }
+      }
+    } catch {
+      // Ignore and use file-only deleted slugs.
+    }
   }
+
+  return slugs;
 }
 
 async function getStoredPosts(): Promise<BlogPost[]> {
-  if (isFileStoreEnabled()) {
+  const bySlug = new Map<string, BlogPost>();
+
+  if (process.env.MONGODB_URI) {
     try {
-      const store = await getFileBlogStore();
-      return store?.posts ?? [];
-    } catch {
-      return [];
+      for (const post of await getMongoStoredPosts()) {
+        const slug = normalizeBlogSlug(post.slug || post.title || "");
+        if (slug) {
+          bySlug.set(slug, { ...post, slug });
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch blog posts from DB", error);
     }
   }
 
-  try {
-    return await getMongoStoredPosts();
-  } catch (error) {
-    console.error("Failed to fetch blog posts from DB", error);
-    return [];
+  if (isFileStoreEnabled()) {
+    try {
+      const store = await getFileBlogStore();
+      for (const post of store?.posts ?? []) {
+        const slug = normalizeBlogSlug(post.slug || post.title || "");
+        if (slug) {
+          bySlug.set(slug, { ...post, slug });
+        }
+      }
+    } catch {
+      // MongoDB posts remain available when the file store cannot be read.
+    }
   }
+
+  return Array.from(bySlug.values());
 }
 
 async function fetchBlogPosts(): Promise<BlogPost[]> {
@@ -283,7 +322,9 @@ async function fetchBlogPosts(): Promise<BlogPost[]> {
     getDeletedSlugs(),
   ]);
 
-  return mergeBlogLists(storedPosts, deletedSlugs).map((post) => sanitizeBlogPost(post));
+  return mergeBlogLists(storedPosts, deletedSlugs)
+    .map((post) => sanitizeBlogPost(post))
+    .filter((post) => Boolean(post.slug));
 }
 
 const loadBlogPosts = cache(fetchBlogPosts);
@@ -307,14 +348,19 @@ export async function getBlogPosts(options: PublicDataOptions = {}): Promise<Blo
 }
 
 async function fetchBlogPostBySlug(normalizedSlug: string): Promise<BlogPost | null> {
+  const slug = normalizeBlogSlug(normalizedSlug);
+  if (!slug) {
+    return null;
+  }
+
   const deletedSlugs = await getDeletedSlugs();
-  if (deletedSlugs.has(normalizedSlug)) {
+  if (deletedSlugs.has(slug)) {
     return null;
   }
 
   if (isFileStoreEnabled()) {
     try {
-      const filePost = await getFileBlogPostBySlug(normalizedSlug);
+      const filePost = await getFileBlogPostBySlug(slug);
       if (filePost) {
         return sanitizeBlogPost(filePost);
       }
@@ -326,17 +372,19 @@ async function fetchBlogPostBySlug(normalizedSlug: string): Promise<BlogPost | n
   if (process.env.MONGODB_URI) {
     try {
       const collection = await getMongoCollection();
-      const doc = await collection.findOne({ slug: normalizedSlug });
+      const doc = await collection.findOne({ slug });
       if (doc) {
         return sanitizeBlogPost({ ...doc, _id: undefined } as BlogPost);
       }
     } catch (error) {
-      console.error(`Failed to fetch blog post ${normalizedSlug} from DB`, error);
+      console.error(`Failed to fetch blog post ${slug} from DB`, error);
     }
   }
 
   if (shouldMergeStaticBlogPosts()) {
-    const staticPost = staticBlogPosts.find((post) => post.slug === normalizedSlug);
+    const staticPost = staticBlogPosts.find(
+      (post) => normalizeBlogSlug(post.slug) === slug,
+    );
     if (staticPost) {
       return sanitizeBlogPost(staticPost);
     }
@@ -351,7 +399,10 @@ export async function getBlogPostBySlug(
   slug: string,
   options: PublicDataOptions = {},
 ): Promise<BlogPost | null> {
-  const normalizedSlug = decodeURIComponent(slug).trim();
+  const normalizedSlug = normalizeBlogSlug(slug);
+  if (!normalizedSlug) {
+    return null;
+  }
 
   if (options.fresh || shouldBypassBlogCache()) {
     noStore();
