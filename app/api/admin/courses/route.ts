@@ -128,17 +128,21 @@ async function persistCourse(body: AdminCoursePayload, isCreate: boolean) {
     return NextResponse.json({ error }, { status: 400 });
   }
 
-  const slug = body.slug?.trim() ?? "";
+  const previousSlug = body.previousSlug?.trim() ?? "";
+  const originalSlug = previousSlug || body.slug?.trim() || "";
   const pathName = slugifyCoursePath(body.pathName?.trim() || "");
-  const isCustom = !isStaticCourseSlug(slug);
+  const isCustom = previousSlug ? !isStaticCourseSlug(previousSlug) : !isStaticCourseSlug(originalSlug);
 
   if (isCreate && isCustom) {
     body.slug = pathName;
+  } else if (!isCreate && isCustom) {
+    body.slug = pathName;
+    body.previousSlug = previousSlug || originalSlug;
   }
 
   body.pathName = pathName;
 
-  if (await isCoursePathNameTaken(pathName, isCreate ? undefined : slug)) {
+  if (await isCoursePathNameTaken(pathName, isCreate ? undefined : originalSlug)) {
     return NextResponse.json(
       { error: "This URL slug is already used by another course." },
       { status: 400 },

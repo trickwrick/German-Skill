@@ -54,6 +54,8 @@ export type AdminCoursePayload = Partial<GermanCourse> & {
   reviews: CourseReview[];
   flexibleBatches: CourseFlexibleBatches;
   seoContent?: string;
+  /** Original stored slug when editing a custom course URL. */
+  previousSlug?: string;
 };
 
 export const defaultReviewsSummary: CourseReviewsSummary = {

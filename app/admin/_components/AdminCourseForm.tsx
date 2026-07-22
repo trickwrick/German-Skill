@@ -105,7 +105,8 @@ export default function AdminCourseForm({
 }: AdminCourseFormProps) {
   const starterSlug = lockedSlug ?? initialValues?.slug ?? "a1";
   const router = useRouter();
-  const isNewCourseFlow = mode === "create" || isCustomCourse;
+  const isCreateMode = mode === "create";
+  const showCustomUrlField = isCreateMode || isCustomCourse;
   const [values, setValues] = useState<Partial<GermanCourse>>({
     ...emptyValues,
     ...initialValues,
@@ -141,7 +142,7 @@ export default function AdminCourseForm({
     setValues((current) => {
       const next = { ...current, title };
 
-      if (isNewCourseFlow && !slugManuallyEdited) {
+      if (isCreateMode && !slugManuallyEdited) {
         const pathName = slugifyCoursePath(title);
         next.pathName = pathName;
         next.slug = pathName;
@@ -157,12 +158,25 @@ export default function AdminCourseForm({
 
   function handlePathNameChange(value: string) {
     setSlugManuallyEdited(true);
-    const pathName = slugifyCoursePath(value);
     setValues((current) => ({
       ...current,
-      pathName,
-      slug: pathName,
+      pathName: value,
     }));
+  }
+
+  function handlePathNameBlur() {
+    setValues((current) => {
+      const pathName = slugifyCoursePath(current.pathName || "");
+      if (!pathName || pathName === current.pathName) {
+        return current;
+      }
+
+      return {
+        ...current,
+        pathName,
+        slug: isCreateMode ? pathName : current.slug,
+      };
+    });
   }
 
   function handleLevelChange(level: string) {
@@ -356,16 +370,22 @@ export default function AdminCourseForm({
     setSuccess("");
     setLoading(true);
 
-    const courseSlug = lockedSlug ?? values.slug ?? "";
+    const originalSlug = lockedSlug ?? values.slug ?? "";
     const pathName = slugifyCoursePath(values.pathName || values.title || "");
 
-    if (isNewCourseFlow) {
+    if (isCreateMode) {
       if (!pathName) {
         setError("Course title is required to create the course URL.");
         setLoading(false);
         return;
       }
-    } else if (!courseSlug || !getCourseBySlug(courseSlug)) {
+    } else if (isCustomCourse) {
+      if (!originalSlug || !pathName) {
+        setError("Course URL is required.");
+        setLoading(false);
+        return;
+      }
+    } else if (!originalSlug || !getCourseBySlug(originalSlug)) {
       setError("Could not find this standard course level.");
       setLoading(false);
       return;
@@ -379,17 +399,16 @@ export default function AdminCourseForm({
       return;
     }
 
-    const resolvedSlug = isNewCourseFlow ? pathName : courseSlug;
-    const resolvedPathName = isNewCourseFlow
+    const resolvedSlug = isCreateMode || isCustomCourse ? pathName : originalSlug;
+    const resolvedPathName = isCreateMode || isCustomCourse
       ? pathName
-      : lockedSlug
-        ? `german-${lockedSlug}`
-        : values.pathName ?? `german-${courseSlug}`;
+      : slugifyCoursePath(values.pathName || `german-${originalSlug}`);
 
     const payload: AdminCoursePayload = {
       ...(values as GermanCourse),
       slug: resolvedSlug,
       pathName: resolvedPathName,
+      previousSlug: mode === "edit" && isCustomCourse ? originalSlug : undefined,
       hours: duration,
       learningHours: duration,
       reviewCount: values.reviewCount ?? "0",
@@ -434,6 +453,8 @@ export default function AdminCourseForm({
     }
   }
 
+  const courseUrlPreview = slugifyCoursePath(values.pathName || "") || "your-course";
+
   return (
     <form className="adm-course-form" onSubmit={handleSubmit}>
       <section className="adm-panel">
@@ -450,21 +471,22 @@ export default function AdminCourseForm({
             />
           </label>
 
-          {isNewCourseFlow ? (
+          {showCustomUrlField ? (
             <label className="adm-form-field adm-form-field-full">
               <span>Course URL</span>
               <input
                 type="text"
                 value={values.pathName ?? ""}
                 onChange={(event) => handlePathNameChange(event.target.value)}
-                placeholder="auto-created-from-title"
+                onBlur={handlePathNameBlur}
+                placeholder="german-complete-course-beginner-to-advanced"
                 readOnly={mode === "create" && !slugManuallyEdited}
                 className={mode === "create" && !slugManuallyEdited ? "adm-input-readonly" : undefined}
               />
               <small className="adm-field-hint">
                 {mode === "create" && !slugManuallyEdited
-                  ? `Auto-created from title → /course/${values.pathName || "your-course"}`
-                  : `Course page → /course/${values.pathName || "your-course"}`}
+                  ? `Auto-created from title → /course/${courseUrlPreview}`
+                  : `Course page → /course/${courseUrlPreview}`}
               </small>
               {mode === "create" && !slugManuallyEdited ? (
                 <button

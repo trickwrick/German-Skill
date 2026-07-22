@@ -385,14 +385,35 @@ export async function getCourseSeoContentAsync(slug: string): Promise<string> {
   return getDefaultCourseSeoContent(slug);
 }
 
+async function removeStoredCourseDetailsRecord(slug: string) {
+  if (isFileStoreEnabled()) {
+    await deleteFileCourseDetails(slug);
+  }
+
+  if (process.env.MONGODB_URI) {
+    await deleteMongoCourseDetails(slug);
+  }
+}
+
 export async function saveCourseDetails(payload: AdminCoursePayload) {
   if (!payload.slug?.trim()) {
     throw new Error("Course slug is required.");
   }
 
-  const { slug, faqs, reviewsSummary, reviews, flexibleBatches, descriptionTab, seoContent, ...courseFields } = payload;
+  const {
+    slug,
+    previousSlug,
+    faqs,
+    reviewsSummary,
+    reviews,
+    flexibleBatches,
+    descriptionTab,
+    seoContent,
+    ...courseFields
+  } = payload;
+  const normalizedPreviousSlug = previousSlug?.trim() || "";
   const baseCourse = getCourseBySlug(slug);
-  const isCustom = !baseCourse;
+  const isCustom = Boolean(normalizedPreviousSlug) || !baseCourse;
   const pathName =
     slugifyCoursePath(courseFields.pathName?.trim() || "") ||
     baseCourse?.pathName ||
@@ -429,11 +450,22 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
       }
     }
 
+    if (normalizedPreviousSlug && normalizedPreviousSlug !== slug) {
+      await removeStoredCourseDetailsRecord(normalizedPreviousSlug);
+      safeRevalidatePublicCourseData(normalizedPreviousSlug);
+    }
+
     safeRevalidatePublicCourseData(slug);
     return document;
   }
 
   const saved = await saveMongoCourseDetails(document);
+
+  if (normalizedPreviousSlug && normalizedPreviousSlug !== slug) {
+    await removeStoredCourseDetailsRecord(normalizedPreviousSlug);
+    safeRevalidatePublicCourseData(normalizedPreviousSlug);
+  }
+
   safeRevalidatePublicCourseData(slug);
   return saved;
 }
