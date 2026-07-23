@@ -9,6 +9,7 @@ import {
   getCourseByPathNameAsync,
   getCourseContentAsync,
   getCourseFlexibleBatchesAsync,
+  getCoursePageSeoAsync,
   getCourseSeoContentAsync,
   getGermanCoursesForDisplay,
 } from "../../../lib/courseContentStore";
@@ -29,7 +30,7 @@ type PageProps = {
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const course = await getCourseByPathNameAsync(params.courseName);
+  const course = await getCourseByPathNameAsync(params.courseName, { fresh: true });
   if (!course) {
     return buildPageMetadata({
       title: "Course Not Found | Fluent AUF",
@@ -39,11 +40,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     });
   }
 
+  const seo = await getCoursePageSeoAsync(course);
+
   return buildPageMetadata({
-    title: `${course.title} | Fluent AUF`,
-    description: course.description,
+    title: seo.metaTitle || `${course.title} | Fluent AUF`,
+    description: seo.metaDescription || course.description,
     path: `/course/${course.pathName}`,
-    keywords: `${course.title}, German Language Course, Learn German, Online German Classes`,
+    keywords: seo.metaKeyword || `${course.title}, German Language Course, Learn German, Online German Classes`,
     ogImage: course.image || undefined,
     ogImageAlt: `${course.title} — Fluent AUF German Course`,
   });

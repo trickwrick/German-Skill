@@ -118,6 +118,7 @@ export async function GET(request: Request) {
     reviews: editable.reviews,
     flexibleBatches: editable.flexibleBatches,
     seoContent: editable.seoContent,
+    seo: editable.seo,
   });
 }
 

@@ -10,11 +10,13 @@ import type {
   CourseCurriculumSection,
   CourseFaqItem,
   CourseReviewsSummary,
+  CourseSeoMeta,
 } from "../../../data/adminCourseDetails.types";
 import {
   defaultFaqItem,
   defaultReviewItem,
   defaultReviewsSummary,
+  getDefaultCourseSeoMeta,
   reviewColorOptions,
   reviewRatingOptions,
 } from "../../../data/adminCourseDetails.types";
@@ -51,6 +53,7 @@ type AdminCourseFormProps = {
   initialReviews?: CourseReview[];
   initialFlexibleBatches?: CourseFlexibleBatches;
   initialSeoContent?: string;
+  initialSeo?: CourseSeoMeta;
 };
 
 const emptyValues: Partial<GermanCourse> = {
@@ -102,6 +105,7 @@ export default function AdminCourseForm({
   initialReviews = [],
   initialFlexibleBatches,
   initialSeoContent,
+  initialSeo,
 }: AdminCourseFormProps) {
   const starterSlug = lockedSlug ?? initialValues?.slug ?? "a1";
   const router = useRouter();
@@ -125,6 +129,9 @@ export default function AdminCourseForm({
   );
   const [seoContent, setSeoContent] = useState(
     initialSeoContent ?? getDefaultCourseSeoContent(starterSlug),
+  );
+  const [courseSeo, setCourseSeo] = useState<CourseSeoMeta>(
+    initialSeo ?? getDefaultCourseSeoMeta(initialValues),
   );
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -150,6 +157,24 @@ export default function AdminCourseForm({
 
       return next;
     });
+
+    if (isCreateMode) {
+      setCourseSeo((current) => ({
+        metaTitle: current.metaTitle || (title ? `${title} | Fluent AUF` : ""),
+        metaKeyword:
+          current.metaKeyword ||
+          (title ? `${title}, German Language Course, Learn German, Online German Classes` : ""),
+        metaDescription: current.metaDescription,
+      }));
+    }
+  }
+
+  function handleSeoChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value } = event.target;
+    setCourseSeo((current) => ({
+      ...current,
+      [name]: value,
+    }));
   }
 
   function updateDuration(value: string) {
@@ -422,6 +447,7 @@ export default function AdminCourseForm({
       flexibleBatches,
       descriptionTab,
       seoContent,
+      seo: courseSeo,
     };
 
     try {
@@ -1150,6 +1176,59 @@ export default function AdminCourseForm({
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="adm-panel adm-seo-panel">
+        <div className="adm-panel-head">
+          <h2 className="adm-panel-title">SEO — Meta Tags</h2>
+        </div>
+
+        <p className="adm-panel-note">
+          Define page meta title, meta keywords and meta description to list your course page in
+          search engines.
+        </p>
+
+        <div className="adm-form-grid adm-seo-grid">
+          <label className="adm-form-field adm-form-field-full">
+            <span>Meta Title *</span>
+            <input
+              type="text"
+              name="metaTitle"
+              value={courseSeo.metaTitle}
+              onChange={handleSeoChange}
+              maxLength={70}
+              placeholder="German A1 Course Online | Fluent AUF"
+              required
+            />
+            <small className="adm-field-hint">Max length 70 characters</small>
+          </label>
+
+          <label className="adm-form-field adm-form-field-full">
+            <span>Meta Keyword</span>
+            <textarea
+              name="metaKeyword"
+              value={courseSeo.metaKeyword}
+              onChange={handleSeoChange}
+              maxLength={160}
+              rows={2}
+              placeholder="German A1 Course, Learn German Online, Goethe A1 Prep"
+            />
+            <small className="adm-field-hint">Max length 160 characters</small>
+          </label>
+
+          <label className="adm-form-field adm-form-field-full">
+            <span>Meta Description</span>
+            <textarea
+              name="metaDescription"
+              value={courseSeo.metaDescription}
+              onChange={handleSeoChange}
+              maxLength={250}
+              rows={3}
+              placeholder="Short summary shown in Google search results for this course page."
+            />
+            <small className="adm-field-hint">Max length 250 characters</small>
+          </label>
         </div>
       </section>
 

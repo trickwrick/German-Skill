@@ -4,9 +4,10 @@ import type { CourseContent, CourseReview } from "../data/courseContent.types";
 import type {
   AdminCoursePayload,
   CourseFaqItem,
+  CourseSeoMeta,
   StoredCourseDetails,
 } from "../data/adminCourseDetails.types";
-import { defaultReviewsSummary } from "../data/adminCourseDetails.types";
+import { defaultReviewsSummary, getDefaultCourseSeoMeta } from "../data/adminCourseDetails.types";
 import { getDefaultCourseSeoContent } from "../data/courseSeoContentDefaults";
 import { getCourseBySlug, germanCourses, isStaticCourseSlug, getCourseByPathName, type GermanCourse } from "../data/germanCourses";
 import { getCourseContent, getCourseContentForCourse } from "../data/courseContents";
@@ -29,6 +30,36 @@ import { mergeDescriptionTab } from "./courseDescriptionTabUtils";
 
 const DB_NAME = "germanskill";
 const COLLECTION = "course_details";
+
+function normalizeCourseSeo(value: unknown): CourseSeoMeta | undefined {
+  if (!value || typeof value !== "object") {
+    return undefined;
+  }
+
+  const seo = value as Record<string, unknown>;
+  const metaTitle = typeof seo.metaTitle === "string" ? seo.metaTitle.trim() : "";
+  const metaKeyword = typeof seo.metaKeyword === "string" ? seo.metaKeyword.trim() : "";
+  const metaDescription = typeof seo.metaDescription === "string" ? seo.metaDescription.trim() : "";
+
+  if (!metaTitle && !metaKeyword && !metaDescription) {
+    return undefined;
+  }
+
+  return { metaTitle, metaKeyword, metaDescription };
+}
+
+function mergeCourseSeoMeta(
+  course: Partial<GermanCourse> | undefined,
+  stored?: CourseSeoMeta,
+): CourseSeoMeta {
+  const defaults = getDefaultCourseSeoMeta(course);
+
+  return {
+    metaTitle: stored?.metaTitle?.trim() || defaults.metaTitle,
+    metaKeyword: stored?.metaKeyword?.trim() || defaults.metaKeyword,
+    metaDescription: stored?.metaDescription?.trim() || defaults.metaDescription,
+  };
+}
 
 function courseFromStored(stored: StoredCourseDetails): GermanCourse {
   const base = getCourseBySlug(stored.slug);
@@ -223,6 +254,7 @@ function getEditableFromContent(slug: string) {
       reviewsSummary: defaultReviewsSummary,
       reviews: [] as CourseReview[],
       seoContent: getDefaultCourseSeoContent(slug),
+      seo: getDefaultCourseSeoMeta(course),
     };
   }
 
@@ -235,6 +267,7 @@ function getEditableFromContent(slug: string) {
     },
     reviews: content.reviews ?? [],
     seoContent: getDefaultCourseSeoContent(slug),
+    seo: getDefaultCourseSeoMeta(course),
   };
 }
 
@@ -268,6 +301,7 @@ function mergeCourseEditableFields(
       average: stored.reviewsSummary?.average || fallback.reviewsSummary.average,
     },
     seoContent: stored.seoContent?.trim() || fallback.seoContent,
+    seo: mergeCourseSeoMeta(stored.course, stored.seo),
   };
 }
 
@@ -371,7 +405,15 @@ export async function getCourseEditableDetails(slug: string) {
       stored?.flexibleBatches,
     ),
     seoContent: stored?.seoContent?.trim() || editable.seoContent || getDefaultCourseSeoContent(slug),
+    seo: mergeCourseSeoMeta(stored?.course, stored?.seo ?? editable.seo),
   };
+}
+
+export async function getCoursePageSeoAsync(course: GermanCourse): Promise<CourseSeoMeta> {
+  noStore();
+
+  const stored = await fetchStoredCourseDetails(course.slug);
+  return mergeCourseSeoMeta(course, stored?.seo);
 }
 
 export async function getCourseSeoContentAsync(slug: string): Promise<string> {
@@ -409,6 +451,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     flexibleBatches,
     descriptionTab,
     seoContent,
+    seo,
     ...courseFields
   } = payload;
   const normalizedPreviousSlug = previousSlug?.trim() || "";
@@ -436,6 +479,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     reviews,
     flexibleBatches,
     seoContent: seoContent?.trim() || undefined,
+    seo: normalizeCourseSeo(seo),
     updatedAt: new Date(),
   };
 

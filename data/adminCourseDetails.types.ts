@@ -32,6 +32,30 @@ export type CourseDescriptionTab = {
   targetAudience: string[];
 };
 
+export type CourseSeoMeta = {
+  metaTitle: string;
+  metaKeyword: string;
+  metaDescription: string;
+};
+
+export const defaultCourseSeoMeta: CourseSeoMeta = {
+  metaTitle: "",
+  metaKeyword: "",
+  metaDescription: "",
+};
+
+export function getDefaultCourseSeoMeta(course?: Partial<GermanCourse>): CourseSeoMeta {
+  const title = course?.title?.trim() || "";
+
+  return {
+    metaTitle: title ? `${title} | Fluent AUF` : "",
+    metaKeyword: title
+      ? `${title}, German Language Course, Learn German, Online German Classes`
+      : "",
+    metaDescription: course?.description?.trim() || "",
+  };
+}
+
 export type StoredCourseDetails = {
   slug: string;
   isCustom?: boolean;
@@ -44,6 +68,7 @@ export type StoredCourseDetails = {
   reviews: CourseReview[];
   flexibleBatches?: CourseFlexibleBatches;
   seoContent?: string;
+  seo?: CourseSeoMeta;
   updatedAt: Date;
 };
 
@@ -54,6 +79,7 @@ export type AdminCoursePayload = Partial<GermanCourse> & {
   reviews: CourseReview[];
   flexibleBatches: CourseFlexibleBatches;
   seoContent?: string;
+  seo?: CourseSeoMeta;
   /** Original stored slug when editing a custom course URL. */
   previousSlug?: string;
 };
