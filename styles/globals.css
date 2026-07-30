@@ -69,6 +69,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -7038,5 +7039,414 @@ a.contact-info-value:hover {
 .fq-cta-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.2);
+}
+
+/* Public site responsive */
+@media (max-width: 1100px) {
+  .site-footer-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-brand-col {
+    grid-column: 1 / -1;
+  }
+
+  .language-solution-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .blog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .webinar-banner {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .webinar-copy p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .why-choose-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .portal-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .portal-visual {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .all-courses-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stats-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stats-banner-grid {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .fq-categories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fq-cta-inner {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 960px) {
+  .site-header-inner {
+    position: relative;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 64px;
+    padding: 8px 0;
+  }
+
+  .logo-block {
+    max-width: 180px;
+    min-width: 0;
+  }
+
+  .site-logo {
+    height: 38px;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .header-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+  }
+
+  .site-header.nav-open .header-menu {
+    display: flex;
+  }
+
+  .main-nav {
+    flex: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .main-nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 4px;
+  }
+
+  .main-nav-list > li > a,
+  .nav-contact-link,
+  .nav-mobile-trigger {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+    padding: 12px 14px;
+  }
+
+  .main-nav-list > li > a.nav-desktop-link {
+    display: none;
+  }
+
+  .main-nav-list > li > .nav-mobile-trigger {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #334155;
+    font-size: 0.94rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .nav-mobile-trigger:hover,
+  .has-dropdown.is-open .nav-mobile-trigger {
+    color: var(--primary-600);
+    background: rgba(227, 30, 36, 0.07);
+  }
+
+  .nav-mobile-trigger svg {
+    transition: transform 0.2s ease;
+  }
+
+  .has-dropdown.is-open .nav-mobile-trigger svg {
+    transform: rotate(180deg);
+  }
+
+  .has-dropdown .dropdown-menu {
+    display: none;
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    min-width: 0;
+    margin-top: 4px;
+    padding: 4px 0 4px 12px;
+    border: none;
+    border-left: 2px solid var(--primary-100);
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .has-dropdown.is-open .dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-menu a {
+    padding: 10px 12px;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .promo-section-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .promo-card-body-center {
+    padding-left: 24px;
+    padding-right: 56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-nav-list > li > a {
+    font-size: 0.9rem;
+  }
+
+  .promo-card-batches {
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .promo-card-batches .enroll-badge {
+    width: 78px;
+  }
+
+  .promo-card-batches .enroll-badge-label {
+    font-size: 0.62rem;
+    margin-bottom: 4px;
+  }
+
+  .promo-card-batches .promo-card-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .promo-card-batches .promo-card-body h2 {
+    font-size: clamp(1.08rem, 4.8vw, 1.28rem);
+    line-height: 1.2;
+    white-space: normal;
+  }
+
+  .course-content-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .course-sidebar {
+    position: static;
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-footer-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .language-solution-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .webinar-banner {
+    flex-direction: column;
+    padding: 24px 20px;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-choose-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .portal-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+  }
+
+  .portal-feature span:last-child {
+    font-size: 0.82rem;
+    max-width: none;
+  }
+
+  .all-courses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-banner {
+    padding: 28px 22px;
+  }
+
+  .stats-banner-grid {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fq-categories-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile contact bar */
+.mobile-contact-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-contact-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    padding: 10px 16px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .mobile-contact-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mobile-contact-logo {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    padding: 2px;
+  }
+
+  .mobile-contact-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-contact-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111111;
+    line-height: 1.1;
+  }
+
+  .mobile-contact-phone {
+    font-size: 0.8rem;
+    color: #64748b;
+    line-height: 1.1;
+    margin-top: 2px;
+  }
+
+  .mobile-contact-whatsapp {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #00a884;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  body {
+    padding-bottom: 60px;
+  }
+
+  .mobile-contact-logo-wrapper {
+    position: relative;
+    display: flex;
+  }
+
+  .mobile-contact-online-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #25d366;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+  }
 }
 
