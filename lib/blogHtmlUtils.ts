@@ -769,8 +769,14 @@ export function preparePastedBlogHtml(html: string): string {
   return result;
 }
 
+export function normalizeBlogImageUrlsInHtml(html: string) {
+  return html.replace(/https?:\/\/[^/]+(\/api\/blog-images\/[^"'\s>]+)/gi, "$1");
+}
+
 export function sanitizeBlogHtml(html: string): string {
-  return normalizeTypography(preparePastedBlogHtml(repairBrokenHtmlEntities(html)));
+  return normalizeBlogImageUrlsInHtml(
+    normalizeTypography(preparePastedBlogHtml(repairBrokenHtmlEntities(html))),
+  );
 }
 
 export function sanitizeFaqAnswer(html: string): string {

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ChangeEvent, type DragEvent } from "react";
 import { useRouter } from "next/navigation";
 import type { BlogPost } from "../../../../../lib/blogStore";
 import { slugifyCoursePath } from "../../../../../lib/courseUtils";
 import BlogContentEditor from "./BlogContentEditor";
 import { sanitizeBlogHtml, sanitizeFaqAnswer } from "../../../../../lib/blogHtmlUtils";
+import { MAX_BLOG_IMAGE_SIZE_MB, validateBlogImageFile } from "../../../../../lib/blogImageValidation";
 
 type BlogFormProps = {
   initialData?: BlogPost;
@@ -16,6 +17,9 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState("");
+  const [selectedImageName, setSelectedImageName] = useState("");
+  const [isImageDragActive, setIsImageDragActive] = useState(false);
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(Boolean(isEdit));
   const [formData, setFormData] = useState<Partial<BlogPost>>({
     slug: initialData?.slug || "",
@@ -99,11 +103,17 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
     setFormData((current) => ({ ...current, content: value }));
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const uploadFeaturedImage = async (file: File) => {
+    setImageUploadError("");
+
+    const validation = validateBlogImageFile(file);
+    if (!validation.ok) {
+      setImageUploadError(validation.error);
+      return;
+    }
 
     setUploadingImage(true);
+
     const form = new FormData();
     form.append("file", file);
 
@@ -114,18 +124,58 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
         credentials: "same-origin",
       });
 
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Failed to upload image");
+      let data: { path?: string; error?: string } = {};
+      try {
+        data = (await res.json()) as { path?: string; error?: string };
+      } catch {
+        throw new Error("Upload failed. Please try again.");
       }
 
-      const data = await res.json();
-      setFormData((current) => ({ ...current, image: data.path }));
-    } catch (error: any) {
-      alert(error.message);
+      if (!res.ok || !data.path) {
+        throw new Error(data.error || "Failed to upload image");
+      }
+
+      setFormData((current) => ({ ...current, image: data.path! }));
+      setSelectedImageName(file.name);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to upload image";
+      setImageUploadError(message);
     } finally {
       setUploadingImage(false);
     }
+  };
+
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+
+    if (!file) {
+      return;
+    }
+
+    await uploadFeaturedImage(file);
+  };
+
+  const handleImageDragOver = (event: DragEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    setIsImageDragActive(true);
+  };
+
+  const handleImageDragLeave = (event: DragEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    setIsImageDragActive(false);
+  };
+
+  const handleImageDrop = async (event: DragEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    setIsImageDragActive(false);
+
+    const file = event.dataTransfer.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    await uploadFeaturedImage(file);
   };
 
   const handleAddFaq = () => {
@@ -319,28 +369,47 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
 
       <div className="adm-form-group">
         <label>Image</label>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          {formData.image && (
-            <img src={formData.image} alt="Preview" style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '4px' }} />
-          )}
-          <input 
-            type="file" 
-            accept="image/*"
-            onChange={handleImageUpload} 
-            disabled={uploadingImage}
-            className="adm-input" 
-            style={{ flex: 1, padding: '0.5rem' }}
-          />
+        <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start", flexWrap: "wrap" }}>
+          {formData.image ? (
+            <img
+              src={formData.image}
+              alt="Preview"
+              style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "4px", border: "1px solid #e2e8f0" }}
+            />
+          ) : null}
+
+          <label
+            className={`adm-file-upload${isImageDragActive ? " adm-file-upload-active" : ""}`}
+            style={{ flex: 1, minWidth: "240px" }}
+            onDragOver={handleImageDragOver}
+            onDragLeave={handleImageDragLeave}
+            onDrop={handleImageDrop}
+          >
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
+              onChange={handleImageUpload}
+              disabled={uploadingImage}
+            />
+            <span className="adm-file-btn">
+              {uploadingImage ? "Uploading..." : "Choose Image"}
+            </span>
+            <span className="adm-file-name">
+              {selectedImageName || `Drag & drop or choose JPG, PNG, WEBP, or GIF up to ${MAX_BLOG_IMAGE_SIZE_MB}MB`}
+            </span>
+          </label>
         </div>
-        {uploadingImage && <small style={{color: '#666'}}>Uploading image...</small>}
-        <small style={{display: 'block', marginTop: '0.5rem', color: '#666'}}>Or provide a URL directly:</small>
-        <input 
-          type="text" 
-          name="image" 
-          value={formData.image} 
-          onChange={handleChange} 
-          className="adm-input" 
-          style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}
+
+        {imageUploadError ? <p className="adm-file-error">{imageUploadError}</p> : null}
+
+        <small style={{ display: "block", marginTop: "0.5rem", color: "#666" }}>Or provide a URL directly:</small>
+        <input
+          type="text"
+          name="image"
+          value={formData.image}
+          onChange={handleChange}
+          className="adm-input"
+          style={{ width: "100%", padding: "0.5rem", marginTop: "0.5rem" }}
           placeholder="Image URL"
         />
       </div>

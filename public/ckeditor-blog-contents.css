@@ -62,14 +62,6 @@ li > p:first-child:last-child {
   display: inline;
 }
 
-span,
-div {
-  font-family: inherit !important;
-  font-size: inherit !important;
-  color: inherit !important;
-  line-height: inherit !important;
-}
-
 strong,
 b {
   font-weight: 700;
@@ -102,4 +94,28 @@ th {
   background: #f8fafc;
   font-weight: 700;
   color: #1e2f42;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+figure,
+figure.image {
+  display: inline-block;
+  margin: 1rem 0;
+  padding: 0;
+  background: transparent !important;
+  outline: none !important;
+}
+
+figure.image img,
+figure img {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-width: 100%;
+  height: auto;
+  background: transparent !important;
 }

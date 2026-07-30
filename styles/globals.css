@@ -3262,6 +3262,32 @@ button {
   margin: 1rem 0;
 }
 
+.blog-prose figure.image {
+  display: table;
+  clear: both;
+  margin: 1rem 0;
+  max-width: 100%;
+}
+
+.blog-prose figure.image img {
+  margin: 0 auto;
+}
+
+.blog-prose .image-align-left {
+  float: left;
+  margin: 0 1rem 1rem 0;
+}
+
+.blog-prose .image-align-right {
+  float: right;
+  margin: 0 0 1rem 1rem;
+}
+
+.blog-prose .image-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .blog-prose figure.table {
   display: block;
   overflow-x: auto;

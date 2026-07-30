@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { isAdminRequestAuthorized } from "../../../../lib/adminAuth";
 import { saveBlogImage } from "../../../../lib/blogImageStore";
 
+export const runtime = "nodejs";
+
 export async function POST(request: Request) {
   if (!isAdminRequestAuthorized(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -25,9 +27,11 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error("Failed to upload blog image", error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Internal Server Error" },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : "Internal Server Error";
+    const status = /upload a JPG|must be \d+MB|not configured|MongoDB|MONGODB_URI|database/i.test(message)
+      ? 400
+      : 500;
+
+    return NextResponse.json({ error: message }, { status });
   }
 }

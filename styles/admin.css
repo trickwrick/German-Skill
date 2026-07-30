@@ -710,7 +710,6 @@
 .blog-ckeditor-wrap {
   border: 1px solid #dbe3ec;
   border-radius: 12px;
-  overflow: hidden;
   background: #fff;
   min-height: 520px;
 }
@@ -784,6 +783,40 @@
 .blog-ckeditor4-wrap .cke_editable li p,
 .blog-ckeditor4-wrap .cke_wysiwyg_div li p {
   margin: 0;
+}
+
+.blog-ckeditor4-wrap .cke_widget_image,
+.blog-ckeditor4-wrap .cke_widget_image .cke_widget_element,
+.blog-ckeditor4-wrap .cke_widget_image .cke_widget_element img,
+.blog-ckeditor4-wrap .cke_widget_image img,
+.blog-ckeditor4-wrap .cke_editable img,
+.blog-ckeditor4-wrap .cke_wysiwyg_div img {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: transparent !important;
+  max-width: 100%;
+  height: auto;
+}
+
+.blog-ckeditor4-wrap .cke_widget_wrapper.cke_widget_uploadimage,
+.blog-ckeditor4-wrap .cke_upload_uploading {
+  display: none !important;
+}
+
+.blog-ckeditor4-wrap .cke_widget_wrapper.cke_widget_focused > .cke_widget_element,
+.blog-ckeditor4-wrap .cke_widget_wrapper:hover > .cke_widget_element {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.blog-ckeditor4-wrap .cke_editable figure.image,
+.blog-ckeditor4-wrap .cke_wysiwyg_div figure.image {
+  display: inline-block;
+  margin: 1rem 0;
+  background: transparent;
+  outline: none;
+  padding: 0;
 }
 
 .blog-ckeditor-wrap .ck-editor__editable {
@@ -1001,6 +1034,13 @@
 .adm-file-upload:focus-within {
   border-color: var(--primary-400);
   box-shadow: 0 0 0 3px rgba(227, 30, 36, 0.12);
+}
+
+.adm-file-upload-active,
+.adm-file-upload-active:hover {
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(227, 30, 36, 0.12);
+  background: #fff7f7;
 }
 
 .adm-file-upload input[type="file"] {

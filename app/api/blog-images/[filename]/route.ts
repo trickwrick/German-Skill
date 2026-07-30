@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getBlogImage } from "../../../../lib/blogImageStore";
 
+export const runtime = "nodejs";
+
 export async function GET(request: Request, { params }: { params: { filename: string } }) {
   try {
     const image = await getBlogImage(params.filename);
