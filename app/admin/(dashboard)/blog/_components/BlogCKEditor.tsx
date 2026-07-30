@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CKEditor } from "ckeditor4-react";
 import { convertPlainTextPaste, preparePastedBlogHtml } from "../../../../../lib/blogHtmlUtils";
+import { MAX_BLOG_PDF_SIZE_MB, validateBlogPdfFile } from "../../../../../lib/blogPdfValidation";
 
 const CKEDITOR_CDN = "https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js";
 const CKEDITOR_DEFAULT_CONTENTS_CSS = "https://cdn.ckeditor.com/4.22.1/full-all/contents.css";
@@ -91,6 +92,43 @@ async function uploadBlogEditorImage(file: File) {
   return toAbsoluteEditorUrl(data.path || data.url || "");
 }
 
+async function uploadBlogEditorPdf(file: File) {
+  const validation = validateBlogPdfFile(file);
+  if (!validation.ok) {
+    throw new Error(validation.error);
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch("/api/admin/blog-pdfs", {
+    method: "POST",
+    body: formData,
+    credentials: "same-origin",
+  });
+
+  const data = (await response.json()) as { path?: string; url?: string; error?: string };
+  if (!response.ok || !(data.path || data.url)) {
+    throw new Error(data.error || "Failed to upload PDF.");
+  }
+
+  return data.path || data.url || "";
+}
+
+function buildPdfLinkHtml(url: string, label: string) {
+  const ckeditor = (window as typeof window & { CKEDITOR?: CkEditorGlobal }).CKEDITOR;
+  const absoluteUrl = toAbsoluteEditorUrl(url);
+  const encodedUrl = ckeditor?.tools.htmlEncodeAttr(absoluteUrl) ?? absoluteUrl.replace(/"/g, "&quot;");
+  const safeLabel = label.trim() || "Download PDF";
+  const encodedLabel = ckeditor?.tools.htmlEncodeAttr(safeLabel) ?? safeLabel.replace(/"/g, "&quot;");
+
+  return `<p><a href="${encodedUrl}" target="_blank" rel="noopener noreferrer">${encodedLabel}</a></p>`;
+}
+
+function insertPdfLink(editor: CKEditorInstance, url: string, label: string) {
+  editor.insertHtml(buildPdfLinkHtml(url, label));
+}
+
 function prepareBlogEditorHtml(html: string) {
   const trimmed = html?.trim() ?? "";
   if (!trimmed || typeof document === "undefined" || !/<img\b/i.test(trimmed)) {
@@ -147,7 +185,11 @@ function fixEditorImages(editor: CKEditorInstance) {
   }
 }
 
-function setupBlogEditorUploads(editor: CKEditorInstance, onImagesFixed: () => void) {
+function setupBlogEditorUploads(
+  editor: CKEditorInstance,
+  onImagesFixed: () => void,
+  getPdfLinkLabel: () => string,
+) {
   let fixingImages = false;
 
   const refreshImages = () => {
@@ -177,7 +219,30 @@ function setupBlogEditorUploads(editor: CKEditorInstance, onImagesFixed: () => v
       const files = evt.data.$.dataTransfer?.files;
       const file = files?.[0];
 
-      if (!file || !file.type.startsWith("image/")) {
+      if (!file) {
+        return;
+      }
+
+      const isPdf =
+        file.type === "application/pdf" ||
+        file.type === "application/x-pdf" ||
+        file.name.toLowerCase().endsWith(".pdf");
+
+      if (isPdf) {
+        evt.data.preventDefault(true);
+
+        void uploadBlogEditorPdf(file)
+          .then((url) => {
+            insertPdfLink(editor, url, getPdfLinkLabel());
+            refreshImages();
+          })
+          .catch((error) => {
+            window.alert(error instanceof Error ? error.message : "Failed to upload PDF.");
+          });
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
         return;
       }
 
@@ -220,7 +285,35 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
   const editorRef = useRef<CKEditorInstance | null>(null);
   const isInternalChangeRef = useRef(false);
   const lastEditorHtmlRef = useRef<string | null>(null);
+  const pdfInputRef = useRef<HTMLInputElement | null>(null);
   const [editorStatus, setEditorStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [pdfLinkLabel, setPdfLinkLabel] = useState("Download PDF");
+  const [pdfUploading, setPdfUploading] = useState(false);
+  const [pdfUploadError, setPdfUploadError] = useState("");
+  const pdfLinkLabelRef = useRef(pdfLinkLabel);
+
+  pdfLinkLabelRef.current = pdfLinkLabel;
+
+  const handlePdfFile = async (file: File) => {
+    setPdfUploadError("");
+    setPdfUploading(true);
+
+    try {
+      const editor = editorRef.current;
+      if (!editor) {
+        throw new Error("Editor is not ready yet.");
+      }
+
+      const url = await uploadBlogEditorPdf(file);
+      insertPdfLink(editor, url, pdfLinkLabelRef.current);
+      editor.fire("change");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to upload PDF.";
+      setPdfUploadError(message);
+    } finally {
+      setPdfUploading(false);
+    }
+  };
 
   const editorConfig = useMemo(
     () => ({
@@ -293,6 +386,38 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
 
   return (
     <div className="blog-ckeditor-wrap blog-ckeditor4-wrap">
+      {editorStatus === "ready" ? (
+        <div className="blog-pdf-upload-bar">
+          <label className="blog-pdf-upload-field">
+            <span>PDF link text</span>
+            <input
+              type="text"
+              value={pdfLinkLabel}
+              onChange={(event) => setPdfLinkLabel(event.target.value)}
+              placeholder="Download PDF"
+              className="adm-input"
+            />
+          </label>
+          <label className="adm-file-upload blog-pdf-upload-btn">
+            <input
+              ref={pdfInputRef}
+              type="file"
+              accept="application/pdf,.pdf"
+              disabled={pdfUploading}
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                event.target.value = "";
+                if (file) {
+                  void handlePdfFile(file);
+                }
+              }}
+            />
+            <span className="adm-file-btn">{pdfUploading ? "Uploading PDF..." : "Upload PDF"}</span>
+            <span className="adm-file-name">PDF up to {MAX_BLOG_PDF_SIZE_MB}MB — inserts a download link in content</span>
+          </label>
+        </div>
+      ) : null}
+      {pdfUploadError ? <p className="adm-file-error blog-pdf-upload-error">{pdfUploadError}</p> : null}
       {editorStatus === "loading" ? (
         <p className="blog-ckeditor-loading">Loading editor...</p>
       ) : null}
@@ -325,7 +450,7 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
               });
             };
 
-            setupBlogEditorUploads(editor, syncEditorHtml);
+            setupBlogEditorUploads(editor, syncEditorHtml, () => pdfLinkLabelRef.current);
 
             const initialHtml = prepareBlogEditorHtml(editor.getData());
             if (initialHtml !== editor.getData()) {
@@ -364,6 +489,24 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
                     })
                     .catch((error) => {
                       window.alert(error instanceof Error ? error.message : "Failed to upload image.");
+                    });
+                  return;
+                }
+
+                if (
+                  pastedFile &&
+                  (pastedFile.type === "application/pdf" ||
+                    pastedFile.name.toLowerCase().endsWith(".pdf"))
+                ) {
+                  pasteEvent.cancel();
+
+                  void uploadBlogEditorPdf(pastedFile)
+                    .then((url) => {
+                      insertPdfLink(editor, url, pdfLinkLabelRef.current);
+                      syncEditorHtml();
+                    })
+                    .catch((error) => {
+                      window.alert(error instanceof Error ? error.message : "Failed to upload PDF.");
                     });
                   return;
                 }

@@ -844,6 +844,47 @@
   border-bottom: 1px solid #fecaca;
 }
 
+.blog-pdf-upload-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e8eef4;
+  background: #f8fafc;
+}
+
+.blog-pdf-upload-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+  flex: 1;
+}
+
+.blog-pdf-upload-field span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.blog-pdf-upload-field input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #dbe3ec;
+  border-radius: 8px;
+}
+
+.blog-pdf-upload-btn {
+  flex: 2;
+  min-width: 280px;
+}
+
+.blog-pdf-upload-error {
+  margin: 0;
+  padding: 10px 14px;
+}
+
 .blog-html-editor-textarea {
   width: 100%;
   min-height: 320px;
