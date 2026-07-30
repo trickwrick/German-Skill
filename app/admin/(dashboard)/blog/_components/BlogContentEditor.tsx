@@ -10,6 +10,7 @@ export type BlogContentEditorProps = {
 
 const BlogContentEditor = dynamic(
   async () => {
+    // @ts-expect-error Next.js resolves the TSX module without a .js extension.
     const module = await import("./BlogCKEditor");
     return module.default;
   },

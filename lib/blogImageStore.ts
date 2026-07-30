@@ -75,7 +75,7 @@ export async function saveBlogImage(file: File) {
           $set: {
             filename,
             contentType: file.type || `image/${extension === "jpg" ? "jpeg" : extension}`,
-            data: new Binary(buffer),
+            data: buffer,
             uploadedAt: new Date(),
           },
         },
