@@ -8364,6 +8364,43 @@ a.contact-info-value:hover {
   box-shadow: 0 0 0 3px rgba(227, 30, 36, 0.12);
 }
 
+.adm-login-password-wrap {
+  position: relative;
+}
+
+.adm-login-password-wrap input {
+  padding-right: 46px;
+}
+
+.adm-login-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.adm-login-password-toggle:hover {
+  color: var(--text-primary);
+  background: rgba(227, 30, 36, 0.08);
+}
+
+.adm-login-password-toggle:focus-visible {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
 .adm-login-error {
   margin: 0;
   padding: 10px 12px;
