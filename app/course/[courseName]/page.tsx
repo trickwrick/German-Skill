@@ -22,15 +22,16 @@ import {
   buildCourseSchema,
   buildPageMetadata,
 } from "../../../lib/siteSeo";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
 
-export const dynamic = "force-dynamic";
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 type PageProps = {
   params: { courseName: string };
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const course = await getCourseByPathNameAsync(params.courseName, { fresh: true });
+  const course = await getCourseByPathNameAsync(params.courseName);
   if (!course) {
     return buildPageMetadata({
       title: "Course Not Found | Fluent AUF",

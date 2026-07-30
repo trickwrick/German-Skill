@@ -1,22 +1,38 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
+import type { ComponentType } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import AllCoursesSection from "./components/AllCoursesSection";
 import HeroSection from "./components/HeroSection";
-import HomeFaqSection from "./components/HomeFaqSection";
 import ComparisonSection from "./components/ComparisonSection";
 import JsonLd from "./components/JsonLd";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
-import TestimonialsSection from "./components/TestimonialsSection";
-import VideoTestimonialsSection from "./components/VideoTestimonialsSection";
 import TutorsSection from "./components/TutorsSection";
+import type { HomeFaqContent } from "../data/homeFaqs";
+import type { VideoTestimonial } from "../data/videoTestimonials";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
 import { getActiveHomeFaqItems } from "../lib/homeFaqStore";
 import { getVideoTestimonials } from "../lib/videoTestimonialStore";
 import { getSeoSettings } from "../lib/seoStore";
 import { buildFaqSchema, buildPageMetadata, buildWebPageSchema } from "../lib/siteSeo";
-export const dynamic = "force-dynamic";
+import { PUBLIC_REVALIDATE_SECONDS } from "../lib/publicDataCache";
+
+const TestimonialsSection = dynamic(() => {
+  // @ts-expect-error Next.js resolves the TSX module without a .js extension.
+  return import("./components/TestimonialsSection");
+});
+const VideoTestimonialsSection = dynamic(() => {
+  // @ts-expect-error Next.js resolves the TSX module without a .js extension.
+  return import("./components/VideoTestimonialsSection");
+}) as ComponentType<{ testimonials: VideoTestimonial[] }>;
+const HomeFaqSection = dynamic(() => {
+  // @ts-expect-error Next.js resolves the TSX module without a .js extension.
+  return import("./components/HomeFaqSection");
+}) as ComponentType<{ content: HomeFaqContent }>;
+
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSeoSettings();

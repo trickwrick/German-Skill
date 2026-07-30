@@ -7,7 +7,7 @@ import SiteFooter from "../../components/SiteFooter";
 import BlogImage from "../../components/BlogImage";
 import BlogSidebar from "../_components/BlogSidebar";
 import { formatBlogDate } from "../../../data/blogPosts";
-import { getBlogPostBySlug, getBlogPosts } from "../../../lib/blogStore";
+import { getCachedBlogPostBySlug, getCachedBlogPosts } from "../../../lib/cachedBlogReads";
 import { sanitizeBlogHtml, sanitizeFaqAnswer } from "../../../lib/blogHtmlUtils";
 import {
   buildArticleSchema,
@@ -15,9 +15,10 @@ import {
   buildFaqSchema,
   buildPageMetadata,
 } from "../../../lib/siteSeo";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
 import JsonLd from "../../components/JsonLd";
 
-export const dynamic = "force-dynamic";
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 type BlogDetailPageProps = {
   params: { slug: string };
@@ -25,7 +26,7 @@ type BlogDetailPageProps = {
 
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const slug = decodeURIComponent(params.slug);
-  const post = await getBlogPostBySlug(slug, { fresh: true });
+  const post = await getCachedBlogPostBySlug(slug);
 
   if (!post) {
     return buildPageMetadata({
@@ -52,8 +53,8 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const slug = decodeURIComponent(params.slug);
   const [post, posts] = await Promise.all([
-    getBlogPostBySlug(slug, { fresh: true }),
-    getBlogPosts({ fresh: true }),
+    getCachedBlogPostBySlug(slug),
+    getCachedBlogPosts(),
   ]);
 
   if (!post) {

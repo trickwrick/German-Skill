@@ -10,7 +10,7 @@ import {
   type OurCompanyPageData,
 } from "../../../data/generalPages";
 import AdminImageUploadField from "./AdminImageUploadField";
-import BlogCKEditor from "../(dashboard)/blog/_components/BlogCKEditor";
+import BlogContentEditor from "../(dashboard)/blog/_components/BlogContentEditor";
 
 function isLegalPage(pageId: GeneralPageId): pageId is "terms" | "privacy" | "refund" {
   return pageId === "terms" || pageId === "privacy" || pageId === "refund";
@@ -153,7 +153,7 @@ export default function AdminGeneralContent() {
               Edit the full page content in one place. Use headings, lists, links, and formatting as
               needed — same editor as blog posts.
             </p>
-            <BlogCKEditor
+            <BlogContentEditor
               key={`legal-editor-${selectedPage}`}
               value={content[selectedPage].html}
               onChange={updateLegalHtml}

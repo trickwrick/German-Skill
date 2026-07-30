@@ -5,8 +5,9 @@ import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
 import { getLegalPageContent } from "../../lib/generalPageStore";
 import { buildPageMetadata } from "../../lib/siteSeo";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
 
-export const dynamic = "force-dynamic";
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Refund Policy | Fluent AUF",

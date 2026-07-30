@@ -2,8 +2,11 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
+  experimental: {
+    optimizePackageImports: ["react-international-phone"],
+  },
   images: {
-    unoptimized: true,
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
@@ -16,51 +19,31 @@ const nextConfig = {
     ],
   },
   async headers() {
+    const cacheHeader = {
+      key: "Cache-Control",
+      value: "public, s-maxage=300, stale-while-revalidate=600",
+    };
+
     return [
       {
         source: "/blogs",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, s-maxage=0, must-revalidate",
-          },
-        ],
+        headers: [cacheHeader],
       },
       {
         source: "/blog/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, s-maxage=0, must-revalidate",
-          },
-        ],
+        headers: [cacheHeader],
       },
       {
         source: "/course/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, s-maxage=0, must-revalidate",
-          },
-        ],
+        headers: [cacheHeader],
       },
       {
         source: "/courses",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, s-maxage=0, must-revalidate",
-          },
-        ],
+        headers: [cacheHeader],
       },
       {
         source: "/",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, s-maxage=0, must-revalidate",
-          },
-        ],
+        headers: [cacheHeader],
       },
     ];
   },

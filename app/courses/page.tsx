@@ -5,7 +5,9 @@ import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
 import { getGermanCoursesForDisplay } from "../../lib/courseContentStore";
 import { buildPageMetadata } from "../../lib/siteSeo";
-export const dynamic = "force-dynamic";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
+
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "German Courses A1–C2 | Fluent AUF",

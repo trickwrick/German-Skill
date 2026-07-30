@@ -5,8 +5,9 @@ import SiteFooter from "../../components/SiteFooter";
 import OurCompanyContent from "./_components/OurCompanyContent";
 import { getOurCompanyPageContent } from "../../../lib/generalPageStore";
 import { buildPageMetadata } from "../../../lib/siteSeo";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
 
-export const dynamic = "force-dynamic";
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Our Company | Fluent AUF",

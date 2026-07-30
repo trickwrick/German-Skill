@@ -40,7 +40,7 @@ import {
   splitParagraphs,
 } from "../../../lib/courseDescriptionTabUtils";
 import { getDefaultCourseSeoContent } from "../../../data/courseSeoContentDefaults";
-import BlogCKEditor from "../(dashboard)/blog/_components/BlogCKEditor";
+import BlogContentEditor from "../(dashboard)/blog/_components/BlogContentEditor";
 
 type AdminCourseFormProps = {
   mode: "create" | "edit";
@@ -1242,7 +1242,7 @@ export default function AdminCourseForm({
           Paste or format headings, lists, and paragraphs together — no separate line fields.
         </p>
 
-        <BlogCKEditor value={seoContent} onChange={setSeoContent} />
+        <BlogContentEditor value={seoContent} onChange={setSeoContent} />
       </section>
 
       {error ? <p className="adm-form-message adm-form-message-error">{error}</p> : null}

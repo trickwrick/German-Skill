@@ -7,8 +7,9 @@ import BlogSidebar from "../blog/_components/BlogSidebar";
 import { getBlogPosts } from "../../lib/blogStore";
 import { filterBlogPostsByCategory } from "../../lib/blogUtils";
 import { buildPageMetadata } from "../../lib/siteSeo";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
 
-export const dynamic = "force-dynamic";
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Blog | Fluent AUF",
@@ -23,7 +24,7 @@ type BlogsPageProps = {
 };
 
 export default async function BlogsPage({ searchParams }: BlogsPageProps) {
-  const posts = await getBlogPosts({ fresh: true });
+  const posts = await getBlogPosts();
   const activeCategory = searchParams?.category?.trim();
   const filteredPosts = filterBlogPostsByCategory(posts, activeCategory);
 
