@@ -9,7 +9,7 @@ export const courseLevels = germanCourses.map((course) => ({
 const allAboutLinks = [
   { label: "Our Company", href: "/about/our-company" },
   { label: "Our Faculties", href: "/about/our-faculties" },
-  { label: "Apply Job", href: "/about/careers" },
+  { label: "Apply Job", href: "/about/apply-job" },
   { label: "FAQs", href: "/about/faqs" },
 ];
 

@@ -13,11 +13,12 @@ export const metadata: Metadata = buildPageMetadata({
   title: "Apply Job | Fluent AUF",
   description:
     "Join Fluent AUF — build a rewarding career in German language education. Grow, lead, and thrive with our team.",
-  path: "/about/careers",
+  path: "/about/apply-job",
 });
 
 export default async function CareersPage() {
   const applyJob = await getApplyJobPageContent();
+  const applyJobHtml = applyJob?.html?.trim() ? applyJob.html : "";
 
   return (
     <>
@@ -33,7 +34,7 @@ export default async function CareersPage() {
           ]}
         />
 
-        <CareersContent applyJobHtml={applyJob.html} />
+        <CareersContent applyJobHtml={applyJobHtml} />
       </main>
       <SiteFooter />
     </>

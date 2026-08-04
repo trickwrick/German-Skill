@@ -83,7 +83,7 @@ export function revalidatePublicGeneralPagesData() {
   revalidatePath("/privacy");
   revalidatePath("/refund");
   revalidatePath("/about/our-company");
-  revalidatePath("/about/careers");
+  revalidatePath("/about/apply-job");
 }
 
 export function revalidatePublicSeoData() {

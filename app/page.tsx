@@ -311,7 +311,7 @@ function CareersSection() {
       <div className="careers-inner">
         <article className="careers-card">
           <h2 className="careers-card-heading">Learn with 16000+ Students Across the Globe!</h2>
-          <Link href="/about/careers" className="btn btn-careers">
+          <Link href="/about/apply-job" className="btn btn-careers">
             Know More
           </Link>
         </article>

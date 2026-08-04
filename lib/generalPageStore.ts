@@ -267,7 +267,11 @@ export async function getGeneralPagesContent(options: PublicDataOptions = {}): P
     return fetchGeneralPagesContent();
   }
 
-  return getCachedPublicData(["general-pages"], [CACHE_TAGS.generalPages], fetchGeneralPagesContent);
+  return getCachedPublicData(
+    ["general-pages", "v2"],
+    [CACHE_TAGS.generalPages],
+    fetchGeneralPagesContent,
+  );
 }
 
 export async function getLegalPageContent(
@@ -285,7 +289,7 @@ export async function getOurCompanyPageContent(options: PublicDataOptions = {}) 
 
 export async function getApplyJobPageContent(options: PublicDataOptions = {}) {
   const content = await getGeneralPagesContent(options);
-  return content.applyJob;
+  return content.applyJob ?? defaultGeneralPagesContent.applyJob;
 }
 
 async function persistContent(content: GeneralPagesContent) {
