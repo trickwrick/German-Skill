@@ -70,15 +70,15 @@ function buildBatchContent(
 }
 
 export const courseFlexibleBatches: Record<string, CourseFlexibleBatches> = {
-  a1: buildBatchContent("A1 Level", "₹14,999", "₹29,998"),
+  a1: buildBatchContent("A1 Level", "₹11,999", "₹22,998"),
   a2: buildBatchContent("A2 Level", "₹17,500", "₹35,000"),
-  b1: buildBatchContent("B1 Level", "₹21,000", "₹42,000"),
+  b1: buildBatchContent("B1 Level", "₹21,000", "₹26,000"),
   b2: buildBatchContent("B2 Level", "₹21,000", "₹42,000"),
   c1: buildBatchContent("C1 Level", "₹20,500", "₹41,000"),
   c2: buildBatchContent("C2 Level", "₹23,500", "₹47,000"),
 };
 
-export function getDefaultFlexibleBatches(title = "German", salePrice = "₹14,999", originalPrice = "₹29,998") {
+export function getDefaultFlexibleBatches(title = "German", salePrice = "₹11,999", originalPrice = "₹22,998") {
   return buildBatchContent(title, salePrice, originalPrice);
 }
 

@@ -1,5 +1,5 @@
 export const a1CourseContent = {
-  sidebarPrice: "₹14,999.00",
+  sidebarPrice: "₹11,999.00",
   includes: [
     "Study Material",
     "Discussion with Instructor",
