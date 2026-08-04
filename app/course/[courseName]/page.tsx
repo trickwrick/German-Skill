@@ -13,6 +13,7 @@ import {
   getCourseSeoContentAsync,
   getGermanCoursesForDisplay,
 } from "../../../lib/courseContentStore";
+import { germanCourses } from "../../../data/germanCourses";
 import CourseContent from "../../courses/_components/CourseContent";
 import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
 import CourseSeoContentSection from "../../courses/_components/CourseSeoContentSection";
@@ -29,6 +30,24 @@ export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 type PageProps = {
   params: { courseName: string };
 };
+
+export async function generateStaticParams() {
+  try {
+    const courses = await getGermanCoursesForDisplay();
+    const params = courses
+      .map((course) => course.pathName?.trim())
+      .filter((pathName): pathName is string => Boolean(pathName))
+      .map((courseName) => ({ courseName }));
+
+    if (params.length > 0) {
+      return params;
+    }
+  } catch {
+    // Fall through to static defaults.
+  }
+
+  return germanCourses.map((course) => ({ courseName: course.pathName }));
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const course = await getCourseByPathNameAsync(params.courseName);
@@ -145,13 +164,17 @@ function ClockIcon() {
 
 export default async function GermanCoursePage({ params }: PageProps) {
   const displayCourse = await getCourseByPathNameAsync(params.courseName);
-  const content = displayCourse ? await getCourseContentAsync(displayCourse.slug) : null;
+  if (!displayCourse) notFound();
 
-  if (!displayCourse || !content) notFound();
+  const [content, batchesContent, seoContent] = await Promise.all([
+    getCourseContentAsync(displayCourse.slug),
+    getCourseFlexibleBatchesAsync(displayCourse.slug),
+    getCourseSeoContentAsync(displayCourse.slug),
+  ]);
+
+  if (!content) notFound();
 
   const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
-  const batchesContent = await getCourseFlexibleBatchesAsync(displayCourse.slug);
-  const seoContent = await getCourseSeoContentAsync(displayCourse.slug);
   const salePrice = displayCourse.price || content.sidebarPrice;
   const coursePath = `/course/${displayCourse.pathName}`;
   const courseSchema = [

@@ -409,22 +409,52 @@ export async function getCourseEditableDetails(slug: string) {
   };
 }
 
-export async function getCoursePageSeoAsync(course: GermanCourse): Promise<CourseSeoMeta> {
-  noStore();
-
-  const stored = await fetchStoredCourseDetails(course.slug);
-  return mergeCourseSeoMeta(course, stored?.seo);
-}
-
-export async function getCourseSeoContentAsync(slug: string): Promise<string> {
-  noStore();
-
-  const stored = await fetchStoredCourseDetails(slug);
-  if (stored?.seoContent?.trim()) {
-    return stored.seoContent.trim();
+export async function getCoursePageSeoAsync(
+  course: GermanCourse,
+  options: PublicDataOptions = {},
+): Promise<CourseSeoMeta> {
+  if (options.fresh || shouldBypassPublicDataCache()) {
+    noStore();
+    const stored = await fetchStoredCourseDetails(course.slug);
+    return mergeCourseSeoMeta(course, stored?.seo);
   }
 
-  return getDefaultCourseSeoContent(slug);
+  return getCachedPublicData(
+    ["course-page-seo", course.slug],
+    [CACHE_TAGS.courses, CACHE_TAGS.course(course.slug)],
+    async () => {
+      const storedCourses = await loadStoredCourseDetailsList();
+      const stored = storedCourses.find((item) => item.slug === course.slug) ?? null;
+      return mergeCourseSeoMeta(course, stored?.seo);
+    },
+  );
+}
+
+export async function getCourseSeoContentAsync(
+  slug: string,
+  options: PublicDataOptions = {},
+): Promise<string> {
+  if (options.fresh || shouldBypassPublicDataCache()) {
+    noStore();
+    const stored = await fetchStoredCourseDetails(slug);
+    if (stored?.seoContent?.trim()) {
+      return stored.seoContent.trim();
+    }
+    return getDefaultCourseSeoContent(slug);
+  }
+
+  return getCachedPublicData(
+    ["course-seo-content", slug],
+    [CACHE_TAGS.courses, CACHE_TAGS.course(slug)],
+    async () => {
+      const storedCourses = await loadStoredCourseDetailsList();
+      const stored = storedCourses.find((item) => item.slug === slug) ?? null;
+      if (stored?.seoContent?.trim()) {
+        return stored.seoContent.trim();
+      }
+      return getDefaultCourseSeoContent(slug);
+    },
+  );
 }
 
 async function removeStoredCourseDetailsRecord(slug: string) {
