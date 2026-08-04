@@ -800,10 +800,17 @@ export async function getGermanCoursesForDisplay(
   }
 
   return getCachedPublicData(
-    ["german-courses-display", "v5"],
+    ["german-courses-display", "v6"],
     [CACHE_TAGS.courses],
     fetchGermanCoursesForDisplayForPublicCache,
   );
+}
+
+function priceAmount(price?: string) {
+  if (!price) {
+    return NaN;
+  }
+  return Number(String(price).replace(/[^\d.]/g, ""));
 }
 
 function enrichCourseWithOriginalPrice(
@@ -815,15 +822,24 @@ function enrichCourseWithOriginalPrice(
     getDefaultFlexibleBatches(course.title, salePrice),
     stored?.flexibleBatches,
   );
-  const originalPrice =
+  const candidate =
     batches.originalPrice?.trim() ||
     course.originalPrice?.trim() ||
     stored?.course?.originalPrice?.trim() ||
     "";
 
+  const saleAmount = priceAmount(salePrice);
+  const originalAmount = priceAmount(candidate);
+  const originalPrice =
+    candidate &&
+    !Number.isNaN(originalAmount) &&
+    (Number.isNaN(saleAmount) || originalAmount > saleAmount)
+      ? formatDisplayPrice(candidate)
+      : undefined;
+
   return {
     ...course,
-    originalPrice: originalPrice ? formatDisplayPrice(originalPrice) : undefined,
+    originalPrice,
   };
 }
 
@@ -880,6 +896,18 @@ export function mergeStoredCourse(
     return base;
   }
 
+  // A1–C2 catalogue cards stay on stable site defaults (price/image/title/hours).
+  // Admin can still update Online Batch Size, enrolled, rating, and review count.
+  if (isStaticCourseSlug(base.slug)) {
+    return {
+      ...base,
+      batchSize: pickStoredText(stored.batchSize, base.batchSize),
+      enrolled: pickStoredText(stored.enrolled, base.enrolled),
+      rating: pickStoredText(stored.rating, base.rating),
+      reviewCount: pickStoredText(stored.reviewCount, base.reviewCount),
+    };
+  }
+
   const price = stored.price ? normalizeCoursePrice(stored.price) : base.price;
   const duration =
     pickStoredText(stored.learningHours) ||
@@ -887,24 +915,18 @@ export function mergeStoredCourse(
     base.learningHours ||
     base.hours;
 
-  // Keep stable public URLs for A1–C2, but use admin card fields (title, price,
-  // hours, image, Online Batch Size, etc.) everywhere else.
-  if (isStaticCourseSlug(base.slug) || hasStoredIdentityMismatch(base, stored)) {
+  if (hasStoredIdentityMismatch(base, stored)) {
     return {
       ...base,
-      title: pickStoredText(stored.title, base.title) || base.title,
-      description: pickStoredText(stored.description, base.description) || base.description,
-      hours: duration,
       learningHours: duration,
-      price,
-      image: pickStoredText(stored.image, base.image) || base.image,
+      hours: duration,
       batchSize: pickStoredText(stored.batchSize, base.batchSize),
       enrolled: pickStoredText(stored.enrolled, base.enrolled),
       rating: pickStoredText(stored.rating, base.rating),
       reviewCount: pickStoredText(stored.reviewCount, base.reviewCount),
+      image: pickStoredText(stored.image, base.image) || base.image,
+      price,
       originalPrice: pickStoredText(stored.originalPrice, base.originalPrice),
-      slug: base.slug,
-      pathName: base.pathName,
     };
   }
 
