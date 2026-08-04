@@ -16,7 +16,7 @@ import {
   getDefaultFlexibleBatches,
   mergeFlexibleBatches,
 } from "../data/courseFlexibleBatches";
-import { getFileCourseDetails, getAllFileCourseDetails, deleteFileCourseDetails, isFileStoreEnabled, saveFileCourseDetails } from "./courseDetailsFileStore";
+import { getFileCourseDetails, getAllFileCourseDetails, deleteFileCourseDetails, isFileStoreEnabled, isServerlessHosting, saveFileCourseDetails } from "./courseDetailsFileStore";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
 import {
   CACHE_TAGS,
@@ -70,6 +70,10 @@ function courseFromStored(stored: StoredCourseDetails): GermanCourse {
   const course = stored.course;
   const duration = course.learningHours ?? course.hours ?? "";
   const pathName = course.pathName?.trim() || stored.slug;
+  const originalPrice =
+    course.originalPrice?.trim() ||
+    stored.flexibleBatches?.originalPrice?.trim() ||
+    undefined;
 
   return {
     slug: stored.slug,
@@ -84,8 +88,11 @@ function courseFromStored(stored: StoredCourseDetails): GermanCourse {
     enrolled: course.enrolled ?? "0",
     rating: course.rating ?? "4.50",
     reviewCount: course.reviewCount ?? "0",
+    originalPrice: originalPrice ? formatDisplayPrice(originalPrice) : undefined,
   };
 }
+
+const STATIC_COURSE_SLUGS = new Set(germanCourses.map((course) => course.slug));
 
 async function getMongoCourseDetailsList(): Promise<StoredCourseDetails[]> {
   if (!process.env.MONGODB_URI) {
@@ -100,6 +107,32 @@ async function getMongoCourseDetailsList(): Promise<StoredCourseDetails[]> {
     .toArray();
 
   return docs;
+}
+
+async function getMongoCourseDetailsByPathName(
+  pathName: string,
+): Promise<StoredCourseDetails | null> {
+  if (!process.env.MONGODB_URI) {
+    return null;
+  }
+
+  const client = await getMongoClient();
+  const doc = await client.db(DB_NAME).collection<StoredCourseDetails>(COLLECTION).findOne({
+    $or: [{ "course.pathName": pathName }, { slug: pathName }, { pathName }],
+  });
+
+  return doc ? sanitizeStoredDetails(doc) : null;
+}
+
+async function countMongoCustomCourses(): Promise<number> {
+  if (!process.env.MONGODB_URI) {
+    return 0;
+  }
+
+  const client = await getMongoClient();
+  return client.db(DB_NAME).collection(COLLECTION).countDocuments({
+    slug: { $nin: Array.from(STATIC_COURSE_SLUGS) },
+  });
 }
 
 async function fetchAllStoredCourseDetailsList(): Promise<StoredCourseDetails[]> {
@@ -124,10 +157,52 @@ async function fetchAllStoredCourseDetailsList(): Promise<StoredCourseDetails[]>
       }
     } catch (error) {
       console.error("Failed to fetch course details from MongoDB", error);
+      // On live, never fall through to an empty stored-course list — that was
+      // getting cached and wiping the all-in-one / custom courses from the site.
+      if (isServerlessHosting() && !isFileStoreEnabled()) {
+        throw error;
+      }
     }
   }
 
   return Array.from(bySlug.values());
+}
+
+/**
+ * Public list loader: refuse to cache a catalogue missing custom Mongo courses.
+ */
+async function fetchGermanCoursesForDisplayForPublicCache(): Promise<GermanCourse[]> {
+  const courses = await fetchGermanCoursesForDisplay();
+  const customOnPage = courses.filter((course) => !isStaticCourseSlug(course.slug)).length;
+
+  if (customOnPage > 0 || !process.env.MONGODB_URI || isFileStoreEnabled()) {
+    return courses;
+  }
+
+  try {
+    const customInDb = await countMongoCustomCourses();
+    if (customInDb > 0) {
+      console.error(
+        `Refusing to cache course list without custom courses while MongoDB has ${customInDb}.`,
+      );
+      throw new Error("Course list missing custom courses; skipping cache write");
+    }
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message.includes("skipping cache write")
+    ) {
+      throw error;
+    }
+    // Count failed — still avoid caching a suspicious static-only list on live.
+    if (isServerlessHosting()) {
+      throw error instanceof Error
+        ? error
+        : new Error("Could not verify custom courses before caching");
+    }
+  }
+
+  return courses;
 }
 
 const loadStoredCourseDetailsList = cache(fetchAllStoredCourseDetailsList);
@@ -141,7 +216,7 @@ export async function getAllStoredCourseDetailsList(
   }
 
   return getCachedPublicData(
-    ["all-course-details", "v2"],
+    ["all-course-details", "v3"],
     [CACHE_TAGS.courses],
     fetchAllStoredCourseDetailsList,
   );
@@ -213,12 +288,24 @@ async function fetchCourseByPathNameAsync(pathName: string): Promise<GermanCours
   }
 
   const storedCourses = await loadStoredCourseDetailsList();
-  const stored = storedCourses.find((document) => {
+  let stored = storedCourses.find((document) => {
     const storedPath = document.course.pathName?.trim() || document.slug;
     return storedPath === decoded;
-  });
+  }) ?? null;
 
-  if (!stored) {
+  // Direct Mongo fallback so a stale/empty list cache cannot 404 a real custom course.
+  if (!stored && process.env.MONGODB_URI && !isFileStoreEnabled()) {
+    try {
+      stored = await getMongoCourseDetailsByPathName(decoded);
+    } catch (error) {
+      console.error("Failed to fetch course by path from MongoDB", error);
+      if (isServerlessHosting()) {
+        throw error;
+      }
+    }
+  }
+
+  if (!stored?.course?.title?.trim()) {
     return undefined;
   }
 
@@ -237,9 +324,40 @@ export async function getCourseByPathNameAsync(
   }
 
   return getCachedPublicData(
-    ["course-by-path", "v2", decoded],
+    ["course-by-path", "v3", decoded],
     [CACHE_TAGS.courses],
-    () => fetchCourseByPathNameAsync(decoded),
+    async () => {
+      const course = await fetchCourseByPathNameAsync(decoded);
+      if (course) {
+        return course;
+      }
+
+      // Never cache a miss when Mongo still has this custom path.
+      if (process.env.MONGODB_URI && !isFileStoreEnabled()) {
+        try {
+          const exists = await getMongoCourseDetailsByPathName(decoded);
+          if (exists?.course?.title?.trim()) {
+            throw new Error(
+              `Course path ${decoded} exists in MongoDB but failed to resolve; skipping cache write`,
+            );
+          }
+        } catch (error) {
+          if (
+            error instanceof Error &&
+            error.message.includes("skipping cache write")
+          ) {
+            throw error;
+          }
+          if (isServerlessHosting()) {
+            throw error instanceof Error
+              ? error
+              : new Error("Could not verify course path before caching miss");
+          }
+        }
+      }
+
+      return undefined;
+    },
   );
 }
 
@@ -529,7 +647,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
       safeRevalidatePublicCourseData(normalizedPreviousSlug);
     }
 
-    safeRevalidatePublicCourseData(slug);
+    safeRevalidatePublicCourseData(slug, pathName);
     return document;
   }
 
@@ -540,7 +658,7 @@ export async function saveCourseDetails(payload: AdminCoursePayload) {
     safeRevalidatePublicCourseData(normalizedPreviousSlug);
   }
 
-  safeRevalidatePublicCourseData(slug);
+  safeRevalidatePublicCourseData(slug, pathName);
   return saved;
 }
 
@@ -682,9 +800,9 @@ export async function getGermanCoursesForDisplay(
   }
 
   return getCachedPublicData(
-    ["german-courses-display", "v3"],
+    ["german-courses-display", "v4"],
     [CACHE_TAGS.courses],
-    fetchGermanCoursesForDisplay,
+    fetchGermanCoursesForDisplayForPublicCache,
   );
 }
 
@@ -702,10 +820,15 @@ function enrichCourseWithOriginalPrice(
     getDefaultFlexibleBatches(course.title, salePrice),
     stored?.flexibleBatches,
   );
+  const originalPrice =
+    batches.originalPrice?.trim() ||
+    course.originalPrice?.trim() ||
+    stored?.course?.originalPrice?.trim() ||
+    "";
 
   return {
     ...course,
-    originalPrice: batches.originalPrice,
+    originalPrice: originalPrice ? formatDisplayPrice(originalPrice) : undefined,
   };
 }
 

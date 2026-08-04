@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 import { blogPosts } from "../data/blogPosts";
 import { germanCourses } from "../data/germanCourses";
+import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
 
 const siteUrl = "https://fluentauf.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: siteUrl,
@@ -74,7 +75,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const courseRoutes: MetadataRoute.Sitemap = germanCourses.map((course) => ({
+  let displayCourses = germanCourses;
+  try {
+    displayCourses = await getGermanCoursesForDisplay();
+  } catch {
+    // Fall back to static catalogue if live course fetch fails during sitemap build.
+  }
+
+  const courseRoutes: MetadataRoute.Sitemap = displayCourses.map((course) => ({
     url: `${siteUrl}/course/${course.pathName}`,
     lastModified: new Date(),
     changeFrequency: "weekly",

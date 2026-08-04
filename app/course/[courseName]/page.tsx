@@ -13,6 +13,7 @@ import {
   getCourseSeoContentAsync,
   getGermanCoursesForDisplay,
 } from "../../../lib/courseContentStore";
+import { getCourseContentForCourse } from "../../../data/courseContents";
 import { germanCourses } from "../../../data/germanCourses";
 import CourseContent from "../../courses/_components/CourseContent";
 import FlexibleBatchesSection from "../../courses/_components/FlexibleBatchesSection";
@@ -166,13 +167,13 @@ export default async function GermanCoursePage({ params }: PageProps) {
   const displayCourse = await getCourseByPathNameAsync(params.courseName);
   if (!displayCourse) notFound();
 
-  const [content, batchesContent, seoContent] = await Promise.all([
+  const [contentResult, batchesContent, seoContent] = await Promise.all([
     getCourseContentAsync(displayCourse.slug),
     getCourseFlexibleBatchesAsync(displayCourse.slug),
     getCourseSeoContentAsync(displayCourse.slug),
   ]);
 
-  if (!content) notFound();
+  const content = contentResult ?? getCourseContentForCourse(displayCourse);
 
   const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
   const salePrice = displayCourse.price || content.sidebarPrice;

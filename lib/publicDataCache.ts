@@ -50,13 +50,13 @@ export function revalidatePublicBlogData(...slugs: string[]) {
   }
 }
 
-export function revalidatePublicCourseData(...slugs: string[]) {
+export function revalidatePublicCourseData(...slugsOrPaths: string[]) {
   revalidateTag(CACHE_TAGS.courses);
   revalidatePath("/");
   revalidatePath("/courses");
 
-  for (const slug of slugs) {
-    const trimmed = slug.trim();
+  for (const value of slugsOrPaths) {
+    const trimmed = value.trim();
     if (!trimmed) {
       continue;
     }
