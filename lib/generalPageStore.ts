@@ -208,6 +208,10 @@ function sanitizeContent(value: Partial<GeneralPagesContent>): GeneralPagesConte
     privacy: sanitizeLegalContent(value.privacy, defaultGeneralPagesContent.privacy),
     refund: sanitizeLegalContent(value.refund, defaultGeneralPagesContent.refund),
     ourCompany: sanitizeOurCompanyContent(value.ourCompany, defaultGeneralPagesContent.ourCompany),
+    applyJob: sanitizeLegalContent(
+      (value as Partial<GeneralPagesContent>).applyJob,
+      defaultGeneralPagesContent.applyJob,
+    ),
   };
 }
 
@@ -279,6 +283,11 @@ export async function getOurCompanyPageContent(options: PublicDataOptions = {}) 
   return content.ourCompany;
 }
 
+export async function getApplyJobPageContent(options: PublicDataOptions = {}) {
+  const content = await getGeneralPagesContent(options);
+  return content.applyJob;
+}
+
 async function persistContent(content: GeneralPagesContent) {
   const nextContent = sanitizeContent(content);
 
@@ -337,7 +346,7 @@ async function saveMongoContent(content: GeneralPagesContent) {
 }
 
 export async function saveGeneralPagesContent(content: GeneralPagesContent) {
-  for (const page of ["terms", "privacy", "refund"] as const) {
+  for (const page of ["terms", "privacy", "refund", "applyJob"] as const) {
     if (!content[page].html?.trim()) {
       throw new Error(`Main content is required for ${page}.`);
     }
@@ -363,13 +372,18 @@ export async function saveGeneralPageContent(
     });
   }
 
-  const legalContent = sanitizeLegalContent(pageContent as LegalPageContentData, content[pageId]);
+  const contentKey =
+    pageId === "apply-job" ? "applyJob" : (pageId as "terms" | "privacy" | "refund");
+  const legalContent = sanitizeLegalContent(
+    pageContent as LegalPageContentData,
+    content[contentKey],
+  );
   if (!legalContent.html?.trim()) {
     throw new Error("Main content is required.");
   }
 
   return persistContent({
     ...content,
-    [pageId]: legalContent,
+    [contentKey]: legalContent,
   });
 }

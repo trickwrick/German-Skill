@@ -3,7 +3,11 @@ import Navbar from "../../components/Navbar";
 import PageBanner from "../../components/PageBanner";
 import SiteFooter from "../../components/SiteFooter";
 import CareersContent from "./_components/CareersContent";
+import { getApplyJobPageContent } from "../../../lib/generalPageStore";
 import { buildPageMetadata } from "../../../lib/siteSeo";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
+
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Apply Job | Fluent AUF",
@@ -12,7 +16,9 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/about/careers",
 });
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const applyJob = await getApplyJobPageContent();
+
   return (
     <>
       <Navbar />
@@ -27,7 +33,7 @@ export default function CareersPage() {
           ]}
         />
 
-        <CareersContent />
+        <CareersContent applyJobHtml={applyJob.html} />
       </main>
       <SiteFooter />
     </>

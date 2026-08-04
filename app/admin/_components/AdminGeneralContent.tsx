@@ -12,8 +12,21 @@ import {
 import AdminImageUploadField from "./AdminImageUploadField";
 import BlogContentEditor from "../(dashboard)/blog/_components/BlogContentEditor";
 
-function isLegalPage(pageId: GeneralPageId): pageId is "terms" | "privacy" | "refund" {
-  return pageId === "terms" || pageId === "privacy" || pageId === "refund";
+function isHtmlPage(
+  pageId: GeneralPageId,
+): pageId is "terms" | "privacy" | "refund" | "apply-job" {
+  return (
+    pageId === "terms" ||
+    pageId === "privacy" ||
+    pageId === "refund" ||
+    pageId === "apply-job"
+  );
+}
+
+function getHtmlPageKey(
+  pageId: "terms" | "privacy" | "refund" | "apply-job",
+): "terms" | "privacy" | "refund" | "applyJob" {
+  return pageId === "apply-job" ? "applyJob" : pageId;
 }
 
 export default function AdminGeneralContent() {
@@ -53,13 +66,14 @@ export default function AdminGeneralContent() {
   }, []);
 
   function updateLegalHtml(html: string) {
-    if (!isLegalPage(selectedPage)) {
+    if (!isHtmlPage(selectedPage)) {
       return;
     }
 
+    const key = getHtmlPageKey(selectedPage);
     setContent((current) => ({
       ...current,
-      [selectedPage]: { html },
+      [key]: { html },
     }));
   }
 
@@ -76,8 +90,11 @@ export default function AdminGeneralContent() {
     setError("");
     setSuccess("");
 
-    const payload = isLegalPage(selectedPage)
-      ? { pageId: selectedPage, content: content[selectedPage] as LegalPageContentData }
+    const payload = isHtmlPage(selectedPage)
+      ? {
+          pageId: selectedPage,
+          content: content[getHtmlPageKey(selectedPage)] as LegalPageContentData,
+        }
       : { pageId: selectedPage, content: content.ourCompany as OurCompanyPageData };
 
     try {
@@ -107,6 +124,9 @@ export default function AdminGeneralContent() {
   }
 
   const ourCompany = content.ourCompany;
+  const selectedHtml = isHtmlPage(selectedPage)
+    ? content[getHtmlPageKey(selectedPage)].html
+    : "";
 
   return (
     <div className="adm-general-pages">
@@ -114,7 +134,8 @@ export default function AdminGeneralContent() {
         <div>
           <h1 className="adm-page-title">General</h1>
           <p className="adm-page-subtitle">
-            Edit Terms &amp; Conditions, Privacy Policy, Refund Policy, and Our Company content.
+            Edit Terms &amp; Conditions, Privacy Policy, Refund Policy, Our Company, and Apply Job
+            content.
           </p>
         </div>
       </div>
@@ -147,15 +168,16 @@ export default function AdminGeneralContent() {
           </label>
         </div>
 
-        {isLegalPage(selectedPage) ? (
+        {isHtmlPage(selectedPage) ? (
           <div className="adm-general-legal-editor">
             <p className="adm-panel-note">
-              Edit the full page content in one place. Use headings, lists, links, and formatting as
-              needed — same editor as blog posts.
+              {selectedPage === "apply-job"
+                ? "Edit the Apply Job scroll content shown on the public careers page. Use headings, lists, and formatting as needed."
+                : "Edit the full page content in one place. Use headings, lists, links, and formatting as needed — same editor as blog posts."}
             </p>
             <BlogContentEditor
               key={`legal-editor-${selectedPage}`}
-              value={content[selectedPage].html}
+              value={selectedHtml}
               onChange={updateLegalHtml}
             />
           </div>
