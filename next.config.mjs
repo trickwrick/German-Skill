@@ -24,6 +24,12 @@ const nextConfig = {
       value: "public, s-maxage=300, stale-while-revalidate=600",
     };
 
+    // Keep /blogs short-lived so a bad empty response cannot sit on the CDN for long.
+    const blogListCacheHeader = {
+      key: "Cache-Control",
+      value: "public, s-maxage=60, stale-while-revalidate=30",
+    };
+
     return [
       {
         source: "/",
@@ -39,7 +45,7 @@ const nextConfig = {
       },
       {
         source: "/blogs",
-        headers: [cacheHeader],
+        headers: [blogListCacheHeader],
       },
       {
         source: "/blog/:path*",

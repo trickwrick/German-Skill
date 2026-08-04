@@ -1,4 +1,3 @@
-import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 import { blogPosts as staticBlogPosts, type BlogPost as StaticBlogPost } from "../data/blogPosts";
 import {
@@ -296,6 +295,11 @@ async function getStoredPosts(): Promise<BlogPost[]> {
       }
     } catch (error) {
       console.error("Failed to fetch blog posts from DB", error);
+      // On live, never fall through to an empty list — that was getting cached and
+      // wiping /blogs until the next deploy/cache-key change.
+      if (isServerlessHosting() && !isFileStoreEnabled()) {
+        throw error;
+      }
     }
   }
 
@@ -327,7 +331,29 @@ async function fetchBlogPosts(): Promise<BlogPost[]> {
     .filter((post) => Boolean(post.slug));
 }
 
-const loadBlogPosts = cache(fetchBlogPosts);
+/**
+ * Cache loader for the public blog list.
+ * Never writes an empty result to Data Cache when Mongo still has documents —
+ * that caused /blogs to go blank on fluentauf.com after transient DB errors.
+ */
+async function fetchBlogPostsForPublicCache(): Promise<BlogPost[]> {
+  const posts = await fetchBlogPosts();
+
+  if (posts.length > 0 || !process.env.MONGODB_URI) {
+    return posts;
+  }
+
+  const collection = await getMongoCollection();
+  const rawCount = await collection.countDocuments();
+  if (rawCount > 0) {
+    console.error(
+      `Refusing to cache empty blog list while MongoDB has ${rawCount} document(s).`,
+    );
+    throw new Error("Blog list unexpectedly empty; skipping cache write");
+  }
+
+  return posts;
+}
 
 function shouldBypassBlogCache() {
   // Public blog reads use ISR/tag cache; admin APIs pass `{ fresh: true }`.
@@ -341,9 +367,9 @@ export async function getBlogPosts(options: PublicDataOptions = {}): Promise<Blo
   }
 
   return getCachedPublicData(
-    ["blog-posts", "v2"],
+    ["blog-posts", "v3"],
     [CACHE_TAGS.blogPosts],
-    fetchBlogPosts,
+    fetchBlogPostsForPublicCache,
   );
 }
 
@@ -393,8 +419,6 @@ async function fetchBlogPostBySlug(normalizedSlug: string): Promise<BlogPost | n
   return null;
 }
 
-const loadBlogPostBySlug = cache(fetchBlogPostBySlug);
-
 export async function getBlogPostBySlug(
   slug: string,
   options: PublicDataOptions = {},
@@ -410,9 +434,9 @@ export async function getBlogPostBySlug(
   }
 
   return getCachedPublicData(
-    ["blog-post", normalizedSlug],
+    ["blog-post", "v2", normalizedSlug],
     [CACHE_TAGS.blogPosts, CACHE_TAGS.blogPost(normalizedSlug)],
-    () => loadBlogPostBySlug(normalizedSlug),
+    () => fetchBlogPostBySlug(normalizedSlug),
   );
 }
 

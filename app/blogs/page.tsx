@@ -10,7 +10,8 @@ import { getBlogPosts } from "../../lib/blogStore";
 import { buildPageMetadata } from "../../lib/siteSeo";
 import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
 
-export const revalidate = PUBLIC_REVALIDATE_SECONDS;
+/** Blog list uses a shorter ISR window so recovered Mongo data shows up faster. */
+export const revalidate = Math.min(PUBLIC_REVALIDATE_SECONDS, 60);
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Blog | Fluent AUF",
