@@ -6,7 +6,7 @@ import CareersContent from "./_components/CareersContent";
 import { buildPageMetadata } from "../../../lib/siteSeo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Careers | Fluent AUF",
+  title: "Apply Job | Fluent AUF",
   description:
     "Join Fluent AUF — build a rewarding career in German language education. Grow, lead, and thrive with our team.",
   path: "/about/careers",
@@ -19,11 +19,11 @@ export default function CareersPage() {
       <main>
         <PageBanner
           layout="stacked"
-          title="Careers"
+          title="Apply Job"
           description="Build a career that's fun and fulfilling. Grow, lead, and thrive with Fluent AUF."
           breadcrumbs={[
             { label: "Home", href: "/" },
-            { label: "Careers" },
+            { label: "Apply Job" },
           ]}
         />
 
