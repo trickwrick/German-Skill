@@ -113,11 +113,6 @@ export default function CareersContent() {
 
       <section className="cr-tutor-info-section">
         <div className="cr-tutor-info-wrap">
-          <header className="cr-tutor-info-header">
-            <h2>Join Our German Tutor Team</h2>
-            <p>Inspire Students. Teach German. Launch Your Career.</p>
-          </header>
-
           <article className="cr-tutor-scroll-box" aria-label="German tutor careers information">
             <div className="cr-tutor-scroll-inner">
               <p>
