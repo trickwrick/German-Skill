@@ -800,7 +800,7 @@ export async function getGermanCoursesForDisplay(
   }
 
   return getCachedPublicData(
-    ["german-courses-display", "v4"],
+    ["german-courses-display", "v5"],
     [CACHE_TAGS.courses],
     fetchGermanCoursesForDisplayForPublicCache,
   );
@@ -810,11 +810,6 @@ function enrichCourseWithOriginalPrice(
   course: GermanCourse,
   stored?: StoredCourseDetails | null,
 ): GermanCourse {
-  // Keep A1–C2 catalogue pricing/cards stable for the public site.
-  if (isStaticCourseSlug(course.slug)) {
-    return course;
-  }
-
   const salePrice = formatDisplayPrice(course.price);
   const batches = mergeFlexibleBatches(
     getDefaultFlexibleBatches(course.title, salePrice),
@@ -849,6 +844,14 @@ function normalizeCoursePrice(price: string) {
   })}`;
 }
 
+function pickStoredText(value: string | undefined, fallback?: string) {
+  const trimmed = value?.trim();
+  if (trimmed) {
+    return trimmed;
+  }
+  return fallback;
+}
+
 function hasStoredIdentityMismatch(base: GermanCourse, stored?: Partial<GermanCourse>) {
   const storedPath = stored?.pathName?.trim();
   return Boolean(storedPath && storedPath !== base.pathName);
@@ -877,30 +880,31 @@ export function mergeStoredCourse(
     return base;
   }
 
-  // A1–C2 catalogue cards must stay stable on the public site.
-  // Curriculum/FAQ/SEO still come from course_details separately.
-  if (isStaticCourseSlug(base.slug)) {
-    return {
-      ...base,
-      batchSize: stored.batchSize?.trim() || base.batchSize,
-      enrolled: stored.enrolled?.trim() || base.enrolled,
-      rating: stored.rating?.trim() || base.rating,
-      reviewCount: stored.reviewCount?.trim() || base.reviewCount,
-    };
-  }
-
   const price = stored.price ? normalizeCoursePrice(stored.price) : base.price;
+  const duration =
+    pickStoredText(stored.learningHours) ||
+    pickStoredText(stored.hours) ||
+    base.learningHours ||
+    base.hours;
 
-  if (hasStoredIdentityMismatch(base, stored)) {
+  // Keep stable public URLs for A1–C2, but use admin card fields (title, price,
+  // hours, image, Online Batch Size, etc.) everywhere else.
+  if (isStaticCourseSlug(base.slug) || hasStoredIdentityMismatch(base, stored)) {
     return {
       ...base,
-      learningHours: stored.learningHours ?? base.learningHours,
-      batchSize: stored.batchSize ?? base.batchSize,
-      enrolled: stored.enrolled ?? base.enrolled,
-      rating: stored.rating ?? base.rating,
-      reviewCount: stored.reviewCount ?? base.reviewCount,
-      image: stored.image?.trim() || base.image,
+      title: pickStoredText(stored.title, base.title) || base.title,
+      description: pickStoredText(stored.description, base.description) || base.description,
+      hours: duration,
+      learningHours: duration,
       price,
+      image: pickStoredText(stored.image, base.image) || base.image,
+      batchSize: pickStoredText(stored.batchSize, base.batchSize),
+      enrolled: pickStoredText(stored.enrolled, base.enrolled),
+      rating: pickStoredText(stored.rating, base.rating),
+      reviewCount: pickStoredText(stored.reviewCount, base.reviewCount),
+      originalPrice: pickStoredText(stored.originalPrice, base.originalPrice),
+      slug: base.slug,
+      pathName: base.pathName,
     };
   }
 
@@ -908,7 +912,17 @@ export function mergeStoredCourse(
     ...base,
     ...stored,
     slug: base.slug,
-    pathName: base.pathName,
+    pathName: pickStoredText(stored.pathName, base.pathName) || base.pathName,
+    title: pickStoredText(stored.title, base.title) || base.title,
+    description: pickStoredText(stored.description, base.description) || base.description,
+    hours: duration,
+    learningHours: duration,
     price,
+    image: pickStoredText(stored.image, base.image) || base.image,
+    batchSize: pickStoredText(stored.batchSize, base.batchSize),
+    enrolled: pickStoredText(stored.enrolled, base.enrolled),
+    rating: pickStoredText(stored.rating, base.rating),
+    reviewCount: pickStoredText(stored.reviewCount, base.reviewCount),
+    originalPrice: pickStoredText(stored.originalPrice, base.originalPrice),
   };
 }
