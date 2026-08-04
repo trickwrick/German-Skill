@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
 import {
@@ -55,6 +56,8 @@ async function fetchSeoSettings(): Promise<SeoSettings> {
   }
 }
 
+const loadSeoSettings = cache(fetchSeoSettings);
+
 export async function getSeoSettings(options: PublicDataOptions = {}): Promise<SeoSettings> {
   if (options.fresh) {
     noStore();
@@ -64,7 +67,7 @@ export async function getSeoSettings(options: PublicDataOptions = {}): Promise<S
   return getCachedPublicData(
     ["seo-settings"],
     [CACHE_TAGS.seoSettings],
-    fetchSeoSettings,
+    loadSeoSettings,
   );
 }
 

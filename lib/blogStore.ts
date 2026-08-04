@@ -330,8 +330,8 @@ async function fetchBlogPosts(): Promise<BlogPost[]> {
 const loadBlogPosts = cache(fetchBlogPosts);
 
 function shouldBypassBlogCache() {
-  // Live/Vercel must always read MongoDB directly — stale ISR cache hid admin posts.
-  return isServerlessHosting();
+  // Public blog reads use ISR/tag cache; admin APIs pass `{ fresh: true }`.
+  return false;
 }
 
 export async function getBlogPosts(options: PublicDataOptions = {}): Promise<BlogPost[]> {

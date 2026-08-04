@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Navbar from "../components/Navbar";
 import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
+import BlogListing from "../blog/_components/BlogListing";
 import BlogPageContent from "../blog/_components/BlogPageContent";
 import BlogSidebar from "../blog/_components/BlogSidebar";
 import { getBlogPosts } from "../../lib/blogStore";
-import { filterBlogPostsByCategory } from "../../lib/blogUtils";
 import { buildPageMetadata } from "../../lib/siteSeo";
 import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
 
@@ -19,14 +20,19 @@ export const metadata: Metadata = buildPageMetadata({
   keywords: "Learn German, German Grammar, Study in Germany, Goethe-Zertifikat Prep",
 });
 
-type BlogsPageProps = {
-  searchParams?: { category?: string };
-};
+function BlogListingFallback({ posts }: { posts: Awaited<ReturnType<typeof getBlogPosts>> }) {
+  return (
+    <>
+      <div className="blog-layout-main">
+        <BlogPageContent posts={posts} />
+      </div>
+      <BlogSidebar posts={posts} />
+    </>
+  );
+}
 
-export default async function BlogsPage({ searchParams }: BlogsPageProps) {
+export default async function BlogsPage() {
   const posts = await getBlogPosts();
-  const activeCategory = searchParams?.category?.trim();
-  const filteredPosts = filterBlogPostsByCategory(posts, activeCategory);
 
   return (
     <>
@@ -43,10 +49,9 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
         />
         <section className="blog-page-section">
           <div className="blog-page-inner blog-layout">
-            <div className="blog-layout-main">
-              <BlogPageContent posts={filteredPosts} activeCategory={activeCategory} />
-            </div>
-            <BlogSidebar posts={posts} activeCategory={activeCategory} />
+            <Suspense fallback={<BlogListingFallback posts={posts} />}>
+              <BlogListing posts={posts} />
+            </Suspense>
           </div>
         </section>
       </main>

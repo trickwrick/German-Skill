@@ -26,6 +26,18 @@ const nextConfig = {
 
     return [
       {
+        source: "/",
+        headers: [cacheHeader],
+      },
+      {
+        source: "/courses",
+        headers: [cacheHeader],
+      },
+      {
+        source: "/course/:path*",
+        headers: [cacheHeader],
+      },
+      {
         source: "/blogs",
         headers: [cacheHeader],
       },
@@ -34,15 +46,19 @@ const nextConfig = {
         headers: [cacheHeader],
       },
       {
-        source: "/course/:path*",
+        source: "/terms",
         headers: [cacheHeader],
       },
       {
-        source: "/courses",
+        source: "/privacy",
         headers: [cacheHeader],
       },
       {
-        source: "/",
+        source: "/refund",
+        headers: [cacheHeader],
+      },
+      {
+        source: "/about/our-company",
         headers: [cacheHeader],
       },
     ];

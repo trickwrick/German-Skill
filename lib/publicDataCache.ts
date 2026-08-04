@@ -1,5 +1,4 @@
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
-import { isServerlessHosting } from "./courseDetailsFileStore";
 import { getCourseBySlug } from "../data/germanCourses";
 
 export const PUBLIC_REVALIDATE_SECONDS = 300;
@@ -19,9 +18,12 @@ export type PublicDataOptions = {
   fresh?: boolean;
 };
 
-/** Live/Vercel must read MongoDB directly — stale ISR/CDN cache reverts admin content. */
+/**
+ * Public pages use ISR + unstable_cache. Admin reads pass `{ fresh: true }`.
+ * After writes, call the matching safeRevalidatePublic* helpers so CDN/ISR update.
+ */
 export function shouldBypassPublicDataCache() {
-  return isServerlessHosting();
+  return false;
 }
 
 export function getCachedPublicData<T>(
@@ -85,6 +87,13 @@ export function revalidatePublicGeneralPagesData() {
 
 export function revalidatePublicSeoData() {
   revalidateTag(CACHE_TAGS.seoSettings);
+  revalidatePath("/");
+  revalidatePath("/courses");
+  revalidatePath("/blogs");
+  revalidatePath("/about/our-company");
+  revalidatePath("/terms");
+  revalidatePath("/privacy");
+  revalidatePath("/refund");
 }
 
 function safeRevalidate(run: () => void) {
