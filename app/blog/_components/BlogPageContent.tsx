@@ -27,7 +27,11 @@ export default function BlogPageContent({ posts, activeCategory }: BlogPageConte
           </div>
         </>
       ) : (
-        <p className="blog-page-empty">No blog posts found in this category.</p>
+        <p className="blog-page-empty">
+          {activeCategory
+            ? "No blog posts found in this category."
+            : "No blog posts published yet."}
+        </p>
       )}
     </>
   );

@@ -341,9 +341,9 @@ export async function getBlogPosts(options: PublicDataOptions = {}): Promise<Blo
   }
 
   return getCachedPublicData(
-    ["blog-posts"],
+    ["blog-posts", "v2"],
     [CACHE_TAGS.blogPosts],
-    () => loadBlogPosts(),
+    fetchBlogPosts,
   );
 }
 
