@@ -682,7 +682,7 @@ export async function getGermanCoursesForDisplay(
   }
 
   return getCachedPublicData(
-    ["german-courses-display"],
+    ["german-courses-display", "v2"],
     [CACHE_TAGS.courses],
     fetchGermanCoursesForDisplay,
   );
@@ -692,11 +692,14 @@ function enrichCourseWithOriginalPrice(
   course: GermanCourse,
   stored?: StoredCourseDetails | null,
 ): GermanCourse {
+  // Keep A1–C2 catalogue pricing/cards stable for the public site.
+  if (isStaticCourseSlug(course.slug)) {
+    return course;
+  }
+
   const salePrice = formatDisplayPrice(course.price);
   const batches = mergeFlexibleBatches(
-    isStaticCourseSlug(course.slug)
-      ? getCourseFlexibleBatches(course.slug)
-      : getDefaultFlexibleBatches(course.title, salePrice),
+    getDefaultFlexibleBatches(course.title, salePrice),
     stored?.flexibleBatches,
   );
 
@@ -749,6 +752,18 @@ export function mergeStoredCourse(
 ): GermanCourse {
   if (!stored) {
     return base;
+  }
+
+  // A1–C2 catalogue cards must stay stable on the public site.
+  // Curriculum/FAQ/SEO still come from course_details separately.
+  if (isStaticCourseSlug(base.slug)) {
+    return {
+      ...base,
+      batchSize: stored.batchSize?.trim() || base.batchSize,
+      enrolled: stored.enrolled?.trim() || base.enrolled,
+      rating: stored.rating?.trim() || base.rating,
+      reviewCount: stored.reviewCount?.trim() || base.reviewCount,
+    };
   }
 
   const price = stored.price ? normalizeCoursePrice(stored.price) : base.price;
