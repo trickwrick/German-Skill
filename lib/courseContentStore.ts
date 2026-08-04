@@ -141,7 +141,7 @@ export async function getAllStoredCourseDetailsList(
   }
 
   return getCachedPublicData(
-    ["all-course-details"],
+    ["all-course-details", "v2"],
     [CACHE_TAGS.courses],
     fetchAllStoredCourseDetailsList,
   );
@@ -199,7 +199,7 @@ export async function getCourseBySlugAsync(
   }
 
   return getCachedPublicData(
-    ["course-by-slug", slug],
+    ["course-by-slug", "v2", slug],
     [CACHE_TAGS.courses, CACHE_TAGS.course(slug)],
     () => fetchCourseBySlugAsync(slug),
   );
@@ -237,7 +237,7 @@ export async function getCourseByPathNameAsync(
   }
 
   return getCachedPublicData(
-    ["course-by-path", decoded],
+    ["course-by-path", "v2", decoded],
     [CACHE_TAGS.courses],
     () => fetchCourseByPathNameAsync(decoded),
   );
@@ -682,7 +682,7 @@ export async function getGermanCoursesForDisplay(
   }
 
   return getCachedPublicData(
-    ["german-courses-display", "v2"],
+    ["german-courses-display", "v3"],
     [CACHE_TAGS.courses],
     fetchGermanCoursesForDisplay,
   );
