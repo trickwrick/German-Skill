@@ -720,18 +720,34 @@ async function fetchCourseContentAsync(slug: string): Promise<CourseContent | un
   const editable = mergeCourseEditableFields(slug, stored);
   const descriptionTab = editable.descriptionTab;
 
+  const hasValidCurriculumSections =
+    descriptionTab.curriculumSections.length > 0 &&
+    descriptionTab.curriculumSections.some((s) => s.title.trim());
+
   return {
     ...base,
     sidebarPrice: displayCourse.price ?? base.sidebarPrice,
-    aboutCourse: descriptionTab.aboutCourse,
-    objectivesLeft: descriptionTab.objectivesLeft,
-    objectivesRight: descriptionTab.objectivesRight,
-    courseDescription: descriptionTab.courseDescription,
-    goalsLessons: descriptionTab.goalsLessons,
-    curriculumSections: descriptionTab.curriculumSections,
-    targetAudience: descriptionTab.targetAudience,
-    faqs: editable.faqs,
-    reviews: editable.reviews,
+    aboutCourse: descriptionTab.aboutCourse?.trim() || base.aboutCourse,
+    objectivesLeft: descriptionTab.objectivesLeft.length
+      ? descriptionTab.objectivesLeft
+      : base.objectivesLeft,
+    objectivesRight: descriptionTab.objectivesRight.length
+      ? descriptionTab.objectivesRight
+      : base.objectivesRight,
+    courseDescription: descriptionTab.courseDescription.length
+      ? descriptionTab.courseDescription
+      : base.courseDescription,
+    goalsLessons: descriptionTab.goalsLessons.length
+      ? descriptionTab.goalsLessons
+      : base.goalsLessons,
+    curriculumSections: hasValidCurriculumSections
+      ? descriptionTab.curriculumSections
+      : base.curriculumSections,
+    targetAudience: descriptionTab.targetAudience.length
+      ? descriptionTab.targetAudience
+      : base.targetAudience,
+    faqs: editable.faqs.length ? editable.faqs : base.faqs,
+    reviews: editable.reviews.length ? editable.reviews : base.reviews,
     reviewsSummary: editable.reviewsSummary,
   };
 }

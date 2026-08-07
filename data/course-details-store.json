@@ -1,19 +1,191 @@
 {
   "a1": {
     "slug": "a1",
+    "isCustom": false,
     "course": {
       "slug": "a1",
       "pathName": "german-a1",
       "title": "German A1 Level : For Beginners!",
       "description": "Learn German Language From A Native and Experienced German Teacher - Learn German Grammar, Vocabulary and Speaking from scratch.",
-      "hours": "3 month",
-      "price": "₹14,999.00",
+      "hours": "111 Hours +",
+      "price": "₹11,999.00",
       "image": "/courses/german-a1-1781517209979.png",
-      "batchSize": "20-40 Students",
+      "batchSize": "5-6 Students",
       "enrolled": "112",
       "rating": "4.50",
       "reviewCount": "50",
-      "learningHours": "3 month"
+      "learningHours": "111 Hours",
+      "originalPrice": "₹22,998"
+    },
+    "descriptionTab": {
+      "aboutCourse": "Learn German Language From A Native and Experienced German Teacher! Learn German Grammar, Vocabulary, Slang, Conversation!",
+      "objectivesLeft": [
+        "Become Competent In German A1 Level",
+        "Learn German Pronunciation, Speaking, & Writing",
+        "Learn To Count & Say Numbers In German",
+        "The German Alphabet",
+        "German Gender Rules (der, die, das)",
+        "Compound Words",
+        "Word Order Of Main Clauses",
+        "Negation",
+        "Possessive Determiners",
+        "Perfect Tense (Perfekt)",
+        "Write Dictations And Improve Your Listening Comprehension Of The German Language",
+        "German Vocabulary: Colours",
+        "German Vocabulary: At Home",
+        "German Vocabulary: Weather",
+        "German Vocabulary: Means of Transport",
+        "Learn The Basics Of Conversation In German",
+        "Be Able To Order Food In A Restaurant In German",
+        "Learn About The German Culture, Sights & Food",
+        "Learn The German Numbers",
+        "Tips On How To Learn A Language More Efficiently",
+        "The Accusative",
+        "The Dative",
+        "The Imperative",
+        "Temporal Adverbs",
+        "Indefinite Pronouns",
+        "Learn The German Pronunciation Rules",
+        "German Vocabulary: Clothing",
+        "German Vocabulary: Professions",
+        "German Vocabulary: Leisure Time Activities"
+      ],
+      "objectivesRight": [
+        "Learn The Grammar And Vocabulary Of German Language",
+        "Be Able To Make An Appointment In German",
+        "Preparation For The Speaking And Writing Part Of The A1 German Language Exam",
+        "The Nominative",
+        "Irregular Verbs",
+        "Learn The Formal Salutation In German & When To Use It",
+        "Modal Verbs",
+        "Conjunctions",
+        "Introduction To The Comparative",
+        "Write A Final Exam To Test Everything You Have Learned In This German A1 Course",
+        "German Vocabulary: Body",
+        "German Vocabulary: Animals",
+        "German Vocabulary: Emotions & Adjectives",
+        "Master The Basics Of The German Language",
+        "Be Able To Confidently Introduce Yourself In German",
+        "Learn To Read & Write In German",
+        "Conjugation Of Regular Verbs",
+        "Plural",
+        "The German Word 'es'",
+        "Separable And Inseparable Verbs",
+        "Learn How To Form Questions",
+        "Demonstrative Pronouns",
+        "Introduction To The Simple Past (Präteritum)",
+        "Will Write An Intermediate Exam",
+        "German Vocabulary: Family",
+        "German Vocabulary: Food & Beverages",
+        "German Vocabulary: Mobile phone"
+      ],
+      "courseDescription": [
+        "Learn German A1 Level From Scratch From An Experienced Native German Teacher!",
+        "The German course will start by introducing you to the German alphabet and work our way up to learning German grammar, vocabulary & basic conversation.",
+        "Apart from the 21 German grammar lectures, this course also includes 17 animated videos which will make it easier for you to learn basic German conversations as well as the German vocabulary. The vocabulary videos are all translated from German to English. We will also make an intermediate and final exam about the German grammar and vocabulary, in order to test what you have learned.",
+        "The German course will start by introducing you to the German alphabet and work our way up to learning German grammar, vocabulary & basic conversation. This course also includes 2 videos which will show and prepare you for the speaking and writing part of the official A1 German language certification.",
+        "This course also comes with 17 animated videos that will make it easier for you to learn basic German conversations as well as the vocabulary.",
+        "This course also includes 2 videos which will show and prepare you for the speaking and writing part of the official A1 German language certification.",
+        "If you are a busy person and have little time, you can learn German with just 10 minutes per day.",
+        "Every lesson comes with a quiz and a PDF with homework so that you can practice what you have learned during the lessons."
+      ],
+      "goalsLessons": [
+        "Become Fully Competent In German A1 Level",
+        "Master The Basics Of The German Language",
+        "Learn The Grammar & Vocabulary Of German Language",
+        "Learn The Basics Of Conversation In German",
+        "Learn German Pronunciation, Speaking, & Writing",
+        "Be Able To Confidently Introduce Yourself In German",
+        "Be Able To Make An Appointment In German",
+        "Be Able To Order Food In A Restaurant In German",
+        "Learn To Count & Say Numbers In German",
+        "Learn To Read & Write In German",
+        "Learn What The Speaking And Writing Part Of The A1 German Language Certificate Looks Like And Prepare For It",
+        "Learn Interesting Facts About Germany",
+        "Learn Common German Idioms To Sound More Like A Native Speaker"
+      ],
+      "curriculumSections": [
+        {
+          "title": "German Grammar",
+          "topics": [
+            "The Alphabet",
+            "Conjugation Of Regular Verbs",
+            "The Nominative",
+            "Numbers",
+            "Gender Rules",
+            "Plural",
+            "Irregular Verbs",
+            "Tips On How To Learn A Language More Efficiently",
+            "Compound Words",
+            "The Word 'es'",
+            "Formal Salutation",
+            "The Accusative",
+            "Word Order Of Main Clauses",
+            "Separable And Inseparable Verbs",
+            "Modal Verbs",
+            "Negation",
+            "Questions",
+            "Conjunctions",
+            "The Imperative",
+            "Possessive Determiner",
+            "Demonstrative Pronouns",
+            "Indefinite Pronouns",
+            "Introduction To The Simple Past (Präteritum)",
+            "Introduction To The Comparative",
+            "Perfect Tense (Perfekt)",
+            "Temporal Adverbs",
+            "The Dative"
+          ]
+        },
+        {
+          "title": "German Conversation",
+          "topics": [
+            "Pronunciation Rules",
+            "How To Introduce Yourself",
+            "Making Appointments",
+            "Using Public Transport",
+            "Looking For Apartments",
+            "Asking For/Giving Directions",
+            "Telling Time & Date",
+            "Doctor's Visit",
+            "Ordering Food"
+          ]
+        },
+        {
+          "title": "German Vocabulary",
+          "topics": [
+            "Leisure",
+            "Family",
+            "Body",
+            "Clothing",
+            "At Home",
+            "Food & Beverages",
+            "Animals",
+            "Professions",
+            "Weather",
+            "Emotions & Adjectives",
+            "Countries & Nations",
+            "Means of Transport",
+            "Mobile phone",
+            "Colours"
+          ]
+        },
+        {
+          "title": "Other",
+          "topics": [
+            "German Culture",
+            "German Food",
+            "German Sights",
+            "Recommendations for Books/Websites",
+            "Short Story",
+            "Practice for the A1 Exam"
+          ]
+        }
+      ],
+      "targetAudience": [
+        "People Who Are Interested In Learning German",
+        "People Who Want To Acquire A German A1 Level"
+      ]
     },
     "faqs": [
       {
@@ -86,11 +258,12 @@
           "time": "06:00PM to 07:30PM (IST)"
         }
       ],
-      "originalPrice": "₹29,998",
+      "originalPrice": "₹22,998",
       "badge": "Live Classes + Study Material Included",
       "discountPercent": 50
     },
-    "updatedAt": "2026-06-25T11:15:51.287Z"
+    "seoContent": "<h2>German A1 Course Online – Learn German A1 from Beginners to Confidence</h2>\n<p>Kick start your learning process with German A1 Course Online provided by Fluent Auf which is meant for absolute beginners of the German language. If you're preparing yourself to study in Germany, job hunting, migration or just want to learn a new language then our A1 German language course is ideal for you.</p>\n<p>If you are searching for a German A1 course online which offers flexibility and affordability along with communication then you have landed on the right page.</p>\n\n<h2>Why Should You Join Our German A1 Course Online?</h2>\n<p>Our Online German Classes are based on CEFR (Common European Framework of Reference for Languages) and therefore, you will be taught the proper skills necessary at this level. This level includes everyday communication, simple dialogues, grammar, vocabulary, listening, reading, writing, and speaking.</p>\n\n<h2>Benefits of Our German A1 Course Online</h2>\n<ul>\n<li>Live online interactive classes</li>\n<li>Expert German language trainers</li>\n<li>Small group teaching</li>\n<li>Session recordings for revising</li>\n<li>Assignments and quizzes regularly</li>\n<li>Speaking practice in each session</li>\n<li>Doubt-solving sessions</li>\n<li>Mock tests and exam preparation</li>\n<li>Course completion certificate</li>\n</ul>\n\n<h2>What You Will Learn in the A1 German Language Course</h2>\n<p>In our A1 German course, you will learn all the necessary things to speak confidently.</p>\n\n<h3>Basics of the German Language</h3>\n<ul>\n<li>Alphabet and pronunciation</li>\n<li>Greetings and introduction</li>\n<li>Numbers, dates and time</li>\n<li>Personal data</li>\n</ul>\n\n<h3>Essential Grammar of German Language</h3>\n<ul>\n<li>Articles (der, die, das)</li>\n<li>Verbs in the present tense</li>\n<li>Personal pronouns</li>\n<li>Sentence construction</li>\n<li>Making questions</li>\n<li>Modal verbs</li>\n<li>Prepositions</li>\n</ul>\n\n<h3>Basic Vocabulary of the German Language</h3>\n<ul>\n<li>Family and friends</li>\n<li>Food and shopping</li>\n<li>Traveling and transportation</li>\n<li>Work and study</li>\n<li>Hobbies and everyday life</li>\n<li>Medical appointments and health</li>\n</ul>\n\n<h3>Communicative Skills</h3>\n<ul>\n<li>Listening</li>\n<li>Reading</li>\n<li>Writing emails and messages</li>\n<li>Basic dialogues</li>\n<li>Improving pronunciation</li>\n</ul>\n\n<h2>Who Should Enroll in This Online German A1 Course?</h2>\n<p>This German course online is suitable for:</p>\n<ul>\n<li>Completely newbies</li>\n<li>Individuals interested in studying in Germany</li>\n<li>Working professionals</li>\n<li>Healthcare and Nursing professionals</li>\n<li>Those searching for jobs</li>\n<li>Visa applicants</li>\n<li>All those wishing to Learn German Online</li>\n</ul>\n<p>Prior knowledge of German is not needed.</p>\n\n<h2>Course Features</h2>\n<ul>\n<li>✅ 100% Live Online Classes</li>\n<li>✅ Flexible Weekday and Weekend Batch Classes</li>\n<li>✅ Interactive Learning Environment</li>\n<li>✅ Trained and Certified Trainers</li>\n<li>✅ Speaking Practice Sessions</li>\n<li>✅ Lifetime Access to Study Material</li>\n<li>✅ Mock Test and Assessments</li>\n<li>✅ Personalized Feedback</li>\n<li>✅ Low Course Fees</li>\n<li>✅ Course Completion Certificate</li>\n</ul>\n\n<h2>Why should you Learn German A1?</h2>\n<p>Learning German A1 will help you:</p>\n<ul>\n<li>Make introductions easily</li>\n<li>Speak about your family and daily routine</li>\n<li>Answer and ask basic questions</li>\n<li>Read small passages</li>\n<li>Write basic emails</li>\n<li>Listen to and understand everyday conversations</li>\n<li>Communicate while traveling</li>\n<li>Set a good base for advanced German Levels</li>\n</ul>\n<p>A strong base at A1 will prepare you for A2, B1, B2, C1, and C2 while being helpful in practical communication.</p>\n\n<h2>Why Should Students Choose Fluent AUF?</h2>\n<p>Fluent AUF is an institution where learners concentrate on practical language lessons instead of just memorizing the vocabulary. Each learner gets personal attention from the trainer and develops their speaking skills during interactive lessons at Fluent AUF.</p>\n<p>Here are the reasons why students opt for our German language classes:</p>\n<ul>\n<li>Curriculum</li>\n<li>Trainer-led lessons</li>\n<li>Real conversation practice</li>\n<li>Assessment</li>\n<li>Student-friendly environment</li>\n<li>Student support</li>\n<li>Career-oriented German language lessons</li>\n</ul>\n\n<h2>Why Are Our Online German Classes Unique?</h2>\n<p>Our Online German Classes differ from pre-recorded lessons in the sense that learners can interact with the trainers in real time, practice speaking, get instant feedback, and develop confidence during exciting classroom activities.</p>\n<p>No matter what your motivation is—study abroad or career development—our German A1 course online will give you practical skills.</p>\n\n<h2>Further your Knowledge of the German Language</h2>\n<p>Having successfully completed the A1 course in German, you can progress to:</p>\n<ul>\n<li>German A2</li>\n<li>German B1</li>\n<li>German B2</li>\n<li>German C1</li>\n<li>German C2</li>\n</ul>\n<p>Fluent AUF's structured learning path will help you to progress smoothly towards proficiency in German.</p>\n\n<h2>Enroll in our German A1 Course Online Now</h2>\n<p>Make the first move towards fluency with our German A1 Course Online from Fluent AUF. Join live sessions conducted by experts, engage with seasoned instructors, converse in German with other students, and learn German online!</p>\n<p>Join us now and Learn German Online with Fluent AUF!</p>",
+    "updatedAt": "2026-07-17T12:17:27.145Z"
   },
   "a2": {
     "slug": "a2",
@@ -102,11 +275,12 @@
       "hours": "115 Hours +",
       "price": "₹17,500.00",
       "image": "/courses/german-a2-1781517189489.png",
-      "batchSize": "20-40 Students",
+      "batchSize": "5-6 Students",
       "enrolled": "98",
       "rating": "4.50",
       "reviewCount": "4",
-      "learningHours": "115 Hours"
+      "learningHours": "115 Hours",
+      "originalPrice": "₹17,999"
     },
     "faqs": [
       {
@@ -183,7 +357,10 @@
         "color": "#e31e24"
       }
     ],
-    "updatedAt": "2026-06-15T09:53:13.567Z"
+    "updatedAt": "2026-06-15T09:53:13.567Z",
+    "flexibleBatches": {
+      "originalPrice": "₹17,999"
+    }
   },
   "b1": {
     "slug": "b1",
@@ -194,11 +371,12 @@
       "hours": "130 Hours +",
       "learningHours": "130 Hours",
       "price": "₹21,000.00",
-      "image": "/webinar-student.jpg",
-      "batchSize": "20-40 Students",
+      "image": "/api/course-images/german-b1-1781605756747.jpg",
+      "batchSize": "8-10 Students",
       "enrolled": "86",
       "rating": "4.50",
-      "reviewCount": "1"
+      "reviewCount": "1",
+      "originalPrice": "₹26,000"
     },
     "faqs": [
       {
@@ -243,6 +421,145 @@
         "color": "#6366f1"
       }
     ],
-    "updatedAt": "2026-06-13T08:24:14.416Z"
+    "updatedAt": "2026-06-13T08:24:14.416Z",
+    "flexibleBatches": {
+      "originalPrice": "₹26,000"
+    }
+  },
+  "german-course-beginner-to-advanced-level": {
+    "slug": "german-course-beginner-to-advanced-level",
+    "isCustom": true,
+    "course": {
+      "slug": "german-course-beginner-to-advanced-level",
+      "pathName": "german-course-beginner-to-advanced-level",
+      "title": "German Complete Course Beginner to Advanced (A1 to B2)",
+      "description": "German A1 to B2 : All in One ",
+      "hours": "9 Months",
+      "learningHours": "9 Months",
+      "price": "₹53,999.00",
+      "image": "/api/course-images/german-german-a1-to-b2-all-in-one-1782388845004.jpg",
+      "batchSize": "5-6 Students",
+      "enrolled": "578",
+      "rating": "4.60",
+      "reviewCount": "178",
+      "originalPrice": "₹73,499"
+    },
+    "descriptionTab": {
+      "aboutCourse": "",
+      "objectivesLeft": [],
+      "objectivesRight": [],
+      "courseDescription": [],
+      "goalsLessons": [],
+      "curriculumSections": [
+        {
+          "title": "",
+          "topics": []
+        }
+      ],
+      "targetAudience": []
+    },
+    "faqs": [
+      {
+        "q": "What are the German language levels A1 to B2?",
+        "a": "The levels A1, A2, B1, and B2 are part of the Common European Framework of Reference for Languages (CEFR). They measure your German language proficiency from beginner to upper-intermediate level."
+      },
+      {
+        "q": "How long does it take to complete German A1 to B2?",
+        "a": "The duration depends on your learning pace and study schedule. On average, it may take 12–24 months to progress from A1 to B2."
+      },
+      {
+        "q": "What skills are covered in the course?",
+        "a": "Listening\nSpeaking\nReading\nWriting"
+      }
+    ],
+    "reviewsSummary": {
+      "average": "4.60",
+      "total": 178,
+      "breakdown": [
+        {
+          "stars": 5,
+          "percent": 86
+        },
+        {
+          "stars": 4,
+          "percent": 10
+        },
+        {
+          "stars": 3,
+          "percent": 4
+        },
+        {
+          "stars": 2,
+          "percent": 0
+        },
+        {
+          "stars": 1,
+          "percent": 0
+        }
+      ],
+      "note": ""
+    },
+    "reviews": [],
+    "flexibleBatches": {
+      "subtitle": "Get Certification in German German Language Course Online Live Training with",
+      "highlight": "Goethe Exam Preparation",
+      "title": "Flexible batches for you",
+      "batches": [
+        {
+          "id": "batch-1",
+          "date": "June 20th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "soldOut": true
+        },
+        {
+          "id": "batch-2",
+          "date": "July 1st",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "defaultSelected": true
+        },
+        {
+          "id": "batch-3",
+          "date": "July 10th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)"
+        }
+      ],
+      "originalPrice": "₹73,499",
+      "badge": "Live Classes + Study Material Included",
+      "discountPercent": 10
+    },
+    "updatedAt": "2026-07-22T12:36:02.085Z"
+  },
+  "b2": {
+    "slug": "b2",
+    "course": {
+      "slug": "b2",
+      "batchSize": "15-30 Students"
+    },
+    "faqs": [],
+    "reviews": []
+  },
+  "c1": {
+    "slug": "c1",
+    "course": {
+      "slug": "c1",
+      "batchSize": "15-25 Students"
+    },
+    "faqs": [],
+    "reviews": []
+  },
+  "c2": {
+    "slug": "c2",
+    "course": {
+      "slug": "c2",
+      "batchSize": "10-20 Students"
+    },
+    "faqs": [],
+    "reviews": []
   }
 }
