@@ -5,6 +5,7 @@ import {
   type GeneralPagesContent,
   type LegalPageContentData,
   type OurCompanyPageData,
+  type PageSeoMeta,
 } from "../data/generalPages";
 import { getMongoClient, cleanMongoDocument, throwMongoWriteError, resetMongoClient } from "./mongodb";
 import { getFileGeneralPagesContent, saveFileGeneralPagesContent } from "./generalPageFileStore";
@@ -38,9 +39,35 @@ function sanitizeStringList(value: unknown, fallback: string[]) {
   return items.length ? items : fallback;
 }
 
+function sanitizePageSeo(
+  value: Partial<PageSeoMeta> | undefined,
+  fallback?: PageSeoMeta,
+): PageSeoMeta | undefined {
+  if (!fallback && !value) {
+    return undefined;
+  }
+
+  return {
+    metaTitle:
+      typeof value?.metaTitle === "string" && value.metaTitle.trim()
+        ? value.metaTitle.trim().slice(0, 70)
+        : fallback?.metaTitle ?? "",
+    metaKeyword:
+      typeof value?.metaKeyword === "string" && value.metaKeyword.trim()
+        ? value.metaKeyword.trim().slice(0, 160)
+        : fallback?.metaKeyword ?? "",
+    metaDescription:
+      typeof value?.metaDescription === "string" && value.metaDescription.trim()
+        ? value.metaDescription.trim().slice(0, 250)
+        : fallback?.metaDescription ?? "",
+  };
+}
+
 function sanitizeLegalContent(value: Partial<LegalPageContentData> | undefined, fallback: LegalPageContentData) {
+  const seo = sanitizePageSeo(value?.seo, fallback.seo);
   return {
     html: getLegalPageHtml(value, fallback.html),
+    ...(seo ? { seo } : {}),
   };
 }
 
@@ -268,7 +295,7 @@ export async function getGeneralPagesContent(options: PublicDataOptions = {}): P
   }
 
   return getCachedPublicData(
-    ["general-pages", "v2"],
+    ["general-pages", "v3"],
     [CACHE_TAGS.generalPages],
     fetchGeneralPagesContent,
   );

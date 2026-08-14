@@ -816,7 +816,7 @@ export async function getGermanCoursesForDisplay(
   }
 
   return getCachedPublicData(
-    ["german-courses-display", "v6"],
+    ["german-courses-display", "v7"],
     [CACHE_TAGS.courses],
     fetchGermanCoursesForDisplayForPublicCache,
   );
@@ -912,11 +912,12 @@ export function mergeStoredCourse(
     return base;
   }
 
-  // A1–C2 catalogue cards stay on stable site defaults (price/image/title/hours).
-  // Admin can still update Online Batch Size, enrolled, rating, and review count.
+  // A1–C2 keep stable title/image/hours/URL, but admin sale price must apply.
   if (isStaticCourseSlug(base.slug)) {
     return {
       ...base,
+      price: stored.price ? normalizeCoursePrice(stored.price) : base.price,
+      originalPrice: pickStoredText(stored.originalPrice, base.originalPrice),
       batchSize: pickStoredText(stored.batchSize, base.batchSize),
       enrolled: pickStoredText(stored.enrolled, base.enrolled),
       rating: pickStoredText(stored.rating, base.rating),

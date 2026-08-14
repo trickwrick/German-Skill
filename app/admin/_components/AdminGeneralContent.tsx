@@ -8,6 +8,7 @@ import {
   type GeneralPagesContent,
   type LegalPageContentData,
   type OurCompanyPageData,
+  type PageSeoMeta,
 } from "../../../data/generalPages";
 import AdminImageUploadField from "./AdminImageUploadField";
 import BlogContentEditor from "../(dashboard)/blog/_components/BlogContentEditor";
@@ -28,6 +29,12 @@ function getHtmlPageKey(
 ): "terms" | "privacy" | "refund" | "applyJob" {
   return pageId === "apply-job" ? "applyJob" : pageId;
 }
+
+const emptyApplyJobSeo: PageSeoMeta = {
+  metaTitle: "",
+  metaKeyword: "",
+  metaDescription: "",
+};
 
 export default function AdminGeneralContent() {
   const [content, setContent] = useState<GeneralPagesContent>(defaultGeneralPagesContent);
@@ -73,7 +80,20 @@ export default function AdminGeneralContent() {
     const key = getHtmlPageKey(selectedPage);
     setContent((current) => ({
       ...current,
-      [key]: { html },
+      [key]: { ...current[key], html },
+    }));
+  }
+
+  function updateApplyJobSeo(field: keyof PageSeoMeta, value: string) {
+    setContent((current) => ({
+      ...current,
+      applyJob: {
+        ...current.applyJob,
+        seo: {
+          ...(current.applyJob.seo ?? emptyApplyJobSeo),
+          [field]: value,
+        },
+      },
     }));
   }
 
@@ -127,6 +147,7 @@ export default function AdminGeneralContent() {
   const selectedHtml = isHtmlPage(selectedPage)
     ? content[getHtmlPageKey(selectedPage)].html
     : "";
+  const applyJobSeo = content.applyJob.seo ?? emptyApplyJobSeo;
 
   return (
     <div className="adm-general-pages">
@@ -180,6 +201,61 @@ export default function AdminGeneralContent() {
               value={selectedHtml}
               onChange={updateLegalHtml}
             />
+
+            {selectedPage === "apply-job" ? (
+              <section className="adm-panel adm-seo-panel" style={{ marginTop: "1.5rem" }}>
+                <div className="adm-panel-head">
+                  <h2 className="adm-panel-title">SEO — Meta Tags</h2>
+                </div>
+
+                <p className="adm-panel-note">
+                  Define page meta title, meta keywords and meta description to list your Apply Job
+                  page in search engines.
+                </p>
+
+                <div className="adm-form-grid adm-seo-grid">
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Meta Title *</span>
+                    <input
+                      type="text"
+                      name="metaTitle"
+                      value={applyJobSeo.metaTitle}
+                      onChange={(event) => updateApplyJobSeo("metaTitle", event.target.value)}
+                      maxLength={70}
+                      placeholder="Apply Job | Fluent AUF"
+                      required
+                    />
+                    <small className="adm-field-hint">Max length 70 characters</small>
+                  </label>
+
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Meta Keyword</span>
+                    <textarea
+                      name="metaKeyword"
+                      value={applyJobSeo.metaKeyword}
+                      onChange={(event) => updateApplyJobSeo("metaKeyword", event.target.value)}
+                      maxLength={160}
+                      rows={2}
+                      placeholder="German tutor jobs, online German teacher, Fluent AUF careers"
+                    />
+                    <small className="adm-field-hint">Max length 160 characters</small>
+                  </label>
+
+                  <label className="adm-form-field adm-form-field-full">
+                    <span>Meta Description</span>
+                    <textarea
+                      name="metaDescription"
+                      value={applyJobSeo.metaDescription}
+                      onChange={(event) => updateApplyJobSeo("metaDescription", event.target.value)}
+                      maxLength={250}
+                      rows={3}
+                      placeholder="Short summary shown in Google search results for this page."
+                    />
+                    <small className="adm-field-hint">Max length 250 characters</small>
+                  </label>
+                </div>
+              </section>
+            ) : null}
           </div>
         ) : (
           <div className="adm-general-company-editor">

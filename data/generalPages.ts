@@ -1,9 +1,17 @@
 export type GeneralPageId = "terms" | "privacy" | "refund" | "our-company" | "apply-job";
 
+export type PageSeoMeta = {
+  metaTitle: string;
+  metaKeyword: string;
+  metaDescription: string;
+};
+
 export type LegalPageContentData = {
   html: string;
   /** @deprecated Use html instead */
   paragraphs?: string[];
+  /** Optional SEO meta tags (used by Apply Job) */
+  seo?: PageSeoMeta;
 };
 
 export type OurCompanyStat = {
@@ -251,6 +259,12 @@ export const defaultApplyJobContent: LegalPageContentData = {
     "<p>Fill in the application form below with your credentials, experience, certification, and availability. Our recruiting team will take care of your application and will shortlist you.</p>",
     "<p>Apply now and begin your teaching career.</p>",
   ].join("\n"),
+  seo: {
+    metaTitle: "Apply Job | Fluent AUF",
+    metaKeyword: "German tutor jobs, online German teacher, teach German online, Fluent AUF careers",
+    metaDescription:
+      "Join Fluent AUF — build a rewarding career in German language education. Grow, lead, and thrive with our team.",
+  },
 };
 
 export const defaultGeneralPagesContent: GeneralPagesContent = {
