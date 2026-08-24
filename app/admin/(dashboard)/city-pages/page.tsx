@@ -1,10 +1,7 @@
-import AdminPlaceholder from "../../_components/AdminPlaceholder";
+import AdminCityPagesContent from "../../_components/AdminCityPagesContent";
+
+export const dynamic = "force-dynamic";
 
 export default function AdminCityPagesPage() {
-  return (
-    <AdminPlaceholder
-      title="City Pages"
-      description="City page management will be added in the next step."
-    />
-  );
+  return <AdminCityPagesContent />;
 }

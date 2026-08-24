@@ -12,6 +12,7 @@ export const CACHE_TAGS = {
   videoTestimonials: "video-testimonials",
   homeFaqs: "home-faqs",
   generalPages: "general-pages",
+  cityPages: "city-pages",
 } as const;
 
 export type PublicDataOptions = {
@@ -86,6 +87,18 @@ export function revalidatePublicGeneralPagesData() {
   revalidatePath("/about/apply-job");
 }
 
+export function revalidatePublicCityPagesData(...slugs: string[]) {
+  revalidateTag(CACHE_TAGS.cityPages);
+  revalidatePath("/city");
+
+  for (const slug of slugs) {
+    const trimmed = slug.trim();
+    if (trimmed) {
+      revalidatePath(`/city/${trimmed}`);
+    }
+  }
+}
+
 export function revalidatePublicSeoData() {
   revalidateTag(CACHE_TAGS.seoSettings);
   revalidatePath("/");
@@ -123,6 +136,10 @@ export function safeRevalidatePublicHomeFaqsData() {
 
 export function safeRevalidatePublicGeneralPagesData() {
   safeRevalidate(() => revalidatePublicGeneralPagesData());
+}
+
+export function safeRevalidatePublicCityPagesData(...slugs: string[]) {
+  safeRevalidate(() => revalidatePublicCityPagesData(...slugs));
 }
 
 export function safeRevalidatePublicSeoData() {
