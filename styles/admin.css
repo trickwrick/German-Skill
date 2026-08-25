@@ -2618,12 +2618,48 @@
   font-size: 0.9rem;
 }
 
+.adm-city-field input.adm-city-input-locked,
+.adm-city-field input.adm-city-input-locked:disabled {
+  background: #eef2f7;
+  color: #94a3b8;
+  border-color: #d8e0ea;
+  cursor: not-allowed;
+}
+
 .adm-city-field textarea {
   min-height: 88px;
   resize: vertical;
 }
 
 .adm-city-field small {
+  color: #94a3b8;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.adm-city-rich-field .blog-ckeditor-wrap {
+  margin-top: 4px;
+  min-height: 0;
+}
+
+.adm-city-rich-field .blog-ckeditor4-wrap .cke_chrome {
+  border-color: #dbe3ef;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.adm-city-rich-field .blog-ckeditor4-wrap-city .cke_bottom {
+  display: none !important;
+}
+
+.adm-city-rich-field .blog-ckeditor4-wrap-city .cke_contents {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.adm-city-field-hint {
+  display: block;
+  margin: -4px 0 12px;
   color: #94a3b8;
   font-size: 0.78rem;
   line-height: 1.4;

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CitySuccessSectionData } from "../../../../data/cityPages";
+import CityRichHtml from "./CityRichHtml";
 
 type CitySuccessBannerProps = {
   cityName: string;
@@ -22,11 +23,9 @@ function SendIcon() {
 }
 
 export default function CitySuccessBanner({ cityName, data }: CitySuccessBannerProps) {
-  const images = data.mosaicImages.length ? data.mosaicImages : ["/hero-students.jpg"];
-  const mosaicTiles = Array.from({ length: 48 }, (_, index) => ({
-    src: images[index % images.length],
-    key: `${images[index % images.length]}-${index}`,
-  }));
+  const imageSrc = data.imageSrc?.trim() || "/hero-students.jpg";
+  const imageAlt =
+    data.imageAlt?.trim() || `Successful German learners from ${cityName}`;
 
   return (
     <section className="city-success">
@@ -38,19 +37,22 @@ export default function CitySuccessBanner({ cityName, data }: CitySuccessBannerP
             <h2>
               {data.heading} <span>{data.headingHighlight}</span>
             </h2>
-            <p className="city-success-text">{data.text.replace(/\{city\}/gi, cityName)}</p>
+            <CityRichHtml html={data.text} cityName={cityName} className="city-success-text" />
             <Link href={data.buttonHref || "/contact"} className="city-success-btn">
               {data.buttonText || "Enquire Now"}
               <SendIcon />
             </Link>
           </div>
 
-          <div className="city-success-mosaic" aria-hidden="true">
-            {mosaicTiles.map((tile) => (
-              <div key={tile.key} className="city-success-tile">
-                <Image src={tile.src} alt="" fill sizes="80px" className="city-success-tile-img" />
-              </div>
-            ))}
+          <div className="city-success-visual">
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              title={imageAlt}
+              fill
+              sizes="(max-width: 900px) 100vw, 48vw"
+              className="city-success-image"
+            />
           </div>
         </div>
       </div>

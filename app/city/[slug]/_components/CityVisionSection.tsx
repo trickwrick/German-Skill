@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CityVisionSectionData } from "../../../../data/cityPages";
+import CityRichHtml from "./CityRichHtml";
 
 type CityVisionSectionProps = {
   cityName: string;
@@ -19,10 +20,12 @@ export default function CityVisionSection({ cityName, data }: CityVisionSectionP
             {data.heading} <span>{highlight}</span>
             {data.headingSuffix || ""}
           </h2>
-          <p>{data.text}</p>
+          <CityRichHtml html={data.text} className="city-vision-text" />
           <ul className="city-vision-list">
-            {data.points.map((point) => (
-              <li key={point}>{point}</li>
+            {(data.points ?? []).map((point, index) => (
+              <li key={`vision-point-${index}`}>
+                <CityRichHtml html={point} />
+              </li>
             ))}
           </ul>
           {data.linkText ? (

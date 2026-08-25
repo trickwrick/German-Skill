@@ -1,0 +1,36 @@
+body {
+  font-family: "Segoe UI", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #475569;
+  margin: 0;
+  padding: 8px 10px;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+ul,
+ol {
+  margin: 0 0 10px;
+  padding-left: 1.25rem;
+}
+
+li {
+  margin: 0 0 0.35rem;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+a {
+  color: #e31e24;
+  text-decoration: underline;
+}

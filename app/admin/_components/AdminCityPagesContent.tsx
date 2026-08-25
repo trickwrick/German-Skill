@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import AdminImageUploadField from "./AdminImageUploadField";
 import {
+  DEFAULT_HERO_BADGE_PREFIX,
   defaultCityPageSeo,
   defaultCityHeroDescription,
   defaultCityVision,
@@ -11,6 +12,7 @@ import {
   defaultCityJourney,
   defaultCitySuccess,
   defaultCityFaqs,
+  defaultHeroTypedPhrases,
   type CityPage,
   type CityPageHighlight,
   type CityPagesStore,
@@ -24,6 +26,7 @@ import {
 } from "../../../data/cityPages";
 import { normalizeCitySlug, buildCityPagePath, cityPagePathSlug } from "../../../lib/cityPageUtils";
 import { SITE_URL } from "../../../lib/siteSeo";
+import AdminRichTextField from "./AdminRichTextField";
 import BlogContentEditor from "../(dashboard)/blog/_components/BlogContentEditor";
 
 const emptyHighlight: CityPageHighlight = { title: "", text: "" };
@@ -39,16 +42,36 @@ function emptyFaq(): CityFaqItem {
 }
 
 function ensureVision(page: Partial<CityPage>, cityName: string): CityVisionSectionData {
-  return page.vision ?? defaultCityVision(cityName);
+  const fallback = defaultCityVision(cityName);
+  if (!page.vision) {
+    return fallback;
+  }
+
+  return {
+    ...fallback,
+    ...page.vision,
+    points:
+      Array.isArray(page.vision.points) && page.vision.points.length
+        ? page.vision.points
+        : fallback.points,
+  };
 }
 
 function ensureWhyLearn(page: Partial<CityPage>, cityName: string): CityWhyLearnSectionData {
-  const base = page.whyLearn ?? defaultCityWhyLearn(cityName);
-  const collage = [...(base.collage || [])];
+  const fallback = defaultCityWhyLearn(cityName);
+  const base = page.whyLearn ?? fallback;
+  const collage = Array.isArray(base.collage) ? [...base.collage] : [...fallback.collage];
   while (collage.length < 3) {
     collage.push({ src: "", alt: "", label: "" });
   }
-  return { ...base, collage: collage.slice(0, 3) };
+
+  return {
+    ...fallback,
+    ...base,
+    collage: collage.slice(0, 3),
+    features:
+      Array.isArray(base.features) && base.features.length ? base.features : fallback.features,
+  };
 }
 
 function ensureJourney(page: Partial<CityPage>, cityName: string): CityJourneySectionData {
@@ -62,11 +85,40 @@ function ensureJourney(page: Partial<CityPage>, cityName: string): CityJourneySe
 }
 
 function ensureSuccess(page: Partial<CityPage>, cityName: string): CitySuccessSectionData {
-  return page.success ?? defaultCitySuccess(cityName);
+  const fallback = defaultCitySuccess(cityName);
+  const success = page.success as
+    | (Partial<CitySuccessSectionData> & { mosaicImages?: string[] })
+    | undefined;
+  if (!success) {
+    return fallback;
+  }
+
+  const legacyImage = Array.isArray(success.mosaicImages)
+    ? success.mosaicImages.find((src) => src?.trim())
+    : "";
+
+  return {
+    ...fallback,
+    ...success,
+    imageSrc: success.imageSrc?.trim() || legacyImage || fallback.imageSrc,
+    imageAlt: success.imageAlt?.trim() || fallback.imageAlt,
+  };
 }
 
 function ensureFaqs(page: Partial<CityPage>): CityFaqSectionData {
-  return page.faqs ?? defaultCityFaqs();
+  const fallback = defaultCityFaqs();
+  if (!page.faqs) {
+    return fallback;
+  }
+
+  return {
+    ...fallback,
+    ...page.faqs,
+    items:
+      Array.isArray(page.faqs.items) && page.faqs.items.length
+        ? page.faqs.items
+        : fallback.items,
+  };
 }
 
 function emptyForm(): CityPage {
@@ -76,7 +128,8 @@ function emptyForm(): CityPage {
     slug: "",
     cityName,
     title: "",
-    subtitle: "Build Confidence in German Communication",
+    subtitle: DEFAULT_HERO_BADGE_PREFIX,
+    heroTypedPhrases: defaultHeroTypedPhrases(),
     heroDescription: defaultCityHeroDescription,
     highlights: [{ ...emptyHighlight }, { ...emptyHighlight }, { ...emptyHighlight }, { ...emptyHighlight }],
     contentHtml: "",
@@ -185,6 +238,11 @@ export default function AdminCityPagesContent() {
     setForm({
       ...page,
       highlights: page.highlights?.length ? page.highlights : [{ ...emptyHighlight }],
+      subtitle: page.subtitle || DEFAULT_HERO_BADGE_PREFIX,
+      heroTypedPhrases:
+        Array.isArray(page.heroTypedPhrases) && page.heroTypedPhrases.length
+          ? page.heroTypedPhrases
+          : defaultHeroTypedPhrases(),
       heroDescription: page.heroDescription || defaultCityHeroDescription,
       vision: ensureVision(page, cityName),
       whyLearn: ensureWhyLearn(page, cityName),
@@ -254,7 +312,14 @@ export default function AdminCityPagesContent() {
         next.vision = vision;
 
         // Why Learn
-        const whyLearn = { ...current.whyLearn, features: [...current.whyLearn.features] };
+        const whyLearn = {
+          ...current.whyLearn,
+          features: [
+            ...(Array.isArray(current.whyLearn?.features)
+              ? current.whyLearn.features
+              : defaultCityWhyLearn(cityName).features),
+          ],
+        };
         if (stillMatchesDefault(current.whyLearn.text, prevWhy.text, emptyWhy.text)) {
           whyLearn.text = defaultCityWhyLearn(cityName).text;
         }
@@ -387,11 +452,11 @@ export default function AdminCityPagesContent() {
     });
   }
 
-  function updateMosaicImage(index: number, value: string) {
+  function updateHeroTypedPhrase(index: number, value: string) {
     setForm((current) => {
-      const mosaicImages = [...current.success.mosaicImages];
-      mosaicImages[index] = value;
-      return { ...current, success: { ...current.success, mosaicImages } };
+      const heroTypedPhrases = [...current.heroTypedPhrases];
+      heroTypedPhrases[index] = value;
+      return { ...current, heroTypedPhrases };
     });
   }
 
@@ -408,6 +473,7 @@ export default function AdminCityPagesContent() {
         credentials: "same-origin",
         body: JSON.stringify({
           ...form,
+          subtitle: DEFAULT_HERO_BADGE_PREFIX,
           slug: normalizeCitySlug(form.slug || form.cityName),
           ctaText: form.journey.text,
           ctaButtonText: form.journey.buttonText,
@@ -544,24 +610,14 @@ export default function AdminCityPagesContent() {
                 </small>
               </label>
 
-              <div className="adm-city-field-row">
-                <label className="adm-city-field">
-                  <span>Sort Order</span>
-                  <input
-                    type="number"
-                    value={form.sortOrder}
-                    onChange={(event) => updateField("sortOrder", Number(event.target.value) || 0)}
-                  />
-                </label>
-                <label className="adm-city-check-field">
-                  <input
-                    type="checkbox"
-                    checked={form.isActive}
-                    onChange={(event) => updateField("isActive", event.target.checked)}
-                  />
-                  <span>Active on website</span>
-                </label>
-              </div>
+              <label className="adm-city-check-field">
+                <input
+                  type="checkbox"
+                  checked={form.isActive}
+                  onChange={(event) => updateField("isActive", event.target.checked)}
+                />
+                <span>Active on website</span>
+              </label>
             </div>
           </section>
 
@@ -570,29 +626,79 @@ export default function AdminCityPagesContent() {
             <h3 className="adm-city-section-title">SECTION 1 (HERO)</h3>
             <div className="adm-city-section-body">
               <label className="adm-city-field">
-                <span>Badge Text (Small label above heading)</span>
+                <span>Fixed Badge Text</span>
                 <input
                   type="text"
-                  value={form.subtitle}
-                  onChange={(event) => updateField("subtitle", event.target.value)}
-                  placeholder="Build Confidence in German Communication"
+                  value={DEFAULT_HERO_BADGE_PREFIX.trim()}
+                  readOnly
+                  disabled
+                  className="adm-city-input-locked"
                 />
                 <small>
-                  This is the small highlighted text shown with the main heading on the city page.
+                  This text is fixed and cannot be edited. Phrases after it will type out one by one.
                 </small>
               </label>
-              <label className="adm-city-field">
-                <span>Hero Paragraph (Under badge text)</span>
-                <textarea
-                  rows={4}
-                  value={form.heroDescription}
-                  onChange={(event) => updateField("heroDescription", event.target.value)}
-                  placeholder="Professional German Goethe & TELC learning assistance from A1 to C2..."
-                />
-                <small>
-                  Shown under the typed badge line on the city page hero. Aim for about 3 lines.
-                </small>
-              </label>
+
+              <div className="adm-city-section-head">
+                <h4>Rotating Typed Phrases</h4>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateField("heroTypedPhrases", [...form.heroTypedPhrases, ""])
+                  }
+                >
+                  + Add Phrase
+                </button>
+              </div>
+              {(form.heroTypedPhrases?.length ? form.heroTypedPhrases : [""]).map(
+                (phrase, index) => (
+                  <div key={`hero-phrase-${index}`} className="adm-city-highlight-card">
+                    <div className="adm-city-section-head">
+                      <h4>Phrase {index + 1}</h4>
+                      {(form.heroTypedPhrases?.length || 0) > 1 ? (
+                        <button
+                          type="button"
+                          className="adm-btn adm-btn-secondary"
+                          onClick={() =>
+                            updateField(
+                              "heroTypedPhrases",
+                              form.heroTypedPhrases.filter((_, i) => i !== index),
+                            )
+                          }
+                        >
+                          Remove
+                        </button>
+                      ) : null}
+                    </div>
+                    <label className="adm-city-field">
+                      <span>Text</span>
+                      <input
+                        type="text"
+                        value={phrase}
+                        onChange={(event) => updateHeroTypedPhrase(index, event.target.value)}
+                        placeholder={
+                          index === 0
+                            ? "German Communication"
+                            : index === 1
+                              ? "German Classes"
+                              : "German Best learn"
+                        }
+                      />
+                    </label>
+                  </div>
+                ),
+              )}
+              <small className="adm-city-field-hint">
+                Example: German Communication → German Classes → German Best learn (one after another)
+              </small>
+
+              <AdminRichTextField
+                label="Hero Paragraph (Under badge text)"
+                value={form.heroDescription}
+                onChange={(html) => updateField("heroDescription", html)}
+                hint="Shown under the typed badge line on the city page hero. Use bold, links, and highlights as needed."
+              />
             </div>
           </section>
 
@@ -632,14 +738,11 @@ export default function AdminCityPagesContent() {
                   onChange={(event) => updateVision("headingSuffix", event.target.value)}
                 />
               </label>
-              <label className="adm-city-field">
-                <span>Text</span>
-                <textarea
-                  rows={4}
-                  value={form.vision.text}
-                  onChange={(event) => updateVision("text", event.target.value)}
-                />
-              </label>
+              <AdminRichTextField
+                label="Vision Description Text"
+                value={form.vision.text}
+                onChange={(html) => updateVision("text", html)}
+              />
 
               <div className="adm-city-section-head">
                 <h4>Points</h4>
@@ -670,14 +773,12 @@ export default function AdminCityPagesContent() {
                       </button>
                     ) : null}
                   </div>
-                  <label className="adm-city-field">
-                    <span>Text</span>
-                    <textarea
-                      rows={2}
-                      value={point}
-                      onChange={(event) => updateVisionPoint(index, event.target.value)}
-                    />
-                  </label>
+                  <AdminRichTextField
+                    label="Point Text"
+                    value={point}
+                    height={220}
+                    onChange={(html) => updateVisionPoint(index, html)}
+                  />
                 </div>
               ))}
 
@@ -761,14 +862,11 @@ export default function AdminCityPagesContent() {
                   onChange={(event) => updateWhyLearn("headingAfter", event.target.value)}
                 />
               </label>
-              <label className="adm-city-field">
-                <span>Text</span>
-                <textarea
-                  rows={3}
-                  value={form.whyLearn.text}
-                  onChange={(event) => updateWhyLearn("text", event.target.value)}
-                />
-              </label>
+              <AdminRichTextField
+                label="Description Text"
+                value={form.whyLearn.text}
+                onChange={(html) => updateWhyLearn("text", html)}
+              />
 
               <h4>Collage Images (3)</h4>
               {form.whyLearn.collage.map((item, index) => (
@@ -839,14 +937,12 @@ export default function AdminCityPagesContent() {
                       onChange={(event) => updateFeature(index, "title", event.target.value)}
                     />
                   </label>
-                  <label className="adm-city-field">
-                    <span>Text</span>
-                    <textarea
-                      rows={2}
-                      value={feature.text}
-                      onChange={(event) => updateFeature(index, "text", event.target.value)}
-                    />
-                  </label>
+                  <AdminRichTextField
+                    label="Feature Description"
+                    value={feature.text}
+                    height={220}
+                    onChange={(html) => updateFeature(index, "text", html)}
+                  />
                   <div className="adm-city-field-row">
                     <label className="adm-city-field">
                       <span>Badge</span>
@@ -881,14 +977,12 @@ export default function AdminCityPagesContent() {
           <section className="adm-city-section-card">
             <h3 className="adm-city-section-title">SECTION Start Your Journey Now</h3>
             <div className="adm-city-section-body">
-              <label className="adm-city-field">
-                <span>Text</span>
-                <textarea
-                  rows={6}
-                  value={form.journey.text}
-                  onChange={(event) => updateJourney("text", event.target.value)}
-                />
-              </label>
+              <AdminRichTextField
+                label="Journey Description Text"
+                value={form.journey.text}
+                height={360}
+                onChange={(html) => updateJourney("text", html)}
+              />
               <label className="adm-city-field">
                 <span>Button Text</span>
                 <input
@@ -944,14 +1038,11 @@ export default function AdminCityPagesContent() {
                   onChange={(event) => updateSuccess("headingHighlight", event.target.value)}
                 />
               </label>
-              <label className="adm-city-field">
-                <span>Text</span>
-                <textarea
-                  rows={3}
-                  value={form.success.text}
-                  onChange={(event) => updateSuccess("text", event.target.value)}
-                />
-              </label>
+              <AdminRichTextField
+                label="Success Description Text"
+                value={form.success.text}
+                onChange={(html) => updateSuccess("text", html)}
+              />
               <label className="adm-city-field">
                 <span>Button Text</span>
                 <input
@@ -969,46 +1060,24 @@ export default function AdminCityPagesContent() {
                 />
               </label>
 
-              <div className="adm-city-section-head">
-                <h4>Mosaic Images</h4>
-                <button
-                  type="button"
-                  className="adm-btn adm-btn-secondary"
-                  onClick={() =>
-                    updateSuccess("mosaicImages", [...form.success.mosaicImages, ""])
-                  }
-                >
-                  + Add Image
-                </button>
-              </div>
-              {form.success.mosaicImages.map((src, index) => (
-                <div key={`mosaic-${index}`} className="adm-city-highlight-card">
-                  <div className="adm-city-section-head">
-                    <h4>Image {index + 1}</h4>
-                    {form.success.mosaicImages.length > 1 ? (
-                      <button
-                        type="button"
-                        className="adm-btn adm-btn-secondary"
-                        onClick={() =>
-                          updateSuccess(
-                            "mosaicImages",
-                            form.success.mosaicImages.filter((_, i) => i !== index),
-                          )
-                        }
-                      >
-                        Remove
-                      </button>
-                    ) : null}
-                  </div>
-                  <AdminImageUploadField
-                    label={`Mosaic Image ${index + 1}`}
-                    value={src}
-                    folder="general"
-                    placeholder="/hero-students.jpg"
-                    onChange={(path) => updateMosaicImage(index, path)}
-                  />
-                </div>
-              ))}
+              <AdminImageUploadField
+                label="Banner Image (right side)"
+                value={form.success.imageSrc}
+                folder="general"
+                uploadLabel={`success-${form.slug || form.cityName || "city"}`}
+                placeholder="/hero-students.jpg"
+                onChange={(path) => updateSuccess("imageSrc", path)}
+              />
+              <label className="adm-city-field">
+                <span>Image Alt Text</span>
+                <input
+                  type="text"
+                  value={form.success.imageAlt}
+                  onChange={(event) => updateSuccess("imageAlt", event.target.value)}
+                  placeholder={`Successful German learners from ${form.cityName || "city"}`}
+                />
+                <small>Upload one collage-style image for the right side of this banner.</small>
+              </label>
             </div>
           </section>
 
@@ -1024,14 +1093,12 @@ export default function AdminCityPagesContent() {
                   onChange={(event) => updateFaqs("title", event.target.value)}
                 />
               </label>
-              <label className="adm-city-field">
-                <span>Subtitle</span>
-                <textarea
-                  rows={2}
-                  value={form.faqs.subtitle}
-                  onChange={(event) => updateFaqs("subtitle", event.target.value)}
-                />
-              </label>
+              <AdminRichTextField
+                label="FAQ Subtitle"
+                value={form.faqs.subtitle}
+                height={220}
+                onChange={(html) => updateFaqs("subtitle", html)}
+              />
 
               <div className="adm-city-section-head">
                 <h4>FAQ Items</h4>
@@ -1070,14 +1137,11 @@ export default function AdminCityPagesContent() {
                       onChange={(event) => updateFaqItem(index, "question", event.target.value)}
                     />
                   </label>
-                  <label className="adm-city-field">
-                    <span>Answer</span>
-                    <textarea
-                      rows={3}
-                      value={item.answer}
-                      onChange={(event) => updateFaqItem(index, "answer", event.target.value)}
-                    />
-                  </label>
+                  <AdminRichTextField
+                    label="Answer"
+                    value={item.answer}
+                    onChange={(html) => updateFaqItem(index, "answer", html)}
+                  />
                 </div>
               ))}
             </div>
@@ -1123,14 +1187,12 @@ export default function AdminCityPagesContent() {
                       onChange={(event) => updateHighlight(index, "title", event.target.value)}
                     />
                   </label>
-                  <label className="adm-city-field">
-                    <span>Text</span>
-                    <textarea
-                      rows={2}
-                      value={item.text}
-                      onChange={(event) => updateHighlight(index, "text", event.target.value)}
-                    />
-                  </label>
+                  <AdminRichTextField
+                    label="Highlight Text"
+                    value={item.text}
+                    height={220}
+                    onChange={(html) => updateHighlight(index, "text", html)}
+                  />
                 </div>
               ))}
             </div>
@@ -1140,7 +1202,11 @@ export default function AdminCityPagesContent() {
           <section className="adm-city-section-card">
             <h3 className="adm-city-section-title">Main Content</h3>
             <div className="adm-city-section-body">
-              <BlogContentEditor value={form.contentHtml} onChange={(html) => updateField("contentHtml", html)} />
+              <BlogContentEditor
+                value={form.contentHtml}
+                onChange={(html) => updateField("contentHtml", html)}
+                showPdfUpload
+              />
             </div>
           </section>
 

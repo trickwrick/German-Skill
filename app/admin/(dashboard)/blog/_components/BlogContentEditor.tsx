@@ -6,6 +6,9 @@ import type { ComponentType } from "react";
 export type BlogContentEditorProps = {
   value: string;
   onChange: (value: string) => void;
+  height?: number;
+  showPdfUpload?: boolean;
+  variant?: "blog" | "city";
 };
 
 const BlogContentEditor = dynamic(

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CityWhyFeatureItem, CityWhyLearnSectionData } from "../../../../data/cityPages";
+import CityRichHtml from "./CityRichHtml";
 
 type CityWhyLearnSectionProps = {
   cityName: string;
@@ -44,12 +45,12 @@ export default function CityWhyLearnSection({ cityName, data }: CityWhyLearnSect
             {data.headingBefore} <span>{data.headingHighlight}</span>
             {data.headingAfter}
           </h2>
-          <p>{data.text.replace(/\{city\}/gi, cityName)}</p>
+          <CityRichHtml html={data.text} cityName={cityName} className="city-why-intro" />
         </header>
 
         <div className="city-why-grid">
           <div className="city-why-collage">
-            {data.collage.slice(0, 3).map((item, index) => (
+            {(data.collage ?? []).slice(0, 3).map((item, index) => (
               <figure
                 key={`${item.label}-${index}`}
                 className={`city-why-shot ${collageClass[index] || collageClass[0]}`}
@@ -68,14 +69,14 @@ export default function CityWhyLearnSection({ cityName, data }: CityWhyLearnSect
           </div>
 
           <div className="city-why-features">
-            {data.features.map((card) => (
+            {(data.features ?? []).map((card) => (
               <article key={card.title} className={`city-why-feature city-why-feature-${card.tone}`}>
                 <span className="city-why-feature-icon" aria-hidden="true">
                   {featureIcons[card.tone] || featureIcons.demo}
                 </span>
                 <div className="city-why-feature-body">
                   <h3>{card.title}</h3>
-                  <p>{card.text.replace(/\{city\}/gi, cityName)}</p>
+                  <CityRichHtml html={card.text} cityName={cityName} />
                   <span className="city-why-feature-badge">{card.badge}</span>
                 </div>
               </article>

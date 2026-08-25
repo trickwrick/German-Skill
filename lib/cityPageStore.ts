@@ -1,5 +1,6 @@
 import { unstable_noStore as noStore } from "next/cache";
 import {
+  DEFAULT_HERO_BADGE_PREFIX,
   defaultCityFaqs,
   defaultCityHeroDescription,
   defaultCityJourney,
@@ -8,6 +9,7 @@ import {
   defaultCitySuccess,
   defaultCityVision,
   defaultCityWhyLearn,
+  defaultHeroTypedPhrases,
   type CityFaqItem,
   type CityFaqSectionData,
   type CityJourneySectionData,
@@ -159,13 +161,18 @@ function sanitizeJourney(
 }
 
 function sanitizeSuccess(
-  value: Partial<CitySuccessSectionData> | undefined,
+  value: Partial<CitySuccessSectionData> & { mosaicImages?: string[] } | undefined,
   cityName: string,
 ): CitySuccessSectionData {
   const fallback = defaultCitySuccess(cityName);
-  const mosaicImages = Array.isArray(value?.mosaicImages)
-    ? value.mosaicImages.map((src) => asString(src)).filter(Boolean)
-    : fallback.mosaicImages;
+  const legacyImage = Array.isArray(value?.mosaicImages)
+    ? value.mosaicImages.map((src) => asString(src)).find(Boolean)
+    : "";
+  const imageSrc =
+    asString(value?.imageSrc) ||
+    legacyImage ||
+    fallback.imageSrc;
+
   return {
     badge: asString(value?.badge, fallback.badge),
     kicker: asString(value?.kicker, fallback.kicker),
@@ -174,7 +181,8 @@ function sanitizeSuccess(
     text: asString(value?.text, fallback.text),
     buttonText: asString(value?.buttonText, fallback.buttonText),
     buttonHref: asString(value?.buttonHref, fallback.buttonHref),
-    mosaicImages: mosaicImages.length ? mosaicImages : fallback.mosaicImages,
+    imageSrc,
+    imageAlt: asString(value?.imageAlt, fallback.imageAlt),
   };
 }
 
@@ -214,6 +222,39 @@ function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: str
     ctaButtonText: value.ctaButtonText,
   });
 
+  const rawSubtitle =
+    typeof value.subtitle === "string" && value.subtitle.trim()
+      ? value.subtitle.trim()
+      : DEFAULT_HERO_BADGE_PREFIX;
+  const providedPhrases = Array.isArray(value.heroTypedPhrases)
+    ? value.heroTypedPhrases.map((item) => asString(item)).filter(Boolean)
+    : [];
+
+  let subtitle = rawSubtitle;
+  let heroTypedPhrases = providedPhrases;
+
+  // Migrate older single-line badge: "Build Confidence in German Communication"
+  if (!heroTypedPhrases.length) {
+    const legacyMatch = rawSubtitle.match(/^(.*?)\s*(German Communication)\s*$/i);
+    if (legacyMatch) {
+      subtitle = legacyMatch[1]?.trimEnd() ? `${legacyMatch[1].trimEnd()} ` : DEFAULT_HERO_BADGE_PREFIX;
+      heroTypedPhrases = [legacyMatch[2]];
+    } else if (rawSubtitle === "Build Confidence in German Communication") {
+      subtitle = DEFAULT_HERO_BADGE_PREFIX;
+      heroTypedPhrases = defaultHeroTypedPhrases();
+    } else {
+      heroTypedPhrases = defaultHeroTypedPhrases();
+      if (!subtitle.endsWith(" ")) {
+        subtitle = `${subtitle} `;
+      }
+    }
+  } else if (
+    rawSubtitle === "Build Confidence in German Communication" ||
+    /German Communication\s*$/i.test(rawSubtitle)
+  ) {
+    subtitle = DEFAULT_HERO_BADGE_PREFIX;
+  }
+
   return {
     slug,
     cityName,
@@ -221,10 +262,8 @@ function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: str
       typeof value.title === "string" && value.title.trim()
         ? value.title.trim()
         : `German Classes in ${cityName}`,
-    subtitle:
-      typeof value.subtitle === "string" && value.subtitle.trim()
-        ? value.subtitle.trim()
-        : "Build Confidence in German Communication",
+    subtitle,
+    heroTypedPhrases: heroTypedPhrases.length ? heroTypedPhrases : defaultHeroTypedPhrases(),
     heroDescription: (() => {
       const raw = typeof value.heroDescription === "string" ? value.heroDescription.trim() : "";
       if (!raw) {
@@ -376,7 +415,7 @@ export async function getCityPagesStore(options: PublicDataOptions = {}): Promis
     return fetchCityPagesStore();
   }
 
-  return getCachedPublicData(["city-pages", "v2"], [CACHE_TAGS.cityPages], fetchCityPagesStore);
+  return getCachedPublicData(["city-pages", "v4"], [CACHE_TAGS.cityPages], fetchCityPagesStore);
 }
 
 export async function getCityPagesForDisplay(options: PublicDataOptions = {}): Promise<CityPage[]> {

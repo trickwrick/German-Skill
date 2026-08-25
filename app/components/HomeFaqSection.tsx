@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { HomeFaqContent } from "../../data/homeFaqs";
 import FaqAccordion from "../about/faqs/_components/FaqAccordion";
+import RichHtmlContent from "./RichHtmlContent";
 
 type HomeFaqSectionProps = {
   content: HomeFaqContent;
@@ -21,7 +22,7 @@ export default function HomeFaqSection({ content }: HomeFaqSectionProps) {
         <div className="hp-faq-header">
           <h2>{content.title}</h2>
           <span className="hp-faq-title-rule" aria-hidden="true" />
-          <p>{content.subtitle}</p>
+          <RichHtmlContent html={content.subtitle} className="hp-faq-subtitle" />
         </div>
 
         <div className="fq-accordion-list hp-faq-list">

@@ -60,7 +60,8 @@ export type CitySuccessSectionData = {
   text: string;
   buttonText: string;
   buttonHref: string;
-  mosaicImages: string[];
+  imageSrc: string;
+  imageAlt: string;
 };
 
 export type CityFaqItem = {
@@ -75,11 +76,22 @@ export type CityFaqSectionData = {
   items: CityFaqItem[];
 };
 
+export const DEFAULT_HERO_BADGE_PREFIX = "Build Confidence in ";
+
+export const defaultHeroTypedPhrases = (): string[] => [
+  "German Communication",
+  "German Classes",
+  "German Best learn",
+];
+
 export type CityPage = {
   slug: string;
   cityName: string;
   title: string;
+  /** Fixed text shown before the rotating typed phrases */
   subtitle: string;
+  /** Phrases typed one-by-one after the fixed subtitle */
+  heroTypedPhrases: string[];
   heroDescription: string;
   highlights: CityPageHighlight[];
   contentHtml: string;
@@ -203,16 +215,8 @@ export function defaultCitySuccess(cityName: string): CitySuccessSectionData {
     text: `Join 10,500+ successful students who built German fluency for study, work, and career growth — including learners from ${cityName}.`,
     buttonText: "Enquire Now",
     buttonHref: "/contact",
-    mosaicImages: [
-      "/tutors/khushi-sharma.jpg",
-      "/tutors/preeti-sharma.jpg",
-      "/tutors/khushi-birsat.jpg",
-      "/hero-students.jpg",
-      "/portal-education.jpg",
-      "/webinar-student.jpg",
-      "/og-share.png",
-      "/courses/german-a1.png",
-    ],
+    imageSrc: "/hero-students.jpg",
+    imageAlt: `Successful German learners from ${cityName}`,
   };
 }
 
@@ -250,7 +254,8 @@ function buildSampleCity(slug: string, cityName: string, sortOrder: number): Cit
     slug,
     cityName,
     title: `German Classes in ${cityName}`,
-    subtitle: "Build Confidence in German Communication",
+    subtitle: DEFAULT_HERO_BADGE_PREFIX,
+    heroTypedPhrases: defaultHeroTypedPhrases(),
     heroDescription: defaultCityHeroDescription,
     highlights: [
       {

@@ -8,10 +8,14 @@ import { MAX_BLOG_PDF_SIZE_MB, validateBlogPdfFile } from "../../../../../lib/bl
 const CKEDITOR_CDN = "https://cdn.ckeditor.com/4.22.1/full-all/ckeditor.js";
 const CKEDITOR_DEFAULT_CONTENTS_CSS = "https://cdn.ckeditor.com/4.22.1/full-all/contents.css";
 const CKEDITOR_CONTENTS_CSS = "/ckeditor-blog-contents.css";
+const CKEDITOR_CITY_CONTENTS_CSS = "/ckeditor-city-contents.css";
 
 type BlogCKEditorProps = {
   value: string;
   onChange: (value: string) => void;
+  height?: number;
+  showPdfUpload?: boolean;
+  variant?: "blog" | "city";
 };
 
 type CKEditorDomElement = {
@@ -281,7 +285,13 @@ function setupBlogEditorUploads(
   });
 }
 
-export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
+export default function BlogCKEditor({
+  value,
+  onChange,
+  height = 480,
+  showPdfUpload = true,
+  variant = "blog",
+}: BlogCKEditorProps) {
   const editorRef = useRef<CKEditorInstance | null>(null);
   const isInternalChangeRef = useRef(false);
   const lastEditorHtmlRef = useRef<string | null>(null);
@@ -317,7 +327,7 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
 
   const editorConfig = useMemo(
     () => ({
-      height: 480,
+      height,
       toolbar: "Full",
       allowedContent: true,
       extraAllowedContent: "*(*);*{*}",
@@ -329,11 +339,14 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
       ignoreEmptyParagraph: true,
       font_defaultLabel: "Segoe UI",
       fontSize_defaultLabel: "14",
-      removePlugins: "exportpdf,image,uploadimage",
+      removePlugins: "exportpdf,image,uploadimage,elementspath",
       image2_disableResizer: false,
       disableObjectResizing: false,
       removeDialogTabs: "link:advanced",
-      contentsCss: [CKEDITOR_DEFAULT_CONTENTS_CSS, CKEDITOR_CONTENTS_CSS],
+      contentsCss:
+        variant === "city"
+          ? [CKEDITOR_DEFAULT_CONTENTS_CSS, CKEDITOR_CITY_CONTENTS_CSS]
+          : [CKEDITOR_DEFAULT_CONTENTS_CSS, CKEDITOR_CONTENTS_CSS],
       filebrowserUploadUrl: "/api/admin/blog-images/ckeditor?",
       filebrowserImageUploadUrl: "/api/admin/blog-images/ckeditor?",
       table_defaultAttributes: {
@@ -347,7 +360,7 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
         border: "1px solid #d1d5db",
       },
     }),
-    [],
+    [height, variant],
   );
 
   useEffect(() => {
@@ -385,8 +398,12 @@ export default function BlogCKEditor({ value, onChange }: BlogCKEditorProps) {
   }, []);
 
   return (
-    <div className="blog-ckeditor-wrap blog-ckeditor4-wrap">
-      {editorStatus === "ready" ? (
+    <div
+      className={`blog-ckeditor-wrap blog-ckeditor4-wrap${
+        variant === "city" ? " blog-ckeditor4-wrap-city" : ""
+      }`}
+    >
+      {editorStatus === "ready" && showPdfUpload ? (
         <div className="blog-pdf-upload-bar">
           <label className="blog-pdf-upload-field">
             <span>PDF link text</span>

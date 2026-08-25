@@ -1,5 +1,9 @@
 import Link from "next/link";
 import type { CityPage } from "../../../../data/cityPages";
+import {
+  DEFAULT_HERO_BADGE_PREFIX,
+  defaultHeroTypedPhrases,
+} from "../../../../data/cityPages";
 import type { GermanCourse } from "../../../../data/germanCourses";
 import type { HomeFaqContent } from "../../../../data/homeFaqs";
 import type { VideoTestimonial } from "../../../../data/videoTestimonials";
@@ -14,6 +18,7 @@ import CityJourneyCta from "./CityJourneyCta";
 import CityLeadForm from "./CityLeadForm";
 import CitySuccessBanner from "./CitySuccessBanner";
 import CityTypedHighlight from "./CityTypedHighlight";
+import CityRichHtml from "./CityRichHtml";
 import CityVisionSection from "./CityVisionSection";
 import CityWhyLearnSection from "./CityWhyLearnSection";
 
@@ -139,23 +144,12 @@ function ProofIcon({ type }: { type: string }) {
   );
 }
 
-function getTypedSubtitleParts(subtitle: string) {
-  const highlight = "German Communication";
-  if (subtitle.includes(highlight)) {
-    const [before, after] = subtitle.split(highlight);
-    return { prefix: before, typed: highlight, suffix: after };
+function getHeroBadgePrefix(subtitle: string) {
+  const trimmed = subtitle?.trim() || DEFAULT_HERO_BADGE_PREFIX.trim();
+  if (/German Communication\s*$/i.test(trimmed)) {
+    return DEFAULT_HERO_BADGE_PREFIX;
   }
-
-  const words = subtitle.trim().split(/\s+/);
-  if (words.length <= 2) {
-    return { prefix: "", typed: subtitle, suffix: "" };
-  }
-
-  return {
-    prefix: `${words.slice(0, -2).join(" ")} `,
-    typed: words.slice(-2).join(" "),
-    suffix: "",
-  };
+  return trimmed.endsWith(" ") ? trimmed : `${trimmed} `;
 }
 
 export default function CityPageContent({
@@ -165,8 +159,11 @@ export default function CityPageContent({
   homeFaqs,
 }: CityPageContentProps) {
   const contentHtml = sanitizeBlogHtml(page.contentHtml);
-  const subtitle = page.subtitle?.trim() || "Build Confidence in German Communication";
-  const typedParts = getTypedSubtitleParts(subtitle);
+  const badgePrefix = getHeroBadgePrefix(page.subtitle || DEFAULT_HERO_BADGE_PREFIX);
+  const typedPhrases =
+    Array.isArray(page.heroTypedPhrases) && page.heroTypedPhrases.length
+      ? page.heroTypedPhrases
+      : defaultHeroTypedPhrases();
 
   return (
     <>
@@ -181,14 +178,10 @@ export default function CityPageContent({
 
               <h1 className="city-top-title">{page.title}</h1>
               <p className="city-top-subtitle">
-                <CityTypedHighlight
-                  prefix={typedParts.prefix}
-                  text={typedParts.typed}
-                  suffix={typedParts.suffix}
-                />
+                <CityTypedHighlight prefix={badgePrefix} texts={typedPhrases} />
               </p>
               {page.heroDescription?.trim() ? (
-                <p className="city-top-lead">{page.heroDescription.trim()}</p>
+                <CityRichHtml html={page.heroDescription} className="city-top-lead" />
               ) : null}
 
               <div className="city-rating-row">
@@ -253,7 +246,7 @@ export default function CityPageContent({
           title: page.faqs.title || homeFaqs.title,
           subtitle: page.faqs.subtitle || homeFaqs.subtitle,
           items:
-            page.faqs.items.length > 0
+            Array.isArray(page.faqs?.items) && page.faqs.items.length > 0
               ? page.faqs.items.map((item, index) => ({
                   id: item.id || `city-faq-${index + 1}`,
                   question: item.question,

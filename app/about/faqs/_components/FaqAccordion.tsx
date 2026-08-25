@@ -47,7 +47,10 @@ export default function FaqAccordion({
       </button>
       {isOpen && (
         <div className="fq-accordion-panel">
-          <p>{answer}</p>
+          <div
+            className="fq-accordion-panel-body city-rich-html"
+            dangerouslySetInnerHTML={{ __html: answer }}
+          />
         </div>
       )}
     </article>
