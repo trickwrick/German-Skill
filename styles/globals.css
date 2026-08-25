@@ -7984,6 +7984,58 @@ a.contact-info-value:hover {
   padding: 20px 20px 72px;
 }
 
+.city-journey-cta {
+  padding: 8px 20px 72px;
+}
+
+.city-journey-cta-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.city-journey-card {
+  padding: 44px 48px 40px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #1a2744 0%, #152238 42%, #0f172a 100%);
+  box-shadow: 0 20px 44px rgba(21, 34, 56, 0.24);
+  text-align: center;
+}
+
+.city-journey-copy {
+  margin: 0 auto 28px;
+  max-width: 920px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(0.98rem, 1.6vw, 1.08rem);
+  line-height: 1.75;
+  font-style: italic;
+}
+
+.city-journey-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 26px;
+  border-radius: 10px;
+  background: var(--primary-600);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.city-journey-btn:hover {
+  background: var(--primary-700);
+  transform: translateY(-1px);
+}
+
+.city-journey-btn span {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
 .city-cta-inner {
   padding: 36px 28px;
   border-radius: 18px;
@@ -8102,6 +8154,156 @@ a.contact-info-value:hover {
   .city-phone-btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* City page — Our Vision section */
+.city-vision {
+  padding: 48px 20px 32px;
+  background: #fff;
+}
+
+.city-vision-inner {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(280px, 0.95fr);
+  gap: 36px;
+  align-items: center;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.city-vision-tag {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: var(--primary-50);
+  color: var(--primary-600);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.city-vision-copy h2 {
+  margin: 0 0 14px;
+  color: #152238;
+  font-size: clamp(1.65rem, 3vw, 2.2rem);
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.city-vision-copy h2 span {
+  color: var(--primary-600);
+}
+
+.city-vision-copy p {
+  margin: 0 0 18px;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.city-vision-list {
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.city-vision-list li {
+  position: relative;
+  padding-left: 28px;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.city-vision-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--accent-600) 100%);
+}
+
+.city-vision-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-600);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.city-vision-link:hover {
+  color: var(--primary-700);
+  text-decoration: underline;
+}
+
+.city-vision-visual {
+  position: relative;
+}
+
+.city-vision-image-wrap {
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(21, 34, 56, 0.12);
+}
+
+.city-vision-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.city-vision-badge {
+  position: absolute;
+  left: -18px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #152238;
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(21, 34, 56, 0.22);
+}
+
+.city-vision-badge strong {
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.city-vision-badge span {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@media (max-width: 900px) {
+  .city-vision-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .city-vision-badge {
+    left: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  .city-vision {
+    padding: 36px 16px 24px;
   }
 }
 
@@ -8527,5 +8729,23 @@ a.contact-info-value:hover {
 
   .city-success-tile:nth-child(n + 17) {
     display: none;
+  }
+
+  .city-journey-cta {
+    padding: 8px 16px 48px;
+  }
+
+  .city-journey-card {
+    padding: 28px 20px 24px;
+  }
+
+  .city-journey-copy {
+    margin-bottom: 22px;
+    font-size: 0.94rem;
+    line-height: 1.65;
+  }
+
+  .city-journey-btn {
+    width: 100%;
   }
 }

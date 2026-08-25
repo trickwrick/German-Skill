@@ -1,22 +1,27 @@
 import Link from "next/link";
 import type { CityPage } from "../../../../data/cityPages";
 import type { GermanCourse } from "../../../../data/germanCourses";
+import type { HomeFaqContent } from "../../../../data/homeFaqs";
 import type { VideoTestimonial } from "../../../../data/videoTestimonials";
 import { sanitizeBlogHtml } from "../../../../lib/blogHtmlUtils";
 import { sitePhoneDisplay, sitePhoneTel, siteWhatsAppUrl } from "../../../../data/siteContact";
 import AllCoursesSection from "../../../components/AllCoursesSection";
 import CertificateSection from "../../../components/CertificateSection";
 import ComparisonSection from "../../../components/ComparisonSection";
+import HomeFaqSection from "../../../components/HomeFaqSection";
 import TutorsSection from "../../../components/TutorsSection";
 import VideoTestimonialsSection from "../../../components/VideoTestimonialsSection";
+import CityJourneyCta from "./CityJourneyCta";
 import CityLeadForm from "./CityLeadForm";
 import CitySuccessBanner from "./CitySuccessBanner";
+import CityVisionSection from "./CityVisionSection";
 import CityWhyLearnSection from "./CityWhyLearnSection";
 
 type CityPageContentProps = {
   page: CityPage;
   courses: GermanCourse[];
   videoTestimonials: VideoTestimonial[];
+  homeFaqs: HomeFaqContent;
 };
 
 const proofStats = [
@@ -179,6 +184,7 @@ export default function CityPageContent({
   page,
   courses,
   videoTestimonials,
+  homeFaqs,
 }: CityPageContentProps) {
   const contentHtml = sanitizeBlogHtml(page.contentHtml);
   const subtitle = page.subtitle?.trim() || "Build Confidence in German Communication";
@@ -268,22 +274,15 @@ export default function CityPageContent({
       ) : null}
 
       <AllCoursesSection courses={courses} />
-      <CityWhyLearnSection cityName={page.cityName} />
       <TutorsSection />
+      <CityVisionSection cityName={page.cityName} />
       <ComparisonSection />
       <CertificateSection />
+      <CityWhyLearnSection cityName={page.cityName} />
+      <CityJourneyCta page={page} />
       <VideoTestimonialsSection testimonials={videoTestimonials} />
       <CitySuccessBanner cityName={page.cityName} />
-
-      <section className="city-cta">
-        <div className="city-cta-inner">
-          <h3>{page.ctaHeading}</h3>
-          <p>{page.ctaText}</p>
-          <Link href="/contact" className="btn btn-primary">
-            {page.ctaButtonText || "Book Free Demo"}
-          </Link>
-        </div>
-      </section>
+      <HomeFaqSection content={homeFaqs} />
     </>
   );
 }

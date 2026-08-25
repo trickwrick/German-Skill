@@ -69,7 +69,7 @@ function buildSampleCity(slug: string, cityName: string, sortOrder: number): Cit
     ].join("\n"),
     ctaHeading: `Start learning German from ${cityName}`,
     ctaText: "Book a free demo class and get the right level and batch recommendation.",
-    ctaButtonText: "Book Free Demo",
+    ctaButtonText: "Start Your Journey Now",
     seo: defaultCityPageSeo(cityName),
     isActive: true,
     sortOrder,
