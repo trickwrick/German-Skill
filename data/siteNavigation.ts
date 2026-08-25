@@ -21,8 +21,7 @@ export const navItems = [
   {
     label: "Courses",
     href: "/courses",
-    dropdown: true,
-    items: courseLevels,
+    dropdown: false,
   },
   {
     label: "About",
