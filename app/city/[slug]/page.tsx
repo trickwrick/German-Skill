@@ -5,6 +5,7 @@ import SiteFooter from "../../components/SiteFooter";
 import CityPageContent from "./_components/CityPageContent";
 import { getCityPageBySlug, getCityPagesForDisplay } from "../../../lib/cityPageStore";
 import { getGermanCoursesForDisplay } from "../../../lib/courseContentStore";
+import { getVideoTestimonials } from "../../../lib/videoTestimonialStore";
 import { buildPageMetadata } from "../../../lib/siteSeo";
 import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
 
@@ -48,13 +49,20 @@ export default async function CityPublicPage({ params }: PageProps) {
     notFound();
   }
 
-  const courses = await getGermanCoursesForDisplay();
+  const [courses, videoTestimonials] = await Promise.all([
+    getGermanCoursesForDisplay(),
+    getVideoTestimonials(),
+  ]);
 
   return (
     <>
       <Navbar />
       <main>
-        <CityPageContent page={page} courses={courses} />
+        <CityPageContent
+          page={page}
+          courses={courses}
+          videoTestimonials={videoTestimonials}
+        />
       </main>
       <SiteFooter />
     </>

@@ -1,14 +1,22 @@
 import Link from "next/link";
 import type { CityPage } from "../../../../data/cityPages";
 import type { GermanCourse } from "../../../../data/germanCourses";
+import type { VideoTestimonial } from "../../../../data/videoTestimonials";
 import { sanitizeBlogHtml } from "../../../../lib/blogHtmlUtils";
 import { sitePhoneDisplay, sitePhoneTel, siteWhatsAppUrl } from "../../../../data/siteContact";
 import AllCoursesSection from "../../../components/AllCoursesSection";
+import CertificateSection from "../../../components/CertificateSection";
+import ComparisonSection from "../../../components/ComparisonSection";
+import TutorsSection from "../../../components/TutorsSection";
+import VideoTestimonialsSection from "../../../components/VideoTestimonialsSection";
 import CityLeadForm from "./CityLeadForm";
+import CitySuccessBanner from "./CitySuccessBanner";
+import CityWhyLearnSection from "./CityWhyLearnSection";
 
 type CityPageContentProps = {
   page: CityPage;
   courses: GermanCourse[];
+  videoTestimonials: VideoTestimonial[];
 };
 
 const proofStats = [
@@ -167,7 +175,11 @@ function renderSubtitle(subtitle: string) {
   );
 }
 
-export default function CityPageContent({ page, courses }: CityPageContentProps) {
+export default function CityPageContent({
+  page,
+  courses,
+  videoTestimonials,
+}: CityPageContentProps) {
   const contentHtml = sanitizeBlogHtml(page.contentHtml);
   const subtitle = page.subtitle?.trim() || "Build Confidence in German Communication";
 
@@ -217,18 +229,6 @@ export default function CityPageContent({ page, courses }: CityPageContentProps)
               <div className="city-promo-form-wrap">
                 <CityLeadForm cityName={page.cityName} />
               </div>
-              <div className="city-promo-footer">
-                <div className="city-promo-cal" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.8" />
-                    <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                  </svg>
-                </div>
-                <div>
-                  <span className="city-promo-badge">• Enroll Today</span>
-                  <p>Next Batch Starting Soon!</p>
-                </div>
-              </div>
             </aside>
           </div>
 
@@ -268,6 +268,12 @@ export default function CityPageContent({ page, courses }: CityPageContentProps)
       ) : null}
 
       <AllCoursesSection courses={courses} />
+      <CityWhyLearnSection cityName={page.cityName} />
+      <TutorsSection />
+      <ComparisonSection />
+      <CertificateSection />
+      <VideoTestimonialsSection testimonials={videoTestimonials} />
+      <CitySuccessBanner cityName={page.cityName} />
 
       <section className="city-cta">
         <div className="city-cta-inner">
