@@ -14,6 +14,7 @@ import TutorsSection from "./components/TutorsSection";
 import type { HomeFaqContent } from "../data/homeFaqs";
 import type { VideoTestimonial } from "../data/videoTestimonials";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
+import { getGermanLanguageCoursePageContent } from "../lib/generalPageStore";
 import { getActiveHomeFaqItems } from "../lib/homeFaqStore";
 import { getVideoTestimonials } from "../lib/videoTestimonialStore";
 import { getSeoSettings } from "../lib/seoStore";
@@ -305,11 +306,12 @@ function PromoCards() {
 }
 
 export default async function HomePage() {
-  const [courses, videoTestimonials, homeFaqs, seoSettings] = await Promise.all([
+  const [courses, videoTestimonials, homeFaqs, seoSettings, coursesPage] = await Promise.all([
     getGermanCoursesForDisplay(),
     getVideoTestimonials(),
     getActiveHomeFaqItems(),
     getSeoSettings(),
+    getGermanLanguageCoursePageContent(),
   ]);
 
   const homeSchema = [
@@ -333,7 +335,11 @@ export default async function HomePage() {
       <main>
         <HeroSection />
         <PromoCards />
-        <AllCoursesSection courses={courses} />
+        <AllCoursesSection
+          courses={courses}
+          title={coursesPage.sectionTitle}
+          description={coursesPage.sectionDescription}
+        />
         <StatsBanner />
         <TutorsSection />
         <StudentPortalSection />

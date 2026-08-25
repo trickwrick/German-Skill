@@ -251,6 +251,16 @@ function sanitizeGermanLanguageCourseContent(
       typeof value?.pageDescription === "string" && value.pageDescription.trim()
         ? value.pageDescription.trim()
         : fallback.pageDescription,
+    sectionTitle:
+      typeof value?.sectionTitle === "string" && value.sectionTitle.trim()
+        ? value.sectionTitle.trim()
+        : fallback.sectionTitle,
+    sectionDescription:
+      typeof value?.sectionDescription === "string" && value.sectionDescription.trim()
+        ? value.sectionDescription.trim()
+        : fallback.sectionDescription,
+    contentHtml:
+      typeof value?.contentHtml === "string" ? value.contentHtml.trim() : fallback.contentHtml,
     seo,
   };
 }
@@ -325,7 +335,7 @@ export async function getGeneralPagesContent(options: PublicDataOptions = {}): P
   }
 
   return getCachedPublicData(
-    ["general-pages", "v4"],
+    ["general-pages", "v6"],
     [CACHE_TAGS.generalPages],
     fetchGeneralPagesContent,
   );

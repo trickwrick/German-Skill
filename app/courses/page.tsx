@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import AllCoursesSection from "../components/AllCoursesSection";
 import Navbar from "../components/Navbar";
 import PageBanner from "../components/PageBanner";
+import RichHtmlContent from "../components/RichHtmlContent";
 import SiteFooter from "../components/SiteFooter";
 import { defaultGermanLanguageCourseContent } from "../../data/generalPages";
+import { sanitizeBlogHtml } from "../../lib/blogHtmlUtils";
 import { getGermanCoursesForDisplay } from "../../lib/courseContentStore";
 import { getGermanLanguageCoursePageContent } from "../../lib/generalPageStore";
 import { buildPageMetadata } from "../../lib/siteSeo";
@@ -31,6 +33,8 @@ export default async function CoursesPage() {
     getGermanLanguageCoursePageContent(),
   ]);
 
+  const contentHtml = sanitizeBlogHtml(page.contentHtml || "");
+
   return (
     <>
       <Navbar />
@@ -46,7 +50,18 @@ export default async function CoursesPage() {
             { label: "Courses" },
           ]}
         />
-        <AllCoursesSection courses={courses} />
+        <AllCoursesSection
+          courses={courses}
+          title={page.sectionTitle}
+          description={page.sectionDescription}
+        />
+        {contentHtml ? (
+          <section className="course-seo-content-section">
+            <div className="course-seo-content-inner">
+              <RichHtmlContent html={contentHtml} className="course-seo-content-body" />
+            </div>
+          </section>
+        ) : null}
       </main>
       <SiteFooter />
     </>

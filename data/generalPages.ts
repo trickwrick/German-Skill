@@ -20,10 +20,13 @@ export type LegalPageContentData = {
   seo?: PageSeoMeta;
 };
 
-/** SEO + banner content for the public courses listing page */
+/** SEO + banner + courses section content for the public courses listing */
 export type GermanLanguageCoursePageData = {
   pageTitle: string;
   pageDescription: string;
+  sectionTitle: string;
+  sectionDescription: string;
+  contentHtml: string;
   seo: PageSeoMeta;
 };
 
@@ -286,6 +289,10 @@ export const defaultGermanLanguageCourseContent: GermanLanguageCoursePageData = 
   pageTitle: "German Language Course",
   pageDescription:
     "Choose the right German level for your goals — from beginner A1 to advanced C2.",
+  sectionTitle: "German Language Course",
+  sectionDescription:
+    "Take your language skills to the next level with our dynamic and engaging courses in the German category, designed to meet the needs of learners at every stage.",
+  contentHtml: "",
   seo: {
     metaTitle: "German Courses A1–C2 | Fluent AUF",
     metaKeyword: "German Language Course, Online German Classes, Learn German",

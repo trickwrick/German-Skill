@@ -210,7 +210,7 @@ export default function AdminGeneralContent() {
         {selectedPage === "german-language-course" ? (
           <div className="adm-general-seo-editor">
             <p className="adm-panel-note">
-              Manage the public German Language Course page banner and search engine meta tags (
+              Manage the German Language Course listing heading, page banner, and SEO meta tags (
               <code>/german-language-course</code>).
             </p>
 
@@ -245,6 +245,46 @@ export default function AdminGeneralContent() {
                       }))
                     }
                     placeholder="Choose the right German level for your goals..."
+                  />
+                </label>
+              </div>
+            </section>
+
+            <section className="adm-general-section" style={{ marginTop: "1.5rem" }}>
+              <div className="adm-panel-head">
+                <h3 className="adm-panel-title">Courses Section</h3>
+              </div>
+              <p className="adm-panel-note">
+                This heading and text appear above the course cards on the homepage, city pages, and
+                courses page.
+              </p>
+              <div className="adm-form-grid">
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Section Title</span>
+                  <input
+                    type="text"
+                    value={germanLanguageCourse.sectionTitle}
+                    onChange={(event) =>
+                      updateGermanLanguageCourse((current) => ({
+                        ...current,
+                        sectionTitle: event.target.value,
+                      }))
+                    }
+                    placeholder="German Language Course"
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Section Description</span>
+                  <textarea
+                    rows={3}
+                    value={germanLanguageCourse.sectionDescription}
+                    onChange={(event) =>
+                      updateGermanLanguageCourse((current) => ({
+                        ...current,
+                        sectionDescription: event.target.value,
+                      }))
+                    }
+                    placeholder="Take your language skills to the next level..."
                   />
                 </label>
               </div>
@@ -313,6 +353,27 @@ export default function AdminGeneralContent() {
                   <small className="adm-field-hint">Max length 250 characters</small>
                 </label>
               </div>
+            </section>
+
+            <section className="adm-general-section" style={{ marginTop: "1.5rem" }}>
+              <div className="adm-panel-head">
+                <h3 className="adm-panel-title">Page Content</h3>
+              </div>
+              <p className="adm-panel-note">
+                This content appears on the German Language Course page below the course cards. Use
+                headings, bold, links, and lists as needed.
+              </p>
+              <BlogContentEditor
+                key="german-language-course-content"
+                value={germanLanguageCourse.contentHtml || ""}
+                onChange={(html) =>
+                  updateGermanLanguageCourse((current) => ({
+                    ...current,
+                    contentHtml: html,
+                  }))
+                }
+                showPdfUpload
+              />
             </section>
           </div>
         ) : isHtmlPage(selectedPage) ? (

@@ -6,6 +6,7 @@ import CityPageContent from "./_components/CityPageContent";
 import { buildCityPagePath } from "../../../lib/cityPageUtils";
 import { getCityPageBySlug, getCityPagesForDisplay } from "../../../lib/cityPageStore";
 import { getGermanCoursesForDisplay } from "../../../lib/courseContentStore";
+import { getGermanLanguageCoursePageContent } from "../../../lib/generalPageStore";
 import { getActiveHomeFaqItems } from "../../../lib/homeFaqStore";
 import { getVideoTestimonials } from "../../../lib/videoTestimonialStore";
 import { buildPageMetadata } from "../../../lib/siteSeo";
@@ -51,10 +52,11 @@ export default async function CityPublicPage({ params }: PageProps) {
     notFound();
   }
 
-  const [courses, videoTestimonials, homeFaqs] = await Promise.all([
+  const [courses, videoTestimonials, homeFaqs, coursesPage] = await Promise.all([
     getGermanCoursesForDisplay(),
     getVideoTestimonials(),
     getActiveHomeFaqItems(),
+    getGermanLanguageCoursePageContent(),
   ]);
 
   return (
@@ -66,6 +68,8 @@ export default async function CityPublicPage({ params }: PageProps) {
           courses={courses}
           videoTestimonials={videoTestimonials}
           homeFaqs={homeFaqs}
+          coursesSectionTitle={coursesPage.sectionTitle}
+          coursesSectionDescription={coursesPage.sectionDescription}
         />
       </main>
       <SiteFooter />

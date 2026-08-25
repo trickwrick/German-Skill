@@ -27,6 +27,8 @@ type CityPageContentProps = {
   courses: GermanCourse[];
   videoTestimonials: VideoTestimonial[];
   homeFaqs: HomeFaqContent;
+  coursesSectionTitle?: string;
+  coursesSectionDescription?: string;
 };
 
 const proofStats = [
@@ -157,6 +159,8 @@ export default function CityPageContent({
   courses,
   videoTestimonials,
   homeFaqs,
+  coursesSectionTitle,
+  coursesSectionDescription,
 }: CityPageContentProps) {
   const contentHtml = sanitizeBlogHtml(page.contentHtml);
   const badgePrefix = getHeroBadgePrefix(page.subtitle || DEFAULT_HERO_BADGE_PREFIX);
@@ -232,7 +236,11 @@ export default function CityPageContent({
         </section>
       ) : null}
 
-      <AllCoursesSection courses={courses} />
+      <AllCoursesSection
+        courses={courses}
+        title={coursesSectionTitle}
+        description={coursesSectionDescription}
+      />
       <TutorsSection />
       <CityVisionSection cityName={page.cityName} data={page.vision} />
       <ComparisonSection />

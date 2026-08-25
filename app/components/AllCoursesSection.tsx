@@ -1,21 +1,28 @@
 import Link from "next/link";
 import CourseImage from "./CourseImage";
 import { getCourseHref, type GermanCourse } from "../../data/germanCourses";
+import { defaultGermanLanguageCourseContent } from "../../data/generalPages";
 import { formatDisplayPrice } from "../../lib/courseUtils";
 
 type AllCoursesSectionProps = {
   courses: GermanCourse[];
+  title?: string;
+  description?: string;
 };
 
-export default function AllCoursesSection({ courses }: AllCoursesSectionProps) {
+export default function AllCoursesSection({
+  courses,
+  title,
+  description,
+}: AllCoursesSectionProps) {
+  const heading = title?.trim() || defaultGermanLanguageCourseContent.sectionTitle;
+  const subtitle = description?.trim() || defaultGermanLanguageCourseContent.sectionDescription;
+
   return (
     <section className="all-courses-section">
       <div className="all-courses-inner">
-        <h2 className="all-courses-title">German Language Course</h2>
-        <p className="all-courses-subtitle">
-          Take your language skills to the next level with our dynamic and engaging courses in the
-          German category, designed to meet the needs of learners at every stage.
-        </p>
+        <h2 className="all-courses-title">{heading}</h2>
+        <p className="all-courses-subtitle">{subtitle}</p>
 
         <div className="all-courses-grid">
           {courses.map((course) => {
