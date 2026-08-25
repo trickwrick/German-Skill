@@ -4,7 +4,6 @@ import type { GermanCourse } from "../../../../data/germanCourses";
 import type { HomeFaqContent } from "../../../../data/homeFaqs";
 import type { VideoTestimonial } from "../../../../data/videoTestimonials";
 import { sanitizeBlogHtml } from "../../../../lib/blogHtmlUtils";
-import { sitePhoneDisplay, sitePhoneTel, siteWhatsAppUrl } from "../../../../data/siteContact";
 import AllCoursesSection from "../../../components/AllCoursesSection";
 import CertificateSection from "../../../components/CertificateSection";
 import ComparisonSection from "../../../components/ComparisonSection";
@@ -14,6 +13,7 @@ import VideoTestimonialsSection from "../../../components/VideoTestimonialsSecti
 import CityJourneyCta from "./CityJourneyCta";
 import CityLeadForm from "./CityLeadForm";
 import CitySuccessBanner from "./CitySuccessBanner";
+import CityTypedHighlight from "./CityTypedHighlight";
 import CityVisionSection from "./CityVisionSection";
 import CityWhyLearnSection from "./CityWhyLearnSection";
 
@@ -61,20 +61,6 @@ function CapIcon() {
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
       />
     </svg>
   );
@@ -153,31 +139,23 @@ function ProofIcon({ type }: { type: string }) {
   );
 }
 
-function renderSubtitle(subtitle: string) {
+function getTypedSubtitleParts(subtitle: string) {
   const highlight = "German Communication";
   if (subtitle.includes(highlight)) {
     const [before, after] = subtitle.split(highlight);
-    return (
-      <>
-        {before}
-        <strong>{highlight}</strong>
-        {after}
-      </>
-    );
+    return { prefix: before, typed: highlight, suffix: after };
   }
 
   const words = subtitle.trim().split(/\s+/);
   if (words.length <= 2) {
-    return subtitle;
+    return { prefix: "", typed: subtitle, suffix: "" };
   }
 
-  const tail = words.slice(-2).join(" ");
-  const head = words.slice(0, -2).join(" ");
-  return (
-    <>
-      {head} <strong>{tail}</strong>
-    </>
-  );
+  return {
+    prefix: `${words.slice(0, -2).join(" ")} `,
+    typed: words.slice(-2).join(" "),
+    suffix: "",
+  };
 }
 
 export default function CityPageContent({
@@ -188,6 +166,7 @@ export default function CityPageContent({
 }: CityPageContentProps) {
   const contentHtml = sanitizeBlogHtml(page.contentHtml);
   const subtitle = page.subtitle?.trim() || "Build Confidence in German Communication";
+  const typedParts = getTypedSubtitleParts(subtitle);
 
   return (
     <>
@@ -201,7 +180,16 @@ export default function CityPageContent({
               </p>
 
               <h1 className="city-top-title">{page.title}</h1>
-              <p className="city-top-subtitle">{renderSubtitle(subtitle)}</p>
+              <p className="city-top-subtitle">
+                <CityTypedHighlight
+                  prefix={typedParts.prefix}
+                  text={typedParts.typed}
+                  suffix={typedParts.suffix}
+                />
+              </p>
+              {page.heroDescription?.trim() ? (
+                <p className="city-top-lead">{page.heroDescription.trim()}</p>
+              ) : null}
 
               <div className="city-rating-row">
                 <div className="city-rating-box">
@@ -217,17 +205,6 @@ export default function CityPageContent({
                   </span>
                   <span>Google 4.9 ★</span>
                 </div>
-              </div>
-
-              <div className="city-top-actions">
-                <Link href="/contact" className="city-callback-btn">
-                  <PhoneIcon />
-                  Request A Call Back
-                </Link>
-                <a href={`tel:${sitePhoneTel}`} className="city-phone-btn">
-                  <PhoneIcon />
-                  {sitePhoneDisplay.replace("+91 ", "")}
-                </a>
               </div>
             </div>
 
@@ -253,17 +230,6 @@ export default function CityPageContent({
           </div>
         </div>
       </section>
-
-      {page.heroDescription ? (
-        <section className="city-intro">
-          <div className="city-intro-inner">
-            <p>{page.heroDescription}</p>
-            <a href={siteWhatsAppUrl} className="city-whatsapp-link" target="_blank" rel="noreferrer">
-              Chat on WhatsApp
-            </a>
-          </div>
-        </section>
-      ) : null}
 
       {contentHtml ? (
         <section className="city-content">

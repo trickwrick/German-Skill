@@ -2,6 +2,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import {
   defaultCityPageSeo,
   defaultCityPagesStore,
+  defaultCityHeroDescription,
   type CityPage,
   type CityPageHighlight,
   type CityPageSeo,
@@ -77,8 +78,26 @@ function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: str
       typeof value.subtitle === "string" && value.subtitle.trim()
         ? value.subtitle.trim()
         : "Live online A1–C2 training with certified tutors",
-    heroDescription:
-      typeof value.heroDescription === "string" ? value.heroDescription.trim() : "",
+    heroDescription: (() => {
+      const raw =
+        typeof value.heroDescription === "string" ? value.heroDescription.trim() : "";
+      if (!raw) {
+        return defaultCityHeroDescription;
+      }
+      // Keep compact marketing copy on city heroes (avoid older long blurbs).
+      if (
+        raw.startsWith("Looking for German classes") ||
+        raw.includes("Academic Prospects Such as") ||
+        raw.includes("Austria / Switzerland opportunities") ||
+        raw ===
+          "Professional Goethe & TELC German learning from A1 to C2 for study abroad, careers & Germany pathways." ||
+        raw ===
+          "Professional German Goethe & TELC learning from A1 to C2 for study abroad, careers & Germany pathways."
+      ) {
+        return defaultCityHeroDescription;
+      }
+      return raw;
+    })(),
     highlights,
     contentHtml: typeof value.contentHtml === "string" ? value.contentHtml.trim() : "",
     ctaHeading:

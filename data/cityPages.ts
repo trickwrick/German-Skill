@@ -36,13 +36,16 @@ export const defaultCityPageSeo = (cityName: string): CityPageSeo => ({
   metaDescription: `Learn German online with Fluent AUF — live A1 to C2 classes for students in ${cityName}. Book a free demo today.`,
 });
 
+export const defaultCityHeroDescription =
+  "Professional German Goethe & TELC learning assistance from A1 to C2 — prepare for study abroad, stronger careers, and Germany / Austria / Switzerland pathways with live expert-led classes.";
+
 function buildSampleCity(slug: string, cityName: string, sortOrder: number): CityPage {
   return {
     slug,
     cityName,
     title: `German Classes in ${cityName}`,
     subtitle: "Build Confidence in German Communication",
-    heroDescription: `Looking for German classes in ${cityName}? Fluent AUF offers live online German language courses from A1 to C2 with Goethe & telc exam preparation, flexible batches, and expert tutors.`,
+    heroDescription: defaultCityHeroDescription,
     highlights: [
       {
         title: "Live Online Classes",

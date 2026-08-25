@@ -7597,15 +7597,49 @@ a.contact-info-value:hover {
 }
 
 .city-top-subtitle {
-  margin: 0 0 20px;
+  margin: 0 0 12px;
   color: #4b5563;
   font-size: clamp(1.15rem, 2vw, 1.45rem);
   line-height: 1.35;
 }
 
-.city-top-subtitle strong {
+.city-top-subtitle strong,
+.city-typed-text {
   color: #e85d04;
   font-weight: 800;
+}
+
+.city-typed-line {
+  display: inline;
+}
+
+.city-typed-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: #e85d04;
+  animation: city-typed-blink 0.85s steps(1) infinite;
+}
+
+@keyframes city-typed-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.city-top-lead {
+  margin: 0 0 18px;
+  max-width: 46ch;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 .city-rating-row {
