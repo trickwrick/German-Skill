@@ -41,6 +41,20 @@ function emptyFaq(): CityFaqItem {
   return { id: `faq-${Date.now()}`, question: "", answer: "" };
 }
 
+function cityNameFromTitle(title: string): string {
+  const trimmed = title.trim();
+  if (!trimmed) {
+    return "";
+  }
+
+  const match = trimmed.match(/\bin\s+(.+)$/i);
+  if (match?.[1]?.trim()) {
+    return match[1].trim();
+  }
+
+  return trimmed;
+}
+
 function ensureVision(page: Partial<CityPage>, cityName: string): CityVisionSectionData {
   const fallback = defaultCityVision(cityName);
   if (!page.vision) {
@@ -269,9 +283,11 @@ export default function AdminCityPagesContent() {
     setForm((current) => {
       const next = { ...current, [key]: value };
 
-      if (key === "cityName" && typeof value === "string") {
+      if (key === "title" && typeof value === "string") {
         const prevCity = current.cityName;
-        const cityName = value.trim();
+        const cityName = cityNameFromTitle(value);
+        next.cityName = cityName;
+
         const prevVision = defaultCityVision(prevCity);
         const prevWhy = defaultCityWhyLearn(prevCity);
         const prevJourney = defaultCityJourney(prevCity);
@@ -287,18 +303,17 @@ export default function AdminCityPagesContent() {
           next.slug = normalizeCitySlug(cityName);
         }
 
-        if (!current.title || current.title === `German Classes in ${prevCity}`) {
-          next.title = cityName ? `German Classes in ${cityName}` : "";
-        }
-
         if (!current.ctaHeading || current.ctaHeading.startsWith("Start learning German from")) {
           next.ctaHeading = cityName ? `Start learning German from ${cityName}` : "";
         }
 
-        // Vision — refresh city-tied defaults when still matching previous defaults
         const vision = { ...current.vision };
         if (
-          stillMatchesDefault(current.vision.headingHighlight, prevVision.headingHighlight, emptyVision.headingHighlight) ||
+          stillMatchesDefault(
+            current.vision.headingHighlight,
+            prevVision.headingHighlight,
+            emptyVision.headingHighlight,
+          ) ||
           !editingSlug
         ) {
           vision.headingHighlight = cityName;
@@ -311,7 +326,6 @@ export default function AdminCityPagesContent() {
         }
         next.vision = vision;
 
-        // Why Learn
         const whyLearn = {
           ...current.whyLearn,
           features: [
@@ -327,13 +341,15 @@ export default function AdminCityPagesContent() {
           const prevFeature = prevWhy.features[index];
           const emptyFeatureText = emptyWhy.features[index]?.text || "";
           if (prevFeature && stillMatchesDefault(feature.text, prevFeature.text, emptyFeatureText)) {
-            return { ...feature, text: defaultCityWhyLearn(cityName).features[index]?.text || feature.text };
+            return {
+              ...feature,
+              text: defaultCityWhyLearn(cityName).features[index]?.text || feature.text,
+            };
           }
           return feature;
         });
         next.whyLearn = whyLearn;
 
-        // Journey
         const journey = { ...current.journey };
         if (stillMatchesDefault(current.journey.text, prevJourney.text, emptyJourney.text)) {
           journey.text = defaultCityJourney(cityName).text;
@@ -341,20 +357,22 @@ export default function AdminCityPagesContent() {
         }
         next.journey = journey;
 
-        // Success
         const successSection = { ...current.success };
         if (stillMatchesDefault(current.success.text, prevSuccess.text, emptySuccess.text)) {
           successSection.text = defaultCitySuccess(cityName).text;
         }
         next.success = successSection;
 
-        // SEO
         next.seo = {
           ...current.seo,
           metaTitle: stillMatchesDefault(current.seo.metaTitle, prevSeo.metaTitle, emptySeo.metaTitle)
             ? defaultCityPageSeo(cityName).metaTitle
             : current.seo.metaTitle,
-          metaKeyword: stillMatchesDefault(current.seo.metaKeyword, prevSeo.metaKeyword, emptySeo.metaKeyword)
+          metaKeyword: stillMatchesDefault(
+            current.seo.metaKeyword,
+            prevSeo.metaKeyword,
+            emptySeo.metaKeyword,
+          )
             ? defaultCityPageSeo(cityName).metaKeyword
             : current.seo.metaKeyword,
           metaDescription: stillMatchesDefault(
@@ -473,8 +491,9 @@ export default function AdminCityPagesContent() {
         credentials: "same-origin",
         body: JSON.stringify({
           ...form,
+          cityName: form.cityName.trim() || cityNameFromTitle(form.title),
           subtitle: DEFAULT_HERO_BADGE_PREFIX,
-          slug: normalizeCitySlug(form.slug || form.cityName),
+          slug: normalizeCitySlug(form.slug || form.cityName || cityNameFromTitle(form.title)),
           ctaText: form.journey.text,
           ctaButtonText: form.journey.buttonText,
           originalSlug: editingSlug || undefined,
@@ -572,19 +591,10 @@ export default function AdminCityPagesContent() {
                   placeholder="German Classes in Delhi"
                   required
                 />
-              </label>
-
-              <label className="adm-city-field">
-                <span>
-                  City Name: <em>*</em>
-                </span>
-                <input
-                  type="text"
-                  value={form.cityName}
-                  onChange={(event) => updateField("cityName", event.target.value)}
-                  placeholder="Delhi"
-                  required
-                />
+                <small>
+                  City is taken from the page name (for example, Delhi from “German Classes in
+                  Delhi”).
+                </small>
               </label>
 
               <label className="adm-city-field">
