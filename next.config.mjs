@@ -67,6 +67,14 @@ const nextConfig = {
         source: "/about/our-company",
         headers: [cacheHeader],
       },
+      {
+        source: "/german-classes-:slug",
+        headers: [cacheHeader],
+      },
+      {
+        source: "/city",
+        headers: [cacheHeader],
+      },
     ];
   },
   async redirects() {
@@ -93,6 +101,15 @@ const nextConfig = {
       { source: "/course/German%20C2", destination: "/course/german-c2", permanent: true },
       { source: "/blog", destination: "/blogs", permanent: true },
       { source: "/about/careers", destination: "/about/apply-job", permanent: true },
+      { source: "/city/:slug", destination: "/german-classes-:slug", permanent: true },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/german-classes-:slug",
+        destination: "/city/:slug",
+      },
     ];
   },
 };

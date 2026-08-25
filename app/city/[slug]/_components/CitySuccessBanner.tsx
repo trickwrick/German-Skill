@@ -1,25 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CitySuccessSectionData } from "../../../../data/cityPages";
 
 type CitySuccessBannerProps = {
   cityName: string;
+  data: CitySuccessSectionData;
 };
-
-const mosaicImages = [
-  "/tutors/khushi-sharma.jpg",
-  "/tutors/preeti-sharma.jpg",
-  "/tutors/khushi-birsat.jpg",
-  "/hero-students.jpg",
-  "/portal-education.jpg",
-  "/webinar-student.jpg",
-  "/og-share.png",
-  "/courses/german-a1.png",
-];
-
-const mosaicTiles = Array.from({ length: 48 }, (_, index) => ({
-  src: mosaicImages[index % mosaicImages.length],
-  alt: `Fluent AUF learner ${index + 1}`,
-}));
 
 function SendIcon() {
   return (
@@ -35,37 +21,34 @@ function SendIcon() {
   );
 }
 
-export default function CitySuccessBanner({ cityName }: CitySuccessBannerProps) {
+export default function CitySuccessBanner({ cityName, data }: CitySuccessBannerProps) {
+  const images = data.mosaicImages.length ? data.mosaicImages : ["/hero-students.jpg"];
+  const mosaicTiles = Array.from({ length: 48 }, (_, index) => ({
+    src: images[index % images.length],
+    key: `${images[index % images.length]}-${index}`,
+  }));
+
   return (
     <section className="city-success">
       <div className="city-success-inner">
         <div className="city-success-card">
           <div className="city-success-copy">
-            <span className="city-success-badge">Goethe &amp; TELC Focused</span>
-            <p className="city-success-kicker">Learn German at Fluent AUF &amp; Unlock Your</p>
+            <span className="city-success-badge">{data.badge}</span>
+            <p className="city-success-kicker">{data.kicker}</p>
             <h2>
-              Dream Opportunity <span>Abroad</span>
+              {data.heading} <span>{data.headingHighlight}</span>
             </h2>
-            <p className="city-success-text">
-              Join 10,500+ successful students who built German fluency for study, work, and
-              career growth — including learners from {cityName}.
-            </p>
-            <Link href="/contact" className="city-success-btn">
-              Enquire Now
+            <p className="city-success-text">{data.text.replace(/\{city\}/gi, cityName)}</p>
+            <Link href={data.buttonHref || "/contact"} className="city-success-btn">
+              {data.buttonText || "Enquire Now"}
               <SendIcon />
             </Link>
           </div>
 
           <div className="city-success-mosaic" aria-hidden="true">
-            {mosaicTiles.map((tile, index) => (
-              <div key={`${tile.src}-${index}`} className="city-success-tile">
-                <Image
-                  src={tile.src}
-                  alt=""
-                  fill
-                  sizes="80px"
-                  className="city-success-tile-img"
-                />
+            {mosaicTiles.map((tile) => (
+              <div key={tile.key} className="city-success-tile">
+                <Image src={tile.src} alt="" fill sizes="80px" className="city-success-tile-img" />
               </div>
             ))}
           </div>

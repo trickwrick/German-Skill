@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { blogPosts } from "../data/blogPosts";
 import { germanCourses } from "../data/germanCourses";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
+import { getCityPagesForDisplay } from "../lib/cityPageStore";
+import { buildCityPagePath } from "../lib/cityPageUtils";
 
 const siteUrl = "https://fluentauf.com";
 
@@ -73,6 +75,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${siteUrl}/city`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
   ];
 
   let displayCourses = germanCourses;
@@ -96,5 +104,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...courseRoutes, ...blogRoutes];
+  let cityRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const cityPages = await getCityPagesForDisplay();
+    cityRoutes = cityPages.map((page) => ({
+      url: `${siteUrl}${buildCityPagePath(page.slug)}`,
+      lastModified: page.updatedAt ? new Date(page.updatedAt) : new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    }));
+  } catch {
+    // Skip city routes if store is unavailable during build.
+  }
+
+  return [...staticRoutes, ...courseRoutes, ...blogRoutes, ...cityRoutes];
 }

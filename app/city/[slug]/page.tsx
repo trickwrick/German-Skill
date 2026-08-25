@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import SiteFooter from "../../components/SiteFooter";
 import CityPageContent from "./_components/CityPageContent";
+import { buildCityPagePath } from "../../../lib/cityPageUtils";
 import { getCityPageBySlug, getCityPagesForDisplay } from "../../../lib/cityPageStore";
 import { getGermanCoursesForDisplay } from "../../../lib/courseContentStore";
 import { getActiveHomeFaqItems } from "../../../lib/homeFaqStore";
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return buildPageMetadata({
     title: page.seo.metaTitle || `${page.title} | Fluent AUF`,
     description: page.seo.metaDescription || page.heroDescription,
-    path: `/city/${page.slug}`,
+    path: buildCityPagePath(page.slug),
     keywords: page.seo.metaKeyword,
   });
 }

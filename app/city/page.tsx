@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import PageBanner from "../components/PageBanner";
 import SiteFooter from "../components/SiteFooter";
 import { getCityPagesForDisplay } from "../../lib/cityPageStore";
+import { buildCityPagePath } from "../../lib/cityPageUtils";
 import { buildPageMetadata } from "../../lib/siteSeo";
 import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
 
@@ -40,7 +41,7 @@ export default async function CityIndexPage() {
             ) : (
               <div className="city-index-grid">
                 {pages.map((page) => (
-                  <Link key={page.slug} href={`/city/${page.slug}`} className="city-index-card">
+                  <Link key={page.slug} href={buildCityPagePath(page.slug)} className="city-index-card">
                     <span className="city-index-card-label">German Classes</span>
                     <strong>{page.cityName}</strong>
                     <p>{page.subtitle}</p>

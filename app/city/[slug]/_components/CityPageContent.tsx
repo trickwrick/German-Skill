@@ -241,14 +241,29 @@ export default function CityPageContent({
 
       <AllCoursesSection courses={courses} />
       <TutorsSection />
-      <CityVisionSection cityName={page.cityName} />
+      <CityVisionSection cityName={page.cityName} data={page.vision} />
       <ComparisonSection />
       <CertificateSection />
-      <CityWhyLearnSection cityName={page.cityName} />
-      <CityJourneyCta page={page} />
+      <CityWhyLearnSection cityName={page.cityName} data={page.whyLearn} />
+      <CityJourneyCta data={page.journey} />
       <VideoTestimonialsSection testimonials={videoTestimonials} />
-      <CitySuccessBanner cityName={page.cityName} />
-      <HomeFaqSection content={homeFaqs} />
+      <CitySuccessBanner cityName={page.cityName} data={page.success} />
+      <HomeFaqSection
+        content={{
+          title: page.faqs.title || homeFaqs.title,
+          subtitle: page.faqs.subtitle || homeFaqs.subtitle,
+          items:
+            page.faqs.items.length > 0
+              ? page.faqs.items.map((item, index) => ({
+                  id: item.id || `city-faq-${index + 1}`,
+                  question: item.question,
+                  answer: item.answer,
+                  sortOrder: index + 1,
+                  isActive: true,
+                }))
+              : homeFaqs.items,
+        }}
+      />
     </>
   );
 }

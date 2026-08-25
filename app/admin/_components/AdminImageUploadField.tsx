@@ -80,13 +80,13 @@ export default function AdminImageUploadField({
       <label className="adm-file-upload">
         <input
           type="file"
-          accept="image/jpeg,image/png,image/webp,image/gif"
+          accept="image/jpeg,image/png,image/webp,image/gif,image/*"
           onChange={handleUpload}
           disabled={uploading}
         />
         <span className="adm-file-btn">{uploading ? "Uploading..." : "Choose Image"}</span>
         <span className="adm-file-name">
-          {selectedFileName || "Upload JPG, PNG, WEBP, or GIF up to 5MB"}
+          {selectedFileName || "Upload from PC or mobile (JPG, PNG, WEBP, GIF up to 5MB)"}
         </span>
       </label>
 

@@ -2,35 +2,104 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import AdminImageUploadField from "./AdminImageUploadField";
 import {
   defaultCityPageSeo,
   defaultCityHeroDescription,
+  defaultCityVision,
+  defaultCityWhyLearn,
+  defaultCityJourney,
+  defaultCitySuccess,
+  defaultCityFaqs,
   type CityPage,
   type CityPageHighlight,
   type CityPagesStore,
+  type CityVisionSectionData,
+  type CityWhyLearnSectionData,
+  type CityWhyFeatureItem,
+  type CityJourneySectionData,
+  type CitySuccessSectionData,
+  type CityFaqSectionData,
+  type CityFaqItem,
 } from "../../../data/cityPages";
-import { slugifyCitySlug } from "../../../lib/cityPageUtils";
+import { normalizeCitySlug, buildCityPagePath, cityPagePathSlug } from "../../../lib/cityPageUtils";
 import { SITE_URL } from "../../../lib/siteSeo";
 import BlogContentEditor from "../(dashboard)/blog/_components/BlogContentEditor";
 
 const emptyHighlight: CityPageHighlight = { title: "", text: "" };
 
+const FEATURE_TONES: CityWhyFeatureItem["tone"][] = ["demo", "exam", "tutors", "batch"];
+
+function emptyFeature(): CityWhyFeatureItem {
+  return { title: "", text: "", badge: "", tone: "demo" };
+}
+
+function emptyFaq(): CityFaqItem {
+  return { id: `faq-${Date.now()}`, question: "", answer: "" };
+}
+
+function ensureVision(page: Partial<CityPage>, cityName: string): CityVisionSectionData {
+  return page.vision ?? defaultCityVision(cityName);
+}
+
+function ensureWhyLearn(page: Partial<CityPage>, cityName: string): CityWhyLearnSectionData {
+  const base = page.whyLearn ?? defaultCityWhyLearn(cityName);
+  const collage = [...(base.collage || [])];
+  while (collage.length < 3) {
+    collage.push({ src: "", alt: "", label: "" });
+  }
+  return { ...base, collage: collage.slice(0, 3) };
+}
+
+function ensureJourney(page: Partial<CityPage>, cityName: string): CityJourneySectionData {
+  if (page.journey) return page.journey;
+  const fallback = defaultCityJourney(cityName);
+  return {
+    text: page.ctaText || fallback.text,
+    buttonText: page.ctaButtonText || fallback.buttonText,
+    buttonHref: fallback.buttonHref,
+  };
+}
+
+function ensureSuccess(page: Partial<CityPage>, cityName: string): CitySuccessSectionData {
+  return page.success ?? defaultCitySuccess(cityName);
+}
+
+function ensureFaqs(page: Partial<CityPage>): CityFaqSectionData {
+  return page.faqs ?? defaultCityFaqs();
+}
+
 function emptyForm(): CityPage {
+  const cityName = "";
+  const journey = defaultCityJourney(cityName);
   return {
     slug: "",
-    cityName: "",
+    cityName,
     title: "",
     subtitle: "Build Confidence in German Communication",
     heroDescription: defaultCityHeroDescription,
     highlights: [{ ...emptyHighlight }, { ...emptyHighlight }, { ...emptyHighlight }, { ...emptyHighlight }],
     contentHtml: "",
+    vision: defaultCityVision(cityName),
+    whyLearn: ensureWhyLearn({ whyLearn: defaultCityWhyLearn(cityName) }, cityName),
+    journey,
+    success: defaultCitySuccess(cityName),
+    faqs: defaultCityFaqs(),
     ctaHeading: "",
-    ctaText: "Book a free demo class and get the right level and batch recommendation.",
-    ctaButtonText: "Start Your Journey Now",
-    seo: defaultCityPageSeo(""),
+    ctaText: journey.text,
+    ctaButtonText: journey.buttonText,
+    seo: defaultCityPageSeo(cityName),
     isActive: true,
     sortOrder: 1,
   };
+}
+
+function stillMatchesDefault(
+  current: string,
+  previousDefault: string,
+  emptyDefault: string,
+): boolean {
+  return !current || current === previousDefault || current === emptyDefault;
 }
 
 function EditIcon() {
@@ -111,10 +180,21 @@ export default function AdminCityPagesContent() {
   }
 
   function openEditForm(page: CityPage) {
+    const cityName = page.cityName || "";
+    const journey = ensureJourney(page, cityName);
     setForm({
       ...page,
-      highlights: page.highlights.length ? page.highlights : [{ ...emptyHighlight }],
-      seo: page.seo ?? defaultCityPageSeo(page.cityName),
+      highlights: page.highlights?.length ? page.highlights : [{ ...emptyHighlight }],
+      heroDescription: page.heroDescription || defaultCityHeroDescription,
+      vision: ensureVision(page, cityName),
+      whyLearn: ensureWhyLearn(page, cityName),
+      journey,
+      success: ensureSuccess(page, cityName),
+      faqs: ensureFaqs(page),
+      ctaHeading: page.ctaHeading || `Start learning German from ${cityName}`,
+      ctaText: page.ctaText || journey.text,
+      ctaButtonText: page.ctaButtonText || journey.buttonText,
+      seo: page.seo ?? defaultCityPageSeo(cityName),
     });
     setEditingSlug(page.slug);
     setSuccess("");
@@ -130,32 +210,137 @@ export default function AdminCityPagesContent() {
   function updateField<K extends keyof CityPage>(key: K, value: CityPage[K]) {
     setForm((current) => {
       const next = { ...current, [key]: value };
+
       if (key === "cityName" && typeof value === "string") {
+        const prevCity = current.cityName;
         const cityName = value.trim();
+        const prevVision = defaultCityVision(prevCity);
+        const prevWhy = defaultCityWhyLearn(prevCity);
+        const prevJourney = defaultCityJourney(prevCity);
+        const prevSuccess = defaultCitySuccess(prevCity);
+        const prevSeo = defaultCityPageSeo(prevCity);
+        const emptyVision = defaultCityVision("");
+        const emptyWhy = defaultCityWhyLearn("");
+        const emptyJourney = defaultCityJourney("");
+        const emptySuccess = defaultCitySuccess("");
+        const emptySeo = defaultCityPageSeo("");
+
         if (!editingSlug) {
-          next.slug = slugifyCitySlug(cityName);
+          next.slug = normalizeCitySlug(cityName);
         }
-        if (!current.title || current.title === `German Classes in ${current.cityName}`) {
+
+        if (!current.title || current.title === `German Classes in ${prevCity}`) {
           next.title = cityName ? `German Classes in ${cityName}` : "";
         }
+
         if (!current.ctaHeading || current.ctaHeading.startsWith("Start learning German from")) {
           next.ctaHeading = cityName ? `Start learning German from ${cityName}` : "";
         }
+
+        // Vision — refresh city-tied defaults when still matching previous defaults
+        const vision = { ...current.vision };
+        if (
+          stillMatchesDefault(current.vision.headingHighlight, prevVision.headingHighlight, emptyVision.headingHighlight) ||
+          !editingSlug
+        ) {
+          vision.headingHighlight = cityName;
+        }
+        if (stillMatchesDefault(current.vision.text, prevVision.text, emptyVision.text)) {
+          vision.text = defaultCityVision(cityName).text;
+        }
+        if (stillMatchesDefault(current.vision.imageAlt, prevVision.imageAlt, emptyVision.imageAlt)) {
+          vision.imageAlt = defaultCityVision(cityName).imageAlt;
+        }
+        next.vision = vision;
+
+        // Why Learn
+        const whyLearn = { ...current.whyLearn, features: [...current.whyLearn.features] };
+        if (stillMatchesDefault(current.whyLearn.text, prevWhy.text, emptyWhy.text)) {
+          whyLearn.text = defaultCityWhyLearn(cityName).text;
+        }
+        whyLearn.features = whyLearn.features.map((feature, index) => {
+          const prevFeature = prevWhy.features[index];
+          const emptyFeatureText = emptyWhy.features[index]?.text || "";
+          if (prevFeature && stillMatchesDefault(feature.text, prevFeature.text, emptyFeatureText)) {
+            return { ...feature, text: defaultCityWhyLearn(cityName).features[index]?.text || feature.text };
+          }
+          return feature;
+        });
+        next.whyLearn = whyLearn;
+
+        // Journey
+        const journey = { ...current.journey };
+        if (stillMatchesDefault(current.journey.text, prevJourney.text, emptyJourney.text)) {
+          journey.text = defaultCityJourney(cityName).text;
+          next.ctaText = journey.text;
+        }
+        next.journey = journey;
+
+        // Success
+        const successSection = { ...current.success };
+        if (stillMatchesDefault(current.success.text, prevSuccess.text, emptySuccess.text)) {
+          successSection.text = defaultCitySuccess(cityName).text;
+        }
+        next.success = successSection;
+
+        // SEO
         next.seo = {
           ...current.seo,
-          metaTitle: current.seo.metaTitle.includes(current.cityName || " ")
+          metaTitle: stillMatchesDefault(current.seo.metaTitle, prevSeo.metaTitle, emptySeo.metaTitle)
             ? defaultCityPageSeo(cityName).metaTitle
             : current.seo.metaTitle,
-          metaKeyword: current.seo.metaKeyword.includes(current.cityName || " ")
+          metaKeyword: stillMatchesDefault(current.seo.metaKeyword, prevSeo.metaKeyword, emptySeo.metaKeyword)
             ? defaultCityPageSeo(cityName).metaKeyword
             : current.seo.metaKeyword,
-          metaDescription: current.seo.metaDescription.includes(current.cityName || " ")
+          metaDescription: stillMatchesDefault(
+            current.seo.metaDescription,
+            prevSeo.metaDescription,
+            emptySeo.metaDescription,
+          )
             ? defaultCityPageSeo(cityName).metaDescription
             : current.seo.metaDescription,
         };
       }
+
       return next;
     });
+  }
+
+  function updateVision<K extends keyof CityVisionSectionData>(key: K, value: CityVisionSectionData[K]) {
+    setForm((current) => ({ ...current, vision: { ...current.vision, [key]: value } }));
+  }
+
+  function updateWhyLearn<K extends keyof CityWhyLearnSectionData>(
+    key: K,
+    value: CityWhyLearnSectionData[K],
+  ) {
+    setForm((current) => ({ ...current, whyLearn: { ...current.whyLearn, [key]: value } }));
+  }
+
+  function updateJourney<K extends keyof CityJourneySectionData>(
+    key: K,
+    value: CityJourneySectionData[K],
+  ) {
+    setForm((current) => {
+      const journey = { ...current.journey, [key]: value };
+      return {
+        ...current,
+        journey,
+        ctaText: key === "text" ? String(value) : current.ctaText,
+        ctaButtonText: key === "buttonText" ? String(value) : current.ctaButtonText,
+      };
+    });
+  }
+
+  function updateSuccess<K extends keyof CitySuccessSectionData>(
+    key: K,
+    value: CitySuccessSectionData[K],
+  ) {
+    setForm((current) => ({ ...current, success: { ...current.success, [key]: value } }));
+  }
+
+  function updateFaqs<K extends keyof CityFaqSectionData>(key: K, value: CityFaqSectionData[K]) {
+    setForm((current) => ({ ...current, faqs: { ...current.faqs, [key]: value } }));
   }
 
   function updateHighlight(index: number, key: keyof CityPageHighlight, value: string) {
@@ -163,6 +348,50 @@ export default function AdminCityPagesContent() {
       const highlights = [...current.highlights];
       highlights[index] = { ...highlights[index], [key]: value };
       return { ...current, highlights };
+    });
+  }
+
+  function updateVisionPoint(index: number, value: string) {
+    setForm((current) => {
+      const points = [...current.vision.points];
+      points[index] = value;
+      return { ...current, vision: { ...current.vision, points } };
+    });
+  }
+
+  function updateCollage(
+    index: number,
+    key: "src" | "alt" | "label",
+    value: string,
+  ) {
+    setForm((current) => {
+      const collage = [...current.whyLearn.collage];
+      collage[index] = { ...collage[index], [key]: value };
+      return { ...current, whyLearn: { ...current.whyLearn, collage } };
+    });
+  }
+
+  function updateFeature(index: number, key: keyof CityWhyFeatureItem, value: string) {
+    setForm((current) => {
+      const features = [...current.whyLearn.features];
+      features[index] = { ...features[index], [key]: value } as CityWhyFeatureItem;
+      return { ...current, whyLearn: { ...current.whyLearn, features } };
+    });
+  }
+
+  function updateFaqItem(index: number, key: keyof CityFaqItem, value: string) {
+    setForm((current) => {
+      const items = [...current.faqs.items];
+      items[index] = { ...items[index], [key]: value };
+      return { ...current, faqs: { ...current.faqs, items } };
+    });
+  }
+
+  function updateMosaicImage(index: number, value: string) {
+    setForm((current) => {
+      const mosaicImages = [...current.success.mosaicImages];
+      mosaicImages[index] = value;
+      return { ...current, success: { ...current.success, mosaicImages } };
     });
   }
 
@@ -179,7 +408,10 @@ export default function AdminCityPagesContent() {
         credentials: "same-origin",
         body: JSON.stringify({
           ...form,
-          slug: editingSlug || form.slug || slugifyCitySlug(form.cityName),
+          slug: normalizeCitySlug(form.slug || form.cityName),
+          ctaText: form.journey.text,
+          ctaButtonText: form.journey.buttonText,
+          originalSlug: editingSlug || undefined,
         }),
       });
       const data = (await response.json()) as CityPagesStore & { error?: string };
@@ -259,6 +491,7 @@ export default function AdminCityPagesContent() {
 
           {error ? <p className="adm-form-message adm-form-message-error">{error}</p> : null}
 
+          {/* —— Add New Page —— */}
           <section className="adm-city-section-card">
             <h3 className="adm-city-section-title">Add New Page</h3>
             <div className="adm-city-section-body">
@@ -293,16 +526,22 @@ export default function AdminCityPagesContent() {
                   Page Url: <em>*</em>
                 </span>
                 <div className="adm-city-url-field">
-                  <span className="adm-city-url-prefix">{SITE_URL}/city/</span>
+                  <span className="adm-city-url-prefix">{SITE_URL}/</span>
                   <input
                     type="text"
-                    value={form.slug}
-                    onChange={(event) => updateField("slug", slugifyCitySlug(event.target.value))}
-                    placeholder="delhi"
+                    value={cityPagePathSlug(form.slug) || "german-classes-"}
+                    onChange={(event) =>
+                      updateField("slug", normalizeCitySlug(event.target.value))
+                    }
+                    placeholder="german-classes-delhi"
                     required
-                    disabled={Boolean(editingSlug)}
                   />
                 </div>
+                <small>
+                  Live link will open like{" "}
+                  {SITE_URL}
+                  {buildCityPagePath(form.slug || "delhi")}
+                </small>
               </label>
 
               <div className="adm-city-field-row">
@@ -326,8 +565,9 @@ export default function AdminCityPagesContent() {
             </div>
           </section>
 
+          {/* —— SECTION 1 HERO —— */}
           <section className="adm-city-section-card">
-            <h3 className="adm-city-section-title">SECTION 1 (HERO TITLE)</h3>
+            <h3 className="adm-city-section-title">SECTION 1 (HERO)</h3>
             <div className="adm-city-section-body">
               <label className="adm-city-field">
                 <span>Badge Text (Small label above heading)</span>
@@ -356,9 +596,497 @@ export default function AdminCityPagesContent() {
             </div>
           </section>
 
+          {/* —— SECTION Our Vision —— */}
+          <section className="adm-city-section-card">
+            <h3 className="adm-city-section-title">SECTION Our Vision</h3>
+            <div className="adm-city-section-body">
+              <label className="adm-city-field">
+                <span>Tag</span>
+                <input
+                  type="text"
+                  value={form.vision.tag}
+                  onChange={(event) => updateVision("tag", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Heading</span>
+                <input
+                  type="text"
+                  value={form.vision.heading}
+                  onChange={(event) => updateVision("heading", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Heading Highlight (city name)</span>
+                <input
+                  type="text"
+                  value={form.vision.headingHighlight}
+                  onChange={(event) => updateVision("headingHighlight", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Heading Suffix</span>
+                <input
+                  type="text"
+                  value={form.vision.headingSuffix}
+                  onChange={(event) => updateVision("headingSuffix", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Text</span>
+                <textarea
+                  rows={4}
+                  value={form.vision.text}
+                  onChange={(event) => updateVision("text", event.target.value)}
+                />
+              </label>
+
+              <div className="adm-city-section-head">
+                <h4>Points</h4>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() => updateVision("points", [...form.vision.points, ""])}
+                >
+                  + Add Point
+                </button>
+              </div>
+              {form.vision.points.map((point, index) => (
+                <div key={`vision-point-${index}`} className="adm-city-highlight-card">
+                  <div className="adm-city-section-head">
+                    <h4>Point {index + 1}</h4>
+                    {form.vision.points.length > 1 ? (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-secondary"
+                        onClick={() =>
+                          updateVision(
+                            "points",
+                            form.vision.points.filter((_, i) => i !== index),
+                          )
+                        }
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  <label className="adm-city-field">
+                    <span>Text</span>
+                    <textarea
+                      rows={2}
+                      value={point}
+                      onChange={(event) => updateVisionPoint(index, event.target.value)}
+                    />
+                  </label>
+                </div>
+              ))}
+
+              <AdminImageUploadField
+                label="Vision Image"
+                value={form.vision.imageSrc}
+                folder="general"
+                placeholder="/hero-students.jpg"
+                onChange={(path) => updateVision("imageSrc", path)}
+              />
+              <label className="adm-city-field">
+                <span>Image Alt</span>
+                <input
+                  type="text"
+                  value={form.vision.imageAlt}
+                  onChange={(event) => updateVision("imageAlt", event.target.value)}
+                />
+              </label>
+              <div className="adm-city-field-row">
+                <label className="adm-city-field">
+                  <span>Badge Value</span>
+                  <input
+                    type="text"
+                    value={form.vision.badgeValue}
+                    onChange={(event) => updateVision("badgeValue", event.target.value)}
+                  />
+                </label>
+                <label className="adm-city-field">
+                  <span>Badge Label</span>
+                  <input
+                    type="text"
+                    value={form.vision.badgeLabel}
+                    onChange={(event) => updateVision("badgeLabel", event.target.value)}
+                  />
+                </label>
+              </div>
+              <label className="adm-city-field">
+                <span>Link Text</span>
+                <input
+                  type="text"
+                  value={form.vision.linkText}
+                  onChange={(event) => updateVision("linkText", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Link Href</span>
+                <input
+                  type="text"
+                  value={form.vision.linkHref}
+                  onChange={(event) => updateVision("linkHref", event.target.value)}
+                />
+              </label>
+            </div>
+          </section>
+
+          {/* —— SECTION Why Learn —— */}
+          <section className="adm-city-section-card">
+            <h3 className="adm-city-section-title">SECTION Why Learn at Fluent AUF</h3>
+            <div className="adm-city-section-body">
+              <label className="adm-city-field">
+                <span>Heading Before</span>
+                <input
+                  type="text"
+                  value={form.whyLearn.headingBefore}
+                  onChange={(event) => updateWhyLearn("headingBefore", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Heading Highlight</span>
+                <input
+                  type="text"
+                  value={form.whyLearn.headingHighlight}
+                  onChange={(event) => updateWhyLearn("headingHighlight", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Heading After</span>
+                <input
+                  type="text"
+                  value={form.whyLearn.headingAfter}
+                  onChange={(event) => updateWhyLearn("headingAfter", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Text</span>
+                <textarea
+                  rows={3}
+                  value={form.whyLearn.text}
+                  onChange={(event) => updateWhyLearn("text", event.target.value)}
+                />
+              </label>
+
+              <h4>Collage Images (3)</h4>
+              {form.whyLearn.collage.map((item, index) => (
+                <div key={`collage-${index}`} className="adm-city-highlight-card">
+                  <h4>Collage {index + 1}</h4>
+                  <label className="adm-city-field">
+                    <span>Label</span>
+                    <input
+                      type="text"
+                      value={item.label}
+                      onChange={(event) => updateCollage(index, "label", event.target.value)}
+                    />
+                  </label>
+                  <label className="adm-city-field">
+                    <span>Alt</span>
+                    <input
+                      type="text"
+                      value={item.alt}
+                      onChange={(event) => updateCollage(index, "alt", event.target.value)}
+                    />
+                  </label>
+                  <AdminImageUploadField
+                    label={`Collage Image ${index + 1}`}
+                    value={item.src}
+                    folder="general"
+                    placeholder="/hero-students.jpg"
+                    onChange={(path) => updateCollage(index, "src", path)}
+                  />
+                </div>
+              ))}
+
+              <div className="adm-city-section-head">
+                <h4>Features</h4>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateWhyLearn("features", [...form.whyLearn.features, emptyFeature()])
+                  }
+                >
+                  + Add Feature
+                </button>
+              </div>
+              {form.whyLearn.features.map((feature, index) => (
+                <div key={`feature-${index}`} className="adm-city-highlight-card">
+                  <div className="adm-city-section-head">
+                    <h4>Feature {index + 1}</h4>
+                    {form.whyLearn.features.length > 1 ? (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-secondary"
+                        onClick={() =>
+                          updateWhyLearn(
+                            "features",
+                            form.whyLearn.features.filter((_, i) => i !== index),
+                          )
+                        }
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  <label className="adm-city-field">
+                    <span>Title</span>
+                    <input
+                      type="text"
+                      value={feature.title}
+                      onChange={(event) => updateFeature(index, "title", event.target.value)}
+                    />
+                  </label>
+                  <label className="adm-city-field">
+                    <span>Text</span>
+                    <textarea
+                      rows={2}
+                      value={feature.text}
+                      onChange={(event) => updateFeature(index, "text", event.target.value)}
+                    />
+                  </label>
+                  <div className="adm-city-field-row">
+                    <label className="adm-city-field">
+                      <span>Badge</span>
+                      <input
+                        type="text"
+                        value={feature.badge}
+                        onChange={(event) => updateFeature(index, "badge", event.target.value)}
+                      />
+                    </label>
+                    <label className="adm-city-field">
+                      <span>Tone</span>
+                      <select
+                        value={feature.tone}
+                        onChange={(event) =>
+                          updateFeature(index, "tone", event.target.value as CityWhyFeatureItem["tone"])
+                        }
+                      >
+                        {FEATURE_TONES.map((tone) => (
+                          <option key={tone} value={tone}>
+                            {tone}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* —— SECTION Journey —— */}
+          <section className="adm-city-section-card">
+            <h3 className="adm-city-section-title">SECTION Start Your Journey Now</h3>
+            <div className="adm-city-section-body">
+              <label className="adm-city-field">
+                <span>Text</span>
+                <textarea
+                  rows={6}
+                  value={form.journey.text}
+                  onChange={(event) => updateJourney("text", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Button Text</span>
+                <input
+                  type="text"
+                  value={form.journey.buttonText}
+                  onChange={(event) => updateJourney("buttonText", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Button Href</span>
+                <input
+                  type="text"
+                  value={form.journey.buttonHref}
+                  onChange={(event) => updateJourney("buttonHref", event.target.value)}
+                />
+              </label>
+            </div>
+          </section>
+
+          {/* —— SECTION Success —— */}
+          <section className="adm-city-section-card">
+            <h3 className="adm-city-section-title">SECTION Goethe &amp; TELC Focused (Success)</h3>
+            <div className="adm-city-section-body">
+              <label className="adm-city-field">
+                <span>Badge</span>
+                <input
+                  type="text"
+                  value={form.success.badge}
+                  onChange={(event) => updateSuccess("badge", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Kicker</span>
+                <input
+                  type="text"
+                  value={form.success.kicker}
+                  onChange={(event) => updateSuccess("kicker", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Heading</span>
+                <input
+                  type="text"
+                  value={form.success.heading}
+                  onChange={(event) => updateSuccess("heading", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Heading Highlight</span>
+                <input
+                  type="text"
+                  value={form.success.headingHighlight}
+                  onChange={(event) => updateSuccess("headingHighlight", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Text</span>
+                <textarea
+                  rows={3}
+                  value={form.success.text}
+                  onChange={(event) => updateSuccess("text", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Button Text</span>
+                <input
+                  type="text"
+                  value={form.success.buttonText}
+                  onChange={(event) => updateSuccess("buttonText", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Button Href</span>
+                <input
+                  type="text"
+                  value={form.success.buttonHref}
+                  onChange={(event) => updateSuccess("buttonHref", event.target.value)}
+                />
+              </label>
+
+              <div className="adm-city-section-head">
+                <h4>Mosaic Images</h4>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateSuccess("mosaicImages", [...form.success.mosaicImages, ""])
+                  }
+                >
+                  + Add Image
+                </button>
+              </div>
+              {form.success.mosaicImages.map((src, index) => (
+                <div key={`mosaic-${index}`} className="adm-city-highlight-card">
+                  <div className="adm-city-section-head">
+                    <h4>Image {index + 1}</h4>
+                    {form.success.mosaicImages.length > 1 ? (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-secondary"
+                        onClick={() =>
+                          updateSuccess(
+                            "mosaicImages",
+                            form.success.mosaicImages.filter((_, i) => i !== index),
+                          )
+                        }
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  <AdminImageUploadField
+                    label={`Mosaic Image ${index + 1}`}
+                    value={src}
+                    folder="general"
+                    placeholder="/hero-students.jpg"
+                    onChange={(path) => updateMosaicImage(index, path)}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* —— SECTION FAQs —— */}
+          <section className="adm-city-section-card">
+            <h3 className="adm-city-section-title">SECTION Frequently Asked Questions</h3>
+            <div className="adm-city-section-body">
+              <label className="adm-city-field">
+                <span>Title</span>
+                <input
+                  type="text"
+                  value={form.faqs.title}
+                  onChange={(event) => updateFaqs("title", event.target.value)}
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Subtitle</span>
+                <textarea
+                  rows={2}
+                  value={form.faqs.subtitle}
+                  onChange={(event) => updateFaqs("subtitle", event.target.value)}
+                />
+              </label>
+
+              <div className="adm-city-section-head">
+                <h4>FAQ Items</h4>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() => updateFaqs("items", [...form.faqs.items, emptyFaq()])}
+                >
+                  + Add FAQ
+                </button>
+              </div>
+              {form.faqs.items.map((item, index) => (
+                <div key={item.id || `faq-${index}`} className="adm-city-highlight-card">
+                  <div className="adm-city-section-head">
+                    <h4>FAQ {index + 1}</h4>
+                    {form.faqs.items.length > 1 ? (
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-secondary"
+                        onClick={() =>
+                          updateFaqs(
+                            "items",
+                            form.faqs.items.filter((_, i) => i !== index),
+                          )
+                        }
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  <label className="adm-city-field">
+                    <span>Question</span>
+                    <input
+                      type="text"
+                      value={item.question}
+                      onChange={(event) => updateFaqItem(index, "question", event.target.value)}
+                    />
+                  </label>
+                  <label className="adm-city-field">
+                    <span>Answer</span>
+                    <textarea
+                      rows={3}
+                      value={item.answer}
+                      onChange={(event) => updateFaqItem(index, "answer", event.target.value)}
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* —— Highlights (optional) —— */}
           <section className="adm-city-section-card">
             <div className="adm-city-section-head">
-              <h3 className="adm-city-section-title">SECTION 2 (HIGHLIGHTS)</h3>
+              <h3 className="adm-city-section-title">Highlights (optional)</h3>
               <button
                 type="button"
                 className="adm-btn adm-btn-secondary"
@@ -408,45 +1136,17 @@ export default function AdminCityPagesContent() {
             </div>
           </section>
 
+          {/* —— Main Content —— */}
           <section className="adm-city-section-card">
-            <h3 className="adm-city-section-title">SECTION 3 (MAIN CONTENT)</h3>
+            <h3 className="adm-city-section-title">Main Content</h3>
             <div className="adm-city-section-body">
               <BlogContentEditor value={form.contentHtml} onChange={(html) => updateField("contentHtml", html)} />
             </div>
           </section>
 
+          {/* —— SEO —— */}
           <section className="adm-city-section-card">
-            <h3 className="adm-city-section-title">SECTION 4 (BOTTOM CTA)</h3>
-            <div className="adm-city-section-body">
-              <label className="adm-city-field">
-                <span>CTA Heading</span>
-                <input
-                  type="text"
-                  value={form.ctaHeading}
-                  onChange={(event) => updateField("ctaHeading", event.target.value)}
-                />
-              </label>
-              <label className="adm-city-field">
-                <span>CTA Text</span>
-                <textarea
-                  rows={3}
-                  value={form.ctaText}
-                  onChange={(event) => updateField("ctaText", event.target.value)}
-                />
-              </label>
-              <label className="adm-city-field">
-                <span>CTA Button</span>
-                <input
-                  type="text"
-                  value={form.ctaButtonText}
-                  onChange={(event) => updateField("ctaButtonText", event.target.value)}
-                />
-              </label>
-            </div>
-          </section>
-
-          <section className="adm-city-section-card">
-            <h3 className="adm-city-section-title">SECTION 5 (SEO META TAGS)</h3>
+            <h3 className="adm-city-section-title">SEO Meta Tags</h3>
             <div className="adm-city-section-body">
               <label className="adm-city-field">
                 <span>Meta Title</span>
@@ -526,8 +1226,14 @@ export default function AdminCityPagesContent() {
                     <td>{index + 1}</td>
                     <td>{page.title}</td>
                     <td>
-                      <Link href={`/city/${page.slug}`} target="_blank" rel="noreferrer" className="adm-city-url">
-                        {SITE_URL}/city/{page.slug}
+                      <Link
+                        href={buildCityPagePath(page.slug)}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="adm-city-url"
+                      >
+                        {SITE_URL}
+                        {buildCityPagePath(page.slug)}
                       </Link>
                     </td>
                     <td>

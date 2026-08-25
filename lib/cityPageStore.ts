@@ -1,17 +1,30 @@
 import { unstable_noStore as noStore } from "next/cache";
 import {
+  defaultCityFaqs,
+  defaultCityHeroDescription,
+  defaultCityJourney,
   defaultCityPageSeo,
   defaultCityPagesStore,
-  defaultCityHeroDescription,
+  defaultCitySuccess,
+  defaultCityVision,
+  defaultCityWhyLearn,
+  type CityFaqItem,
+  type CityFaqSectionData,
+  type CityJourneySectionData,
   type CityPage,
   type CityPageHighlight,
   type CityPageSeo,
   type CityPagesStore,
+  type CitySuccessSectionData,
+  type CityVisionSectionData,
+  type CityWhyCollageItem,
+  type CityWhyFeatureItem,
+  type CityWhyLearnSectionData,
 } from "../data/cityPages";
 import { getMongoClient, cleanMongoDocument, throwMongoWriteError, resetMongoClient } from "./mongodb";
 import { getFileCityPagesStore, saveFileCityPagesStore } from "./cityPageFileStore";
 import { isFileStoreEnabled, isServerlessHosting } from "./courseDetailsFileStore";
-import { slugifyCitySlug } from "./cityPageUtils";
+import { normalizeCitySlug } from "./cityPageUtils";
 import {
   CACHE_TAGS,
   getCachedPublicData,
@@ -53,11 +66,140 @@ function sanitizeSeo(value: Partial<CityPageSeo> | undefined, cityName: string):
   };
 }
 
+function asString(value: unknown, fallback = "") {
+  return typeof value === "string" ? value.trim() : fallback;
+}
+
+function sanitizeVision(
+  value: Partial<CityVisionSectionData> | undefined,
+  cityName: string,
+): CityVisionSectionData {
+  const fallback = defaultCityVision(cityName);
+  const points = Array.isArray(value?.points)
+    ? value.points.map((point) => asString(point)).filter(Boolean)
+    : fallback.points;
+  return {
+    tag: asString(value?.tag, fallback.tag),
+    heading: asString(value?.heading, fallback.heading),
+    headingHighlight: asString(value?.headingHighlight, fallback.headingHighlight),
+    headingSuffix: asString(
+      (value as { headingSuffix?: string } | undefined)?.headingSuffix,
+      fallback.headingSuffix,
+    ),
+    text: asString(value?.text, fallback.text),
+    points: points.length ? points : fallback.points,
+    imageSrc: asString(value?.imageSrc, fallback.imageSrc),
+    imageAlt: asString(value?.imageAlt, fallback.imageAlt),
+    badgeValue: asString(value?.badgeValue, fallback.badgeValue),
+    badgeLabel: asString(value?.badgeLabel, fallback.badgeLabel),
+    linkText: asString(value?.linkText, fallback.linkText),
+    linkHref: asString(value?.linkHref, fallback.linkHref),
+  };
+}
+
+function sanitizeWhyLearn(
+  value: Partial<CityWhyLearnSectionData> | undefined,
+  cityName: string,
+): CityWhyLearnSectionData {
+  const fallback = defaultCityWhyLearn(cityName);
+  const tones: CityWhyFeatureItem["tone"][] = ["demo", "exam", "tutors", "batch"];
+
+  const collage: CityWhyCollageItem[] = Array.isArray(value?.collage)
+    ? value.collage
+        .map((item, index) => ({
+          src: asString(item?.src, fallback.collage[index]?.src || "/hero-students.jpg"),
+          alt: asString(item?.alt, fallback.collage[index]?.alt || ""),
+          label: asString(item?.label, fallback.collage[index]?.label || `Image ${index + 1}`),
+        }))
+        .filter((item) => item.src)
+    : fallback.collage;
+
+  const features: CityWhyFeatureItem[] = Array.isArray(value?.features)
+    ? value.features
+        .map((item, index) => {
+          const tone = tones.includes(item?.tone as CityWhyFeatureItem["tone"])
+            ? (item.tone as CityWhyFeatureItem["tone"])
+            : fallback.features[index]?.tone || "demo";
+          return {
+            title: asString(item?.title, fallback.features[index]?.title || ""),
+            text: asString(item?.text, fallback.features[index]?.text || ""),
+            badge: asString(item?.badge, fallback.features[index]?.badge || ""),
+            tone,
+          };
+        })
+        .filter((item) => item.title || item.text)
+    : fallback.features;
+
+  return {
+    headingBefore: asString(value?.headingBefore, fallback.headingBefore),
+    headingHighlight: asString(value?.headingHighlight, fallback.headingHighlight),
+    headingAfter: asString(value?.headingAfter, fallback.headingAfter),
+    text: asString(value?.text, fallback.text),
+    collage: collage.length ? collage : fallback.collage,
+    features: features.length ? features : fallback.features,
+  };
+}
+
+function sanitizeJourney(
+  value: Partial<CityJourneySectionData> | undefined,
+  cityName: string,
+  legacy?: { ctaText?: string; ctaButtonText?: string },
+): CityJourneySectionData {
+  const fallback = defaultCityJourney(cityName);
+  const text =
+    asString(value?.text) ||
+    (legacy?.ctaText && legacy.ctaText.trim().length > 80 ? legacy.ctaText.trim() : "") ||
+    fallback.text;
+  return {
+    text,
+    buttonText:
+      asString(value?.buttonText) || asString(legacy?.ctaButtonText, fallback.buttonText),
+    buttonHref: asString(value?.buttonHref, fallback.buttonHref),
+  };
+}
+
+function sanitizeSuccess(
+  value: Partial<CitySuccessSectionData> | undefined,
+  cityName: string,
+): CitySuccessSectionData {
+  const fallback = defaultCitySuccess(cityName);
+  const mosaicImages = Array.isArray(value?.mosaicImages)
+    ? value.mosaicImages.map((src) => asString(src)).filter(Boolean)
+    : fallback.mosaicImages;
+  return {
+    badge: asString(value?.badge, fallback.badge),
+    kicker: asString(value?.kicker, fallback.kicker),
+    heading: asString(value?.heading, fallback.heading),
+    headingHighlight: asString(value?.headingHighlight, fallback.headingHighlight),
+    text: asString(value?.text, fallback.text),
+    buttonText: asString(value?.buttonText, fallback.buttonText),
+    buttonHref: asString(value?.buttonHref, fallback.buttonHref),
+    mosaicImages: mosaicImages.length ? mosaicImages : fallback.mosaicImages,
+  };
+}
+
+function sanitizeFaqs(value: Partial<CityFaqSectionData> | undefined): CityFaqSectionData {
+  const fallback = defaultCityFaqs();
+  const items: CityFaqItem[] = Array.isArray(value?.items)
+    ? value.items
+        .map((item, index) => ({
+          id: asString(item?.id, `faq-${index + 1}`),
+          question: asString(item?.question),
+          answer: asString(item?.answer),
+        }))
+        .filter((item) => item.question && item.answer)
+    : fallback.items;
+
+  return {
+    title: asString(value?.title, fallback.title),
+    subtitle: asString(value?.subtitle, fallback.subtitle),
+    items: items.length ? items : fallback.items,
+  };
+}
+
 function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: string }): CityPage | null {
   const cityName = typeof value.cityName === "string" ? value.cityName.trim() : "";
-  const slug =
-    slugifyCitySlug(value.slug || "") ||
-    slugifyCitySlug(cityName);
+  const slug = normalizeCitySlug(value.slug || "") || normalizeCitySlug(cityName);
 
   if (!slug || !cityName) {
     return null;
@@ -66,6 +208,11 @@ function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: str
   const highlights = Array.isArray(value.highlights)
     ? value.highlights.map(sanitizeHighlight).filter((item) => item.title || item.text)
     : [];
+
+  const journey = sanitizeJourney(value.journey, cityName, {
+    ctaText: value.ctaText,
+    ctaButtonText: value.ctaButtonText,
+  });
 
   return {
     slug,
@@ -77,14 +224,12 @@ function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: str
     subtitle:
       typeof value.subtitle === "string" && value.subtitle.trim()
         ? value.subtitle.trim()
-        : "Live online A1–C2 training with certified tutors",
+        : "Build Confidence in German Communication",
     heroDescription: (() => {
-      const raw =
-        typeof value.heroDescription === "string" ? value.heroDescription.trim() : "";
+      const raw = typeof value.heroDescription === "string" ? value.heroDescription.trim() : "";
       if (!raw) {
         return defaultCityHeroDescription;
       }
-      // Keep compact marketing copy on city heroes (avoid older long blurbs).
       if (
         raw.startsWith("Looking for German classes") ||
         raw.includes("Academic Prospects Such as") ||
@@ -100,18 +245,17 @@ function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: str
     })(),
     highlights,
     contentHtml: typeof value.contentHtml === "string" ? value.contentHtml.trim() : "",
+    vision: sanitizeVision(value.vision, cityName),
+    whyLearn: sanitizeWhyLearn(value.whyLearn, cityName),
+    journey,
+    success: sanitizeSuccess(value.success, cityName),
+    faqs: sanitizeFaqs(value.faqs),
     ctaHeading:
       typeof value.ctaHeading === "string" && value.ctaHeading.trim()
         ? value.ctaHeading.trim()
         : `Start learning German from ${cityName}`,
-    ctaText:
-      typeof value.ctaText === "string" && value.ctaText.trim()
-        ? value.ctaText.trim()
-        : "Book a free demo class and get the right level and batch recommendation.",
-    ctaButtonText:
-      typeof value.ctaButtonText === "string" && value.ctaButtonText.trim()
-        ? value.ctaButtonText.trim()
-        : "Book Free Demo",
+    ctaText: journey.text,
+    ctaButtonText: journey.buttonText,
     seo: sanitizeSeo(value.seo, cityName),
     isActive: value.isActive !== false,
     sortOrder: Number.isFinite(Number(value.sortOrder)) ? Number(value.sortOrder) : 0,
@@ -232,7 +376,7 @@ export async function getCityPagesStore(options: PublicDataOptions = {}): Promis
     return fetchCityPagesStore();
   }
 
-  return getCachedPublicData(["city-pages", "v1"], [CACHE_TAGS.cityPages], fetchCityPagesStore);
+  return getCachedPublicData(["city-pages", "v2"], [CACHE_TAGS.cityPages], fetchCityPagesStore);
 }
 
 export async function getCityPagesForDisplay(options: PublicDataOptions = {}): Promise<CityPage[]> {
@@ -244,7 +388,7 @@ export async function getCityPageBySlug(
   slug: string,
   options: PublicDataOptions = {},
 ): Promise<CityPage | null> {
-  const normalized = slugifyCitySlug(slug);
+  const normalized = normalizeCitySlug(slug);
   if (!normalized) {
     return null;
   }
@@ -257,7 +401,9 @@ export async function saveCityPagesStore(store: CityPagesStore) {
   return persistStore(store);
 }
 
-export async function upsertCityPage(page: Partial<CityPage> & { cityName: string }) {
+export async function upsertCityPage(
+  page: Partial<CityPage> & { cityName: string; originalSlug?: string },
+) {
   const store = await getCityPagesStore({ fresh: true });
   const sanitized = sanitizePage({
     ...page,
@@ -272,7 +418,19 @@ export async function upsertCityPage(page: Partial<CityPage> & { cityName: strin
     throw new Error("Page title is required.");
   }
 
-  const existingIndex = store.pages.findIndex((item) => item.slug === sanitized.slug);
+  if (!sanitized.slug.trim()) {
+    throw new Error("Page URL is required.");
+  }
+
+  const originalSlug = normalizeCitySlug(page.originalSlug || "") || sanitized.slug;
+  const conflict = store.pages.find(
+    (item) => item.slug === sanitized.slug && item.slug !== originalSlug,
+  );
+  if (conflict) {
+    throw new Error("A city page with this URL already exists.");
+  }
+
+  const existingIndex = store.pages.findIndex((item) => item.slug === originalSlug);
   const pages =
     existingIndex >= 0
       ? store.pages.map((item, index) => (index === existingIndex ? sanitized : item))
@@ -282,7 +440,7 @@ export async function upsertCityPage(page: Partial<CityPage> & { cityName: strin
 }
 
 export async function deleteCityPage(slug: string) {
-  const normalized = slugifyCitySlug(slug);
+  const normalized = normalizeCitySlug(slug);
   if (!normalized) {
     throw new Error("City slug is required.");
   }

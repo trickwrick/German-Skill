@@ -95,6 +95,7 @@ export function revalidatePublicCityPagesData(...slugs: string[]) {
     const trimmed = slug.trim();
     if (trimmed) {
       revalidatePath(`/city/${trimmed}`);
+      revalidatePath(`/german-classes-${trimmed}`);
     }
   }
 }

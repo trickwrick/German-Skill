@@ -31,7 +31,10 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body = (await request.json()) as Partial<CityPage> & { cityName: string };
+    const body = (await request.json()) as Partial<CityPage> & {
+      cityName: string;
+      originalSlug?: string;
+    };
     const saved = await upsertCityPage(body);
     return NextResponse.json(saved, { status: 201 });
   } catch (error) {
