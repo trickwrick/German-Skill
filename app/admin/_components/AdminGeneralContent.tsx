@@ -1104,6 +1104,9 @@ export default function AdminGeneralContent() {
           </div>
         )}
 
+        {error ? <p className="adm-form-message adm-form-message-error">{error}</p> : null}
+        {success ? <p className="adm-form-message adm-form-message-success">{success}</p> : null}
+
         <div className="adm-form-actions">
           <button type="submit" className="adm-btn adm-btn-primary" disabled={saving}>
             {saving ? "Saving..." : `Save ${selectedLabel}`}
