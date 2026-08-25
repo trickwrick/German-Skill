@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import type { VideoTestimonial } from "../../data/videoTestimonials";
 import { formatTestimonialRating, getTestimonialDescription, getYoutubeEmbedUrl } from "../../lib/videoTestimonialUtils";
+import { COURSES_PAGE_PATH } from "../../lib/sitePaths";
 
 type VideoTestimonialsSectionProps = {
   testimonials: VideoTestimonial[];
@@ -201,7 +202,7 @@ function VideoModal({ testimonials, activeIndex, onClose, onPrev, onNext }: Vide
                 <Link href="/contact" className="btn video-testimonial-modal-btn">
                   Join Free Demo
                 </Link>
-                <Link href="/courses" className="video-testimonial-modal-link">
+                <Link href={COURSES_PAGE_PATH} className="video-testimonial-modal-link">
                   Explore Courses →
                 </Link>
               </div>

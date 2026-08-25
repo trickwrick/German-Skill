@@ -6,6 +6,7 @@ import {
   generalPageOptions,
   type GeneralPageId,
   type GeneralPagesContent,
+  type GermanLanguageCoursePageData,
   type LegalPageContentData,
   type OurCompanyPageData,
   type PageSeoMeta,
@@ -97,6 +98,15 @@ export default function AdminGeneralContent() {
     }));
   }
 
+  function updateGermanLanguageCourse(
+    updater: (current: GermanLanguageCoursePageData) => GermanLanguageCoursePageData,
+  ) {
+    setContent((current) => ({
+      ...current,
+      germanLanguageCourse: updater(current.germanLanguageCourse),
+    }));
+  }
+
   function updateOurCompany(updater: (current: OurCompanyPageData) => OurCompanyPageData) {
     setContent((current) => ({
       ...current,
@@ -110,12 +120,18 @@ export default function AdminGeneralContent() {
     setError("");
     setSuccess("");
 
-    const payload = isHtmlPage(selectedPage)
-      ? {
-          pageId: selectedPage,
-          content: content[getHtmlPageKey(selectedPage)] as LegalPageContentData,
-        }
-      : { pageId: selectedPage, content: content.ourCompany as OurCompanyPageData };
+    const payload =
+      selectedPage === "german-language-course"
+        ? {
+            pageId: selectedPage,
+            content: content.germanLanguageCourse,
+          }
+        : isHtmlPage(selectedPage)
+          ? {
+              pageId: selectedPage,
+              content: content[getHtmlPageKey(selectedPage)] as LegalPageContentData,
+            }
+          : { pageId: selectedPage, content: content.ourCompany as OurCompanyPageData };
 
     try {
       const response = await fetch("/api/admin/general-pages", {
@@ -148,6 +164,8 @@ export default function AdminGeneralContent() {
     ? content[getHtmlPageKey(selectedPage)].html
     : "";
   const applyJobSeo = content.applyJob.seo ?? emptyApplyJobSeo;
+  const germanLanguageCourse =
+    content.germanLanguageCourse ?? defaultGeneralPagesContent.germanLanguageCourse;
 
   return (
     <div className="adm-general-pages">
@@ -155,8 +173,8 @@ export default function AdminGeneralContent() {
         <div>
           <h1 className="adm-page-title">General</h1>
           <p className="adm-page-subtitle">
-            Edit Terms &amp; Conditions, Privacy Policy, Refund Policy, Our Company, and Apply Job
-            content.
+            Edit Terms &amp; Conditions, Privacy Policy, Refund Policy, Our Company, Apply Job, and
+            German Language Course SEO.
           </p>
         </div>
       </div>
@@ -189,7 +207,115 @@ export default function AdminGeneralContent() {
           </label>
         </div>
 
-        {isHtmlPage(selectedPage) ? (
+        {selectedPage === "german-language-course" ? (
+          <div className="adm-general-seo-editor">
+            <p className="adm-panel-note">
+              Manage the public German Language Course page banner and search engine meta tags (
+              <code>/german-language-course</code>).
+            </p>
+
+            <section className="adm-general-section">
+              <div className="adm-panel-head">
+                <h3 className="adm-panel-title">Page Banner</h3>
+              </div>
+              <div className="adm-form-grid">
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Page Title</span>
+                  <input
+                    type="text"
+                    value={germanLanguageCourse.pageTitle}
+                    onChange={(event) =>
+                      updateGermanLanguageCourse((current) => ({
+                        ...current,
+                        pageTitle: event.target.value,
+                      }))
+                    }
+                    placeholder="German Language Course"
+                  />
+                </label>
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Page Description</span>
+                  <textarea
+                    rows={3}
+                    value={germanLanguageCourse.pageDescription}
+                    onChange={(event) =>
+                      updateGermanLanguageCourse((current) => ({
+                        ...current,
+                        pageDescription: event.target.value,
+                      }))
+                    }
+                    placeholder="Choose the right German level for your goals..."
+                  />
+                </label>
+              </div>
+            </section>
+
+            <section className="adm-panel adm-seo-panel" style={{ marginTop: "1.5rem" }}>
+              <div className="adm-panel-head">
+                <h2 className="adm-panel-title">SEO — Meta Tags</h2>
+              </div>
+              <p className="adm-panel-note">
+                Define meta title, keywords and description shown in Google for this page.
+              </p>
+              <div className="adm-form-grid adm-seo-grid">
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Meta Title *</span>
+                  <input
+                    type="text"
+                    name="metaTitle"
+                    value={germanLanguageCourse.seo.metaTitle}
+                    onChange={(event) =>
+                      updateGermanLanguageCourse((current) => ({
+                        ...current,
+                        seo: { ...current.seo, metaTitle: event.target.value },
+                      }))
+                    }
+                    maxLength={70}
+                    placeholder="German Courses A1–C2 | Fluent AUF"
+                    required
+                  />
+                  <small className="adm-field-hint">Max length 70 characters</small>
+                </label>
+
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Meta Keyword</span>
+                  <textarea
+                    name="metaKeyword"
+                    value={germanLanguageCourse.seo.metaKeyword}
+                    onChange={(event) =>
+                      updateGermanLanguageCourse((current) => ({
+                        ...current,
+                        seo: { ...current.seo, metaKeyword: event.target.value },
+                      }))
+                    }
+                    maxLength={160}
+                    rows={2}
+                    placeholder="German Language Course, Online German Classes, Learn German"
+                  />
+                  <small className="adm-field-hint">Max length 160 characters</small>
+                </label>
+
+                <label className="adm-form-field adm-form-field-full">
+                  <span>Meta Description</span>
+                  <textarea
+                    name="metaDescription"
+                    value={germanLanguageCourse.seo.metaDescription}
+                    onChange={(event) =>
+                      updateGermanLanguageCourse((current) => ({
+                        ...current,
+                        seo: { ...current.seo, metaDescription: event.target.value },
+                      }))
+                    }
+                    maxLength={250}
+                    rows={3}
+                    placeholder="Short summary shown in Google search results for this page."
+                  />
+                  <small className="adm-field-hint">Max length 250 characters</small>
+                </label>
+              </div>
+            </section>
+          </div>
+        ) : isHtmlPage(selectedPage) ? (
           <div className="adm-general-legal-editor">
             <p className="adm-panel-note">
               {selectedPage === "apply-job"

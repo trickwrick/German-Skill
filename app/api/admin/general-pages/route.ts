@@ -6,6 +6,7 @@ import {
   saveGeneralPageContent,
   saveGeneralPagesContent,
   type GeneralPagesContent,
+  type GermanLanguageCoursePageData,
   type LegalPageContentData,
   type OurCompanyPageData,
 } from "../../../../lib/generalPageStore";
@@ -36,7 +37,7 @@ export async function PUT(request: Request) {
       | GeneralPagesContent
       | {
           pageId: GeneralPageId;
-          content: LegalPageContentData | OurCompanyPageData;
+          content: LegalPageContentData | OurCompanyPageData | GermanLanguageCoursePageData;
         };
 
     if ("pageId" in body && body.pageId) {

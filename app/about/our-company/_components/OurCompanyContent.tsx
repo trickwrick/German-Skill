@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { COURSES_PAGE_PATH } from "../../../../lib/sitePaths";
 import type { OurCompanyPageData } from "../../../../data/generalPages";
 import { defaultOurCompanyContent } from "../../../../data/generalPages";
 import FacultyTeamsSection from "../../../components/FacultyTeamsSection";
@@ -51,7 +52,7 @@ export default function OurCompanyContent({ content = defaultOurCompanyContent }
               ))}
             </ul>
             <div className="oc-intro-actions">
-              <Link href="/courses" className="btn btn-primary">
+              <Link href={COURSES_PAGE_PATH} className="btn btn-primary">
                 {content.intro.primaryButtonText}
               </Link>
               <Link href="/contact" className="oc-btn-secondary">

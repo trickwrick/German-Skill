@@ -45,7 +45,7 @@ export default function AdminCoursesContent({ courses }: AdminCoursesContentProp
 
       <section className="adm-panel">
         <div className="adm-panel-head">
-          <h2 className="adm-panel-title">All Courses</h2>
+          <h2 className="adm-panel-title">German Language Course</h2>
         </div>
 
         <div className="adm-table-wrap">

@@ -3,6 +3,7 @@ import {
   defaultGeneralPagesContent,
   type GeneralPageId,
   type GeneralPagesContent,
+  type GermanLanguageCoursePageData,
   type LegalPageContentData,
   type OurCompanyPageData,
   type PageSeoMeta,
@@ -25,7 +26,13 @@ const DOCUMENT_ID = "site_general_pages";
 
 type GeneralPagesDocument = GeneralPagesContent & { _id: string; updatedAt?: Date };
 
-export type { GeneralPageId, GeneralPagesContent, LegalPageContentData, OurCompanyPageData };
+export type {
+  GeneralPageId,
+  GeneralPagesContent,
+  GermanLanguageCoursePageData,
+  LegalPageContentData,
+  OurCompanyPageData,
+};
 
 function sanitizeStringList(value: unknown, fallback: string[]) {
   if (!Array.isArray(value)) {
@@ -229,6 +236,25 @@ function sanitizeOurCompanyContent(
   };
 }
 
+function sanitizeGermanLanguageCourseContent(
+  value: Partial<GermanLanguageCoursePageData> | undefined,
+  fallback: GermanLanguageCoursePageData,
+): GermanLanguageCoursePageData {
+  const seo = sanitizePageSeo(value?.seo, fallback.seo) ?? fallback.seo;
+
+  return {
+    pageTitle:
+      typeof value?.pageTitle === "string" && value.pageTitle.trim()
+        ? value.pageTitle.trim()
+        : fallback.pageTitle,
+    pageDescription:
+      typeof value?.pageDescription === "string" && value.pageDescription.trim()
+        ? value.pageDescription.trim()
+        : fallback.pageDescription,
+    seo,
+  };
+}
+
 function sanitizeContent(value: Partial<GeneralPagesContent>): GeneralPagesContent {
   return {
     terms: sanitizeLegalContent(value.terms, defaultGeneralPagesContent.terms),
@@ -238,6 +264,10 @@ function sanitizeContent(value: Partial<GeneralPagesContent>): GeneralPagesConte
     applyJob: sanitizeLegalContent(
       (value as Partial<GeneralPagesContent>).applyJob,
       defaultGeneralPagesContent.applyJob,
+    ),
+    germanLanguageCourse: sanitizeGermanLanguageCourseContent(
+      value.germanLanguageCourse,
+      defaultGeneralPagesContent.germanLanguageCourse,
     ),
   };
 }
@@ -295,7 +325,7 @@ export async function getGeneralPagesContent(options: PublicDataOptions = {}): P
   }
 
   return getCachedPublicData(
-    ["general-pages", "v3"],
+    ["general-pages", "v4"],
     [CACHE_TAGS.generalPages],
     fetchGeneralPagesContent,
   );
@@ -317,6 +347,11 @@ export async function getOurCompanyPageContent(options: PublicDataOptions = {}) 
 export async function getApplyJobPageContent(options: PublicDataOptions = {}) {
   const content = await getGeneralPagesContent(options);
   return content.applyJob ?? defaultGeneralPagesContent.applyJob;
+}
+
+export async function getGermanLanguageCoursePageContent(options: PublicDataOptions = {}) {
+  const content = await getGeneralPagesContent(options);
+  return content.germanLanguageCourse ?? defaultGeneralPagesContent.germanLanguageCourse;
 }
 
 async function persistContent(content: GeneralPagesContent) {
@@ -392,7 +427,7 @@ export async function saveGeneralPagesContent(content: GeneralPagesContent) {
 
 export async function saveGeneralPageContent(
   pageId: GeneralPageId,
-  pageContent: LegalPageContentData | OurCompanyPageData,
+  pageContent: LegalPageContentData | OurCompanyPageData | GermanLanguageCoursePageData,
 ) {
   const content = await getGeneralPagesContent({ fresh: true });
 
@@ -400,6 +435,16 @@ export async function saveGeneralPageContent(
     return persistContent({
       ...content,
       ourCompany: sanitizeOurCompanyContent(pageContent as OurCompanyPageData, content.ourCompany),
+    });
+  }
+
+  if (pageId === "german-language-course") {
+    return persistContent({
+      ...content,
+      germanLanguageCourse: sanitizeGermanLanguageCourseContent(
+        pageContent as GermanLanguageCoursePageData,
+        content.germanLanguageCourse,
+      ),
     });
   }
 

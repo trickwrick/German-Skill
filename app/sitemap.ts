@@ -4,6 +4,7 @@ import { germanCourses } from "../data/germanCourses";
 import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
 import { getCityPagesForDisplay } from "../lib/cityPageStore";
 import { buildCityPagePath } from "../lib/cityPageUtils";
+import { COURSES_PAGE_PATH } from "../lib/sitePaths";
 
 const siteUrl = "https://fluentauf.com";
 
@@ -16,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${siteUrl}/courses`,
+      url: `${siteUrl}${COURSES_PAGE_PATH}`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,

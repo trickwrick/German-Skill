@@ -1,5 +1,6 @@
 import { germanCourses, getCourseHref } from "./germanCourses";
 import { showFaqs } from "./siteFeatures";
+import { COURSES_PAGE_PATH } from "../lib/sitePaths";
 
 export const courseLevels = germanCourses.map((course) => ({
   label: `German Level ${course.slug.toUpperCase()}`,
@@ -20,7 +21,7 @@ export const aboutLinks = showFaqs
 export const navItems = [
   {
     label: "Courses",
-    href: "/courses",
+    href: COURSES_PAGE_PATH,
     dropdown: false,
   },
   {

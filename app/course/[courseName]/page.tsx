@@ -25,6 +25,7 @@ import {
   buildPageMetadata,
 } from "../../../lib/siteSeo";
 import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
+import { COURSES_PAGE_PATH } from "../../../lib/sitePaths";
 
 export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
@@ -56,7 +57,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return buildPageMetadata({
       title: "Course Not Found | Fluent AUF",
       description: "The requested German language course could not be found on Fluent AUF.",
-      path: "/courses",
+      path: COURSES_PAGE_PATH,
       noIndex: true,
     });
   }
@@ -187,7 +188,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
     }),
     buildBreadcrumbSchema([
       { name: "Home", path: "/" },
-      { name: "Courses", path: "/courses" },
+      { name: "German Language Course", path: COURSES_PAGE_PATH },
       { name: displayCourse.title, path: coursePath },
     ]),
   ];
@@ -213,9 +214,9 @@ export default async function GermanCoursePage({ params }: PageProps) {
             <nav className="course-breadcrumbs" aria-label="Breadcrumb">
               <Link href="/">Home</Link>
               <span aria-hidden="true">•</span>
-              <Link href="/courses">German</Link>
+              <Link href={COURSES_PAGE_PATH}>German</Link>
               <span aria-hidden="true">•</span>
-              <Link href="/courses">All Courses</Link>
+              <Link href={COURSES_PAGE_PATH}>German Language Course</Link>
             </nav>
           </div>
         </section>

@@ -11,7 +11,7 @@ export default function AllCoursesSection({ courses }: AllCoursesSectionProps) {
   return (
     <section className="all-courses-section">
       <div className="all-courses-inner">
-        <h2 className="all-courses-title">All Courses</h2>
+        <h2 className="all-courses-title">German Language Course</h2>
         <p className="all-courses-subtitle">
           Take your language skills to the next level with our dynamic and engaging courses in the
           German category, designed to meet the needs of learners at every stage.

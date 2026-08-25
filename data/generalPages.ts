@@ -1,4 +1,10 @@
-export type GeneralPageId = "terms" | "privacy" | "refund" | "our-company" | "apply-job";
+export type GeneralPageId =
+  | "terms"
+  | "privacy"
+  | "refund"
+  | "our-company"
+  | "apply-job"
+  | "german-language-course";
 
 export type PageSeoMeta = {
   metaTitle: string;
@@ -12,6 +18,13 @@ export type LegalPageContentData = {
   paragraphs?: string[];
   /** Optional SEO meta tags (used by Apply Job) */
   seo?: PageSeoMeta;
+};
+
+/** SEO + banner content for the public courses listing page */
+export type GermanLanguageCoursePageData = {
+  pageTitle: string;
+  pageDescription: string;
+  seo: PageSeoMeta;
 };
 
 export type OurCompanyStat = {
@@ -81,6 +94,7 @@ export type GeneralPagesContent = {
   refund: LegalPageContentData;
   ourCompany: OurCompanyPageData;
   applyJob: LegalPageContentData;
+  germanLanguageCourse: GermanLanguageCoursePageData;
 };
 
 export const generalPageOptions: Array<{ id: GeneralPageId; label: string }> = [
@@ -89,6 +103,7 @@ export const generalPageOptions: Array<{ id: GeneralPageId; label: string }> = [
   { id: "refund", label: "Refund Policy" },
   { id: "our-company", label: "Our Company" },
   { id: "apply-job", label: "Apply Job" },
+  { id: "german-language-course", label: "German Language Course" },
 ];
 
 import { legalParagraphsToHtml } from "../lib/generalPageUtils";
@@ -267,10 +282,23 @@ export const defaultApplyJobContent: LegalPageContentData = {
   },
 };
 
+export const defaultGermanLanguageCourseContent: GermanLanguageCoursePageData = {
+  pageTitle: "German Language Course",
+  pageDescription:
+    "Choose the right German level for your goals — from beginner A1 to advanced C2.",
+  seo: {
+    metaTitle: "German Courses A1–C2 | Fluent AUF",
+    metaKeyword: "German Language Course, Online German Classes, Learn German",
+    metaDescription:
+      "Explore Fluent AUF German language courses from A1 to C2 with live classes, certified tutors, and Goethe-focused preparation.",
+  },
+};
+
 export const defaultGeneralPagesContent: GeneralPagesContent = {
   terms: defaultTermsContent,
   privacy: defaultPrivacyContent,
   refund: defaultRefundContent,
   ourCompany: defaultOurCompanyContent,
   applyJob: defaultApplyJobContent,
+  germanLanguageCourse: defaultGermanLanguageCourseContent,
 };

@@ -1,5 +1,6 @@
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { getCourseBySlug } from "../data/germanCourses";
+import { COURSES_PAGE_PATH } from "./sitePaths";
 
 export const PUBLIC_REVALIDATE_SECONDS = 300;
 
@@ -54,6 +55,7 @@ export function revalidatePublicBlogData(...slugs: string[]) {
 export function revalidatePublicCourseData(...slugsOrPaths: string[]) {
   revalidateTag(CACHE_TAGS.courses);
   revalidatePath("/");
+  revalidatePath(COURSES_PAGE_PATH);
   revalidatePath("/courses");
 
   for (const value of slugsOrPaths) {
@@ -85,6 +87,8 @@ export function revalidatePublicGeneralPagesData() {
   revalidatePath("/refund");
   revalidatePath("/about/our-company");
   revalidatePath("/about/apply-job");
+  revalidatePath(COURSES_PAGE_PATH);
+  revalidatePath("/courses");
 }
 
 export function revalidatePublicCityPagesData(...slugs: string[]) {
@@ -103,6 +107,7 @@ export function revalidatePublicCityPagesData(...slugs: string[]) {
 export function revalidatePublicSeoData() {
   revalidateTag(CACHE_TAGS.seoSettings);
   revalidatePath("/");
+  revalidatePath(COURSES_PAGE_PATH);
   revalidatePath("/courses");
   revalidatePath("/blogs");
   revalidatePath("/about/our-company");
