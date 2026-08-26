@@ -63,7 +63,7 @@ export default function ContactPage() {
         <section className="course-detail-hero contact-hero">
           <div className="course-detail-hero-overlay" aria-hidden="true" />
           <div className="course-detail-hero-content">
-            <h1>Contact Us</h1>
+            <h1 className="course-detail-hero-label">Contact Us</h1>
             <nav className="course-breadcrumbs" aria-label="Breadcrumb">
               <Link href="/">Home</Link>
               <span aria-hidden="true">•</span>

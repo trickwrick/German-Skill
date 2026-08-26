@@ -1,0 +1,440 @@
+{
+  "pages": [
+    {
+      "slug": "delhi",
+      "cityName": "Delhi",
+      "title": "German Classes in Delhi",
+      "subtitle": "Build Confidence in",
+      "heroTypedPhrases": [
+        "German Communication",
+        "German Classes",
+        "German Best learn"
+      ],
+      "heroDescription": "<p>Professional German Goethe &amp; TELC learning assistance from A1 to C2 &mdash; prepare for study abroad, stronger careers, and Germany / Austria / Switzerland pathways with live expert-led classes.</p>",
+      "highlights": [
+        {
+          "title": "Live Online Classes",
+          "text": "<p>Join interactive German batches from Delhi with real-time speaking practice.</p>"
+        },
+        {
+          "title": "A1 to C2 Levels",
+          "text": "<p>Structured CEFR courses for beginners through advanced learners.</p>"
+        },
+        {
+          "title": "Exam Preparation",
+          "text": "<p>Goethe, telc and TestDaF focused practice with mock tests.</p>"
+        },
+        {
+          "title": "Flexible Batches",
+          "text": "<p>Weekday and weekend timings that fit your schedule.</p>"
+        }
+      ],
+      "contentHtml": "<p>Fluent AUF helps learners in <strong>Delhi</strong> build German fluency for study abroad, careers, migration, and personal growth.</p>\n\n<p>Our certified trainers guide you through grammar, vocabulary, conversation, and exam skills with small interactive batches.</p>\n\n<h3>Why choose Fluent AUF in Delhi?</h3>\n\n<ul>\n\t<li>Live online classes you can attend from home</li>\n\t<li>Personalized attention and doubt support</li>\n\t<li>Study material and session recordings</li>\n\t<li>Free demo class before you enroll</li>\n</ul>",
+      "vision": {
+        "tag": "Our Vision",
+        "heading": "Empowering German learners in",
+        "headingHighlight": "Delhi",
+        "headingSuffix": "and beyond",
+        "text": "<p>At Fluent AUF, our vision is to help learners in Delhi and across India achieve real German fluency &mdash; not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.</p>",
+        "points": [
+          "<p>Make quality German education accessible to learners in every city through live online classes.</p>",
+          "<p>Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.</p>",
+          "<p>Help students gain confidence to study, work, and settle abroad with practical language skills.</p>"
+        ],
+        "imageSrc": "/hero-students.jpg",
+        "imageAlt": "Fluent AUF German language learners from Delhi",
+        "badgeValue": "16,000+",
+        "badgeLabel": "Students learning with us",
+        "linkText": "Learn more about Fluent AUF",
+        "linkHref": "/about/our-company"
+      },
+      "whyLearn": {
+        "headingBefore": "Why Learn at",
+        "headingHighlight": "Fluent AUF",
+        "headingAfter": "?",
+        "text": "<p>Build real German fluency with live classes, certified tutors, and exam-focused guidance &mdash; trusted by learners in Delhi and across India.</p>",
+        "collage": [
+          {
+            "src": "/portal-education.jpg",
+            "alt": "Live German classroom session",
+            "label": "Live Classroom Sessions"
+          },
+          {
+            "src": "/webinar-student.jpg",
+            "alt": "Student learning German online",
+            "label": "Interactive Online Classes"
+          },
+          {
+            "src": "/hero-students.jpg",
+            "alt": "Students preparing for German exams",
+            "label": "Goethe & TELC Preparation"
+          }
+        ],
+        "features": [
+          {
+            "title": "Free Demo Classes",
+            "text": "<p>Experience our teaching style before you enroll. Sit in a live session and decide with confidence.</p>",
+            "badge": "100% Free",
+            "tone": "demo"
+          },
+          {
+            "title": "Exam-Focused Training",
+            "text": "<p>Structured A1&ndash;C2 prep aligned with Goethe and TELC patterns, practice tests, and speaking drills.</p>",
+            "badge": "Exam Ready",
+            "tone": "exam"
+          },
+          {
+            "title": "Certified German Tutors",
+            "text": "<p>Learn from experienced, certified trainers who guide you with clear feedback every step of the way.</p>",
+            "badge": "Expert Faculty",
+            "tone": "tutors"
+          },
+          {
+            "title": "Flexible Online Batches",
+            "text": "<p>Join weekday or weekend batches from Delhi or anywhere &mdash; small groups, live classes, recorded support.</p>",
+            "badge": "Live Online",
+            "tone": "batch"
+          }
+        ]
+      },
+      "journey": {
+        "text": "<p>Achieve German language expertise from our German classes in Delhi, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!</p>",
+        "buttonText": "Start Your Journey Now",
+        "buttonHref": "/contact"
+      },
+      "success": {
+        "badge": "Goethe & TELC Focused",
+        "kicker": "Learn German at Fluent AUF & Unlock Your",
+        "heading": "Dream Opportunity",
+        "headingHighlight": "Abroad",
+        "text": "<p>Join 10,500+ successful students who built German fluency for study, work, and career growth &mdash; including learners from Delhi.</p>",
+        "buttonText": "Enquire Now",
+        "buttonHref": "/contact",
+        "imageSrc": "/hero-students.jpg",
+        "imageAlt": "Successful German learners from Delhi"
+      },
+      "faqs": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "<p>Get answers to the most common questions about our German courses and learning process.</p>",
+        "items": [
+          {
+            "id": "german-levels",
+            "question": "What levels of German do you offer?",
+            "answer": "<p>Fluent AUF offers structured German courses from A1 to C2, including Goethe and Telc exam preparation for every level.</p>"
+          },
+          {
+            "id": "course-duration",
+            "question": "How long does it take to complete a course?",
+            "answer": "<p>Course duration depends on the level. A1 typically takes 8&ndash;12 weeks, while higher levels may take longer with regular live classes and practice.</p>"
+          },
+          {
+            "id": "demo-class",
+            "question": "Can I attend a free demo class?",
+            "answer": "<p>Yes. You can book a free demo class to experience our teaching style, meet a trainer, and get level guidance before enrolling.</p>"
+          }
+        ]
+      },
+      "ctaHeading": "Start learning German from Delhi",
+      "ctaText": "<p>Achieve German language expertise from our German classes in Delhi, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!</p>",
+      "ctaButtonText": "Start Your Journey Now",
+      "seo": {
+        "metaTitle": "German Classes in Delhi | Fluent AUF",
+        "metaKeyword": "German classes in Delhi, learn German Delhi, Goethe exam Delhi",
+        "metaDescription": "Learn German online with Fluent AUF — live A1 to C2 classes for students in Delhi. Book a free demo today."
+      },
+      "isActive": true,
+      "sortOrder": 1,
+      "updatedAt": "2026-08-25T10:56:32.794Z"
+    },
+    {
+      "slug": "jaipur",
+      "cityName": "Jaipur",
+      "title": "German Classes in Jaipur",
+      "subtitle": "Build Confidence in",
+      "heroTypedPhrases": [
+        "German Communication",
+        "German Classes",
+        "German Best learn"
+      ],
+      "heroDescription": "Professional German Goethe & TELC learning assistance from A1 to C2 — prepare for study abroad, stronger careers, and Germany / Austria / Switzerland pathways with live expert-led classes.",
+      "highlights": [
+        {
+          "title": "Live Online Classes",
+          "text": "Join interactive German batches from Jaipur with real-time speaking practice."
+        },
+        {
+          "title": "A1 to C2 Levels",
+          "text": "Structured CEFR courses for beginners through advanced learners."
+        },
+        {
+          "title": "Exam Preparation",
+          "text": "Goethe, telc and TestDaF focused practice with mock tests."
+        },
+        {
+          "title": "Flexible Batches",
+          "text": "Weekday and weekend timings that fit your schedule."
+        }
+      ],
+      "contentHtml": "<p>Fluent AUF helps learners in <strong>Jaipur</strong> build German fluency for study abroad, careers, migration, and personal growth.</p>\n<p>Our certified trainers guide you through grammar, vocabulary, conversation, and exam skills with small interactive batches.</p>\n<h3>Why choose Fluent AUF in Jaipur?</h3>\n<ul><li>Live online classes you can attend from home</li><li>Personalized attention and doubt support</li><li>Study material and session recordings</li><li>Free demo class before you enroll</li></ul>",
+      "vision": {
+        "tag": "Our Vision",
+        "heading": "Empowering German learners in",
+        "headingHighlight": "Jaipur",
+        "headingSuffix": "and beyond",
+        "text": "At Fluent AUF, our vision is to help learners in Jaipur and across India achieve real German fluency — not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.",
+        "points": [
+          "Make quality German education accessible to learners in every city through live online classes.",
+          "Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.",
+          "Help students gain confidence to study, work, and settle abroad with practical language skills."
+        ],
+        "imageSrc": "/hero-students.jpg",
+        "imageAlt": "Fluent AUF German language learners from Jaipur",
+        "badgeValue": "16,000+",
+        "badgeLabel": "Students learning with us",
+        "linkText": "Learn more about Fluent AUF",
+        "linkHref": "/about/our-company"
+      },
+      "whyLearn": {
+        "headingBefore": "Why Learn at",
+        "headingHighlight": "Fluent AUF",
+        "headingAfter": "?",
+        "text": "Build real German fluency with live classes, certified tutors, and exam-focused guidance — trusted by learners in Jaipur and across India.",
+        "collage": [
+          {
+            "src": "/portal-education.jpg",
+            "alt": "Live German classroom session",
+            "label": "Live Classroom Sessions"
+          },
+          {
+            "src": "/webinar-student.jpg",
+            "alt": "Student learning German online",
+            "label": "Interactive Online Classes"
+          },
+          {
+            "src": "/hero-students.jpg",
+            "alt": "Students preparing for German exams",
+            "label": "Goethe & TELC Preparation"
+          }
+        ],
+        "features": [
+          {
+            "title": "Free Demo Classes",
+            "text": "Experience our teaching style before you enroll. Sit in a live session and decide with confidence.",
+            "badge": "100% Free",
+            "tone": "demo"
+          },
+          {
+            "title": "Exam-Focused Training",
+            "text": "Structured A1–C2 prep aligned with Goethe and TELC patterns, practice tests, and speaking drills.",
+            "badge": "Exam Ready",
+            "tone": "exam"
+          },
+          {
+            "title": "Certified German Tutors",
+            "text": "Learn from experienced, certified trainers who guide you with clear feedback every step of the way.",
+            "badge": "Expert Faculty",
+            "tone": "tutors"
+          },
+          {
+            "title": "Flexible Online Batches",
+            "text": "Join weekday or weekend batches from Jaipur or anywhere — small groups, live classes, recorded support.",
+            "badge": "Live Online",
+            "tone": "batch"
+          }
+        ]
+      },
+      "journey": {
+        "text": "Achieve German language expertise from our German classes in Jaipur, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!",
+        "buttonText": "Start Your Journey Now",
+        "buttonHref": "/contact"
+      },
+      "success": {
+        "badge": "Goethe & TELC Focused",
+        "kicker": "Learn German at Fluent AUF & Unlock Your",
+        "heading": "Dream Opportunity",
+        "headingHighlight": "Abroad",
+        "text": "Join 10,500+ successful students who built German fluency for study, work, and career growth — including learners from Jaipur.",
+        "buttonText": "Enquire Now",
+        "buttonHref": "/contact",
+        "imageSrc": "/hero-students.jpg",
+        "imageAlt": "Successful German learners from Jaipur"
+      },
+      "faqs": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Get answers to the most common questions about our German courses and learning process.",
+        "items": [
+          {
+            "id": "german-levels",
+            "question": "What levels of German do you offer?",
+            "answer": "Fluent AUF offers structured German courses from A1 to C2, including Goethe and Telc exam preparation for every level."
+          },
+          {
+            "id": "course-duration",
+            "question": "How long does it take to complete a course?",
+            "answer": "Course duration depends on the level. A1 typically takes 8–12 weeks, while higher levels may take longer with regular live classes and practice."
+          },
+          {
+            "id": "demo-class",
+            "question": "Can I attend a free demo class?",
+            "answer": "Yes. You can book a free demo class to experience our teaching style, meet a trainer, and get level guidance before enrolling."
+          }
+        ]
+      },
+      "ctaHeading": "Start learning German from Jaipur",
+      "ctaText": "Achieve German language expertise from our German classes in Jaipur, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!",
+      "ctaButtonText": "Start Your Journey Now",
+      "seo": {
+        "metaTitle": "German Classes in Jaipur | Fluent AUF",
+        "metaKeyword": "German classes in Jaipur, learn German Jaipur, Goethe exam Jaipur",
+        "metaDescription": "Learn German online with Fluent AUF — live A1 to C2 classes for students in Jaipur. Book a free demo today."
+      },
+      "isActive": true,
+      "sortOrder": 2
+    },
+    {
+      "slug": "mumbai",
+      "cityName": "Mumbai",
+      "title": "German Classes in Mumbai",
+      "subtitle": "Build Confidence in",
+      "heroTypedPhrases": [
+        "German Communication",
+        "German Classes",
+        "German Best learn"
+      ],
+      "heroDescription": "Professional German Goethe & TELC learning assistance from A1 to C2 — prepare for study abroad, stronger careers, and Germany / Austria / Switzerland pathways with live expert-led classes.",
+      "highlights": [
+        {
+          "title": "Live Online Classes",
+          "text": "Join interactive German batches from Mumbai with real-time speaking practice."
+        },
+        {
+          "title": "A1 to C2 Levels",
+          "text": "Structured CEFR courses for beginners through advanced learners."
+        },
+        {
+          "title": "Exam Preparation",
+          "text": "Goethe, telc and TestDaF focused practice with mock tests."
+        },
+        {
+          "title": "Flexible Batches",
+          "text": "Weekday and weekend timings that fit your schedule."
+        }
+      ],
+      "contentHtml": "<p>Fluent AUF helps learners in <strong>Mumbai</strong> build German fluency for study abroad, careers, migration, and personal growth.</p>\n<p>Our certified trainers guide you through grammar, vocabulary, conversation, and exam skills with small interactive batches.</p>\n<h3>Why choose Fluent AUF in Mumbai?</h3>\n<ul><li>Live online classes you can attend from home</li><li>Personalized attention and doubt support</li><li>Study material and session recordings</li><li>Free demo class before you enroll</li></ul>",
+      "vision": {
+        "tag": "Our Vision",
+        "heading": "Empowering German learners in",
+        "headingHighlight": "Mumbai",
+        "headingSuffix": "and beyond",
+        "text": "At Fluent AUF, our vision is to help learners in Mumbai and across India achieve real German fluency — not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.",
+        "points": [
+          "Make quality German education accessible to learners in every city through live online classes.",
+          "Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.",
+          "Help students gain confidence to study, work, and settle abroad with practical language skills."
+        ],
+        "imageSrc": "/hero-students.jpg",
+        "imageAlt": "Fluent AUF German language learners from Mumbai",
+        "badgeValue": "16,000+",
+        "badgeLabel": "Students learning with us",
+        "linkText": "Learn more about Fluent AUF",
+        "linkHref": "/about/our-company"
+      },
+      "whyLearn": {
+        "headingBefore": "Why Learn at",
+        "headingHighlight": "Fluent AUF",
+        "headingAfter": "?",
+        "text": "Build real German fluency with live classes, certified tutors, and exam-focused guidance — trusted by learners in Mumbai and across India.",
+        "collage": [
+          {
+            "src": "/portal-education.jpg",
+            "alt": "Live German classroom session",
+            "label": "Live Classroom Sessions"
+          },
+          {
+            "src": "/webinar-student.jpg",
+            "alt": "Student learning German online",
+            "label": "Interactive Online Classes"
+          },
+          {
+            "src": "/hero-students.jpg",
+            "alt": "Students preparing for German exams",
+            "label": "Goethe & TELC Preparation"
+          }
+        ],
+        "features": [
+          {
+            "title": "Free Demo Classes",
+            "text": "Experience our teaching style before you enroll. Sit in a live session and decide with confidence.",
+            "badge": "100% Free",
+            "tone": "demo"
+          },
+          {
+            "title": "Exam-Focused Training",
+            "text": "Structured A1–C2 prep aligned with Goethe and TELC patterns, practice tests, and speaking drills.",
+            "badge": "Exam Ready",
+            "tone": "exam"
+          },
+          {
+            "title": "Certified German Tutors",
+            "text": "Learn from experienced, certified trainers who guide you with clear feedback every step of the way.",
+            "badge": "Expert Faculty",
+            "tone": "tutors"
+          },
+          {
+            "title": "Flexible Online Batches",
+            "text": "Join weekday or weekend batches from Mumbai or anywhere — small groups, live classes, recorded support.",
+            "badge": "Live Online",
+            "tone": "batch"
+          }
+        ]
+      },
+      "journey": {
+        "text": "Achieve German language expertise from our German classes in Mumbai, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!",
+        "buttonText": "Start Your Journey Now",
+        "buttonHref": "/contact"
+      },
+      "success": {
+        "badge": "Goethe & TELC Focused",
+        "kicker": "Learn German at Fluent AUF & Unlock Your",
+        "heading": "Dream Opportunity",
+        "headingHighlight": "Abroad",
+        "text": "Join 10,500+ successful students who built German fluency for study, work, and career growth — including learners from Mumbai.",
+        "buttonText": "Enquire Now",
+        "buttonHref": "/contact",
+        "imageSrc": "/hero-students.jpg",
+        "imageAlt": "Successful German learners from Mumbai"
+      },
+      "faqs": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Get answers to the most common questions about our German courses and learning process.",
+        "items": [
+          {
+            "id": "german-levels",
+            "question": "What levels of German do you offer?",
+            "answer": "Fluent AUF offers structured German courses from A1 to C2, including Goethe and Telc exam preparation for every level."
+          },
+          {
+            "id": "course-duration",
+            "question": "How long does it take to complete a course?",
+            "answer": "Course duration depends on the level. A1 typically takes 8–12 weeks, while higher levels may take longer with regular live classes and practice."
+          },
+          {
+            "id": "demo-class",
+            "question": "Can I attend a free demo class?",
+            "answer": "Yes. You can book a free demo class to experience our teaching style, meet a trainer, and get level guidance before enrolling."
+          }
+        ]
+      },
+      "ctaHeading": "Start learning German from Mumbai",
+      "ctaText": "Achieve German language expertise from our German classes in Mumbai, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!",
+      "ctaButtonText": "Start Your Journey Now",
+      "seo": {
+        "metaTitle": "German Classes in Mumbai | Fluent AUF",
+        "metaKeyword": "German classes in Mumbai, learn German Mumbai, Goethe exam Mumbai",
+        "metaDescription": "Learn German online with Fluent AUF — live A1 to C2 classes for students in Mumbai. Book a free demo today."
+      },
+      "isActive": true,
+      "sortOrder": 3
+    }
+  ]
+}
