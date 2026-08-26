@@ -33,10 +33,6 @@ async function writeStore(content: GeneralPagesContent) {
 }
 
 export async function getFileGeneralPagesContent() {
-  if (!isFileStoreEnabled()) {
-    return null;
-  }
-
   return readStore();
 }
 

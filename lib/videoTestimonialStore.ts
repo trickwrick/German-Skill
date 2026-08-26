@@ -63,13 +63,6 @@ async function getMongoItems(): Promise<VideoTestimonial[]> {
 async function fetchAllVideoTestimonials(): Promise<VideoTestimonial[]> {
   let items: VideoTestimonial[] = [];
 
-  try {
-    const store = await getFileVideoTestimonials();
-    items = store?.items ?? [];
-  } catch {
-    items = [];
-  }
-
   if (process.env.MONGODB_URI) {
     try {
       const mongoItems = await getMongoItems();
@@ -78,6 +71,15 @@ async function fetchAllVideoTestimonials(): Promise<VideoTestimonial[]> {
       }
     } catch (error) {
       console.error("Failed to fetch video testimonials from MongoDB", error);
+    }
+  }
+
+  if (items.length === 0) {
+    try {
+      const store = await getFileVideoTestimonials();
+      items = store?.items ?? [];
+    } catch {
+      items = [];
     }
   }
 

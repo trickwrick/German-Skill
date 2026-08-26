@@ -303,17 +303,6 @@ async function getMongoContent(): Promise<GeneralPagesContent | null> {
 }
 
 async function fetchGeneralPagesContent(): Promise<GeneralPagesContent> {
-  if (isFileStoreEnabled()) {
-    try {
-      const store = await getFileGeneralPagesContent();
-      if (store) {
-        return sanitizeContent(store);
-      }
-    } catch {
-      // Fall through to MongoDB/default.
-    }
-  }
-
   if (process.env.MONGODB_URI) {
     try {
       const mongoContent = await getMongoContent();
@@ -323,6 +312,15 @@ async function fetchGeneralPagesContent(): Promise<GeneralPagesContent> {
     } catch (error) {
       console.error("Failed to fetch general pages from MongoDB", error);
     }
+  }
+
+  try {
+    const store = await getFileGeneralPagesContent();
+    if (store) {
+      return sanitizeContent(store);
+    }
+  } catch {
+    // Fall through
   }
 
   return sanitizeContent(defaultGeneralPagesContent);

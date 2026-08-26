@@ -55,19 +55,11 @@ async function writeStore(data: CourseDetailsStore) {
 }
 
 export async function getFileCourseDetails(slug: string) {
-  if (!isFileStoreEnabled()) {
-    return null;
-  }
-
   const store = await readStore();
   return store[slug] ?? null;
 }
 
 export async function getAllFileCourseDetails() {
-  if (!isFileStoreEnabled()) {
-    return [];
-  }
-
   const store = await readStore();
   return Object.values(store);
 }
