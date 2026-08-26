@@ -63,13 +63,11 @@ async function getMongoItems(): Promise<VideoTestimonial[]> {
 async function fetchAllVideoTestimonials(): Promise<VideoTestimonial[]> {
   let items: VideoTestimonial[] = [];
 
-  if (isFileStoreEnabled()) {
-    try {
-      const store = await getFileVideoTestimonials();
-      items = store?.items ?? [];
-    } catch {
-      items = [];
-    }
+  try {
+    const store = await getFileVideoTestimonials();
+    items = store?.items ?? [];
+  } catch {
+    items = [];
   }
 
   if (process.env.MONGODB_URI) {
@@ -84,7 +82,7 @@ async function fetchAllVideoTestimonials(): Promise<VideoTestimonial[]> {
   }
 
   if (items.length === 0) {
-    return isFileStoreEnabled() ? defaultVideoTestimonials : [];
+    return defaultVideoTestimonials;
   }
 
   return sortItems(items.map((item) => sanitizeItem(item)));

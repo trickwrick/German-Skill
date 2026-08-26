@@ -44,10 +44,6 @@ async function writeStore(store: VideoTestimonialFileStore) {
 }
 
 export async function getFileVideoTestimonials() {
-  if (!isFileStoreEnabled()) {
-    return null;
-  }
-
   return readStore();
 }
 
