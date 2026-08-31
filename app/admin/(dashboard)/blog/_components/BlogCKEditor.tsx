@@ -22,6 +22,7 @@ type CKEditorDomElement = {
   getAttribute: (name: string) => string | null;
   setAttribute: (name: string, value: string) => void;
   removeAttribute: (name: string) => void;
+  remove: () => void;
 };
 
 type CKEditorDocument = {
@@ -174,11 +175,13 @@ function fixEditorImages(editor: CKEditorInstance) {
     const currentSrc = img.getAttribute("src");
     const resolvedSrc = savedSrc || currentSrc;
 
-    if (!resolvedSrc || resolvedSrc.startsWith("data:")) {
+    if (resolvedSrc && resolvedSrc.startsWith("data:")) {
+      img.remove();
+      window.alert("Pasting images directly is not supported. Please use the image upload button or drag and drop a file.");
       continue;
     }
 
-    const absoluteSrc = toAbsoluteEditorUrl(resolvedSrc);
+    const absoluteSrc = toAbsoluteEditorUrl(resolvedSrc || "");
     if (currentSrc !== absoluteSrc) {
       img.setAttribute("src", absoluteSrc);
     }
