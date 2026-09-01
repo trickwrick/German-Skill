@@ -219,6 +219,33 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
   const slidesPerView = useSlidesPerView();
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeModalIndex, setActiveModalIndex] = useState<number | null>(null);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const distance = touchStartX - touchEndX;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      setActiveIndex((index) => Math.min(maxIndex, index + 1));
+    }
+    if (isRightSwipe) {
+      setActiveIndex((index) => Math.max(0, index - 1));
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
 
   const maxIndex = Math.max(0, testimonials.length - slidesPerView);
   const pageCount = maxIndex + 1;
@@ -282,7 +309,13 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
           </button>
 
           <div className="video-testimonials-viewport">
-            <div className="video-testimonials-track" style={trackStyle}>
+            <div 
+              className="video-testimonials-track" 
+              style={trackStyle}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               {testimonials.map((item, index) => (
                 <article key={item.id} className="video-testimonial-card" style={{ flex: `0 0 ${100 / slidesPerView}%` }}>
                   <button

@@ -216,26 +216,26 @@ function CareersSection() {
 function FeaturesBanner() {
   return (
     <section style={{ backgroundColor: 'var(--primary-50, #fef2f2)', padding: '3rem 1rem' }}>
-      <div style={{ backgroundColor: '#fff', color: '#000', borderRadius: '12px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '3rem 1rem', flexWrap: 'wrap', gap: '2rem', maxWidth: '1200px', margin: '0 auto', boxShadow: '0 4px 24px rgba(0, 0, 0, 0.06)' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem', flex: '1 1 200px' }}>
+      <div className="features-banner-grid" style={{ backgroundColor: '#fff', color: '#000', borderRadius: '12px', padding: '3rem 1rem', maxWidth: '1200px', margin: '0 auto', boxShadow: '0 4px 24px rgba(0, 0, 0, 0.06)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem' }}>
           <div className="features-icon-wrapper" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-100, #fee2e2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary-600, #e31e24)' }}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
           </div>
           <strong style={{ fontSize: '0.95rem', fontWeight: '500', color: '#111827' }}>90% Student Success Rate</strong>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem', flex: '1 1 200px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem' }}>
           <div className="features-icon-wrapper" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-100, #fee2e2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary-600, #e31e24)' }}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
           </div>
           <strong style={{ fontSize: '0.95rem', fontWeight: '500', color: '#111827' }}>Global German Education</strong>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem', flex: '1 1 200px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem' }}>
           <div className="features-icon-wrapper" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-100, #fee2e2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary-600, #e31e24)' }}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
           </div>
           <strong style={{ fontSize: '0.95rem', fontWeight: '500', color: '#111827' }}>Goethe & Telc Examination</strong>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem', flex: '1 1 200px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem' }}>
           <div className="features-icon-wrapper" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-100, #fee2e2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary-600, #e31e24)' }}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           </div>
@@ -248,14 +248,14 @@ function FeaturesBanner() {
 
 function SmartLearningSection() {
   return (
-    <section style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center' }}>
+    <section className="smart-learning-section">
+      <div className="smart-learning-container">
         <div style={{ flex: '1 1 400px' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#111827', lineHeight: '1.3' }}>
+          <h2 className="smart-learning-title">
             The Smartest Way to Learn a New Language
           </h2>
         </div>
-        <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div className="smart-learning-list">
 
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
             <div style={{ flexShrink: 0, marginTop: '4px' }}>
