@@ -1,3 +1,3 @@
-export const sitePhoneDisplay = "+91 96724 92534";
-export const sitePhoneTel = "+919672492534";
-export const siteWhatsAppUrl = "https://wa.me/919672492534";
+export const sitePhoneDisplay = "+91 79765 92299";
+export const sitePhoneTel = "+917976592299";
+export const siteWhatsAppUrl = "https://wa.me/917976592299";
