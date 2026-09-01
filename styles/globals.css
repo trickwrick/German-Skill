@@ -8988,7 +8988,7 @@ a.contact-info-value:hover {
 .smart-learning-list { flex: 1 1 500px; display: flex; flex-direction: column; gap: 1.25rem; }
 @media (max-width: 767px) { .smart-learning-section { padding: 2rem 1rem !important; } .smart-learning-container { gap: 1.5rem !important; } .smart-learning-title { font-size: 1.8rem !important; } .smart-learning-list { gap: 1.25rem !important; } .smart-learning-list h3 { font-size: 1rem !important; margin-bottom: 0.15rem !important; } .smart-learning-list p { font-size: 0.85rem !important; line-height: 1.4 !important; } .smart-learning-list svg { width: 20px !important; height: 20px !important; } }
 
-.exam-prep-section { background-color: #f6f8fb; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 24px 24px; padding: 4rem 1rem; overflow: hidden; }
+.exam-prep-section { background-color: #f6f8fb; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 24px 24px; padding: 2.5rem 1rem; overflow: hidden; }
 .exam-prep-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; }
 .exam-prep-content { flex: 1 1 450px; display: flex; flex-direction: column; gap: 0.75rem; }
 .exam-prep-image-wrap { flex: 1 1 500px; position: relative; }
