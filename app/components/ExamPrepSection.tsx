@@ -2,9 +2,9 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function ExamPrepSection({ isCourseDetails = false }: { isCourseDetails?: boolean }) {
+export default function ExamPrepSection() {
   return (
-    <section className="exam-prep-section" style={{ backgroundColor: isCourseDetails ? '#ffffff' : 'transparent' }}>
+    <section className="exam-prep-section">
       <div className="exam-prep-container">
         <div className="exam-prep-content">
           <h2 style={{ fontSize: '2.4rem', fontWeight: 'bold', color: 'var(--text-primary)', lineHeight: '1.15', margin: '0 0 0.25rem 0' }}>
