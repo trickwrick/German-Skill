@@ -14,7 +14,7 @@ export default function ExamPrepSection() {
             Struggling to grasp German grammar and conversation? Let German-Skill guide you to fluent German.
           </p>
           <div style={{ marginTop: '0.25rem' }}>
-            <Link href="/contact" style={{ display: 'inline-block', backgroundColor: 'var(--primary-600)', color: '#fff', padding: '0.85rem 2.5rem', borderRadius: '4px', fontWeight: '600', textDecoration: 'none', letterSpacing: '0.5px' }}>
+            <Link href="/contact" className="btn btn-primary" style={{ display: 'inline-block', padding: '0.85rem 2.5rem', borderRadius: '8px', fontWeight: '600', textDecoration: 'none', letterSpacing: '0.5px' }}>
               BOOK A DEMO
             </Link>
           </div>
