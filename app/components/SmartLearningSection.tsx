@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function SmartLearningSection() {
+export default function SmartLearningSection({ isCourseDetails = false }: { isCourseDetails?: boolean }) {
   return (
-    <section className="smart-learning-section">
+    <section className="smart-learning-section" style={{ backgroundColor: isCourseDetails ? '#f6f8fb' : 'transparent' }}>
       <div className="smart-learning-container">
         <div style={{ flex: '1 1 400px' }}>
           <h2 className="smart-learning-title">

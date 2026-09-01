@@ -272,7 +272,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
         />
 
         <VideoTestimonialsSection testimonials={videoTestimonials} />
-        <SmartLearningSection />
+        <SmartLearningSection isCourseDetails={true} />
         <ExamPrepSection />
         <WhyChooseSection />
         <ComparisonSection />
