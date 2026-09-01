@@ -304,7 +304,7 @@ function ExamPrepSection() {
           <p style={{ color: '#4b5563', fontSize: '1.1rem', lineHeight: '1.6' }}>
             Struggling to grasp German grammar and conversation? Let German-Skill guide you to fluent German.
           </p>
-          <div>
+          <div style={{ marginTop: '0.75rem' }}>
             <Link href="/contact" style={{ display: 'inline-block', backgroundColor: '#001a72', color: '#fff', padding: '0.85rem 2.5rem', borderRadius: '4px', fontWeight: '600', textDecoration: 'none', letterSpacing: '0.5px' }}>
               BOOK A DEMO
             </Link>

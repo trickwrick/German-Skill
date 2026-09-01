@@ -8990,6 +8990,6 @@ a.contact-info-value:hover {
 
 .exam-prep-section { background-color: #f6f8fb; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 24px 24px; padding: 4rem 1rem; overflow: hidden; }
 .exam-prep-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; }
-.exam-prep-content { flex: 1 1 450px; display: flex; flex-direction: column; gap: 1.5rem; }
+.exam-prep-content { flex: 1 1 450px; display: flex; flex-direction: column; gap: 0.75rem; }
 .exam-prep-image-wrap { flex: 1 1 500px; position: relative; }
 @media (max-width: 767px) { .exam-prep-section { padding: 2rem 1rem !important; } .exam-prep-container { gap: 1.5rem !important; } .exam-prep-content { gap: 1rem !important; text-align: center; } .exam-prep-content h2 { font-size: 1.8rem !important; } }
