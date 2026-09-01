@@ -8974,3 +8974,4 @@ a.contact-info-value:hover {
     width: 100%;
   }
 }
+.features-icon-wrapper { transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; } .features-icon-wrapper:hover { transform: scale(1.15) translateY(-5px); background-color: var(--primary-600, #e31e24) !important; color: white !important; box-shadow: 0 10px 15px -3px rgba(227, 30, 36, 0.4); }

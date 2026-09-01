@@ -364,7 +364,7 @@ async function fetchCityPagesStore(): Promise<CityPagesStore> {
   if (isFileStoreEnabled()) {
     try {
       const store = await getFileCityPagesStore();
-      if (store?.pages?.length) {
+      if (store && store.pages) {
         return sanitizeStore(store);
       }
     } catch {
@@ -375,7 +375,7 @@ async function fetchCityPagesStore(): Promise<CityPagesStore> {
   if (process.env.MONGODB_URI) {
     try {
       const mongoStore = await getMongoStore();
-      if (mongoStore?.pages?.length) {
+      if (mongoStore && mongoStore.pages) {
         return mongoStore;
       }
     } catch (error) {

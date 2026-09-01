@@ -74,14 +74,6 @@ function StatsBanner() {
   );
 }
 
-const portalFeatures = [
-  { icon: "📈", label: "Track Your Learning Progress" },
-  { icon: "🔔", label: "Stay Notified Instantly" },
-  { icon: "💻", label: "Join online classes using the link" },
-  { icon: "💡", label: "Share Valuable Feedback" },
-  { icon: "▶️", label: "Access recorded videos" },
-  { icon: "📅", label: "Upcoming Batches & Demo Sessions" },
-];
 
 const whyChooseItems = [
   {
@@ -175,47 +167,6 @@ function WhyChooseSection() {
   );
 }
 
-function StudentPortalSection() {
-  return (
-    <section className="portal-section">
-      <div className="portal-inner">
-        <div className="portal-visual">
-          <div className="portal-image-wrap">
-            <Image
-              src="/portal-education.jpg"
-              alt="Students using digital learning platform in classroom"
-              title="Students using digital learning platform in classroom"
-              width={520}
-              height={340}
-              className="portal-image"
-            />
-          </div>
-          <p className="portal-caption">
-            Delivering Quality Education backed by World-class Digital Infrastructure
-          </p>
-        </div>
-
-        <div className="portal-content">
-          <span className="portal-tag">Student Portal</span>
-          <h2>Language Learning Made Simple</h2>
-          <p className="portal-subtitle">
-            Discover Tools and Resources for Success in Your Language Journey
-          </p>
-          <div className="portal-features">
-            {portalFeatures.map((item) => (
-              <div key={item.label} className="portal-feature">
-                <span className="portal-feature-icon" aria-hidden="true">
-                  {item.icon}
-                </span>
-                <span>{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function WebinarSection() {
   return (
@@ -233,15 +184,14 @@ function WebinarSection() {
         </div>
         <div className="webinar-copy">
           <h2>
-            Explore our <span>Free Webinars</span>
+            Take the Next Step in <span>Your German Journey!</span>
           </h2>
           <p>
-            Explore a variety of topics and enhance your language skills with our expert-led
-            webinars.
+            Join FluentAuf and learn German with expert teachers, flexible courses, and practical learning resources.
           </p>
         </div>
         <Link href="/contact" className="btn btn-webinar">
-          Join Free Webinars
+          BOOK A DEMO
         </Link>
       </div>
     </section>
@@ -263,43 +213,129 @@ function CareersSection() {
   );
 }
 
-function PromoCards() {
+function FeaturesBanner() {
   return (
-    <section className="promo-section" id="batches">
-      <div className="promo-section-inner">
-        <article className="promo-card promo-card-batches">
-          <div className="enroll-badge" aria-hidden="true">
-            <span className="enroll-badge-label">New Batches</span>
-            <div className="enroll-banner">
-              <span className="enroll-top">ENROLL</span>
-              <span className="enroll-bottom">NOW</span>
+    <section style={{ backgroundColor: 'var(--primary-50, #fef2f2)', padding: '3rem 1rem' }}>
+      <div style={{ backgroundColor: '#fff', color: '#000', borderRadius: '12px', display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '3rem 1rem', flexWrap: 'wrap', gap: '2rem', maxWidth: '1200px', margin: '0 auto', boxShadow: '0 4px 24px rgba(0, 0, 0, 0.06)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem', flex: '1 1 200px' }}>
+          <div className="features-icon-wrapper" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-100, #fee2e2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary-600, #e31e24)' }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+          </div>
+          <strong style={{ fontSize: '0.95rem', fontWeight: '500', color: '#111827' }}>90% Student Success Rate</strong>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem', flex: '1 1 200px' }}>
+          <div className="features-icon-wrapper" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-100, #fee2e2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary-600, #e31e24)' }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          </div>
+          <strong style={{ fontSize: '0.95rem', fontWeight: '500', color: '#111827' }}>Global German Education</strong>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem', flex: '1 1 200px' }}>
+          <div className="features-icon-wrapper" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-100, #fee2e2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary-600, #e31e24)' }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+          </div>
+          <strong style={{ fontSize: '0.95rem', fontWeight: '500', color: '#111827' }}>Goethe & Telc Examination</strong>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem', flex: '1 1 200px' }}>
+          <div className="features-icon-wrapper" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--primary-100, #fee2e2)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary-600, #e31e24)' }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <strong style={{ fontSize: '0.95rem', fontWeight: '500', color: '#111827' }}>Skilled Goethe Certified Tutors</strong>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SmartLearningSection() {
+  return (
+    <section style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center' }}>
+        <div style={{ flex: '1 1 400px' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#111827', lineHeight: '1.3' }}>
+            The Smartest Way to Learn a New Language
+          </h2>
+        </div>
+        <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+            <div style={{ flexShrink: 0, marginTop: '4px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#0033a0" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#111827', marginBottom: '0.25rem' }}>Small group classes for personalised attention</h3>
+              <p style={{ color: '#4b5563', lineHeight: '1.5' }}>Take group classes with up to 8-10 other students or learn 1-on-1 with your teacher</p>
             </div>
           </div>
-          <div className="promo-card-body">
-            <h2>
-              Explore <span>Upcoming Batches</span>
-            </h2>
-            <Link href="/contact" className="btn btn-schedule">
-              View Schedule
-            </Link>
-          </div>
-        </article>
 
-        <article className="promo-card promo-card-offers">
-          <div className="offer-ribbon" aria-hidden="true">
-            <span>UPTO</span>
-            <strong>15% OFF</strong>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+            <div style={{ flexShrink: 0, marginTop: '4px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#0033a0" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#111827', marginBottom: '0.25rem' }}>9K+ live classes per year</h3>
+              <p style={{ color: '#4b5563', lineHeight: '1.5' }}>Receive tailored feedback from your expert tutors after every lesson</p>
+            </div>
           </div>
-          <div className="promo-card-body promo-card-body-center">
-            <h2>Upto 15% OFF</h2>
-            <p>
-              Explore our exclusive deals and start your language learning journey today!
-            </p>
-            <Link href="/contact" className="promo-link">
-              View Offers &gt;&gt;
+
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+            <div style={{ flexShrink: 0, marginTop: '4px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#0033a0" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#111827', marginBottom: '0.25rem' }}>Learn to speak real-life language</h3>
+              <p style={{ color: '#4b5563', lineHeight: '1.5' }}>Build confidence to engage in everyday conversations</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExamPrepSection() {
+  return (
+    <section style={{ backgroundColor: '#f0f4f8', padding: '4rem 1rem', overflow: 'hidden' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center' }}>
+        <div style={{ flex: '1 1 450px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#0f172a', lineHeight: '1.2' }}>
+            Prepare for Goethe Exam with Certified German Tutors!
+          </h2>
+          <p style={{ color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
+            Struggling to grasp German grammar and conversation? Let German-Skill guide you to fluent German.
+          </p>
+          <div>
+            <Link href="/contact" style={{ display: 'inline-block', backgroundColor: '#0033a0', color: '#fff', padding: '0.75rem 2rem', borderRadius: '4px', fontWeight: 'bold', textDecoration: 'none' }}>
+              BOOK A DEMO
             </Link>
           </div>
-        </article>
+        </div>
+        <div style={{ flex: '1 1 500px', position: 'relative' }}>
+          <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <Image
+              src="/hero-students.jpg"
+              alt="Student preparing for exam"
+              width={600}
+              height={400}
+              style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+            />
+          </div>
+          {/* Badges */}
+          <div style={{ position: 'absolute', top: '10%', right: '-5%', display: 'flex', flexDirection: 'column', gap: '1rem', zIndex: 10 }}>
+            <div style={{ backgroundColor: '#fff', padding: '0.5rem 1rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', fontSize: '0.875rem', fontWeight: 'bold', color: '#1e3a8a' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+              CERTIFIED TUTOR
+            </div>
+            <div style={{ backgroundColor: '#fff', padding: '0.5rem 1rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', fontSize: '0.875rem', fontWeight: 'bold', color: '#1e3a8a', transform: 'translateX(10px)' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+              GOETHE FOCUSED
+            </div>
+            <div style={{ backgroundColor: '#fff', padding: '0.5rem 1rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', fontSize: '0.875rem', fontWeight: 'bold', color: '#1e3a8a' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              PROVEN RESULTS
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -334,24 +370,26 @@ export default async function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
-        <PromoCards />
+        <FeaturesBanner />
         <AllCoursesSection
           courses={courses}
           title={coursesPage.sectionTitle}
           description={coursesPage.sectionDescription}
         />
         <StatsBanner />
+        <VideoTestimonialsSection testimonials={videoTestimonials} />
+        <TestimonialsSection />
         <TutorsSection />
-        <StudentPortalSection />
+        <SmartLearningSection />
+
+        <ExamPrepSection />
         <WhyChooseSection />
         <ComparisonSection />
         <CertificateSection />
-        <VideoTestimonialsSection testimonials={videoTestimonials} />
-        <TestimonialsSection />
         <WebinarSection />
         <HomeFaqSection content={homeFaqs} />
         <CareersSection />
-    </main>
+      </main>
       <SiteFooter />
     </>
   );
