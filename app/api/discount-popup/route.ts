@@ -3,8 +3,9 @@ import { saveContactQuery } from "../../../lib/contactQueryStore";
 
 type DiscountPopupInput = {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
+  city?: string;
 };
 
 function validateBody(body: DiscountPopupInput) {
@@ -12,11 +13,7 @@ function validateBody(body: DiscountPopupInput) {
     return "Full name is required.";
   }
 
-  if (!body.email?.trim()) {
-    return "Email address is required.";
-  }
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) {
+  if (body.email && body.email.trim() !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) {
     return "Enter a valid email address.";
   }
 
@@ -38,8 +35,9 @@ export async function POST(request: Request) {
 
     const query = await saveContactQuery({
       name: body.name,
-      email: body.email,
+      email: body.email || "",
       phone: body.phone,
+      city: body.city,
       course: "Discount Coupon",
       source: "discount-popup",
     });

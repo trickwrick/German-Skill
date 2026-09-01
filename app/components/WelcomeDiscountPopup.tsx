@@ -59,6 +59,7 @@ export default function WelcomeDiscountPopup() {
     const payload = {
       name: String(formData.get("name") ?? "").trim(),
       email: String(formData.get("email") ?? "").trim(),
+      city: String(formData.get("city") ?? "").trim(),
       phone: phone.trim(),
     };
 
@@ -102,8 +103,8 @@ export default function WelcomeDiscountPopup() {
         </button>
 
         <div className="welcome-popup-header">
-          <h2>Discount Coupon?</h2>
-          <p className="welcome-popup-title">Request Now</p>
+          <h2>Request A DEMO</h2>
+          <p className="welcome-popup-title">Live Classes</p>
           <p className="welcome-popup-subtitle">Fill the details below and get your German course offer!</p>
         </div>
 
@@ -122,9 +123,14 @@ export default function WelcomeDiscountPopup() {
             </label>
 
             <label className="welcome-popup-field">
+              <span className="welcome-popup-field-label">City</span>
+              <input type="text" name="city" required autoComplete="address-level2" />
+            </label>
+
+            {/* <label className="welcome-popup-field">
               <span className="welcome-popup-field-label">Email Address</span>
               <input type="email" name="email" required autoComplete="email" />
-            </label>
+            </label> */}
 
             <div className="welcome-popup-field welcome-popup-phone-field">
               <span className="welcome-popup-field-label">Mobile</span>
