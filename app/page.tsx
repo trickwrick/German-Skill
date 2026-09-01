@@ -298,13 +298,13 @@ function ExamPrepSection() {
     <section className="exam-prep-section">
       <div className="exam-prep-container">
         <div className="exam-prep-content">
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#0b2471', lineHeight: '1.3' }}>
+          <h2 style={{ fontSize: '2.4rem', fontWeight: 'bold', color: '#0b2471', lineHeight: '1.15', margin: '0 0 0.25rem 0' }}>
             Prepare for Goethe Exam with Certified German Tutors!
           </h2>
-          <p style={{ color: '#4b5563', fontSize: '1.1rem', lineHeight: '1.6' }}>
+          <p style={{ color: '#4b5563', fontSize: '1.05rem', lineHeight: '1.4', margin: '0' }}>
             Struggling to grasp German grammar and conversation? Let German-Skill guide you to fluent German.
           </p>
-          <div style={{ marginTop: '0.75rem' }}>
+          <div style={{ marginTop: '0.25rem' }}>
             <Link href="/contact" style={{ display: 'inline-block', backgroundColor: '#001a72', color: '#fff', padding: '0.85rem 2.5rem', borderRadius: '4px', fontWeight: '600', textDecoration: 'none', letterSpacing: '0.5px' }}>
               BOOK A DEMO
             </Link>
