@@ -13,7 +13,7 @@ export default function SmartLearningSection() {
 
           <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
             <div style={{ flexShrink: 0, marginTop: '2px' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#0b2471" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary-600)" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
             </div>
             <div>
               <h3 style={{ fontSize: '1rem', fontWeight: '600', color: '#111827', margin: '0 0 0.15rem 0' }}>Small group classes for personalised attention</h3>
@@ -23,7 +23,7 @@ export default function SmartLearningSection() {
 
           <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
             <div style={{ flexShrink: 0, marginTop: '2px' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#0b2471" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary-600)" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
             </div>
             <div>
               <h3 style={{ fontSize: '1rem', fontWeight: '600', color: '#111827', margin: '0 0 0.15rem 0' }}>9K+ live classes per year</h3>
