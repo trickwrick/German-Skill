@@ -24,6 +24,12 @@ import {
   buildCourseSchema,
   buildPageMetadata,
 } from "../../../lib/siteSeo";
+import { getVideoTestimonials } from "../../../lib/videoTestimonialStore";
+import VideoTestimonialsSection from "../../../app/components/VideoTestimonialsSection";
+import SmartLearningSection from "../../../app/components/SmartLearningSection";
+import ExamPrepSection from "../../../app/components/ExamPrepSection";
+import WhyChooseSection from "../../../app/components/WhyChooseSection";
+import ComparisonSection from "../../../app/components/ComparisonSection";
 import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
 import { COURSES_PAGE_PATH } from "../../../lib/sitePaths";
 
@@ -168,10 +174,11 @@ export default async function GermanCoursePage({ params }: PageProps) {
   const displayCourse = await getCourseByPathNameAsync(params.courseName);
   if (!displayCourse) notFound();
 
-  const [contentResult, batchesContent, seoContent] = await Promise.all([
+  const [contentResult, batchesContent, seoContent, videoTestimonials] = await Promise.all([
     getCourseContentAsync(displayCourse.slug),
     getCourseFlexibleBatchesAsync(displayCourse.slug),
     getCourseSeoContentAsync(displayCourse.slug),
+    getVideoTestimonials(),
   ]);
 
   const content = contentResult ?? getCourseContentForCourse(displayCourse);
@@ -263,6 +270,12 @@ export default async function GermanCoursePage({ params }: PageProps) {
           coursePrice={salePrice}
           originalPrice={displayCourse.originalPrice}
         />
+
+        <VideoTestimonialsSection testimonials={videoTestimonials} />
+        <SmartLearningSection />
+        <ExamPrepSection />
+        <WhyChooseSection />
+        <ComparisonSection />
 
         <FlexibleBatchesSection
           batchesContent={batchesContent}

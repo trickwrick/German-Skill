@@ -3,6 +3,10 @@ import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import SmartLearningSection from "./components/SmartLearningSection";
+import ExamPrepSection from "./components/ExamPrepSection";
+import WhyChooseSection from "./components/WhyChooseSection";
+
 import AllCoursesSection from "./components/AllCoursesSection";
 import HeroSection from "./components/HeroSection";
 import ComparisonSection from "./components/ComparisonSection";
@@ -75,97 +79,9 @@ function StatsBanner() {
 }
 
 
-const whyChooseItems = [
-  {
-    label: "Crack Goethe/TELC with Confidence",
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M8 8h8M8 12h6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        <path d="M14 16h3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        <circle cx="17" cy="17" r="3" fill="#ef4444" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    label: "Track Your Progress",
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="10" cy="10" r="5.5" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M14.5 14.5L20 20" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        <path d="M7 12v3M10 9v6M13 11v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    label: "Study, Work & Settle Abroad",
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="12" cy="13" r="7" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M4 13h16M12 6a9 9 0 019 7" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M9 4l3-2 3 2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    label: "Boost Your Career Profile",
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect x="4" y="10" width="10" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M7 10V8a2 2 0 014 0v2" stroke="currentColor" strokeWidth="1.6" />
-        <circle cx="18" cy="12" r="4" stroke="currentColor" strokeWidth="1.6" />
-        <circle cx="18" cy="12" r="1.2" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    label: "Higher Earning Potential",
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M8 18l2-8 2 4 2-6 2 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        <path d="M12 5l1.2 2.4L16 8l-2.2 1.2L12 11.5 10.2 9.2 8 8l2.8-.6L12 5z" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    label: "Personal Growth",
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="12" cy="8" r="3" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M8 20v-2a4 4 0 018 0v2" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M16 10l3-2M16 14l4 1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-];
 
-function WhyChooseSection() {
-  return (
-    <section className="why-choose-section">
-      <div className="why-choose-inner">
-        <div className="why-choose-header">
-          <span className="why-choose-tag">Advantages</span>
-          <h2>Why Learn German With Us?</h2>
-          <p>
-            Being the official language of many countries, learning German will expand your
-            worldview, career options, and connections globally.
-          </p>
-        </div>
 
-        <div className="why-choose-grid">
-          {whyChooseItems.map((item) => (
-            <div key={item.label} className="why-choose-item">
-              <div className="why-choose-icon" aria-hidden="true">
-                {item.icon}
-              </div>
-              <span className="why-choose-label">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+
 
 
 function WebinarSection() {
@@ -246,100 +162,9 @@ function FeaturesBanner() {
   );
 }
 
-function SmartLearningSection() {
-  return (
-    <section className="smart-learning-section">
-      <div className="smart-learning-container">
-        <div style={{ flex: '1 1 400px' }}>
-          <h2 className="smart-learning-title">
-            The Smartest Way to Learn a New Language
-          </h2>
-        </div>
-        <div className="smart-learning-list">
 
-          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-            <div style={{ flexShrink: 0, marginTop: '2px' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#0b2471" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
-            </div>
-            <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: '600', color: '#111827', margin: '0 0 0.15rem 0' }}>Small group classes for personalised attention</h3>
-              <p style={{ color: '#4b5563', fontSize: '0.9rem', lineHeight: '1.4', margin: 0 }}>Take group classes with up to 8-10 other students or learn 1-on-1 with your teacher</p>
-            </div>
-          </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-            <div style={{ flexShrink: 0, marginTop: '2px' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#0b2471" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
-            </div>
-            <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: '600', color: '#111827', margin: '0 0 0.15rem 0' }}>9K+ live classes per year</h3>
-              <p style={{ color: '#4b5563', fontSize: '0.9rem', lineHeight: '1.4', margin: 0 }}>Receive tailored feedback from your expert tutors after every lesson</p>
-            </div>
-          </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-            <div style={{ flexShrink: 0, marginTop: '2px' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#0b2471" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline></svg>
-            </div>
-            <div>
-              <h3 style={{ fontSize: '1rem', fontWeight: '600', color: '#111827', margin: '0 0 0.15rem 0' }}>Learn to speak real-life language</h3>
-              <p style={{ color: '#4b5563', fontSize: '0.9rem', lineHeight: '1.4', margin: 0 }}>Build confidence to engage in everyday conversations</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ExamPrepSection() {
-  return (
-    <section className="exam-prep-section">
-      <div className="exam-prep-container">
-        <div className="exam-prep-content">
-          <h2 style={{ fontSize: '2.4rem', fontWeight: 'bold', color: '#0b2471', lineHeight: '1.15', margin: '0 0 0.25rem 0' }}>
-            Prepare for Goethe Exam with Certified German Tutors!
-          </h2>
-          <p style={{ color: '#4b5563', fontSize: '1.05rem', lineHeight: '1.4', margin: '0' }}>
-            Struggling to grasp German grammar and conversation? Let German-Skill guide you to fluent German.
-          </p>
-          <div style={{ marginTop: '0.25rem' }}>
-            <Link href="/contact" style={{ display: 'inline-block', backgroundColor: '#001a72', color: '#fff', padding: '0.85rem 2.5rem', borderRadius: '4px', fontWeight: '600', textDecoration: 'none', letterSpacing: '0.5px' }}>
-              BOOK A DEMO
-            </Link>
-          </div>
-        </div>
-        <div className="exam-prep-image-wrap">
-          <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
-            <Image
-              src="/hero-students.jpg"
-              alt="Student preparing for exam"
-              width={600}
-              height={400}
-              style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
-            />
-          </div>
-          {/* Badges */}
-          <div className="exam-prep-badges" style={{ position: 'absolute', top: '10%', right: '-1rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', zIndex: 10 }}>
-            <div style={{ backgroundColor: '#fff', padding: '0.5rem 1.2rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', fontSize: '0.85rem', fontWeight: '700', color: '#0b2471' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-              CERTIFIED TUTOR
-            </div>
-            <div style={{ backgroundColor: '#fff', padding: '0.5rem 1.2rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', fontSize: '0.85rem', fontWeight: '700', color: '#0b2471', transform: 'translateX(-20px)' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-              GOETHE FOCUSED
-            </div>
-            <div style={{ backgroundColor: '#fff', padding: '0.5rem 1.2rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', fontSize: '0.85rem', fontWeight: '700', color: '#0b2471' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-              PROVEN RESULTS
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export default async function HomePage() {
   const [courses, videoTestimonials, homeFaqs, seoSettings, coursesPage] = await Promise.all([
