@@ -99,7 +99,7 @@ button {
 }
 
 .top-announcement-bar {
-  overflow: hidden;
+  
   background: linear-gradient(90deg, #111111 0%, #991118 50%, #111111 100%);
   color: #fff;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -8983,7 +8983,13 @@ a.contact-info-value:hover {
 @media (max-width: 767px) { .features-banner-grid { padding: 1.5rem 1rem !important; gap: 1.25rem !important; } .features-banner-grid .features-icon-wrapper { width: 56px !important; height: 56px !important; } .features-banner-grid svg { width: 24px !important; height: 24px !important; } .features-banner-grid strong { font-size: 0.85rem !important; } }
 
 .smart-learning-section { padding: 4rem 1rem; background-color: #fff; }
-.smart-learning-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 3rem; alignItems: center; }
+.smart-learning-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; }
 .smart-learning-title { font-size: 2.5rem; font-weight: bold; color: #111827; line-height: 1.3; margin: 0; }
 .smart-learning-list { flex: 1 1 500px; display: flex; flex-direction: column; gap: 2rem; }
 @media (max-width: 767px) { .smart-learning-section { padding: 2rem 1rem !important; } .smart-learning-container { gap: 1.5rem !important; } .smart-learning-title { font-size: 1.8rem !important; } .smart-learning-list { gap: 1.25rem !important; } .smart-learning-list h3 { font-size: 1rem !important; margin-bottom: 0.15rem !important; } .smart-learning-list p { font-size: 0.85rem !important; line-height: 1.4 !important; } .smart-learning-list svg { width: 20px !important; height: 20px !important; } }
+
+.exam-prep-section { background-color: #f0f4f8; padding: 4rem 1rem; overflow: hidden; }
+.exam-prep-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; }
+.exam-prep-content { flex: 1 1 450px; display: flex; flex-direction: column; gap: 1.5rem; }
+.exam-prep-image-wrap { flex: 1 1 500px; position: relative; }
+@media (max-width: 767px) { .exam-prep-section { padding: 2rem 1rem !important; } .exam-prep-container { gap: 1.5rem !important; } .exam-prep-content { gap: 1rem !important; text-align: center; } .exam-prep-content h2 { font-size: 1.8rem !important; } }

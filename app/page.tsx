@@ -295,9 +295,9 @@ function SmartLearningSection() {
 
 function ExamPrepSection() {
   return (
-    <section style={{ backgroundColor: '#f0f4f8', padding: '4rem 1rem', overflow: 'hidden' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center' }}>
-        <div style={{ flex: '1 1 450px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <section className="exam-prep-section">
+      <div className="exam-prep-container">
+        <div className="exam-prep-content">
           <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#0f172a', lineHeight: '1.2' }}>
             Prepare for Goethe Exam with Certified German Tutors!
           </h2>
@@ -310,7 +310,7 @@ function ExamPrepSection() {
             </Link>
           </div>
         </div>
-        <div style={{ flex: '1 1 500px', position: 'relative' }}>
+        <div className="exam-prep-image-wrap">
           <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
             <Image
               src="/hero-students.jpg"
@@ -321,7 +321,7 @@ function ExamPrepSection() {
             />
           </div>
           {/* Badges */}
-          <div style={{ position: 'absolute', top: '10%', right: '-5%', display: 'flex', flexDirection: 'column', gap: '1rem', zIndex: 10 }}>
+          <div className="exam-prep-badges" style={{ position: 'absolute', top: '10%', right: '-1rem', display: 'flex', flexDirection: 'column', gap: '1rem', zIndex: 10 }}>
             <div style={{ backgroundColor: '#fff', padding: '0.5rem 1rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', fontSize: '0.875rem', fontWeight: 'bold', color: '#1e3a8a' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
               CERTIFIED TUTOR
