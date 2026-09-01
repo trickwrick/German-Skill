@@ -89,6 +89,8 @@ export function revalidatePublicGeneralPagesData() {
   revalidatePath("/about/apply-job");
   revalidatePath(COURSES_PAGE_PATH);
   revalidatePath("/courses");
+  revalidatePath("/");
+  revalidatePath("/city", "layout");
 }
 
 export function revalidatePublicCityPagesData(...slugs: string[]) {
