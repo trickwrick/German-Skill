@@ -277,12 +277,14 @@ export default async function GermanCoursePage({ params }: PageProps) {
         <WhyChooseSection />
         <ComparisonSection />
 
+        {/*
         <FlexibleBatchesSection
           batchesContent={batchesContent}
           salePrice={salePrice}
           courseSlug={displayCourse.slug}
           courseTitle={displayCourse.title}
         />
+        */}
 
         <CourseSeoContentSection html={seoContent} />
       </main>
