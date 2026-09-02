@@ -22,6 +22,7 @@ export default function PhoneField() {
           preferredCountries={["in", "de", "ae", "us", "gb", "ca", "au", "np", "bd", "sg"]}
           placeholder="96724 92534"
           required
+          inputProps={{ 'aria-label': 'Phone Number' }}
         />
       </div>
     </div>

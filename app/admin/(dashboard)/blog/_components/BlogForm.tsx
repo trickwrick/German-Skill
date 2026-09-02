@@ -446,6 +446,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
                 placeholder="Question" 
                 value={faq.question}
                 onChange={(e) => handleFaqChange(index, "question", e.target.value)}
+                aria-label={`FAQ Question ${index + 1}`}
                 className="adm-input"
                 style={{ padding: '0.5rem', width: '100%' }}
               />
@@ -454,6 +455,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
                 <textarea
                   value={faq.answer || ""}
                   onChange={(e) => handleFaqChange(index, "answer", e.target.value)}
+                  aria-label={`FAQ Answer ${index + 1}`}
                   rows={6}
                   className="adm-input"
                   style={{ width: '100%', padding: '0.5rem', fontFamily: 'inherit' }}
@@ -463,6 +465,7 @@ export default function BlogForm({ initialData, isEdit }: BlogFormProps) {
             <button 
               type="button" 
               onClick={() => handleRemoveFaq(index)}
+              aria-label={`Remove FAQ ${index + 1}`}
               style={{ background: '#ff7675', color: '#fff', border: 'none', borderRadius: '4px', padding: '0.5rem', cursor: 'pointer', alignSelf: 'flex-start' }}
               title="Remove FAQ"
             >

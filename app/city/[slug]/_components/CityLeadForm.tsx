@@ -91,9 +91,9 @@ export default function CityLeadForm({ cityName }: CityLeadFormProps) {
           <input type="email" name="email" required placeholder="you@example.com" />
         </label>
 
-        <label className="city-lead-field">
+        <label htmlFor="city-lead-level">
           <span>Level *</span>
-          <select name="level" required defaultValue="a1">
+          <select id="city-lead-level" name="level" required defaultValue="a1">
             {enrollCourseLevels.map((level) => (
               <option key={level.slug} value={level.slug}>
                 {level.label}

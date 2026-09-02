@@ -1,0 +1,5 @@
+C:\Users\new user\Desktop\German-Skill\app\admin\(dashboard)\blog\_components\BlogForm.tsx:444 - Input field might be missing a label
+C:\Users\new user\Desktop\German-Skill\app\city\[slug]\_components\CityLeadForm.tsx:106 - Input field might be missing a label
+C:\Users\new user\Desktop\German-Skill\app\contact\_components\PhoneField.tsx:14 - Input field might be missing a label
+C:\Users\new user\Desktop\German-Skill\app\courses\_components\FlexibleBatchesSection.tsx:139 - Suspicious or invalid role: radiogroup
+C:\Users\new user\Desktop\German-Skill\app\courses\_components\FlexibleBatchesSection.tsx:151 - Input field might be missing a label

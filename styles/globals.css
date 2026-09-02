@@ -8993,3 +8993,9 @@ a.contact-info-value:hover {
 .exam-prep-content { flex: 1 1 450px; display: flex; flex-direction: column; gap: 0.5rem; }
 .exam-prep-image-wrap { flex: 1 1 500px; position: relative; }
 @media (max-width: 767px) { .exam-prep-section { padding: 3rem 1rem !important; } .exam-prep-container { gap: 1.5rem !important; } .exam-prep-content { gap: 1rem !important; text-align: center; } .exam-prep-content h2 { font-size: 1.8rem !important; } }
+
+/* Accessibility Focus Rings */
+:focus-visible {
+  outline: 2px solid var(--primary, #e31e24);
+  outline-offset: 2px;
+}

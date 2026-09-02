@@ -136,7 +136,7 @@ export default function FlexibleBatchesSection({
         <h2 className="flexible-batches-title">{batchesContent.title}</h2>
 
         <div className="flexible-batches-card">
-          <div className="flexible-batches-list" role="radiogroup" aria-label="Choose a batch">
+          <div className="flexible-batches-list" aria-label="Choose a batch">
             {batchesContent.batches.map((batch, index) => {
               const isSelected = selectedBatchId === batch.id;
               const isSoldOut = Boolean(batch.soldOut);
@@ -155,6 +155,7 @@ export default function FlexibleBatchesSection({
                     checked={isSelected}
                     disabled={isSoldOut}
                     onChange={() => setSelectedBatchId(batch.id)}
+                    aria-label={`${batch.date} at ${batch.time}`}
                   />
 
                   {isSoldOut ? (

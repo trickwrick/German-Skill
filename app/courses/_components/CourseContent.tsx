@@ -300,9 +300,11 @@ export default function CourseContent({
             {tabs.map((tab) => (
               <button
                 key={tab}
+                id={`tab-${tab.replace(/\s+/g, '-').toLowerCase()}`}
                 type="button"
                 role="tab"
                 aria-selected={activeTab === tab}
+                aria-controls={`panel-${tab.replace(/\s+/g, '-').toLowerCase()}`}
                 className={
                   activeTab === tab
                     ? `course-tab active${tab.startsWith("Reviews") ? " course-tab-reviews" : ""}`
@@ -316,7 +318,7 @@ export default function CourseContent({
           </div>
 
           {activeTab === "Description" && (
-            <div className="course-tab-panel">
+            <div className="course-tab-panel" role="tabpanel" id="panel-description" aria-labelledby="tab-description">
               <p className="course-section-label">About This Course</p>
               <p>{content.aboutCourse}</p>
 
@@ -359,7 +361,7 @@ export default function CourseContent({
           )}
 
           {activeTab === "FAQ" && (
-            <div className="course-tab-panel">
+            <div className="course-tab-panel" role="tabpanel" id="panel-faq" aria-labelledby="tab-faq">
               <h3>Frequently Asked Questions</h3>
               {content.faqs.length === 0 ? (
                 <p className="reviews-empty-note">No FAQs have been added for this course yet.</p>
@@ -375,7 +377,9 @@ export default function CourseContent({
           )}
 
           {activeTab === reviewsTab && (
-            <ReviewsPanel content={content} reviewCount={reviewCount} />
+            <div role="tabpanel" id={`panel-${reviewsTab.replace(/\s+/g, '-').toLowerCase()}`} aria-labelledby={`tab-${reviewsTab.replace(/\s+/g, '-').toLowerCase()}`}>
+              <ReviewsPanel content={content} reviewCount={reviewCount} />
+            </div>
           )}
         </div>
       </div>
