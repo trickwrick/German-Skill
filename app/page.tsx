@@ -116,15 +116,19 @@ function WebinarSection() {
 
 function CareersSection() {
   return (
-    <section className="careers-section">
-      <div className="careers-inner">
-        <article className="careers-card">
-          <h2 className="careers-card-heading">Learn with 16000+ Students Across the Globe!</h2>
-          <Link href="/about/apply-job" className="btn btn-careers">
-            Know More
-          </Link>
-        </article>
+    <section className="careers-section" style={{ padding: '3rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '6px 16px', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.2)', marginBottom: '1.5rem' }}>
+        <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        </div>
+        <span style={{ color: 'white', fontSize: '0.9rem', fontWeight: '500' }}>The Leader in Online Learning</span>
       </div>
+      <h2 style={{ color: 'white', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '700', marginBottom: '1.5rem', maxWidth: '800px', lineHeight: '1.2' }}>
+        Join more than 1 million<br />learners worldwide
+      </h2>
+      <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem', maxWidth: '700px', lineHeight: '1.6' }}>
+        Effective learning starts with assessment. Learning a new skill is hard work—Signal makes it easier.
+      </p>
     </section>
   );
 }
