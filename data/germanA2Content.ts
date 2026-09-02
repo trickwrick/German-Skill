@@ -1,3 +1,5 @@
+import { defaultCourseReviews } from "./defaultCourseReviews";
+
 export const a2CourseContent = {
   sidebarPrice: "₹17,500.00",
   includes: [
@@ -107,5 +109,5 @@ export const a2CourseContent = {
     ],
     note: "",
   },
-  reviews: [],
+  reviews: defaultCourseReviews,
 };

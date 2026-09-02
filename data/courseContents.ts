@@ -1,7 +1,9 @@
 import type { CourseContent } from "./courseContent.types";
+import { defaultCourseReviews } from "./defaultCourseReviews";
 import { a1CourseContent } from "./germanA1Content";
 import { a2CourseContent } from "./germanA2Content";
 import { getCourseBySlug, type GermanCourse } from "./germanCourses";
+
 
 function levelLabel(slug: string) {
   return slug.toUpperCase();
@@ -119,7 +121,7 @@ export function createPlaceholderContent(course: GermanCourse): CourseContent {
       ],
       note: "",
     },
-    reviews: [],
+    reviews: defaultCourseReviews,
   };
 }
 
