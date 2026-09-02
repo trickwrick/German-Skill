@@ -84,6 +84,9 @@ async function fetchAllVideoTestimonials(): Promise<VideoTestimonial[]> {
   }
 
   if (items.length === 0) {
+    if (isServerlessHosting()) {
+      return []; // Never fallback to hardcoded mock data on live Vercel.
+    }
     return defaultVideoTestimonials;
   }
 

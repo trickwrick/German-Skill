@@ -13,15 +13,17 @@ export function isServerlessHosting() {
 }
 
 export function isFileStoreEnabled() {
+  // Always disable local file store on serverless platforms (Vercel, AWS Lambda) 
+  // because their file systems are ephemeral and reset on every deploy/cold-start.
+  if (isServerlessHosting()) {
+    return false;
+  }
+
   if (process.env.COURSE_STORE === "file") {
     return true;
   }
 
   if (process.env.COURSE_STORE === "mongodb") {
-    return false;
-  }
-
-  if (isServerlessHosting()) {
     return false;
   }
 
