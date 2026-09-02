@@ -1,7 +1,6 @@
 {
   "a1": {
     "slug": "a1",
-    "isCustom": false,
     "course": {
       "slug": "a1",
       "pathName": "german-a1",
@@ -17,6 +16,82 @@
       "learningHours": "1.5 month",
       "originalPrice": "₹22,998"
     },
+    "faqs": [
+      {
+        "q": "Do I need any prior knowledge of German?",
+        "a": "No. This course is designed for complete beginners starting from the German alphabet."
+      },
+      {
+        "q": "How long do I have access to the course?",
+        "a": "You get lifetime access on mobile, tablet, and desktop."
+      },
+      {
+        "q": "Is this course suitable for Goethe A1 exam preparation?",
+        "a": "Yes. The course includes preparation for the speaking and writing parts of the official A1 certification."
+      }
+    ],
+    "reviews": [],
+    "reviewsSummary": {
+      "average": "4.50",
+      "total": 50,
+      "breakdown": [
+        {
+          "stars": 5,
+          "percent": 50
+        },
+        {
+          "stars": 4,
+          "percent": 50
+        },
+        {
+          "stars": 3,
+          "percent": 0
+        },
+        {
+          "stars": 2,
+          "percent": 0
+        },
+        {
+          "stars": 1,
+          "percent": 0
+        }
+      ],
+      "note": ""
+    },
+    "flexibleBatches": {
+      "subtitle": "Get Certification in A1 Level German Language Course Online Live Training with",
+      "highlight": "Goethe Exam Preparation",
+      "title": "Flexible batches for you",
+      "batches": [
+        {
+          "id": "batch-1",
+          "date": "June 8th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "soldOut": true
+        },
+        {
+          "id": "batch-2",
+          "date": "June 22nd",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "defaultSelected": true
+        },
+        {
+          "id": "batch-3",
+          "date": "July 6th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)"
+        }
+      ],
+      "originalPrice": "₹15,500",
+      "badge": "Live Classes + Study Material Included",
+      "discountPercent": 50
+    },
+    "isCustom": false,
     "descriptionTab": {
       "aboutCourse": "Learn German Language From A Native and Experienced German Teacher! Learn German Grammar, Vocabulary, Slang, Conversation!",
       "objectivesLeft": [
@@ -187,23 +262,81 @@
         "People Who Want To Acquire A German A1 Level"
       ]
     },
+    "seoContent": "<h2>German A1 Course Online &ndash; Learn German A1 from Beginners to Confidence</h2>\n\n<p>Kick start your learning process with German A1 Course Online provided by Fluent Auf which is meant for absolute beginners of the German language. If you&#39;re preparing yourself to study in Germany, job hunting, migration or just want to learn a new language then our A1 German language course is ideal for you.</p>\n\n<p>If you are searching for a German A1 course online which offers flexibility and affordability along with communication then you have landed on the right page.</p>\n\n<h2>Why Should You Join Our German A1 Course Online?</h2>\n\n<p>Our Online German Classes are based on CEFR (Common European Framework of Reference for Languages) and therefore, you will be taught the proper skills necessary at this level. This level includes everyday communication, simple dialogues, grammar, vocabulary, listening, reading, writing, and speaking.</p>\n\n<h2>Benefits of Our German A1 Course Online</h2>\n\n<ul>\n\t<li>Live online interactive classes</li>\n\t<li>Expert German language trainers</li>\n\t<li>Small group teaching</li>\n\t<li>Session recordings for revising</li>\n\t<li>Assignments and quizzes regularly</li>\n\t<li>Speaking practice in each session</li>\n\t<li>Doubt-solving sessions</li>\n\t<li>Mock tests and exam preparation</li>\n\t<li>Course completion certificate</li>\n</ul>\n\n<h2>What You Will Learn in the A1 German Language Course</h2>\n\n<p>In our A1 German course, you will learn all the necessary things to speak confidently.</p>\n\n<h3>Basics of the German Language</h3>\n\n<ul>\n\t<li>Alphabet and pronunciation</li>\n\t<li>Greetings and introduction</li>\n\t<li>Numbers, dates and time</li>\n\t<li>Personal data</li>\n</ul>\n\n<h3>Essential Grammar of German Language</h3>\n\n<ul>\n\t<li>Articles (der, die, das)</li>\n\t<li>Verbs in the present tense</li>\n\t<li>Personal pronouns</li>\n\t<li>Sentence construction</li>\n\t<li>Making questions</li>\n\t<li>Modal verbs</li>\n\t<li>Prepositions</li>\n</ul>\n\n<h3>Basic Vocabulary of the German Language</h3>\n\n<ul>\n\t<li>Family and friends</li>\n\t<li>Food and shopping</li>\n\t<li>Traveling and transportation</li>\n\t<li>Work and study</li>\n\t<li>Hobbies and everyday life</li>\n\t<li>Medical appointments and health</li>\n</ul>\n\n<h3>Communicative Skills</h3>\n\n<ul>\n\t<li>Listening</li>\n\t<li>Reading</li>\n\t<li>Writing emails and messages</li>\n\t<li>Basic dialogues</li>\n\t<li>Improving pronunciation</li>\n</ul>\n\n<h2>Who Should Enroll in This Online German A1 Course?</h2>\n\n<p>This German course online is suitable for:</p>\n\n<ul>\n\t<li>Completely newbies</li>\n\t<li>Individuals interested in studying in Germany</li>\n\t<li>Working professionals</li>\n\t<li>Healthcare and Nursing professionals</li>\n\t<li>Those searching for jobs</li>\n\t<li>Visa applicants</li>\n\t<li>All those wishing to Learn German Online</li>\n</ul>\n\n<p>Prior knowledge of German is not needed.</p>\n\n<h2>Course Features</h2>\n\n<ul>\n\t<li>✅ 100% Live Online Classes</li>\n\t<li>✅ Flexible Weekday and Weekend Batch Classes</li>\n\t<li>✅ Interactive Learning Environment</li>\n\t<li>✅ Trained and Certified Trainers</li>\n\t<li>✅ Speaking Practice Sessions</li>\n\t<li>✅ Lifetime Access to Study Material</li>\n\t<li>✅ Mock Test and Assessments</li>\n\t<li>✅ Personalized Feedback</li>\n\t<li>✅ Low Course Fees</li>\n\t<li>✅ Course Completion Certificate</li>\n</ul>\n\n<h2>Why should you Learn German A1?</h2>\n\n<p>Learning German A1 will help you:</p>\n\n<ul>\n\t<li>Make introductions easily</li>\n\t<li>Speak about your family and daily routine</li>\n\t<li>Answer and ask basic questions</li>\n\t<li>Read small passages</li>\n\t<li>Write basic emails</li>\n\t<li>Listen to and understand everyday conversations</li>\n\t<li>Communicate while traveling</li>\n\t<li>Set a good base for advanced German Levels</li>\n</ul>\n\n<p>A strong base at A1 will prepare you for A2, B1, B2, C1, and C2 while being helpful in practical communication.</p>\n\n<h2>Why Should Students Choose Fluent AUF?</h2>\n\n<p>Fluent AUF is an institution where learners concentrate on practical language lessons instead of just memorizing the vocabulary. Each learner gets personal attention from the trainer and develops their speaking skills during interactive lessons at Fluent AUF.</p>\n\n<p>Here are the reasons why students opt for our German language classes:</p>\n\n<ul>\n\t<li>Curriculum</li>\n\t<li>Trainer-led lessons</li>\n\t<li>Real conversation practice</li>\n\t<li>Assessment</li>\n\t<li>Student-friendly environment</li>\n\t<li>Student support</li>\n\t<li>Career-oriented German language lessons</li>\n</ul>\n\n<h2>Why Are Our Online German Classes Unique?</h2>\n\n<p>Our Online German Classes differ from pre-recorded lessons in the sense that learners can interact with the trainers in real time, practice speaking, get instant feedback, and develop confidence during exciting classroom activities.</p>\n\n<p>No matter what your motivation is&mdash;study abroad or career development&mdash;our German A1 course online will give you practical skills.</p>\n\n<h2>Further your Knowledge of the German Language</h2>\n\n<p>Having successfully completed the A1 course in German, you can progress to:</p>\n\n<ul>\n\t<li>German A2</li>\n\t<li>German B1</li>\n\t<li>German B2</li>\n\t<li>German C1</li>\n\t<li>German C2</li>\n</ul>\n\n<p>Fluent AUF&#39;s structured learning path will help you to progress smoothly towards proficiency in German.</p>\n\n<h2>Enroll in our German A1 Course Online Now</h2>\n\n<p>Make the first move towards fluency with our German A1 Course Online from Fluent AUF. Join live sessions conducted by experts, engage with seasoned instructors, converse in German with other students, and learn German online!</p>\n\n<p>Join us now and Learn German Online with Fluent AUF!</p>",
+    "seo": {
+      "metaTitle": "German A1 Level : For Beginners! | Fluent AUF",
+      "metaKeyword": "German A1 Level : For Beginners!, German Language Course, Learn German, Online German Classes",
+      "metaDescription": "Learn German Language From A Native and Experienced German Teacher - Learn German Grammar, Vocabulary and Speaking from scratch."
+    }
+  },
+  "a2": {
+    "slug": "a2",
+    "course": {
+      "slug": "a2",
+      "pathName": "german-a2",
+      "title": "German A2 Level : Elementary",
+      "description": "Learn The German Grammar From A Native and Experienced German Teacher - Learn German Grammar For Advanced Beginners.",
+      "hours": "1.5 Month",
+      "price": "₹15,500.00",
+      "image": "/courses/german-a2-1781517189489.png",
+      "batchSize": "5-6 Students",
+      "enrolled": "2589",
+      "rating": "4.50",
+      "reviewCount": "451",
+      "learningHours": "1.5 Month",
+      "originalPrice": "₹17,999"
+    },
     "faqs": [
-      {
-        "q": "Do I need any prior knowledge of German?",
-        "a": "No. This course is designed for complete beginners starting from the German alphabet."
-      },
       {
         "q": "How long do I have access to the course?",
         "a": "You get lifetime access on mobile, tablet, and desktop."
       },
       {
-        "q": "Is this course suitable for Goethe A1 exam preparation?",
-        "a": "Yes. The course includes preparation for the speaking and writing parts of the official A1 certification."
+        "q": "Is this course suitable for Goethe A2 exam preparation?",
+        "a": "Yes. The course includes preparation support for speaking, writing, and core skills required at A2 level."
+      },
+      {
+        "q": "How long do I have access to the course?",
+        "a": "You get lifetime access on mobile, tablet, and desktop."
+      }
+    ],
+    "reviews": [
+      {
+        "initials": "CS",
+        "name": "Chitra Sharma",
+        "date": "July 30, 2026",
+        "rating": 4,
+        "text": "I completed my A2 from Fluent AUF Language Studio. Excellent teaching methodology and very helpful for exam preparation.",
+        "color": "#ec4899"
+      },
+      {
+        "initials": "AK",
+        "name": "Akhil Kumaria",
+        "date": "July 13, 2026",
+        "rating": 4,
+        "text": "Teachers are very knowledgeable and patient. German grammar became much easier to understand at A2 level.",
+        "color": "#14b8a6"
+      },
+      {
+        "initials": "VC",
+        "name": "Virendra Chaudhary",
+        "date": "June 18, 2026",
+        "rating": 4,
+        "text": "I highly recommend Fluent AUF as one of the best language institutes for learning German in Jaipur.",
+        "color": "#f59e0b"
+      },
+      {
+        "initials": "GS",
+        "name": "Gaurav Sharma",
+        "date": "May 30, 2026",
+        "rating": 4,
+        "text": "Excellent A2 course! The trainer explains everything clearly with real-life examples. Highly recommended.",
+        "color": "#e31e24"
       }
     ],
     "reviewsSummary": {
       "average": "4.50",
-      "total": 50,
+      "total": 451,
       "breakdown": [
         {
           "stars": 5,
@@ -226,11 +359,745 @@
           "percent": 0
         }
       ],
-      "note": ""
+      "note": "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews."
     },
-    "reviews": [],
     "flexibleBatches": {
-      "subtitle": "Get Certification in A1 Level German Language Course Online Live Training with",
+      "subtitle": "Get Certification in A2 Level German Language Course Online Live Training with",
+      "highlight": "Goethe Exam Preparation",
+      "title": "Flexible batches for you",
+      "batches": [
+        {
+          "id": "batch-1",
+          "date": "July 18th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "soldOut": true,
+          "defaultSelected": false
+        },
+        {
+          "id": "batch-2",
+          "date": "August 5st",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "defaultSelected": true
+        },
+        {
+          "id": "batch-3",
+          "date": "August 10th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)"
+        }
+      ],
+      "originalPrice": "₹17,999",
+      "badge": "Live Classes + Study Material Included",
+      "discountPercent": 5
+    },
+    "isCustom": false,
+    "descriptionTab": {
+      "aboutCourse": "Master the German A2 Level with live online classes, grammar, speaking, listening, reading, and writing practice. Start your learning journey today.",
+      "objectivesLeft": [
+        "Become competent in German A2 level",
+        "Strengthen grammar, vocabulary, and speaking skills",
+        "Practice real-life German conversations",
+        "Gain confidence for official certification exams",
+        "Learn with structured lessons and expert guidance",
+        "Improve listening and writing through guided exercises"
+      ],
+      "objectivesRight": [
+        "Master key grammar topics for this level",
+        "Expand vocabulary for everyday and professional use",
+        "Prepare for speaking and writing assessments",
+        "Understand German culture and communication styles",
+        "Track progress with quizzes and practice tests",
+        "Get lifetime access to course materials"
+      ],
+      "courseDescription": [
+        "Learn German A2 with experienced native trainers at Fluent AUF.",
+        "This course follows a structured curriculum designed for steady progress, from fundamentals to advanced communication.",
+        "Content for this page will be updated soon. Contact us for batch details, syllabus, and enrollment."
+      ],
+      "goalsLessons": [
+        "Become fully competent in German A2 level",
+        "Master grammar and vocabulary for this stage",
+        "Improve pronunciation, speaking, and writing",
+        "Prepare for Goethe / Telc certification requirements",
+        "Practice with quizzes, assignments, and live sessions"
+      ],
+      "curriculumSections": [
+        {
+          "title": "German Grammar",
+          "topics": [
+            "Level-specific grammar modules",
+            "Sentence structure and verb forms",
+            "Cases, tenses, and conjunctions",
+            "Practical exercises and practice drills"
+          ]
+        },
+        {
+          "title": "German Conversation",
+          "topics": [
+            "Daily life dialogues",
+            "Professional and social situations",
+            "Pronunciation and fluency practice",
+            "Role-play and speaking assessments"
+          ]
+        },
+        {
+          "title": "German Vocabulary",
+          "topics": [
+            "Thematic word lists",
+            "Common phrases and expressions",
+            "Reading and listening vocabulary",
+            "Flashcards and vocabulary tests"
+          ]
+        },
+        {
+          "title": "Other",
+          "topics": [
+            "German culture and etiquette",
+            "Exam preparation tips",
+            "Study resources and references",
+            "Practice for the A2 exam"
+          ]
+        }
+      ],
+      "targetAudience": [
+        "Learners preparing for German A2 level",
+        "Students who want structured online or hybrid training"
+      ]
+    },
+    "seoContent": "<h2 style=\"margin-top:16px\"><strong><span style=\"font-weight:normal\">German A2 Course Online &ndash; Learn German A2 with Expert Trainers</span></strong></h2>\n\n<p>Are you trying to improve your skills from A1 to A2? The German A2 course will help you speak German in situations. You can use German to study work in Germany or just get better at languages.</p>\n\n<p>The A2 German course covers speaking, listening, reading, writing, grammar and vocabulary.</p>\n\n<p>You will learn through online classes, activities and expert trainers. You can join German classes from anywhere, in India.</p>\n\n<p>Join the Online German Classes from anywhere in India and start progressing towards fluency with a flexible learning schedule.</p>\n\n<h2><strong>Why Should You Join German A2 with Fluent AUF?</strong></h2>\n\n<p>Fluent AUF provides German courses which are practical, interactive, and focused. Our German Online Course aims to prepare learners for their German language proficiency test along with helping them in developing communication skills.</p>\n\n<h3>What You Will Get</h3>\n\n<ul>\n\t<li>Interactive online classes</li>\n\t<li>Certified and expert German trainers</li>\n\t<li>Batch sizes will be small so that the trainers can focus on each individual</li>\n\t<li>Learning the language with a speaking-focused approach</li>\n\t<li>Practice of grammar</li>\n\t<li>Regular assignments and quizzes</li>\n\t<li>Doubt-clearing sessions</li>\n\t<li>Study material included</li>\n\t<li>Mock tests for exam preparation</li>\n\t<li>Flexible weekday and weekend batches</li>\n\t<li>Certificate upon successful completion</li>\n</ul>\n\n<h2>German Language A2 Level &ndash; What You Will Learn</h2>\n\n<p>Our German language A2 level program is based on the CEFR (Common European Framework of Reference for Languages).<br />\nIn this program, you will learn how to:</p>\n\n<ul>\n\t<li>Converse in everyday situations more confidently</li>\n\t<li>Discuss family, education, employment, traveling, and hobbies</li>\n\t<li>Comprehend common German phrases</li>\n\t<li>Write emails, messages, and short letters</li>\n\t<li>Describe past events, future plans, and everyday activities</li>\n\t<li>Develop your pronunciation and listening skills</li>\n\t<li>Use grammar rules effectively in conversation</li>\n</ul>\n\n<p>In the end, you will be able to understand and use common German phrases needed for daily and professional life situations.</p>\n\n<h2>Syllabus for A2 German Language Course</h2>\n\n<p>The topics to be covered in our A2 German Language Course include:</p>\n\n<h3>Grammar</h3>\n\n<ul>\n\t<li>Past tense (Perfekt)</li>\n\t<li>Modal verbs</li>\n\t<li>Reflexive verbs</li>\n\t<li>Comparatives and superlatives</li>\n\t<li>Adjective use with prepositions</li>\n\t<li>Revision of Dative and Accusative cases</li>\n\t<li>Relative clauses (Introduction)</li>\n\t<li>Conjunctions</li>\n\t<li>Sentence building</li>\n</ul>\n\n<h3>Vocabulary</h3>\n\n<ul>\n\t<li>Health and fitness</li>\n\t<li>Shopping</li>\n\t<li>Traveling</li>\n\t<li>Work and professions</li>\n\t<li>Technology</li>\n\t<li>Education</li>\n\t<li>Environment</li>\n</ul>\n\n<h3>Conversation</h3>\n\n<ul>\n\t<li>Everyday talk</li>\n\t<li>Role plays</li>\n\t<li>Presentations</li>\n\t<li>Discussion</li>\n\t<li>Improvement of pronunciation</li>\n</ul>\n\n<h3>Reading and Writing</h3>\n\n<ul>\n\t<li>Articles</li>\n\t<li>E-mails</li>\n\t<li>Invitations</li>\n\t<li>Notices</li>\n\t<li>Essays</li>\n\t<li>Forms</li>\n</ul>\n\n<h2>Whom Should Enroll in This Course?</h2>\n\n<p>Our course is recommended for:</p>\n\n<ul>\n\t<li>Those who have finished <a href=\"https://fluentauf.com/course/german-a1\" target=\"_blank\"><u><strong>German A1</strong></u></a></li>\n\t<li>Those who plan to pursue studies in Germany</li>\n\t<li>Those who desire international careers</li>\n\t<li>Job aspirants readying themselves for German-speaking work environments</li>\n\t<li>Those preparing for Goethe A2 and TELC A2 tests</li>\n\t<li>Those interested in Learning German Online through expert tutors</li>\n</ul>\n\n<h2>Online German Classes Customized to Suit Your Timing</h2>\n\n<p>Online German Classes India are structured to suit your convenience the most. Get enrolled in live classes at the comfort of your own house without sacrificing on learning standards.</p>\n\n<p>You get:</p>\n\n<ul>\n\t<li>Live training classes</li>\n\t<li>Interactive classroom environment</li>\n\t<li>Recordings of the class sessions (wherever possible)</li>\n\t<li>Worksheets for practice</li>\n\t<li>Ongoing mentoring</li>\n\t<li>Performance tracking</li>\n</ul>\n\n<p>Be it a student or a professional in active service, you can keep yourself busy with learning through our convenient schedule.</p>\n\n<h2>Why Study German A2?</h2>\n\n<p>Having completed the A2 level enables you to:</p>\n\n<ul>\n\t<li>Speak with increased confidence</li>\n\t<li>Understand day-to-day conversations</li>\n\t<li>Increase your possibility of pursuing overseas studies</li>\n\t<li>Enhance your CV</li>\n\t<li>Prepare for next levels of German (B1, B2, C1 and C2)</li>\n\t<li>Meet language criteria for various purposes</li>\n</ul>\n\n<h2>Keep Your German Learning Going!</h2>\n\n<p>After completing the A2 German Language Course, you will be able to move on to more advanced levels of learning.</p>\n\n<p>Following A2, you can proceed with:</p>\n\n<ul>\n\t<li><a href=\"https://fluentauf.com/course/german-b1\" target=\"_blank\"><u><strong>B1 German</strong></u></a> &ndash; Recommended for university entry and better communication at work.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-b2\" target=\"_blank\"><u><strong>B2 German</strong></u></a> &ndash; Usually required for professional occupations and further studies in Germany.</li>\n\t<li><strong><a href=\"https://fluentauf.com/course/german-c1\" target=\"_blank\"><u>C1</u></a> and <a href=\"https://fluentauf.com/course/german-c2\" target=\"_blank\"><u>C2 German</u></a></strong> &ndash; Perfect for higher academic studies, healthcare professionals, translators, and people who want to master the language.</li>\n</ul>\n\n<h2>Why Learn with Fluent AUF?</h2>\n\n<p>Fluent AUF is preferred by thousands of students since our training is aimed at practical learning instead of memorizing.</p>\n\n<p><strong>Our Advantages:</strong></p>\n\n<ul>\n\t<li>Professional German language trainers</li>\n\t<li>Interactive live sessions</li>\n\t<li>CEFR-based curriculum</li>\n\t<li>Affordable fees for courses</li>\n\t<li>Personalized guidance</li>\n\t<li>Doubt clarification</li>\n\t<li>Test prep oriented</li>\n\t<li>Flexible batches</li>\n\t<li>Student-centered learning environment</li>\n</ul>\n\n<h2>Join in the Best German Language Online Classes</h2>\n\n<p>Join in the next phase of your German learning process by joining our German Language Classes offered by <a href=\"https://fluentauf.com/\" target=\"_blank\"><u><strong>Fluent AUF</strong></u></a>. You will be given all the requirements that you will need to successfully pass your A2 level in preparation for future language classes.</p>\n\n<p>Join our German online class and get started in your German A2 program now!</p>",
+    "seo": {
+      "metaTitle": "German A2 Level Course Online | Fluent AUF",
+      "metaKeyword": "German A2, German A2 Online Course, A2 Level German Classes, A2 German Language Course",
+      "metaDescription": "Master the German A2 Level with live online classes, grammar, speaking, listening, reading, and writing practice. Start your learning journey today."
+    }
+  },
+  "b1": {
+    "slug": "b1",
+    "course": {
+      "slug": "b1",
+      "pathName": "german-b1",
+      "title": "German B1 Level : Intermediate",
+      "description": "German Language has taken immense importance in contemporary business. It should be learnt properly with structured modules.",
+      "hours": "3 Month",
+      "price": "₹18,500.00",
+      "image": "/api/course-images/german-b1-1781605756747.jpg",
+      "batchSize": "8-10 Students",
+      "enrolled": "2196",
+      "rating": "4.50",
+      "reviewCount": "287",
+      "learningHours": "3 Month",
+      "originalPrice": "₹26,000"
+    },
+    "faqs": [
+      {
+        "q": "What is the ideal level before joining the German B1 course?",
+        "a": "Students should have successfully completed the A2 level or possess equivalent intermediate German language skills."
+      },
+      {
+        "q": "What communication skills will I develop in B1?",
+        "a": "You will learn to discuss familiar topics, express opinions, explain experiences, and participate in more detailed conversations with confidence."
+      },
+      {
+        "q": "Does the B1 course focus on all four language skills?",
+        "a": "Yes. The course provides balanced training in speaking, listening, reading, and writing to help you communicate effectively in German."
+      },
+      {
+        "q": "Who is the German B1 course best suited for?",
+        "a": "The course is ideal for students, professionals, and individuals planning to study, work, or settle in German-speaking countries."
+      },
+      {
+        "q": "Will there be regular assessments during the course?",
+        "a": "Yes. Quizzes, assignments, speaking activities, and practice tests are conducted to track your progress."
+      },
+      {
+        "q": "Can I improve my German speaking fluency through this course?",
+        "a": "Absolutely. Interactive discussions, presentations, and conversation exercises are designed to improve fluency and confidence."
+      },
+      {
+        "q": "Are course materials included with enrollment?",
+        "a": "Yes. Learners receive structured study materials, grammar resources, vocabulary exercises, and practice worksheets."
+      },
+      {
+        "q": "Does this course help with German proficiency examinations?",
+        "a": "Yes. The curriculum aligns with internationally recognized B1 language standards and helps learners prepare effectively."
+      },
+      {
+        "q": "Can I attend classes if I have a busy work schedule?",
+        "a": "Yes. Flexible batch options and online learning opportunities make it easier for working professionals to participate."
+      },
+      {
+        "q": "What opportunities open up after completing B1?",
+        "a": "B1 certification can support higher-level language studies, academic admissions, career opportunities, and integration into German-speaking environments."
+      }
+    ],
+    "reviews": [
+      {
+        "initials": "AS",
+        "name": "Ananya Sharma",
+        "date": "August 18, 2026",
+        "rating": 4.8,
+        "text": "Joining the B1 German course at Fluent AUF helped me become much more confident in speaking German. The live classes, regular practice, and clear explanations made the B1 level much easier to understand. I can now communicate more comfortably in German.",
+        "color": "#6366f1"
+      },
+      {
+        "initials": "RM",
+        "name": "Rahul Mehta",
+        "date": "August 13, 2026",
+        "rating": 5,
+        "text": "I was looking for a structured B1 level German course, and Fluent AUF was a great choice. The lessons covered grammar, vocabulary, speaking, listening, and writing in a balanced way. The teacher was supportive and explained difficult topics with simple examples.",
+        "color": "#6366f1"
+      },
+      {
+        "initials": "PV",
+        "name": "Priya Verma",
+        "date": "August 11, 2026",
+        "rating": 4.8,
+        "text": "Before starting my German language B1 course, I struggled to speak in longer conversations. The practice sessions at Fluent AUF helped me improve my fluency and sentence formation. I feel much more comfortable using German in everyday situations now.",
+        "color": "#6366f1"
+      },
+      {
+        "initials": "AK",
+        "name": "Arjun Kapoor",
+        "date": "August 9, 2026",
+        "rating": 5,
+        "text": "The German B1 classes at Fluent AUF were interactive and easy to follow. I especially liked the speaking activities because they gave me regular opportunities to use new vocabulary and grammar instead of only studying from books.",
+        "color": "#6366f1"
+      },
+      {
+        "initials": "KM",
+        "name": "Karan Malhotra",
+        "date": "July 28, 2026",
+        "rating": 5,
+        "text": "Fluent AUF made the B1 German language level feel much more manageable. The classes were well organised, and I received good support whenever I had doubts. The focus on practical German helped me improve my communication skills.",
+        "color": "#6366f1"
+      }
+    ],
+    "reviewsSummary": {
+      "average": "4.50",
+      "total": 287,
+      "breakdown": [
+        {
+          "stars": 5,
+          "percent": 100
+        },
+        {
+          "stars": 4,
+          "percent": 0
+        },
+        {
+          "stars": 3,
+          "percent": 0
+        },
+        {
+          "stars": 2,
+          "percent": 0
+        },
+        {
+          "stars": 1,
+          "percent": 0
+        }
+      ],
+      "note": "Test note"
+    },
+    "flexibleBatches": {
+      "subtitle": "Get Certification in B1 Level German Language Course Online Live Training with",
+      "highlight": "Goethe Exam Preparation",
+      "title": "Flexible batches for you",
+      "batches": [
+        {
+          "id": "batch-1",
+          "date": "July 17th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "soldOut": true
+        },
+        {
+          "id": "batch-2",
+          "date": "August 1st",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "defaultSelected": true
+        },
+        {
+          "id": "batch-3",
+          "date": "August 10th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)"
+        }
+      ],
+      "originalPrice": "₹21,000",
+      "badge": "Live Classes + Study Material Included",
+      "discountPercent": 50
+    },
+    "isCustom": false,
+    "descriptionTab": {
+      "aboutCourse": "German Language has taken immense importance in contemporary business. It should be learnt properly with structured modules.",
+      "objectivesLeft": [
+        "Become competent in German B1 level",
+        "Strengthen grammar, vocabulary, and speaking skills",
+        "Practice real-life German conversations",
+        "Build confidence for official certification exams",
+        "Learn with structured modules and expert guidance",
+        "Improve listening and writing through guided exercises"
+      ],
+      "objectivesRight": [
+        "Master key grammar topics for this level",
+        "Expand vocabulary for everyday and professional use",
+        "Prepare for speaking and writing assessments",
+        "Understand German culture and communication style",
+        "Track progress with quizzes and practice tasks",
+        "Get lifetime access to course materials"
+      ],
+      "courseDescription": [
+        "Learn German B1 with experienced native trainers at Fluent AUF.",
+        "This course follows a structured curriculum designed for steady progress from fundamentals to advanced communication.",
+        "Content for this page will be updated soon. Contact us for batch details, syllabus, and enrollment."
+      ],
+      "goalsLessons": [
+        "Become fully competent in German B1 level",
+        "Master grammar and vocabulary for this stage",
+        "Improve pronunciation, speaking, and writing",
+        "Prepare for Goethe / telc certification requirements",
+        "Practice with quizzes, assignments, and live sessions"
+      ],
+      "curriculumSections": [
+        {
+          "title": "German Grammar",
+          "topics": [
+            "Level-specific grammar modules",
+            "Sentence structure and verb forms",
+            "Cases, tenses, and connectors",
+            "Error correction and practice drills"
+          ]
+        },
+        {
+          "title": "German Conversation",
+          "topics": [
+            "Daily life dialogues",
+            "Professional and social situations",
+            "Pronunciation and fluency practice",
+            "Role-play and speaking assessments"
+          ]
+        },
+        {
+          "title": "German Vocabulary",
+          "topics": [
+            "Thematic word lists",
+            "Common phrases and expressions",
+            "Reading and listening vocabulary",
+            "Exam-focused vocabulary sets"
+          ]
+        },
+        {
+          "title": "Other",
+          "topics": [
+            "German culture and etiquette",
+            "Exam preparation tips",
+            "Study resources and references",
+            "Practice for the B1 exam"
+          ]
+        }
+      ],
+      "targetAudience": [
+        "Learners preparing for German B1 level",
+        "Students who want structured online or hybrid training"
+      ]
+    },
+    "seoContent": "<h2>Online German B1 Course | Build Confidence in German Communication</h2>\n\n<p>Enhance your proficiency in the German language by taking up the German B1 course at Fluent Auf. The B1 German Language course has been developed in accordance with the CEFR (Common European Framework of Reference for Languages).</p>\n\n<p>Be it for higher education in Germany, your career in another country, or for personal development purposes, our Online German Classes will take you through an effective learning program with expert training and preparation for exams.<br />\nIf you have successfully passed the A2 level course, then this German language B1 level course is just right for you!</p>\n\n<h2>Why Opt for Fluent Auf for Your B1 German Language Course?</h2>\n\n<p>Here, the emphasis lies on effective communication, accurate grammar, and actual language application. At our training centers, our classes are crafted to enhance the proficiency of students in speaking, listening, reading, and writing in German.</p>\n\n<p><strong>Features of Our Classes:&nbsp;</strong></p>\n\n<ul>\n\t<li>Live interactive online classes</li>\n\t<li>Professional German trainers</li>\n\t<li>Small batches</li>\n\t<li>Complete study material</li>\n\t<li>Speaking exercise in each class</li>\n\t<li>Assignments and evaluations each week</li>\n\t<li>Sessions clearing doubts</li>\n\t<li>Flexible timing for classes</li>\n\t<li>Video-recorded lectures to revise</li>\n\t<li>Certificate at the end of the course</li>\n</ul>\n\n<p>This B1 german online course will be beneficial for all the students and professionals in India.</p>\n\n<h2>German B1 &ndash; What Skills Will You Acquire?</h2>\n\n<p>The B1 level German course is designed to help you develop the skills that you need to communicate independently.</p>\n\n<h3>Speaking Skills</h3>\n\n<ul>\n\t<li>State your opinion</li>\n\t<li>Join in discussion</li>\n\t<li>Describe your experiences and plans</li>\n\t<li>Make presentations on known subjects</li>\n</ul>\n\n<h3>Listening Skills</h3>\n\n<ul>\n\t<li>Understand conversations in normal speed</li>\n\t<li>Listen to interviews and podcasts</li>\n\t<li>Listen to workplace communication</li>\n</ul>\n\n<h3>Reading Skills</h3>\n\n<ul>\n\t<li>Read news articles</li>\n\t<li>Understand emails and official documents</li>\n\t<li>Comprehend short stories and reports</li>\n</ul>\n\n<h3>Writing Skills</h3>\n\n<ul>\n\t<li>Write emails formally and informally</li>\n\t<li>Write essays and reports</li>\n\t<li>Describe experiences and opinions</li>\n</ul>\n\n<h2>Grammar Topics Taught in German</h2>\n\n<p>In this B1 level German course, learners will be taught about advanced grammar topics like:</p>\n\n<ul>\n\t<li>Passive Sentences</li>\n\t<li>Relative Clauses</li>\n\t<li>Konjunktiv II</li>\n\t<li>Reflexive Verbs</li>\n\t<li>Cases with Prepositions</li>\n\t<li>Adjective Endings</li>\n\t<li>Subordinate Clauses</li>\n\t<li>Future Tenses</li>\n\t<li>Comparisons</li>\n\t<li>Basics of Reported Speech</li>\n</ul>\n\n<p>Grammar classes will be taken using real-life examples to enhance day-to-day communication.</p>\n\n<h2>Suitable For Whom This Course?</h2>\n\n<p>This course is suitable for:</p>\n\n<ul>\n\t<li>German A2 pass-out students</li>\n\t<li>Prospective employees going to work in Germany</li>\n\t<li>Aspiring study abroad students</li>\n\t<li>Employees seeking jobs at German companies</li>\n\t<li>German language aficionados</li>\n</ul>\n\n<p>If you want to enroll in Learn German Online programs with flexibility and experienced guidance, then Fluent Auf is your best bet.</p>\n\n<h2>Curriculum of German B1 Course</h2>\n\n<h3>Module 1</h3>\n\n<ul>\n\t<li>Daily Communication</li>\n\t<li>Vocabulary for Workplace</li>\n\t<li>A2 Grammar Recap</li>\n</ul>\n\n<h3>Module 2</h3>\n\n<ul>\n\t<li>Complex Sentence Structure</li>\n\t<li>Speaking</li>\n\t<li>Listening</li>\n</ul>\n\n<h3>Module 3</h3>\n\n<ul>\n\t<li>Reading</li>\n\t<li>Email/Letter Writing</li>\n\t<li>Grammar Exercises</li>\n</ul>\n\n<h3>Module 4</h3>\n\n<ul>\n\t<li>Public Speaking</li>\n\t<li>Preparation for Goethe Exam</li>\n\t<li>Practice Tests</li>\n\t<li>Evaluation</li>\n</ul>\n\n<h2>Why Should You Learn German Online with Fluent Auf?</h2>\n\n<p>Taking online German classes makes sure that you get the best of the class experience sitting at home only.</p>\n\n<p>Some benefits include:</p>\n\n<ul>\n\t<li>Learning anytime</li>\n\t<li>Flexible schedule</li>\n\t<li>Interaction with trainers live</li>\n\t<li>Access to recordings</li>\n\t<li>Cost-effective classes</li>\n\t<li>Feedback</li>\n\t<li>Performance monitoring</li>\n</ul>\n\n<p>Our german language classes ensure online learning is fun, interactive, and productive.</p>\n\n<h2>Online German Classes India</h2>\n\n<p>Fluent Auf is your source for premium online german classes india for those from all cities in the country. Irrespective of whether you are based in Delhi, Mumbai, Bangalore, Hyderabad, Pune, Jaipur, Chennai, Kolkata, Ahmedabad, or any other part of India, you do not have to move from where you are.</p>\n\n<p>You get the feel of being in a classroom through the interactive exercises, speaking practice, and personalized mentoring in our virtual classrooms.</p>\n\n<h2>Continuing with Your German Learning Path</h2>\n\n<p>The German language course at Fluent Auf progresses through internationally acclaimed CEFR stages.</p>\n\n<ul>\n\t<li><a href=\"https://fluentauf.com/course/german-a1\" target=\"_blank\"><u><strong>German A1</strong></u></a> - Suitable for total beginners.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-a2\" target=\"_blank\"><strong><u>German A2</u></strong></a> - Helps improve practical communication skills.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-b1\" target=\"_blank\"><u><strong>German B1</strong></u></a> - Helps learn independent communication and prepare for work.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-b2\" target=\"_blank\"><u><strong>German B2</strong></u></a> - Prepares you for higher education and career through German.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-c1\" target=\"_blank\"><u><strong>German C1</strong></u></a> - Preparatory course for near-perfect communication skills.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-c2\" target=\"_blank\"><u><strong>German C2</strong></u></a> - The highest stage of CEFR for German language learning.</li>\n</ul>\n\n<p>Discover more about our full suite of german language classes here.</p>\n\n<h2>Why German B1 is Important</h2>\n\n<p>Achieving the German language level of B1 indicates that you can handle most of the real-life situations independently. Many universities and companies see B1 as an important step and accept certificates in this level.</p>\n\n<p>having achieved this level will enable you to:</p>\n\n<ul>\n\t<li>Speak confidently in German</li>\n\t<li>Boost your career prospects</li>\n\t<li>Get ready for advanced German language levels</li>\n\t<li>Create a good base for B2 and onwards</li>\n\t<li>Gain confidence during your stay in Germany</li>\n</ul>\n\n<h2>German B1 Course &ndash; Your Path to Fluency</h2>\n\n<p>Gain knowledge in the German language by enrolling yourself in German B1 course offered by <a href=\"https://fluentauf.com/\" target=\"_blank\"><u><strong>Fluent AUF</strong></u></a> and get one step closer towards achieving your academic or career objectives. Participate in the online german classes offered by us and join our german language classes where you can Learn German Online from anywhere in India.</p>\n\n<p>&nbsp;</p>",
+    "seo": {
+      "metaTitle": "German B1 Language Course Online | Fluentauf",
+      "metaKeyword": "German B1 Course, German Language B1 Level, Germany B1, German B1 Language Course",
+      "metaDescription": "Advance your German with the b1 german course at Fluent AUF. Improve speaking, grammar, writing, and listening through live online classes."
+    }
+  },
+  "b2": {
+    "slug": "b2",
+    "course": {
+      "slug": "b2",
+      "pathName": "german-b2",
+      "title": "German B2 Level : Upper Intermediate",
+      "description": "Learn German Language From A Native & Experienced German Teacher - Learn German Grammar, Vocabulary and fluency skills.",
+      "hours": "3 Month",
+      "price": "₹23,000.00",
+      "image": "/api/course-images/german-b2-1781605787250.jpg",
+      "batchSize": "15-30 Students",
+      "enrolled": "2078",
+      "rating": "4.50",
+      "reviewCount": "318",
+      "learningHours": "3 Month",
+      "originalPrice": "₹28,999"
+    },
+    "faqs": [
+      {
+        "q": "What level of German is required before joining B2?",
+        "a": "Learners should have completed the B1 level or demonstrate an equivalent upper-intermediate understanding of German grammar and communication skills.\n"
+      },
+      {
+        "q": "What will I achieve by completing the German B2 course?",
+        "a": "You will be able to communicate more fluently, understand complex texts, participate in detailed discussions, and express ideas clearly in academic and professional settings.\n"
+      },
+      {
+        "q": "Is the B2 course suitable for students planning to study in Germany?",
+        "a": "Yes. B2 is a valuable language level for students preparing for higher education and academic opportunities in German-speaking countries."
+      },
+      {
+        "q": "How does B2 differ from B1?",
+        "a": "B2 focuses on advanced communication, deeper grammar concepts, critical thinking, structured writing, and handling more sophisticated conversations."
+      },
+      {
+        "q": "Will I receive practice for real-world communication?",
+        "a": " Yes. The course includes discussions, debates, presentations, and practical scenarios commonly encountered in work, study, and daily life."
+      },
+      {
+        "q": "What comes after completing German B2?",
+        "a": "After B2, learners can advance to the C1 level, where they develop near-professional language proficiency for academic and career goals."
+      },
+      {
+        "q": "Can this course help me prepare for German language certification exams?",
+        "a": "Yes. The curriculum follows internationally recognized B2 standards and supports preparation for advanced German proficiency exams."
+      }
+    ],
+    "reviews": [
+      {
+        "initials": "AM",
+        "name": "Aishwarya Menon",
+        "date": "June 11, 2026",
+        "rating": 4.8,
+        "text": "The German B2 course online at Fluent AUF helped me become much more fluent and confident. The trainers focused on advanced speaking skills and real-life communication, which made a huge difference.",
+        "color": "#6366f1"
+      },
+      {
+        "initials": "RK",
+        "name": "Ritesh Kulkarni",
+        "date": "June 6, 2026",
+        "rating": 4.6,
+        "text": "I joined Fluent AUF for the German B2 online course after completing B1. The classes were engaging, and the trainers explained complex topics in a simple and practical way.",
+        "color": "#ec4899"
+      },
+      {
+        "initials": "SN",
+        "name": "Shruti Narayanan",
+        "date": "May 27, 2026",
+        "rating": 5,
+        "text": "The B2 German language course was exactly what I needed to improve my professional German. The speaking activities and feedback sessions were extremely helpful.",
+        "color": "#14b8a6"
+      },
+      {
+        "initials": "AC",
+        "name": "Aditya Chatterjee",
+        "date": "May 22, 2026",
+        "rating": 4.2,
+        "text": "Fluent AUF offers some of the best German classes for advanced learners. The course structure was well-organized, and every session helped me improve my fluency.",
+        "color": "#f59e0b"
+      },
+      {
+        "initials": "NS",
+        "name": "Nikita Shetty",
+        "date": "May 17, 2026",
+        "rating": 4,
+        "text": "I enrolled in the German B2 classes online to prepare for studies abroad. The trainers were supportive, and the course content covered everything I needed at the B2 level.",
+        "color": "#8b5cf6"
+      },
+      {
+        "initials": "PD",
+        "name": "Pallavi Deshpande",
+        "date": "May 13, 2026",
+        "rating": 5,
+        "text": "The B2 level German program was very professional and easy to follow. The trainers encouraged active participation, which made learning much more effective.",
+        "color": "#e31e24"
+      },
+      {
+        "initials": "RM",
+        "name": "Riya Mukherjee",
+        "date": "May 8, 2026",
+        "rating": 4.8,
+        "text": "I was searching for a quality German B2 course online, and Fluent AUF proved to be an excellent choice. The study materials and live classes were outstanding.",
+        "color": "#6366f1"
+      }
+    ],
+    "reviewsSummary": {
+      "average": "4.50",
+      "total": 318,
+      "breakdown": [
+        {
+          "stars": 5,
+          "percent": 91
+        },
+        {
+          "stars": 4,
+          "percent": 8
+        },
+        {
+          "stars": 3,
+          "percent": 1
+        },
+        {
+          "stars": 2,
+          "percent": 0
+        },
+        {
+          "stars": 1,
+          "percent": 0
+        }
+      ],
+      "note": "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews."
+    },
+    "flexibleBatches": {
+      "subtitle": "Get Certification in B2 Level German Language Course Online Live Training with",
+      "highlight": "Goethe Exam Preparation",
+      "title": "Flexible batches for you",
+      "batches": [
+        {
+          "id": "batch-1",
+          "date": "July 18th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "soldOut": true
+        },
+        {
+          "id": "batch-2",
+          "date": "August 1st",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "defaultSelected": true
+        },
+        {
+          "id": "batch-3",
+          "date": "August 10th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)"
+        }
+      ],
+      "originalPrice": "₹27,000",
+      "badge": "Live Classes + Study Material Included",
+      "discountPercent": 50
+    },
+    "isCustom": false,
+    "descriptionTab": {
+      "aboutCourse": "Learn German Language From A Native & Experienced German Teacher - Learn German Grammar, Vocabulary and fluency skills.",
+      "objectivesLeft": [
+        "Become competent in German B2 level",
+        "Strengthen grammar, vocabulary, and speaking skills",
+        "Practice real-life German conversations",
+        "Build confidence for official certification exams",
+        "Learn with structured modules and expert guidance",
+        "Improve listening and writing through guided exercises"
+      ],
+      "objectivesRight": [
+        "Master key grammar topics for this level",
+        "Expand vocabulary for everyday and professional use",
+        "Prepare for speaking and writing assessments",
+        "Understand German culture and communication style",
+        "Track progress with quizzes and practice tasks",
+        "Get lifetime access to course materials"
+      ],
+      "courseDescription": [
+        "Learn German B2 with experienced native trainers at Fluent AUF.",
+        "This course follows a structured curriculum designed for steady progress from fundamentals to advanced communication.",
+        "Content for this page will be updated soon. Contact us for batch details, syllabus, and enrollment."
+      ],
+      "goalsLessons": [
+        "Become fully competent in German B2 level",
+        "Master grammar and vocabulary for this stage",
+        "Improve pronunciation, speaking, and writing",
+        "Prepare for Goethe / telc certification requirements",
+        "Practice with quizzes, assignments, and live sessions"
+      ],
+      "curriculumSections": [
+        {
+          "title": "German Grammar",
+          "topics": [
+            "Level-specific grammar modules",
+            "Sentence structure and verb forms",
+            "Cases, tenses, and connectors",
+            "Error correction and practice drills"
+          ]
+        },
+        {
+          "title": "German Conversation",
+          "topics": [
+            "Daily life dialogues",
+            "Professional and social situations",
+            "Pronunciation and fluency practice",
+            "Role-play and speaking assessments"
+          ]
+        },
+        {
+          "title": "German Vocabulary",
+          "topics": [
+            "Thematic word lists",
+            "Common phrases and expressions",
+            "Reading and listening vocabulary",
+            "Exam-focused vocabulary sets"
+          ]
+        },
+        {
+          "title": "Other",
+          "topics": [
+            "German culture and etiquette",
+            "Exam preparation tips",
+            "Study resources and references",
+            "Practice for the B2 exam"
+          ]
+        }
+      ],
+      "targetAudience": [
+        "Learners preparing for German B2 level",
+        "Students who want structured online or hybrid training"
+      ]
+    },
+    "seoContent": "<h2 style=\"margin-top:16px\">German B2 Language Course Online | Learn German B2 with Live Classes</h2>\n\n<p>Get yourself to an advanced independent level in German with the German B2 Language Course offered by FluentAuf. The live online German B2 Classes are tailor-made for students, working professionals, and aspirants of Germany.</p>\n\n<p>For those who want to learn advanced German grammar, vocabulary, fluency, and skills for communicating in academic, professional, and other daily contexts, our German B2 Course is designed for you.</p>\n\n<h2>What is So Special About Our German B2 Language Course?</h2>\n\n<p>We believe at FluentAuf that language learning should be practical and effective with proper guidance from the experienced teachers. We provide you with all that you need to get yourself proficient in the German language B2 level.</p>\n\n<h2>German B2 Course Features:</h2>\n\n<ul>\n\t<li>Interactive online classes</li>\n\t<li>Certified and expert German tutors</li>\n\t<li>Smaller batches for personalized attention</li>\n\t<li>Practicing speaking, listening, reading, and writing</li>\n\t<li>Assessments and assignments on a weekly basis</li>\n\t<li>Preparation for mock test</li>\n\t<li>Flexible timing for classes</li>\n\t<li>Access to recorded sessions</li>\n\t<li>Lifetime learning support</li>\n\t<li>Certificate on completion of the course</li>\n</ul>\n\n<p>If you are looking for Online German Classes which offer quality training along with convenience, then FluentAuf is the best platform.</p>\n\n<h2>What Skills Will You Gain in German B2?</h2>\n\n<p>Our program complies with the CEFR (Common European Framework of Reference for Languages), and is based on the communicative competence approach.<br />\nThroughout the program, you will learn:</p>\n\n<ul>\n\t<li>Advanced German grammar constructions</li>\n\t<li>Formal and informal communication</li>\n\t<li>Complex sentence building</li>\n\t<li>Professional terminology</li>\n\t<li>Presentation and discussion techniques</li>\n\t<li>Report writing</li>\n\t<li>Opinion-oriented discussions</li>\n\t<li>Listening to authentic speech at a normal pace</li>\n\t<li>Reading of newspapers, articles, and reports</li>\n\t<li>Communication in work and university settings</li>\n</ul>\n\n<p>After successfully finishing this program, you will be able to apply your German B2 skills in practice.</p>\n\n<h2>Who Can Join This Program?</h2>\n\n<p>This program can be recommended for:</p>\n\n<ul>\n\t<li>Future students to Germany</li>\n\t<li>International job hunters</li>\n\t<li>Those who seek job positions at German companies</li>\n\t<li>Doctors and nurses</li>\n\t<li>Engineers and IT specialists</li>\n\t<li>Everyone who completed German B1</li>\n</ul>\n\n<h2>Can You Complete German B2 in 6 Months?</h2>\n\n<p>Worried about completing B2 German in 6 months?</p>\n\n<p>Yes. With dedication to learning, participation in class, and self-study every day, it is possible to complete the B2 course in just six months. Our systematic teaching, practice sessions, homework, and training will enable you to do so effectively.</p>\n\n<h2>Skills You&#39;ll Develop at the German Language B2 Level</h2>\n\n<ul>\n\t<li>After completion of the course, you will be able to:</li>\n\t<li>Communicate effectively with natives</li>\n\t<li>Give a detailed expression of opinions and arguments</li>\n\t<li>Join in professional conferences</li>\n\t<li>Compose formal emails and reports</li>\n\t<li>Comprehend lectures, podcasts, and news</li>\n\t<li>Read complicated German texts easily</li>\n\t<li>Prepare for university level communication</li>\n</ul>\n\n<h2>Prepare for German B2 Certification Exams with Confidence</h2>\n\n<p>We also provide preparation for German language examination recognized worldwide by concentrating on:</p>\n\n<ul>\n\t<li>Reading</li>\n\t<li>Listening</li>\n\t<li>Writing</li>\n\t<li>Speaking</li>\n\t<li>Time Management</li>\n\t<li>Practice Tests</li>\n\t<li>Examination Techniques</li>\n</ul>\n\n<p>Practice tests will help you understand the exam pattern and boost your confidence level.</p>\n\n<h2>Why Study German Online from Fluent AUF?</h2>\n\n<p>Selecting an appropriate institute is extremely important in your language learning process.</p>\n\n<p>Here, you get:</p>\n\n<ul>\n\t<li>Live Class Sessions</li>\n\t<li>Personal Feedback</li>\n\t<li>Classroom Interactions</li>\n\t<li>Speaking Oriented Learning</li>\n\t<li>Doubt Clarification Session</li>\n\t<li>Progress Tracking</li>\n\t<li>Affordable Course Fee</li>\n\t<li>Flexible Schedule</li>\n</ul>\n\n<p>If you want to Study German Online from expert trainers, <strong>Fluent AUF</strong> provides you with all these facilities.</p>\n\n<h2>Explore Our Complete German Language Courses (A1&ndash;C2)</h2>\n\n<p>Learning German is a gradual process. If you are starting your journey or would like to take it to the next level, you can check out our complete set of courses below:</p>\n\n<p><a href=\"https://fluentauf.com/course/german-a1\" target=\"_blank\"><u><strong>German A1</strong></u></a> &ndash; Learn the basics of German.</p>\n\n<p><a href=\"https://fluentauf.com/course/german-a2\" target=\"_blank\"><u><strong>German A2</strong></u></a> &ndash; Improve your vocabulary and conversation.</p>\n\n<p><a href=\"https://fluentauf.com/course/german-b1\" target=\"_blank\"><u><strong>German B1</strong></u></a> &ndash; Become an independent speaker of German.</p>\n\n<p><a href=\"https://fluentauf.com/course/german-b2\" target=\"_blank\"><strong><u>German B2</u></strong></a> &ndash; Build advanced skills for study and work.</p>\n\n<p><a href=\"https://fluentauf.com/course/german-c1\" target=\"_blank\"><u><strong>German C1</strong></u></a> &ndash; Gain professional and academic fluency in German.</p>\n\n<p><a href=\"https://fluentauf.com/course/german-c2\" target=\"_blank\"><strong><u>German C2</u></strong></a> &ndash; Become a master of the language.</p>\n\n<p>With our gradual approach to language learning, you will be able to progress smoothly from beginner to advanced levels.</p>\n\n<h2>Why Thousands of Students Trust Fluent AUF for Online German Classes</h2>\n\n<p>It is chosen by thousands of students who learn languages through us because we concentrate on practical language learning rather than memorization.<br />\nSome benefits of our students include:</p>\n\n<ul>\n\t<li>Experienced faculty</li>\n\t<li>Interactive live lessons</li>\n\t<li>Practical conversation</li>\n\t<li>Mentoring</li>\n\t<li>Flexibility in timing</li>\n\t<li>Reasonable cost</li>\n\t<li>Regular testing</li>\n\t<li>Student support</li>\n</ul>\n\n<p>If you want to study German for higher education, immigration, career purposes, or personal development, then our German online course is exactly what you need.</p>\n\n<h2>Join our German B2 Classes Today</h2>\n\n<p>Are you looking forward to study, work or live in Germany? Then join the ranks of our esteemed German language classes from <a href=\"https://fluentauf.com/\" target=\"_blank\"><u><strong>Fluentauf</strong></u></a>. We offer the best German language classes that will ensure you become fluent using the interactive teaching methods.</p>\n\n<p>Be part of the most reputable online german classes india for learning the German language at the B2 level.</p>",
+    "seo": {
+      "metaTitle": "German B2 Language Course Online | Fluent AUF",
+      "metaKeyword": "German B2, German Language B2 Level, B2 Germany, German B2 Classes Online, B2 german language course",
+      "metaDescription": "Join the Online German B2 Level course at Fluent AUF. Improve advanced speaking, grammar, writing, reading, and listening with live expert-led classes."
+    }
+  },
+  "c1": {
+    "slug": "c1",
+    "course": {
+      "slug": "c1",
+      "pathName": "german-c1",
+      "title": "German C1 Level : Advance Level German",
+      "description": "The German Language C1 level, also known as the Advanced Level, represents a significant milestone in language mastery.",
+      "hours": "60 Hours +",
+      "price": "₹25,500.00",
+      "image": "/api/course-images/german-c1-1781605811162.jpg",
+      "batchSize": "15-25 Students",
+      "enrolled": "1589",
+      "rating": "4.50",
+      "reviewCount": "233",
+      "learningHours": "60 Hours",
+      "originalPrice": "₹27,000"
+    },
+    "faqs": [
+      {
+        "q": "What knowledge should I have before enrolling in the German C1 course?",
+        "a": "Students should have completed the B2 level or possess strong upper-intermediate German skills, including confident speaking, reading, writing, and listening abilities."
+      },
+      {
+        "q": "What makes the German C1 level important?",
+        "a": "C1 enables learners to communicate fluently and spontaneously, understand complex topics, and use German effectively in academic, professional, and social environments."
+      },
+      {
+        "q": "Who should take the German C1 course?",
+        "a": "This course is ideal for university applicants, professionals, healthcare workers, and anyone aiming for advanced German proficiency."
+      },
+      {
+        "q": "What skills are covered in the C1 course?",
+        "a": "The course focuses on advanced grammar, academic vocabulary, professional communication, formal writing, presentations, and critical discussion skills."
+      },
+      {
+        "q": "Will I practice advanced speaking and presentations?",
+        "a": "Yes. Learners participate in discussions, debates, presentations, and real-life communication scenarios to improve fluency and confidence."
+      },
+      {
+        "q": "Can this course help me study or work in Germany?",
+        "a": "Yes. C1-level German is often beneficial for higher education, professional careers, and integration into German-speaking workplaces."
+      },
+      {
+        "q": "Are practice tests and assignments included?",
+        "a": "Yes. Regular assignments, mock tests, speaking evaluations, and writing exercises help track your progress throughout the course. "
+      }
+    ],
+    "reviews": [
+      {
+        "initials": "TA",
+        "name": "Tanisha Arora",
+        "date": "June 17, 2026",
+        "rating": 5,
+        "text": "The German C1 course online at Fluent AUF helped me refine my language skills and communicate with much greater confidence. The trainers focused on advanced vocabulary and fluency, which was exactly what I needed.",
+        "color": "#6366f1"
+      },
+      {
+        "initials": "AK",
+        "name": "Abhinav Khurana",
+        "date": "June 9, 2026",
+        "rating": 4.6,
+        "text": "I enrolled in the German C1 online course to prepare for academic purposes. The lessons were detailed, engaging, and helped me improve both my speaking and writing skills.",
+        "color": "#ec4899"
+      },
+      {
+        "initials": "MI",
+        "name": "Megha Iyer",
+        "date": "June 7, 2026",
+        "rating": 5,
+        "text": "The C1 German language course was incredibly well-structured. Fluent AUF's trainers provided personalized feedback that helped me overcome my weaknesses and progress quickly.",
+        "color": "#14b8a6"
+      },
+      {
+        "initials": "SB",
+        "name": "Siddharth Bhatia",
+        "date": "May 31, 2026",
+        "rating": 4.8,
+        "text": "Fluent AUF offers some of the best German classes for advanced learners. The interactive discussions and practical exercises made every session valuable.",
+        "color": "#f59e0b"
+      },
+      {
+        "initials": "AB",
+        "name": "Ankita Banerjee",
+        "date": "May 26, 2026",
+        "rating": 5,
+        "text": "I was looking for German C1 classes online, and Fluent AUF exceeded my expectations. The trainers encouraged active participation, which helped me improve my fluency naturally.",
+        "color": "#8b5cf6"
+      },
+      {
+        "initials": "RC",
+        "name": "Rohan Chakraborty",
+        "date": "May 19, 2026",
+        "rating": 5,
+        "text": "The C1 level German program challenged me in the best way possible. The discussions, assignments, and speaking activities helped me achieve a new level of confidence.",
+        "color": "#e31e24"
+      },
+      {
+        "initials": "KT",
+        "name": "Keshav Tiwari",
+        "date": "May 16, 2026",
+        "rating": 4.8,
+        "text": "I highly recommend Fluent AUF to anyone planning to learn German C1. The structured approach, expert trainers, and supportive environment make it one of the best choices for advanced German learners.",
+        "color": "#6366f1"
+      }
+    ],
+    "reviewsSummary": {
+      "average": "4.50",
+      "total": 233,
+      "breakdown": [
+        {
+          "stars": 5,
+          "percent": 87
+        },
+        {
+          "stars": 4,
+          "percent": 11
+        },
+        {
+          "stars": 3,
+          "percent": 2
+        },
+        {
+          "stars": 2,
+          "percent": 0
+        },
+        {
+          "stars": 1,
+          "percent": 0
+        }
+      ],
+      "note": "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews."
+    },
+    "flexibleBatches": {
+      "subtitle": "Get Certification in C1 Level German Language Course Online Live Training with",
       "highlight": "Goethe Exam Preparation",
       "title": "Flexible batches for you",
       "batches": [
@@ -258,60 +1125,199 @@
           "time": "06:00PM to 07:30PM (IST)"
         }
       ],
-      "originalPrice": "₹22,998",
+      "originalPrice": "₹30,000",
       "badge": "Live Classes + Study Material Included",
       "discountPercent": 50
     },
-    "seoContent": "<h2>German A1 Course Online &ndash; Learn German A1 from Beginners to Confidence</h2>\n\n<p>Kick start your learning process with German A1 Course Online provided by Fluent Auf which is meant for absolute beginners of the German language. If you&#39;re preparing yourself to study in Germany, job hunting, migration or just want to learn a new language then our A1 German language course is ideal for you.</p>\n\n<p>If you are searching for a German A1 course online which offers flexibility and affordability along with communication then you have landed on the right page.</p>\n\n<h2>Why Should You Join Our German A1 Course Online?</h2>\n\n<p>Our Online German Classes are based on CEFR (Common European Framework of Reference for Languages) and therefore, you will be taught the proper skills necessary at this level. This level includes everyday communication, simple dialogues, grammar, vocabulary, listening, reading, writing, and speaking.</p>\n\n<h2>Benefits of Our German A1 Course Online</h2>\n\n<ul>\n\t<li>Live online interactive classes</li>\n\t<li>Expert German language trainers</li>\n\t<li>Small group teaching</li>\n\t<li>Session recordings for revising</li>\n\t<li>Assignments and quizzes regularly</li>\n\t<li>Speaking practice in each session</li>\n\t<li>Doubt-solving sessions</li>\n\t<li>Mock tests and exam preparation</li>\n\t<li>Course completion certificate</li>\n</ul>\n\n<h2>What You Will Learn in the A1 German Language Course</h2>\n\n<p>In our A1 German course, you will learn all the necessary things to speak confidently.</p>\n\n<h3>Basics of the German Language</h3>\n\n<ul>\n\t<li>Alphabet and pronunciation</li>\n\t<li>Greetings and introduction</li>\n\t<li>Numbers, dates and time</li>\n\t<li>Personal data</li>\n</ul>\n\n<h3>Essential Grammar of German Language</h3>\n\n<ul>\n\t<li>Articles (der, die, das)</li>\n\t<li>Verbs in the present tense</li>\n\t<li>Personal pronouns</li>\n\t<li>Sentence construction</li>\n\t<li>Making questions</li>\n\t<li>Modal verbs</li>\n\t<li>Prepositions</li>\n</ul>\n\n<h3>Basic Vocabulary of the German Language</h3>\n\n<ul>\n\t<li>Family and friends</li>\n\t<li>Food and shopping</li>\n\t<li>Traveling and transportation</li>\n\t<li>Work and study</li>\n\t<li>Hobbies and everyday life</li>\n\t<li>Medical appointments and health</li>\n</ul>\n\n<h3>Communicative Skills</h3>\n\n<ul>\n\t<li>Listening</li>\n\t<li>Reading</li>\n\t<li>Writing emails and messages</li>\n\t<li>Basic dialogues</li>\n\t<li>Improving pronunciation</li>\n</ul>\n\n<h2>Who Should Enroll in This Online German A1 Course?</h2>\n\n<p>This German course online is suitable for:</p>\n\n<ul>\n\t<li>Completely newbies</li>\n\t<li>Individuals interested in studying in Germany</li>\n\t<li>Working professionals</li>\n\t<li>Healthcare and Nursing professionals</li>\n\t<li>Those searching for jobs</li>\n\t<li>Visa applicants</li>\n\t<li>All those wishing to Learn German Online</li>\n</ul>\n\n<p>Prior knowledge of German is not needed.</p>\n\n<h2>Course Features</h2>\n\n<ul>\n\t<li>✅ 100% Live Online Classes</li>\n\t<li>✅ Flexible Weekday and Weekend Batch Classes</li>\n\t<li>✅ Interactive Learning Environment</li>\n\t<li>✅ Trained and Certified Trainers</li>\n\t<li>✅ Speaking Practice Sessions</li>\n\t<li>✅ Lifetime Access to Study Material</li>\n\t<li>✅ Mock Test and Assessments</li>\n\t<li>✅ Personalized Feedback</li>\n\t<li>✅ Low Course Fees</li>\n\t<li>✅ Course Completion Certificate</li>\n</ul>\n\n<h2>Why should you Learn German A1?</h2>\n\n<p>Learning German A1 will help you:</p>\n\n<ul>\n\t<li>Make introductions easily</li>\n\t<li>Speak about your family and daily routine</li>\n\t<li>Answer and ask basic questions</li>\n\t<li>Read small passages</li>\n\t<li>Write basic emails</li>\n\t<li>Listen to and understand everyday conversations</li>\n\t<li>Communicate while traveling</li>\n\t<li>Set a good base for advanced German Levels</li>\n</ul>\n\n<p>A strong base at A1 will prepare you for A2, B1, B2, C1, and C2 while being helpful in practical communication.</p>\n\n<h2>Why Should Students Choose Fluent AUF?</h2>\n\n<p>Fluent AUF is an institution where learners concentrate on practical language lessons instead of just memorizing the vocabulary. Each learner gets personal attention from the trainer and develops their speaking skills during interactive lessons at Fluent AUF.</p>\n\n<p>Here are the reasons why students opt for our German language classes:</p>\n\n<ul>\n\t<li>Curriculum</li>\n\t<li>Trainer-led lessons</li>\n\t<li>Real conversation practice</li>\n\t<li>Assessment</li>\n\t<li>Student-friendly environment</li>\n\t<li>Student support</li>\n\t<li>Career-oriented German language lessons</li>\n</ul>\n\n<h2>Why Are Our Online German Classes Unique?</h2>\n\n<p>Our Online German Classes differ from pre-recorded lessons in the sense that learners can interact with the trainers in real time, practice speaking, get instant feedback, and develop confidence during exciting classroom activities.</p>\n\n<p>No matter what your motivation is&mdash;study abroad or career development&mdash;our German A1 course online will give you practical skills.</p>\n\n<h2>Further your Knowledge of the German Language</h2>\n\n<p>Having successfully completed the A1 course in German, you can progress to:</p>\n\n<ul>\n\t<li>German A2</li>\n\t<li>German B1</li>\n\t<li>German B2</li>\n\t<li>German C1</li>\n\t<li>German C2</li>\n</ul>\n\n<p>Fluent AUF&#39;s structured learning path will help you to progress smoothly towards proficiency in German.</p>\n\n<h2>Enroll in our German A1 Course Online Now</h2>\n\n<p>Make the first move towards fluency with our German A1 Course Online from Fluent AUF. Join live sessions conducted by experts, engage with seasoned instructors, converse in German with other students, and learn German online!</p>\n\n<p>Join us now and Learn German Online with Fluent AUF!</p>",
-    "seo": {
-      "metaTitle": "German A1 Level : For Beginners! | Fluent AUF",
-      "metaKeyword": "German A1 Level : For Beginners!, German Language Course, Learn German, Online German Classes",
-      "metaDescription": "Learn German Language From A Native and Experienced German Teacher - Learn German Grammar, Vocabulary and Speaking from scratch."
+    "isCustom": false,
+    "descriptionTab": {
+      "aboutCourse": "The German Language C1 level, also known as the Advanced Level, represents a significant milestone in language mastery.",
+      "objectivesLeft": [
+        "Become competent in German C1 level",
+        "Strengthen grammar, vocabulary, and speaking skills",
+        "Practice real-life German conversations",
+        "Build confidence for official certification exams",
+        "Learn with structured modules and expert guidance",
+        "Improve listening and writing through guided exercises"
+      ],
+      "objectivesRight": [
+        "Master key grammar topics for this level",
+        "Expand vocabulary for everyday and professional use",
+        "Prepare for speaking and writing assessments",
+        "Understand German culture and communication style",
+        "Track progress with quizzes and practice tasks",
+        "Get lifetime access to course materials"
+      ],
+      "courseDescription": [
+        "Learn German C1 with experienced native trainers at Fluent AUF.",
+        "This course follows a structured curriculum designed for steady progress from fundamentals to advanced communication.",
+        "Content for this page will be updated soon. Contact us for batch details, syllabus, and enrollment."
+      ],
+      "goalsLessons": [
+        "Become fully competent in German C1 level",
+        "Master grammar and vocabulary for this stage",
+        "Improve pronunciation, speaking, and writing",
+        "Prepare for Goethe / telc certification requirements",
+        "Practice with quizzes, assignments, and live sessions"
+      ],
+      "curriculumSections": [
+        {
+          "title": "German Grammar",
+          "topics": [
+            "Level-specific grammar modules",
+            "Sentence structure and verb forms",
+            "Cases, tenses, and connectors",
+            "Error correction and practice drills"
+          ]
+        },
+        {
+          "title": "German Conversation",
+          "topics": [
+            "Daily life dialogues",
+            "Professional and social situations",
+            "Pronunciation and fluency practice",
+            "Role-play and speaking assessments"
+          ]
+        },
+        {
+          "title": "German Vocabulary",
+          "topics": [
+            "Thematic word lists",
+            "Common phrases and expressions",
+            "Reading and listening vocabulary",
+            "Exam-focused vocabulary sets"
+          ]
+        },
+        {
+          "title": "Other",
+          "topics": [
+            "German culture and etiquette",
+            "Exam preparation tips",
+            "Study resources and references",
+            "Practice for the C1 exam"
+          ]
+        }
+      ],
+      "targetAudience": [
+        "Learners preparing for German C1 level",
+        "Students who want structured online or hybrid training"
+      ]
     },
-    "updatedAt": "2026-09-02T07:00:51.476Z"
+    "seoContent": "<h2 style=\"margin-top:16px\"><span style=\"font-weight:normal\">German C1 Course &ndash; Master Advanced German for Career, Higher Education &amp; Professional Success</span></h2>\n\n<p>Elevate your proficiency in German by enrolling in the German C1 course offered by Fluent AUF. This advanced course will assist you in gaining confidence in using the German language in your academics, profession, and in your daily life. The online German C1 course emphasizes advanced grammar, advanced vocabulary, fluency in speaking, written assignments, and advanced levels of comprehension based on the Common European Framework of Reference for Languages (CEFR). The C1 level is a proficient level of the German language and helps learners to use it for their studies and profession.</p>\n\n<p>If you are planning to study in Germany or work with German companies or even sit for the Goethe or TELC C1 test, you can join our Online German Classes from your home.</p>\n\n<h2>Fluent AUF for Your German C1 Class &ndash; Why Choose Us?</h2>\n\n<p>Fluent AUF ensures through their structured and interactive approach that every learner attains confidence in speaking at the C1 level in the German language.</p>\n\n<h2>What will you get?</h2>\n\n<ul>\n\t<li>Interactive classes online</li>\n\t<li>Expert trainers of the German language</li>\n\t<li>Smaller batch sizes for better attention</li>\n\t<li>Sessions with speaking focus on discussion</li>\n\t<li>Grammar and vocabulary exercises</li>\n\t<li>Correction of writing skills and feedback</li>\n\t<li>Test series and exams oriented preparation</li>\n\t<li>Class timing options for students as well as working professionals</li>\n\t<li>Class recording for revisions</li>\n\t<li>Certificate of completion of the course</li>\n</ul>\n\n<p>If you are looking for a German C1 online course which promises progress, <a href=\"https://fluentauf.com/\" target=\"_blank\"><u><strong>Fluent AUF</strong></u></a> can surely be your choice.</p>\n\n<h2>German Language C1 Level Curriculum Overview</h2>\n\n<p>The curriculum is thoughtfully developed using the CEFR guidelines to ensure that learners get proficient in advanced German language.</p>\n\n<h3><strong>Advanced Grammar</strong></h3>\n\n<ul>\n\t<li>Sentence structure</li>\n\t<li>Voice and advanced verbs</li>\n\t<li>Konjunktiv I &amp; II</li>\n\t<li>Nominalization</li>\n\t<li>Advanced connectives</li>\n\t<li>Structures for formal/academic writing</li>\n</ul>\n\n<h3>Advanced Vocabulary</h3>\n\n<p>Learn advanced vocabulary on the following topics:</p>\n\n<ul>\n\t<li>Business/management</li>\n\t<li>Politics/economics</li>\n\t<li>Environment</li>\n\t<li>Technology</li>\n\t<li>Education</li>\n\t<li>Healthcare</li>\n\t<li>Science</li>\n\t<li>Society/culture</li>\n</ul>\n\n<h3>Speaking Skills</h3>\n\n<ul>\n\t<li>Give professional presentations</li>\n\t<li>Engage in debates</li>\n\t<li>Share opinions</li>\n\t<li>Make presentations</li>\n\t<li>Have conversations at work</li>\n\t<li>Speak fluently and spontaneously</li>\n\t<li>Listening Skills</li>\n</ul>\n\n<h3>Work on listening comprehension for:</h3>\n\n<ul>\n\t<li>German native speakers</li>\n\t<li>News stories</li>\n\t<li>Podcasts</li>\n\t<li>Interviews</li>\n\t<li>Lectures</li>\n\t<li>Business discussions</li>\n\t<li>Reading Skills</li>\n</ul>\n\n<h3>Learn reading comprehension for:</h3>\n\n<ul>\n\t<li>Newspapers</li>\n\t<li>Research papers</li>\n\t<li>Business reports</li>\n\t<li>Academic journals</li>\n\t<li>Editorials</li>\n\t<li>Technical documentation</li>\n\t<li>Writing Skills</li>\n</ul>\n\n<h3>Learn writing:</h3>\n\n<ul>\n\t<li>Essays</li>\n\t<li>Reports</li>\n\t<li>Formal emails</li>\n\t<li>Academic abstracts</li>\n\t<li>Professional communication</li>\n\t<li>Opinionated writing</li>\n</ul>\n\n<h2>Who Should Take This German C1 Course?</h2>\n\n<p>This Level C1 German course suits those who want to:</p>\n\n<ul>\n\t<li>Go for studies in Germany</li>\n\t<li>Apply for internationally based jobs</li>\n\t<li>Work in healthcare sector</li>\n\t<li>Work as engineers</li>\n\t<li>Be researchers</li>\n\t<li>Teach</li>\n\t<li>Prepare for Goethe C1 or TELC C1 test</li>\n\t<li>Have already finished the B2 level of German</li>\n</ul>\n\n<h2>Skills You Will Have After Learning C1 Level German</h2>\n\n<p>After finishing this C1 Level German course, you will be able to:</p>\n\n<ul>\n\t<li>Understand complex academic and professional texts</li>\n\t<li>Speak fluently without stopping much</li>\n\t<li>Articulate ideas in formal and informal situations</li>\n\t<li>Write structured reports, essays, and emails</li>\n\t<li>Take part in professional discussions</li>\n\t<li>Listen and understand German news, lectures, and documentaries</li>\n\t<li>Communicate in professional environments</li>\n</ul>\n\n<h2>Course Structure for German C1 Online Classes</h2>\n\n<p>In our German language classes online you will have:</p>\n\n<ul>\n\t<li>Live classes by our expert instructors</li>\n\t<li>Speaking practices</li>\n\t<li>Assignments every week</li>\n\t<li>Grammar lessons</li>\n\t<li>Vocabulary exercises</li>\n\t<li>Reading</li>\n\t<li>Listening</li>\n\t<li>Writing tests</li>\n\t<li>Practice exams</li>\n</ul>\n\n<h2>Keep on Learning German</h2>\n\n<p>If you&#39;re slowly acquiring your German language skills, check out our step-by-step learning process:</p>\n\n<p><a href=\"https://fluentauf.com/course/german-a1\" target=\"_blank\"><u><strong>German A1</strong></u></a> &ndash; Ideal for complete beginners</p>\n\n<p><a href=\"https://fluentauf.com/course/german-a2\" target=\"_blank\"><u><strong>German A2</strong></u></a> &ndash; Improve everyday conversations</p>\n\n<p><a href=\"https://fluentauf.com/course/german-b1\" target=\"_blank\"><u><strong>German B1</strong></u></a> &ndash; Develop conversation skills</p>\n\n<p><a href=\"https://fluentauf.com/course/german-b2\" target=\"_blank\"><u><strong>German B2</strong></u></a> &ndash; Get ready for university and career prospects</p>\n\n<p><a href=\"https://fluentauf.com/course/german-c2\" target=\"_blank\"><u><strong>German C2</strong></u></a> &ndash; Be almost proficient in the language</p>\n\n<p>Studying all these courses will lay a proper base before moving to the <a href=\"https://fluentauf.com/course/german-c1\" target=\"_blank\"><u><strong>C1 level</strong></u></a> of the German language.</p>\n\n<h2>Why Learn German Online at Fluent AUF?</h2>\n\n<p>There are many benefits of choosing to Learn German Online:</p>\n\n<ul>\n\t<li>Study from the comfort of your own home</li>\n\t<li>Flexible timings</li>\n\t<li>Interact live with professional trainers</li>\n\t<li>Affordable lessons</li>\n\t<li>Video recordings for review</li>\n\t<li>Continuous clearance of doubts</li>\n\t<li>Regular feedbacks</li>\n\t<li>Structured syllabus</li>\n\t<li>Prepare for exams</li>\n</ul>\n\n<p>Our German Language Classes make sure that learners get their conversation skills along with exam preparations.</p>\n\n<h2>Join Fluent Aufs German C1 Course Now!</h2>\n\n<p>Are you looking forward to mastering German language?</p>\n\n<p>Join our Online German Classes at Fluent Auf&rsquo;s German C1 Course and gain all the communication skills to succeed in academic, professional, and global settings through the guidance of our experts. Our German online course helps you learn German online wherever you are in India.</p>",
+    "seo": {
+      "metaTitle": "German C1 Level: Advance Level German",
+      "metaKeyword": "German C1, German Language C1 level, Germany C1, German C1 Classes Online",
+      "metaDescription": "Join the German C1 Advanced Level course online to improve fluency, academic writing, professional communication, and exam preparation."
+    }
   },
-  "a2": {
-    "slug": "a2",
+  "c2": {
+    "slug": "c2",
     "course": {
-      "slug": "a2",
-      "pathName": "german-a2",
-      "title": "German A2 Level : Elementary",
-      "description": "Learn The German Grammar From A Native and Experienced German Teacher - Learn German Grammar For Advanced Beginners.",
-      "hours": "115 Hours +",
-      "price": "₹17,500.00",
-      "image": "/courses/german-a2-1781517189489.png",
-      "batchSize": "5-6 Students",
-      "enrolled": "98",
+      "slug": "c2",
+      "pathName": "german-c2",
+      "title": "German C2 Level : Highly Competent Level German",
+      "description": "The German Language C2 level, also known as the Highly Competent Level, represents the pinnacle of mastery in German.",
+      "hours": "60 Hours +",
+      "price": "₹27,500.00",
+      "image": "/api/course-images/german-c2-1781605834210.jpg",
+      "batchSize": "10-20 Students",
+      "enrolled": "1356",
       "rating": "4.50",
-      "reviewCount": "4",
-      "learningHours": "115 Hours",
-      "originalPrice": "₹17,999"
+      "reviewCount": "259",
+      "learningHours": "60 Hours",
+      "originalPrice": "₹30,000"
     },
     "faqs": [
       {
-        "q": "How long do I have access to the course?",
-        "a": "You get lifetime access on mobile, tablet, and desktop."
+        "q": "Who is eligible for the German C2 course?",
+        "a": "The C2 course is intended for advanced learners who have completed C1 or already possess a very high level of German proficiency. "
       },
       {
-        "q": "Is this course suitable for Goethe A2 exam preparation?",
-        "a": "Yes. The course includes preparation support for speaking, writing, and core skills required at A2 level."
+        "q": "What can I expect to achieve at the C2 level?",
+        "a": "You will develop near-native fluency, understand complex texts with ease, and communicate accurately in academic, professional, and social settings."
       },
       {
-        "q": "How long do I have access to the course?",
-        "a": "You get lifetime access on mobile, tablet, and desktop."
+        "q": "Is the course focused on advanced communication skills?",
+        "a": "Yes. The program emphasizes sophisticated vocabulary, nuanced expression, critical analysis, and high-level spoken and written communication."
+      },
+      {
+        "q": "Will I receive support for German proficiency examinations?",
+        "a": "Yes. The course includes targeted practice and guidance to help learners prepare for advanced German language certification exams."
+      },
+      {
+        "q": "Do I get access to learning resources and practice materials?",
+        "a": "Yes. Comprehensive study materials, exercises, and advanced-level practice resources are provided throughout the course."
+      },
+      {
+        "q": "Can professionals benefit from a German C2 qualification?",
+        "a": "Absolutely. C2-level proficiency is highly valuable for academic research, professional careers, teaching, translation, and specialized fields requiring advanced German skills."
+      },
+      {
+        "q": "Are interactive sessions included in the training?",
+        "a": "Yes. Learners participate in discussions, presentations, and advanced language activities designed to enhance fluency and confidence."
+      }
+    ],
+    "reviews": [
+      {
+        "initials": "AM",
+        "name": "Aarushi Malhotra",
+        "date": "June 12, 2026",
+        "rating": 4.8,
+        "text": "The German C2 course online at Fluent AUF helped me achieve a level of fluency I never thought possible. The trainers focused on advanced communication, making every session engaging and productive.",
+        "color": "#6366f1"
+      },
+      {
+        "initials": "RA",
+        "name": "Ritvik Anand",
+        "date": "June 8, 2026",
+        "rating": 5,
+        "text": "I joined the German C2 online course to polish my language skills, and the experience was outstanding. The discussions, assignments, and feedback helped me improve significantly.",
+        "color": "#ec4899"
+      },
+      {
+        "initials": "SN",
+        "name": "Shreya Nair",
+        "date": "June 5, 2026",
+        "rating": 4.8,
+        "text": "The C2 German language course was well-structured and challenging in the right way. Fluent AUF's trainers pushed me to think and express myself more naturally in German.",
+        "color": "#14b8a6"
+      },
+      {
+        "initials": "AR",
+        "name": "Anusha Reddy",
+        "date": "June 1, 2026",
+        "rating": 5,
+        "text": "The German C2 classes online were highly interactive and focused on real-world communication. I felt more confident handling complex conversations after completing the course.",
+        "color": "#f59e0b"
+      },
+      {
+        "initials": "IC",
+        "name": "Ishita Chawla",
+        "date": "May 27, 2026",
+        "rating": 4.8,
+        "text": "The C2 level German program exceeded my expectations. The advanced exercises and discussion sessions helped me achieve greater fluency and accuracy.",
+        "color": "#8b5cf6"
+      },
+      {
+        "initials": "PK",
+        "name": "Pallavi Krishnan",
+        "date": "May 24, 2026",
+        "rating": 4.8,
+        "text": "Fluent AUF offers some of the finest online German classes for learners aiming for mastery. The trainers helped me refine my language skills with detailed feedback and guidance.",
+        "color": "#e31e24"
       }
     ],
     "reviewsSummary": {
       "average": "4.50",
-      "total": 4,
+      "total": 259,
       "breakdown": [
         {
           "stars": 5,
-          "percent": 50
+          "percent": 95
         },
         {
           "stars": 4,
-          "percent": 50
+          "percent": 5
         },
         {
           "stars": 3,
@@ -328,125 +1334,135 @@
       ],
       "note": "Some of real students reviews, verify on our Google place page. Search Fluent AUF Reviews."
     },
-    "reviews": [
-      {
-        "initials": "CS",
-        "name": "Chitra Sharma",
-        "date": "May 30, 2023",
-        "rating": 4,
-        "text": "I completed my A2 from Fluent AUF Language Studio. Excellent teaching methodology and very helpful for exam preparation.",
-        "color": "#ec4899"
-      },
-      {
-        "initials": "AK",
-        "name": "Akhil Kumaria",
-        "date": "June 18, 2023",
-        "rating": 4,
-        "text": "Teachers are very knowledgeable and patient. German grammar became much easier to understand at A2 level.",
-        "color": "#14b8a6"
-      },
-      {
-        "initials": "VC",
-        "name": "Virendra Chaudhary",
-        "date": "May 18, 2023",
-        "rating": 4,
-        "text": "I highly recommend Fluent AUF as one of the best language institutes for learning German in Jaipur.",
-        "color": "#f59e0b"
-      },
-      {
-        "initials": "GS",
-        "name": "Gaurav Sharma",
-        "date": "May 30, 2023",
-        "rating": 4,
-        "text": "Excellent A2 course! The trainer explains everything clearly with real-life examples. Highly recommended.",
-        "color": "#e31e24"
-      }
-    ],
-    "updatedAt": "2026-06-15T09:53:13.567Z",
     "flexibleBatches": {
-      "originalPrice": "₹17,999"
-    }
-  },
-  "b1": {
-    "slug": "b1",
-    "course": {
-      "pathName": "german-b1",
-      "title": "German B1 Level : Intermediate",
-      "description": "Test",
-      "hours": "130 Hours +",
-      "learningHours": "130 Hours",
-      "price": "₹21,000.00",
-      "image": "/api/course-images/german-b1-1781605756747.jpg",
-      "batchSize": "8-10 Students",
-      "enrolled": "86",
-      "rating": "4.50",
-      "reviewCount": "1",
-      "originalPrice": "₹26,000"
-    },
-    "faqs": [
-      {
-        "q": "Q1",
-        "a": "A1"
-      }
-    ],
-    "reviewsSummary": {
-      "average": "4.50",
-      "total": 1,
-      "breakdown": [
+      "subtitle": "Get Certification in C2 Level German Language Course Online Live Training with",
+      "highlight": "Goethe Exam Preparation",
+      "title": "Flexible batches for you",
+      "batches": [
         {
-          "stars": 5,
-          "percent": 100
+          "id": "batch-1",
+          "date": "June 8th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "soldOut": true
         },
         {
-          "stars": 4,
-          "percent": 0
+          "id": "batch-2",
+          "date": "June 29nd",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "defaultSelected": true
         },
         {
-          "stars": 3,
-          "percent": 0
-        },
-        {
-          "stars": 2,
-          "percent": 0
-        },
-        {
-          "stars": 1,
-          "percent": 0
+          "id": "batch-3",
+          "date": "July 6th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)"
         }
       ],
-      "note": "Test note"
+      "originalPrice": "₹33,000",
+      "badge": "Live Classes + Study Material Included",
+      "discountPercent": 15
     },
-    "reviews": [
-      {
-        "initials": "M",
-        "name": "Mohan ",
-        "date": "June 2026",
-        "rating": 5,
-        "text": "Single saved review",
-        "color": "#6366f1"
-      }
-    ],
-    "updatedAt": "2026-06-13T08:24:14.416Z",
-    "flexibleBatches": {
-      "originalPrice": "₹26,000"
+    "isCustom": false,
+    "descriptionTab": {
+      "aboutCourse": "The German Language C2 level, also known as the Highly Competent Level, represents the pinnacle of mastery in German.",
+      "objectivesLeft": [
+        "Become competent in German C2 level",
+        "Strengthen grammar, vocabulary, and speaking skills",
+        "Practice real-life German conversations",
+        "Build confidence for official certification exams",
+        "Learn with structured modules and expert guidance",
+        "Improve listening and writing through guided exercises"
+      ],
+      "objectivesRight": [
+        "Master key grammar topics for this level",
+        "Expand vocabulary for everyday and professional use",
+        "Prepare for speaking and writing assessments",
+        "Understand German culture and communication style",
+        "Track progress with quizzes and practice tasks",
+        "Get lifetime access to course materials"
+      ],
+      "courseDescription": [
+        "Learn German C2 with experienced native trainers at Fluent AUF.",
+        "This course follows a structured curriculum designed for steady progress from fundamentals to advanced communication.",
+        "Content for this page will be updated soon. Contact us for batch details, syllabus, and enrollment."
+      ],
+      "goalsLessons": [
+        "Become fully competent in German C2 level",
+        "Master grammar and vocabulary for this stage",
+        "Improve pronunciation, speaking, and writing",
+        "Prepare for Goethe / telc certification requirements",
+        "Practice with quizzes, assignments, and live sessions"
+      ],
+      "curriculumSections": [
+        {
+          "title": "German Grammar",
+          "topics": [
+            "Level-specific grammar modules",
+            "Sentence structure and verb forms",
+            "Cases, tenses, and connectors",
+            "Error correction and practice drills"
+          ]
+        },
+        {
+          "title": "German Conversation",
+          "topics": [
+            "Daily life dialogues",
+            "Professional and social situations",
+            "Pronunciation and fluency practice",
+            "Role-play and speaking assessments"
+          ]
+        },
+        {
+          "title": "German Vocabulary",
+          "topics": [
+            "Thematic word lists",
+            "Common phrases and expressions",
+            "Reading and listening vocabulary",
+            "Exam-focused vocabulary sets"
+          ]
+        },
+        {
+          "title": "Other",
+          "topics": [
+            "German culture and etiquette",
+            "Exam preparation tips",
+            "Study resources and references",
+            "Practice for the C2 exam"
+          ]
+        }
+      ],
+      "targetAudience": [
+        "Learners preparing for German C2 level",
+        "Students who want structured online or hybrid training"
+      ]
+    },
+    "seoContent": "<h2 style=\"margin-top:16px\"><span style=\"font-weight:normal\">German C2 Course Online | Master the German Language with FluentAuf</span></h2>\n\n<p>Should you have already mastered the advanced level of German and wish to become fluent in it, then our German C2 course will be the best choice for you. Our German courses at FluentAuf assist our learners to attain fluency in German language C2 level.</p>\n\n<p>Online German Classes are intended for professionals, students, researchers and language learners who seek to communicate with native-like fluency. This German online course gives you the opportunity to use German with confidence and without any efforts in whatever situation you might find yourself in.</p>\n\n<h2>German Language C2 Level - What is It?</h2>\n\n<p>The C2 level German is the highest level of German language proficiency according to the CEFR (Common European Framework of Reference for Languages). Learners at this level can understand practically everything they read or hear and express themselves with fluency, spontaneity and precision.</p>\n\n<p>At the C2 level of German language, you can:</p>\n\n<ul>\n\t<li>Easily comprehend complex academic and professional texts.</li>\n\t<li>Communicate with native speakers effortlessly.</li>\n\t<li>Write research papers and reports.</li>\n\t<li>Understand subtle meanings, idiomatic expressions and cultural allusions.</li>\n\t<li>Participate in discussions, presentations and interviews.</li>\n</ul>\n\n<h2>Why Should You Join FluentAuf&#39;s German C2 Course?</h2>\n\n<p>FluentAuf provides you with an all-rounded learning journey, comprising quality education and real-time experience. Our Online German Classes will help you gain expertise through interactive classes, practical conversation, and advanced language learning modules.</p>\n\n<h2>Course Features of Fluentauf</h2>\n\n<ul>\n\t<li>Live online classes by certified German trainers</li>\n\t<li>Small class sizes for personalized learning experience</li>\n\t<li>Interactive speaking and discussion classes</li>\n\t<li>Advanced grammatical and vocabulary lessons</li>\n\t<li>German communication in academic &amp; business contexts</li>\n\t<li>Study of German literary works</li>\n\t<li>Writing exercises with in-depth corrections</li>\n\t<li>Flexible learning hours</li>\n\t<li>Video recordings of classes for revision</li>\n\t<li>Continuous assessment and mock tests</li>\n</ul>\n\n<h2>Who Should Enroll for This German C2 Course?</h2>\n\n<p>This German online course is best suited for</p>\n\n<ul>\n\t<li>\n\t<p>Students preparing for higher education in Germany</p>\n\t</li>\n\t<li>\n\t<p>Professionals working in German-speaking countries</p>\n\t</li>\n\t<li>Researchers and academicians</li>\n\t<li>Interpreters and translators</li>\n\t<li>German language teachers</li>\n\t<li>German C1 learners</li>\n</ul>\n\n<h2>What You Will Learn in the German C2 Class</h2>\n\n<p>This program will equip you with all that is needed for efficient use of the language in academic, professional, and social arenas.</p>\n\n<h3>Communication Skills</h3>\n\n<ul>\n\t<li>\n\t<p>Convey complicated messages easily</p>\n\t</li>\n\t<li>\n\t<p>Recognize various dialects and accents</p>\n\t</li>\n\t<li>Engage in professional discourse</li>\n\t<li>Give confident presentations</li>\n</ul>\n\n<h3>Grammar Knowledge</h3>\n\n<ul>\n\t<li>Complex sentence structures</li>\n\t<li>Detailed grammar usage</li>\n\t<li>Professional and academic writing</li>\n\t<li>Writing styles</li>\n</ul>\n\n<h3>Vocabulary Skills</h3>\n\n<ul>\n\t<li>Academic vocabulary</li>\n\t<li>Business vocabulary</li>\n\t<li>Legal and technical terms</li>\n\t<li>Idiomatic expressions</li>\n</ul>\n\n<h3>Reading Skills</h3>\n\n<ul>\n\t<li>Literature</li>\n\t<li>Science magazines</li>\n\t<li>Research papers</li>\n\t<li>Editorials</li>\n\t<li>Professional writings</li>\n</ul>\n\n<h3>Writing Skills</h3>\n\n<ul>\n\t<li>Essays</li>\n\t<li>Reports</li>\n\t<li>Research papers</li>\n\t<li>Business letters</li>\n\t<li>Professional writing</li>\n</ul>\n\n<h2>Preparation for German C2 Test Online</h2>\n\n<p>If you are preparing to write the German C2 test online or any international certification exam, this course is tailored to give you preparation to pass the test.<br />\n<strong>You will get:</strong></p>\n\n<ul>\n\t<li>Practice tests</li>\n\t<li>Listening practice</li>\n\t<li>Reading practice</li>\n\t<li>Writing practice</li>\n\t<li>Speaking practice</li>\n\t<li>Exam tips</li>\n\t<li>Time management skills</li>\n</ul>\n\n<p>Our trainers give you constructive feedback before taking the test.</p>\n\n<h2>Further Your German Language Learning</h2>\n\n<p>Fluentauf provides full German language courses ranging from beginner to advanced level proficiency.</p>\n\n<p>German language courses at FluentAuf are:</p>\n\n<ul>\n\t<li><a href=\"https://fluentauf.com/course/german-a1\" target=\"_blank\"><u><strong>German A1 Course</strong></u></a></li>\n\t<li><a href=\"https://fluentauf.com/course/german-a2\" target=\"_blank\"><u><strong>German A2 Course</strong></u></a></li>\n\t<li><a href=\"https://fluentauf.com/course/german-b1\" target=\"_blank\"><u><strong>German B1 Course</strong></u></a></li>\n\t<li><a href=\"https://fluentauf.com/course/german-b2\" target=\"_blank\"><u><strong>German B2 Course</strong></u></a></li>\n\t<li><a href=\"https://fluentauf.com/course/german-c1\" target=\"_top\"><u><strong>German C1 Course</strong></u></a></li>\n\t<li><a href=\"https://fluentauf.com/course/german-c2\" target=\"_blank\"><u><strong>German C2 Course</strong></u></a></li>\n</ul>\n\n<p>No matter whether you are a beginner or want to master German, we have a course tailored for you.</p>\n\n<h2>Reasons to Learn German at Fluentauf</h2>\n\n<p>Fluent AUF is preferred by thousands of students due to following reasons:</p>\n\n<ul>\n\t<li>Experienced and certified trainers</li>\n\t<li>Practical learning methodology</li>\n\t<li>Personalized teaching</li>\n\t<li>Flexible schedules</li>\n\t<li>Low-cost course fee</li>\n\t<li>Speaking practice sessions</li>\n\t<li>Exam-focused training</li>\n\t<li>Life-long learning support</li>\n</ul>\n\n<p>At FluentAuf, it is our mission to teach you German and make you a fluent speaker.</p>\n\n<h2>Career Prospects after German C2 Level</h2>\n\n<p>There are various career prospects once you reach German C2 level, some of which include:</p>\n\n<ul>\n\t<li>International jobs</li>\n\t<li>Education at German universities</li>\n\t<li>Translation and Interpretation</li>\n\t<li>Research positions</li>\n\t<li>Teaching German</li>\n\t<li>Multinationals</li>\n\t<li>Diplomacy</li>\n\t<li>Content writing and localization</li>\n</ul>\n\n<p>With German C2 level, you will be able to work in an environment which demands native-level proficiency.</p>\n\n<h2>Join the Top German C2 Online Class</h2>\n\n<p>Boost your German language skills to the maximum level through our German C2 Online course by <a href=\"https://fluentauf.com/\" target=\"_blank\"><strong><u>Fluentauf</u></strong></a>. Get the chance to speak German just like a German person through our professional German language classes.</p>\n\n<p>If you want to prepare yourself for higher education or a professional career abroad or just want to Learn German Online, then join our online German language class now.</p>",
+    "seo": {
+      "metaTitle": "German C2 Level: Highly Competent Level German",
+      "metaKeyword": "German C2, C2 Level German, German C2 German Classes",
+      "metaDescription": "Achieve the highest level of German proficiency with the Online German C2 Level course. Build confidence for academic, professional, and everyday communication."
     }
   },
-  "german-course-beginner-to-advanced-level": {
-    "slug": "german-course-beginner-to-advanced-level",
-    "isCustom": true,
+  "german-a1-to-b2-course": {
+    "slug": "german-a1-to-b2-course",
     "course": {
-      "slug": "german-course-beginner-to-advanced-level",
-      "pathName": "german-course-beginner-to-advanced-level",
-      "title": "German Complete Course Beginner to Advanced (A1 to B2)",
-      "description": "German A1 to B2 : All in One ",
+      "slug": "german-a1-to-b2-course",
+      "pathName": "german-a1-to-b2-course",
+      "title": "German Language Course A1 to B2",
+      "description": "Join our German Complete Course from A1 to B2. Learn grammar, vocabulary, conversation, and exam-focused skills with experienced instructors.",
       "hours": "9 Months",
       "learningHours": "9 Months",
       "price": "₹53,999.00",
       "image": "/api/course-images/german-german-a1-to-b2-all-in-one-1782388845004.jpg",
       "batchSize": "5-6 Students",
-      "enrolled": "578",
+      "enrolled": "3451",
       "rating": "4.60",
-      "reviewCount": "178",
+      "reviewCount": "698",
       "originalPrice": "₹73,499"
     },
     "descriptionTab": {
@@ -477,9 +1493,44 @@
         "a": "Listening\nSpeaking\nReading\nWriting"
       }
     ],
+    "flexibleBatches": {
+      "subtitle": "Get Certification in German German Language Course Online Live Training with",
+      "highlight": "Goethe Exam Preparation",
+      "title": "Flexible batches for you",
+      "batches": [
+        {
+          "id": "batch-1",
+          "date": "August 20th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "soldOut": true
+        },
+        {
+          "id": "batch-2",
+          "date": "September 1st",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)",
+          "defaultSelected": true
+        },
+        {
+          "id": "batch-3",
+          "date": "September 15th",
+          "dayType": "Weekdays",
+          "schedule": "MON - FRI (1 Month)",
+          "time": "06:00PM to 07:30PM (IST)"
+        }
+      ],
+      "originalPrice": "₹73,499",
+      "badge": "Live Classes + Study Material Included",
+      "discountPercent": 10
+    },
+    "isCustom": true,
+    "reviews": [],
     "reviewsSummary": {
       "average": "4.60",
-      "total": 178,
+      "total": 698,
       "breakdown": [
         {
           "stars": 5,
@@ -504,67 +1555,11 @@
       ],
       "note": ""
     },
-    "reviews": [],
-    "flexibleBatches": {
-      "subtitle": "Get Certification in German German Language Course Online Live Training with",
-      "highlight": "Goethe Exam Preparation",
-      "title": "Flexible batches for you",
-      "batches": [
-        {
-          "id": "batch-1",
-          "date": "June 20th",
-          "dayType": "Weekdays",
-          "schedule": "MON - FRI (1 Month)",
-          "time": "06:00PM to 07:30PM (IST)",
-          "soldOut": true
-        },
-        {
-          "id": "batch-2",
-          "date": "July 1st",
-          "dayType": "Weekdays",
-          "schedule": "MON - FRI (1 Month)",
-          "time": "06:00PM to 07:30PM (IST)",
-          "defaultSelected": true
-        },
-        {
-          "id": "batch-3",
-          "date": "July 10th",
-          "dayType": "Weekdays",
-          "schedule": "MON - FRI (1 Month)",
-          "time": "06:00PM to 07:30PM (IST)"
-        }
-      ],
-      "originalPrice": "₹73,499",
-      "badge": "Live Classes + Study Material Included",
-      "discountPercent": 10
+    "seo": {
+      "metaTitle": "German A1 to B2 Course Online | Fluent AUF",
+      "metaKeyword": "German Course Beginner to Advanced, German Language Course A1 to B2, german a1 to b2 course, german a1 to b2 course",
+      "metaDescription": "Join our German Complete Course Beginner to Advanced (A1–B2). Learn grammar, vocabulary, conversation, and exam-focused skills with experienced instructors."
     },
-    "updatedAt": "2026-07-22T12:36:02.085Z"
-  },
-  "b2": {
-    "slug": "b2",
-    "course": {
-      "slug": "b2",
-      "batchSize": "15-30 Students"
-    },
-    "faqs": [],
-    "reviews": []
-  },
-  "c1": {
-    "slug": "c1",
-    "course": {
-      "slug": "c1",
-      "batchSize": "15-25 Students"
-    },
-    "faqs": [],
-    "reviews": []
-  },
-  "c2": {
-    "slug": "c2",
-    "course": {
-      "slug": "c2",
-      "batchSize": "10-20 Students"
-    },
-    "faqs": [],
-    "reviews": []
+    "seoContent": "<p style=\"margin-top: 16px;\">Studying the German language from the beginner level to the upper-intermediate level provides many career and educational opportunities around the globe. The German Complete Course Beginner to Advanced (A1 to B2) is tailored for individuals willing to improve their communicative competencies in German with the help of an educational course.</p>\n\n<h2>Comprehensive German Language Course A1 to B2</h2>\n\n<p>Our German A1 to B2 Course is based on the internationally acclaimed Common European Framework of Reference for Languages system, and we cover all levels step by step. It doesn&#39;t matter whether you&#39;re learning from scratch or striving to master the language &ndash; our comprehensive course will provide you with the necessary competence in speaking, listening, reading, and writing German.</p>\n\n<p>In the course of our German Language Course A1 to B2, you will be provided with live interactive lessons, recordings of lectures, grammar lessons, vocabulary learning, pronunciation practice, and other assessment tasks. All of the modules in this course will help you acquire the knowledge of the language naturally.</p>\n\n<p>If you decide to Learn German A1 to B2, you&#39;ll get the opportunity to have practical communicative skills that will allow you to use your knowledge of the German language in everyday life, in academic setting, or in the workplace environment.</p>\n\n<h3>What You Will Learn</h3>\n\n<ul>\n\t<li>The German Course Beginner to Advanced comprises all four levels of proficiency:</li>\n\t<li><a href=\"https://fluentauf.com/course/german-a1\" target=\"_blank\"><u><strong>Level A1</strong></u></a>: Greetings, introducing oneself, conversations on daily activities, numbers, shopping, and grammar.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-a2\" target=\"_blank\"><strong><u>Level A2</u></strong></a>: Communication for day-to-day tasks, travel-related conversations, descriptions of experiences, and sentence building.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-b1\" target=\"_blank\"><u><strong>Level B1</strong></u></a>: Conversations on intermediate level, workplace conversations, making presentations, emails, and advanced grammar.</li>\n\t<li><a href=\"https://fluentauf.com/course/german-b2\" target=\"_blank\"><u><strong>Level B2</strong></u></a>: Business conversations, debate, academic writing, difficult grammatical structures, and fluent communication.</li>\n</ul>\n\n<p>Our German language course from A1 to B2 is provided by the most experienced trainers, who give personal guidance to each student throughout their learning process. Small batches of students ensure that each participant gets personal attention from trainers.</p>\n\n<p>For those intending to work in Germany or pursue higher studies abroad, we can help you through our German A1 to B2 Course where we provide complete guidance for passing internationally recognized German language examinations.</p>\n\n<h2>Enroll in German A1 to B2 Course for Global Opportunities</h2>\n\n<p>On successful completion, students will earn a certificate in German Course with Certificate and boost their language proficiency levels.</p>\n\n<p>The course is equally beneficial for job aspirants and acts as a great German Course for Jobs, helping them prepare well for jobs in Germany, Austria, Switzerland, multinationals, health care, hospitality, engineering, and IT sectors.</p>\n\n<p>If your plan is higher studies in German-speaking countries, then this is the perfect German Course for Study Abroad, giving you the language proficiency needed at universities as well as visa agencies.</p>\n\n<p>No matter what is your aim for the future; be it career advancement, immigration, higher studies, or self-improvement, this complete package for learning German is sure to help you out.<br />\n<br />\nJoin us now and Learn German Online with <a href=\"https://fluentauf.com/\" target=\"_blank\"><u><strong>Fluent AUF</strong></u></a>!</p>"
   }
 }
