@@ -6,6 +6,7 @@ import PageBanner from "../../components/PageBanner";
 import SiteFooter from "../../components/SiteFooter";
 import BlogImage from "../../components/BlogImage";
 import BlogSidebar from "../_components/BlogSidebar";
+import BlogPromoBanner from "../_components/BlogPromoBanner";
 import { formatBlogDate } from "../../../data/blogPosts";
 import { getCachedBlogPostBySlug, getCachedBlogPosts } from "../../../lib/cachedBlogReads";
 import { sanitizeBlogHtml, sanitizeFaqAnswer } from "../../../lib/blogHtmlUtils";
@@ -140,6 +141,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                     </p>
                   </>
                 )}
+
+                <BlogPromoBanner />
 
                 {post.faqs && post.faqs.length > 0 ? (
                   <section className="blog-faqs">
