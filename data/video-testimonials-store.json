@@ -1,54 +1,54 @@
 {
   "items": [
     {
-      "id": "mohit",
-      "name": "mohit",
-      "rating": 4.2,
-      "youtubeUrl": "https://www.youtube.com/shorts/RXTHWmME7iM?si=H1Vu5Iy5TQKkKXbY",
-      "image": "/blogs/blog-1782993443682.jpg",
-      "description": "Hear how Mohit improved their German skills with Fluent AUF live classes and exam-focused training.",
+      "id": "parthavi",
+      "description": "Hear how Parthavi improved their German skills with Fluent AUF live classes and exam-focused training.",
+      "image": "/api/blog-images/blog-1786094654093.png",
+      "isActive": true,
+      "name": "Parthavi",
+      "rating": 5,
       "sortOrder": 1,
-      "isActive": true
+      "youtubeUrl": "https://youtube.com/shorts/kthSpGidl6E"
+    },
+    {
+      "id": "yash",
+      "description": "Hear how Yash improved their German skills with Fluent AUF live classes and exam-focused training.",
+      "image": "/api/blog-images/blog-1784633039389.jpg",
+      "isActive": true,
+      "name": "Yash",
+      "rating": 5,
+      "sortOrder": 2,
+      "youtubeUrl": "https://youtube.com/shorts/kA5CIHlzhnM"
+    },
+    {
+      "id": "muskan",
+      "description": "Hear how Muskan improved their German skills with Fluent AUF live classes and exam-focused training.",
+      "image": "/api/blog-images/blog-1783491790744.jpg",
+      "isActive": true,
+      "name": "Muskan",
+      "rating": 5,
+      "sortOrder": 3,
+      "youtubeUrl": "https://youtube.com/shorts/SVnOJXMf8vY"
+    },
+    {
+      "id": "simaran",
+      "image": "/api/blog-images/blog-1782994875941.jpg",
+      "isActive": true,
+      "name": "Simaran",
+      "rating": 5,
+      "sortOrder": 4,
+      "youtubeUrl": "https://youtube.com/shorts/RXTHWmME7iM?si=H1Vu5Iy5TQKkKXbY",
+      "description": "Hear how Simaran improved their German skills with Fluent AUF! Through expert-led live classes, personalized support, and exam-focused training, they gained the confidence to speak, understand, and excel in German. Watch their inspiring journey and see what learning with Fluent AUF is all about!"
     },
     {
       "id": "payal-sharma",
-      "name": "Payal Sharma",
+      "image": "/api/blog-images/blog-1782994889200.jpg",
+      "isActive": true,
+      "name": "Manya",
       "rating": 5,
-      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "image": "/webinar-student.jpg",
-      "description": "Hear how Payal improved her German skills with Fluent AUF live classes and exam-focused training.",
-      "sortOrder": 2,
-      "isActive": true
-    },
-    {
-      "id": "aditi-verma",
-      "name": "Aditi Verma",
-      "rating": 5,
-      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "image": "/hero-students.jpg",
-      "description": "Hear how Aditi improved her German skills with Fluent AUF live classes and exam-focused training.",
-      "sortOrder": 3,
-      "isActive": true
-    },
-    {
-      "id": "kunjal-mehta",
-      "name": "Kunjal Mehta",
-      "rating": 5,
-      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "image": "/portal-education.jpg",
-      "description": "Hear how Kunjal improved his German skills with Fluent AUF live classes and exam-focused training.",
-      "sortOrder": 4,
-      "isActive": true
-    },
-    {
-      "id": "preetam-singh",
-      "name": "Preetam Singh",
-      "rating": 5,
-      "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "image": "/webinar-student.jpg",
-      "description": "Hear how Preetam improved his German skills with Fluent AUF live classes and exam-focused training.",
       "sortOrder": 5,
-      "isActive": true
+      "youtubeUrl": "https://youtube.com/shorts/bb7D2t1GqZQ",
+      "description": "Every success story begins with a single step. 🌟\n\nLearn how Maanya strengthened their German communication skills with Fluent AUF's expert instructors and goal-oriented training. With expert mentorship, interactive learning, and continuous support, they built the confidence to communicate in German and move closer to their goals.\n\nYour German success story could be next. 🇩🇪"
     }
   ]
 }
