@@ -912,11 +912,20 @@ export function mergeStoredCourse(
     return base;
   }
 
-  // A1–C2 keep stable title/image/hours/URL, but admin sale price must apply.
+  const price = stored.price ? normalizeCoursePrice(stored.price) : base.price;
+  const duration =
+    pickStoredText(stored.learningHours) ||
+    pickStoredText(stored.hours) ||
+    base.learningHours ||
+    base.hours;
+
+  // A1–C2 keep stable title/image/URL, but admin sale price, duration, and stats must apply.
   if (isStaticCourseSlug(base.slug)) {
     return {
       ...base,
-      price: stored.price ? normalizeCoursePrice(stored.price) : base.price,
+      hours: duration,
+      learningHours: duration,
+      price,
       originalPrice: pickStoredText(stored.originalPrice, base.originalPrice),
       batchSize: pickStoredText(stored.batchSize, base.batchSize),
       enrolled: pickStoredText(stored.enrolled, base.enrolled),
@@ -924,13 +933,6 @@ export function mergeStoredCourse(
       reviewCount: pickStoredText(stored.reviewCount, base.reviewCount),
     };
   }
-
-  const price = stored.price ? normalizeCoursePrice(stored.price) : base.price;
-  const duration =
-    pickStoredText(stored.learningHours) ||
-    pickStoredText(stored.hours) ||
-    base.learningHours ||
-    base.hours;
 
   if (hasStoredIdentityMismatch(base, stored)) {
     return {
