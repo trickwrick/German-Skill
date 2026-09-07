@@ -106,8 +106,7 @@ const nextConfig = {
       { source: "/course/German%20C2", destination: "/course/german-c2", permanent: true },
       { source: "/blog", destination: "/blogs", permanent: true },
       { source: "/about/careers", destination: "/about/apply-job", permanent: true },
-      { source: "/city/:slug", destination: "/german-classes-:slug", permanent: true },
-      { source: "/german-classes-in-:city", destination: "/german-classes-:city", permanent: true },
+      { source: "/city/:slug", destination: "/german-classes-in-:slug", permanent: true },
     ];
   },
   async rewrites() {
@@ -115,6 +114,10 @@ const nextConfig = {
       {
         source: "/german-language-course",
         destination: "/courses",
+      },
+      {
+        source: "/german-classes-in-:slug",
+        destination: "/city/:slug",
       },
       {
         source: "/german-classes-:slug",
