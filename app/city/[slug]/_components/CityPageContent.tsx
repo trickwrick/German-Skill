@@ -241,13 +241,13 @@ export default function CityPageContent({
         title={coursesSectionTitle}
         description={coursesSectionDescription}
       />
+      <VideoTestimonialsSection testimonials={videoTestimonials} />
       <TutorsSection />
       <CityVisionSection cityName={page.cityName} data={page.vision} />
       <ComparisonSection />
       <CertificateSection />
       <CityWhyLearnSection cityName={page.cityName} data={page.whyLearn} />
       <CityJourneyCta data={page.journey} />
-      <VideoTestimonialsSection testimonials={videoTestimonials} />
       <CitySuccessBanner cityName={page.cityName} data={page.success} />
       <HomeFaqSection
         content={{
