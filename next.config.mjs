@@ -107,6 +107,7 @@ const nextConfig = {
       { source: "/blog", destination: "/blogs", permanent: true },
       { source: "/about/careers", destination: "/about/apply-job", permanent: true },
       { source: "/city/:slug", destination: "/german-classes-:slug", permanent: true },
+      { source: "/german-classes-in-:city", destination: "/german-classes-:city", permanent: true },
     ];
   },
   async rewrites() {

@@ -18,7 +18,7 @@ export default function CityVisionSection({ cityName, data }: CityVisionSectionP
           <span className="city-vision-tag">{data.tag || "Our Vision"}</span>
           <h2>
             {data.heading} <span>{highlight}</span>
-            {data.headingSuffix || ""}
+            {data.headingSuffix ? ` ${data.headingSuffix}` : ""}
           </h2>
           <CityRichHtml html={data.text} className="city-vision-text" />
           <ul className="city-vision-list">
