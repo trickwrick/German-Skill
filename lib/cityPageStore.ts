@@ -361,17 +361,6 @@ async function saveMongoStore(store: CityPagesStore) {
 }
 
 async function fetchCityPagesStore(): Promise<CityPagesStore> {
-  if (isFileStoreEnabled()) {
-    try {
-      const store = await getFileCityPagesStore();
-      if (store && store.pages) {
-        return sanitizeStore(store);
-      }
-    } catch {
-      // Fall through to MongoDB/default.
-    }
-  }
-
   if (process.env.MONGODB_URI) {
     try {
       const mongoStore = await getMongoStore();
@@ -380,10 +369,16 @@ async function fetchCityPagesStore(): Promise<CityPagesStore> {
       }
     } catch (error) {
       console.error("Failed to fetch city pages from MongoDB", error);
-      if (isServerlessHosting() && !isFileStoreEnabled()) {
-        throw error;
-      }
     }
+  }
+
+  try {
+    const store = await getFileCityPagesStore();
+    if (store && store.pages && store.pages.length > 0) {
+      return sanitizeStore(store);
+    }
+  } catch {
+    // Fall through to default.
   }
 
   return sanitizeStore(defaultCityPagesStore);

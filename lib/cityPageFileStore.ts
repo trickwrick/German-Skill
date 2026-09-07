@@ -17,9 +17,17 @@ async function readStore(): Promise<CityPagesStore | null> {
   }
 
   try {
-    const raw = stripBom(await readFile(STORE_FILE, "utf8"));
+    const rawBuffer = await readFile(STORE_FILE);
+    let raw = "";
+    if (rawBuffer[0] === 0xff && rawBuffer[1] === 0xfe) {
+      raw = rawBuffer.toString("utf16le");
+    } else {
+      raw = rawBuffer.toString("utf8");
+    }
+    raw = stripBom(raw);
     return JSON.parse(raw) as CityPagesStore;
-  } catch {
+  } catch (error) {
+    console.error("Failed to read city-pages-store.json:", error);
     return null;
   }
 }
@@ -33,10 +41,6 @@ async function writeStore(content: CityPagesStore) {
 }
 
 export async function getFileCityPagesStore() {
-  if (!isFileStoreEnabled()) {
-    return null;
-  }
-
   return readStore();
 }
 
