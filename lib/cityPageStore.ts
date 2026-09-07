@@ -375,7 +375,7 @@ async function fetchCityPagesStore(): Promise<CityPagesStore> {
   if (process.env.MONGODB_URI) {
     try {
       const mongoStore = await getMongoStore();
-      if (mongoStore && mongoStore.pages) {
+      if (mongoStore && mongoStore.pages.length > 0) {
         return mongoStore;
       }
     } catch (error) {
