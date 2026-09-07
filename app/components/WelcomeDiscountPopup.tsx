@@ -103,7 +103,7 @@ export default function WelcomeDiscountPopup() {
         </button>
 
         <div className="welcome-popup-header">
-          <h2>request A DEMO</h2>
+          <h2>Request a DEMO</h2>
           <p className="welcome-popup-title">Live Classes</p>
           <p className="welcome-popup-subtitle">Fill the details below and get your German course offer!</p>
         </div>
