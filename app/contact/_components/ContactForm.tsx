@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import PhoneField from "./PhoneField";
+import { buildThankYouUrl } from "../../../lib/thankYouConfig";
 
 const courseOptions = [
   "German Level A1",
@@ -15,6 +17,7 @@ const courseOptions = [
 ];
 
 export default function ContactForm() {
+  const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -47,6 +50,7 @@ export default function ContactForm() {
       }
 
       setSubmitted(true);
+      router.push(buildThankYouUrl());
     } catch (submitError) {
       setError(
         submitError instanceof Error ? submitError.message : "Could not send your message.",

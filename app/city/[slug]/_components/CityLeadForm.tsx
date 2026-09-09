@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { enrollCourseLevels } from "../../../../data/enrollFormOptions";
+import { buildThankYouUrl } from "../../../../lib/thankYouConfig";
 
 type CityLeadFormProps = {
   cityName: string;
 };
 
 export default function CityLeadForm({ cityName }: CityLeadFormProps) {
+  const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -45,6 +48,7 @@ export default function CityLeadForm({ cityName }: CityLeadFormProps) {
 
       setSubmitted(true);
       event.currentTarget.reset();
+      router.push(buildThankYouUrl());
     } catch (submitError) {
       setError(
         submitError instanceof Error ? submitError.message : "Could not submit your enquiry.",

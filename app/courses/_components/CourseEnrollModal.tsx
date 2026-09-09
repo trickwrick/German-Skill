@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
 import {
   enrollCourseLevels,
 } from "../../../data/enrollFormOptions";
+import { buildThankYouUrl } from "../../../lib/thankYouConfig";
 
 type CourseEnrollModalProps = {
   open: boolean;
@@ -19,6 +21,7 @@ export default function CourseEnrollModal({
   courseTitle,
   onClose,
 }: CourseEnrollModalProps) {
+  const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -143,6 +146,8 @@ export default function CourseEnrollModal({
       }
 
       setSubmitted(true);
+      onClose();
+      router.push(buildThankYouUrl());
     } catch (submitError) {
       setError(
         submitError instanceof Error ? submitError.message : "Could not submit your enquiry.",

@@ -7,5 +7,6 @@ Disallow: /admin/*
 Disallow: /blog-tags/*
 Disallow: /public/*
 Disallow: /blogs/tag/*
+Disallow: /thank-you
 
 Sitemap: https://fluentauf.com/sitemap.xml

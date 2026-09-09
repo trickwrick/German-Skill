@@ -2,15 +2,19 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { shortLabelCountries } from "../../data/shortLabelCountries";
+import { buildThankYouUrl } from "../../lib/thankYouConfig";
 
 const STORAGE_KEY = "fluentauf_welcome_popup_seen";
+// Set to true when you want to enable the popup again
+const SHOW_POPUP = false;
 
 export default function WelcomeDiscountPopup() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [phone, setPhone] = useState("+91");
@@ -23,7 +27,7 @@ export default function WelcomeDiscountPopup() {
   }, []);
 
   useEffect(() => {
-    if (!mounted || pathname.startsWith("/admin")) {
+    if (!SHOW_POPUP || !mounted || pathname.startsWith("/admin")) {
       return;
     }
 
@@ -78,10 +82,9 @@ export default function WelcomeDiscountPopup() {
 
       setSuccess(true);
       markSeen();
-      window.setTimeout(() => {
-        setOpen(false);
-        document.body.style.overflow = "";
-      }, 1800);
+      document.body.style.overflow = "";
+      setOpen(false);
+      router.push(buildThankYouUrl());
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : "Could not submit your request.");
     } finally {
@@ -89,7 +92,7 @@ export default function WelcomeDiscountPopup() {
     }
   }
 
-  if (!mounted || !open) {
+  if (!SHOW_POPUP || !mounted || !open) {
     return null;
   }
 
