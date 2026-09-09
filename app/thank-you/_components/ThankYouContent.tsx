@@ -107,7 +107,11 @@ export default function ThankYouContent() {
           <div className="thank-you-redirect-meta">
             <span className="thank-you-spinner" aria-hidden="true" />
             <span className="thank-you-redirect-text">
-              {redirected ? "Redirecting now..." : `Redirecting you back in ${secondsLeft}s...`}
+              {redirected
+                ? "Redirecting now..."
+                : totalMs >= 2000
+                ? `Redirecting you back in ${secondsLeft}s...`
+                : "Redirecting you back..."}
             </span>
           </div>
 
