@@ -55,7 +55,14 @@ export default function AdminGeneralContent() {
     setError("");
 
     try {
-      const response = await fetch("/api/admin/general-pages", { credentials: "same-origin" });
+      const response = await fetch("/api/admin/general-pages", {
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        },
+      });
       if (!response.ok) {
         throw new Error("Could not load general pages.");
       }
@@ -310,11 +317,11 @@ export default function AdminGeneralContent() {
                         seo: { ...current.seo, metaTitle: event.target.value },
                       }))
                     }
-                    maxLength={70}
+                    maxLength={100}
                     placeholder="German Courses A1–C2 | Fluent AUF"
                     required
                   />
-                  <small className="adm-field-hint">Max length 70 characters</small>
+                  <small className="adm-field-hint">Max length 100 characters</small>
                 </label>
 
                 <label className="adm-form-field adm-form-field-full">
@@ -328,11 +335,11 @@ export default function AdminGeneralContent() {
                         seo: { ...current.seo, metaKeyword: event.target.value },
                       }))
                     }
-                    maxLength={160}
+                    maxLength={300}
                     rows={2}
                     placeholder="German Language Course, Online German Classes, Learn German"
                   />
-                  <small className="adm-field-hint">Max length 160 characters</small>
+                  <small className="adm-field-hint">Max length 300 characters</small>
                 </label>
 
                 <label className="adm-form-field adm-form-field-full">
@@ -346,11 +353,11 @@ export default function AdminGeneralContent() {
                         seo: { ...current.seo, metaDescription: event.target.value },
                       }))
                     }
-                    maxLength={250}
+                    maxLength={300}
                     rows={3}
                     placeholder="Short summary shown in Google search results for this page."
                   />
-                  <small className="adm-field-hint">Max length 250 characters</small>
+                  <small className="adm-field-hint">Max length 300 characters</small>
                 </label>
               </div>
             </section>

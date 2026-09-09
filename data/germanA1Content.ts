@@ -1,4 +1,53 @@
-import { defaultCourseReviews } from "./defaultCourseReviews";
+export const a1CourseReviews = [
+  {
+    initials: "LJ",
+    name: "Learning Jainism",
+    date: "August 15, 2026",
+    rating: 5,
+    text: "Great study atmosphere and very supportive trainers. The German A1 course structure helped me build confidence from day one, especially with basic grammar and pronunciation.",
+    color: "#6366f1",
+  },
+  {
+    initials: "CS",
+    name: "Chitra Sharma",
+    date: "August 10, 2026",
+    rating: 4.8,
+    text: "I completed my A1 German course at Fluent AUF. The teaching methodology was excellent, interactive, and very helpful for starting from the basics.",
+    color: "#ec4899",
+  },
+  {
+    initials: "AK",
+    name: "Akhil Kumaria",
+    date: "August 4, 2026",
+    rating: 5,
+    text: "Teachers are very knowledgeable and patient with beginners. German A1 grammar and sentence building became much easier to understand.",
+    color: "#14b8a6",
+  },
+  {
+    initials: "VC",
+    name: "Virendra Chaudhary",
+    date: "July 26, 2026",
+    rating: 4.8,
+    text: "I highly recommend Fluent AUF for anyone starting German at A1 level. The interactive speaking sessions made learning fun and easy.",
+    color: "#f59e0b",
+  },
+  {
+    initials: "YK",
+    name: "Yashode K.",
+    date: "July 18, 2026",
+    rating: 5,
+    text: "Wonderful experience learning German A1 level here. Live classes and recorded sessions both were very helpful for revision.",
+    color: "#8b5cf6",
+  },
+  {
+    initials: "GS",
+    name: "Gaurav Sharma",
+    date: "July 12, 2026",
+    rating: 5,
+    text: "Excellent German A1 course! The trainer explains everything clearly from the alphabet to daily conversation with real-life examples. Highly recommended for beginners.",
+    color: "#e31e24",
+  },
+];
 
 export const a1CourseContent = {
   sidebarPrice: "₹11,999.00",
@@ -206,5 +255,5 @@ export const a1CourseContent = {
     ],
     note: "",
   },
-  reviews: defaultCourseReviews,
+  reviews: a1CourseReviews,
 };

@@ -56,17 +56,17 @@ function sanitizePageSeo(
 
   return {
     metaTitle:
-      typeof value?.metaTitle === "string" && value.metaTitle.trim()
-        ? value.metaTitle.trim().slice(0, 70)
-        : fallback?.metaTitle ?? "",
+      typeof value?.metaTitle === "string"
+        ? value.metaTitle.trim().slice(0, 100)
+        : (fallback?.metaTitle ?? ""),
     metaKeyword:
-      typeof value?.metaKeyword === "string" && value.metaKeyword.trim()
-        ? value.metaKeyword.trim().slice(0, 160)
-        : fallback?.metaKeyword ?? "",
+      typeof value?.metaKeyword === "string"
+        ? value.metaKeyword.trim().slice(0, 300)
+        : (fallback?.metaKeyword ?? ""),
     metaDescription:
-      typeof value?.metaDescription === "string" && value.metaDescription.trim()
-        ? value.metaDescription.trim().slice(0, 250)
-        : fallback?.metaDescription ?? "",
+      typeof value?.metaDescription === "string"
+        ? value.metaDescription.trim().slice(0, 300)
+        : (fallback?.metaDescription ?? ""),
   };
 }
 
@@ -303,6 +303,17 @@ async function getMongoContent(): Promise<GeneralPagesContent | null> {
 }
 
 async function fetchGeneralPagesContent(): Promise<GeneralPagesContent> {
+  if (isFileStoreEnabled()) {
+    try {
+      const store = await getFileGeneralPagesContent();
+      if (store) {
+        return sanitizeContent(store);
+      }
+    } catch {
+      // Fall through to MongoDB
+    }
+  }
+
   if (process.env.MONGODB_URI) {
     try {
       const mongoContent = await getMongoContent();
@@ -372,7 +383,7 @@ async function persistContent(content: GeneralPagesContent) {
       try {
         await saveMongoContent(nextContent);
       } catch (error) {
-        console.warn("MongoDB sync skipped for general pages.", error);
+        console.error("MongoDB sync failed for general pages", error);
       }
     }
 
