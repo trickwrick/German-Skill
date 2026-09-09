@@ -4289,15 +4289,19 @@ button {
   z-index: 9999;
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(4px);
-  overflow: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
 }
 
 .enroll-modal-shell {
-  position: absolute;
-  left: 50%;
-  top: calc(50% + 24px);
-  width: min(400px, calc(100vw - 32px));
-  transform: translate(-50%, -50%);
+  position: relative;
+  width: min(400px, 100%);
+  margin: auto;
   transform-origin: center center;
 }
 
@@ -4305,9 +4309,9 @@ button {
   position: relative;
   width: 100%;
   background: var(--white);
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 20px 48px rgba(15, 23, 42, 0.24);
-  overflow: visible;
+  overflow: hidden;
 }
 
 .enroll-modal-close {
@@ -4497,6 +4501,48 @@ button {
   color: #b91c1c;
   font-size: 0.82rem;
   line-height: 1.45;
+}
+
+@media (max-width: 640px) {
+  .enroll-modal-overlay {
+    align-items: flex-start;
+    padding: 16px 12px calc(env(safe-area-inset-bottom, 16px) + 32px);
+  }
+
+  .enroll-modal-shell {
+    margin: auto 0;
+    width: 100%;
+    max-width: 390px;
+    transform: none !important;
+  }
+
+  .enroll-modal-header {
+    padding: 12px 14px;
+  }
+
+  .enroll-modal-header h2 {
+    font-size: 0.95rem;
+  }
+
+  .enroll-modal-form {
+    padding: 10px 12px 12px;
+  }
+
+  .enroll-modal-field {
+    margin-bottom: 8px;
+  }
+
+  .enroll-modal-field input,
+  .enroll-modal-field select {
+    font-size: 16px !important;
+    padding: 9px 12px;
+    border-radius: 8px;
+  }
+
+  .enroll-modal-submit {
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
 }
 
 .course-includes-box,

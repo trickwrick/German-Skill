@@ -68,40 +68,31 @@ export default function CourseEnrollModal({
         return;
       }
 
-      shell.style.transform = "translate(-50%, -50%)";
+      // On mobile / touch devices (<= 640px), never scale or apply absolute transforms.
+      // The CSS flexbox container + overflow-y: auto handles mobile viewport and virtual keyboards smoothly.
+      if (window.innerWidth <= 640 || window.matchMedia("(max-width: 640px)").matches) {
+        shell.style.transform = "";
+        return;
+      }
 
-      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
-      const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
-      const padV = 32;
-      const padH = 24;
+      const viewportHeight = window.innerHeight;
+      const padV = 48;
       const availableHeight = viewportHeight - padV;
-      const availableWidth = viewportWidth - padH;
-
       const naturalHeight = modal.offsetHeight;
-      const naturalWidth = shell.offsetWidth;
-      const scale = Math.min(
-        1,
-        availableHeight / naturalHeight,
-        availableWidth / naturalWidth
-      );
 
-      shell.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      if (naturalHeight > availableHeight && availableHeight > 300) {
+        const scale = Math.max(0.85, Math.min(1, availableHeight / naturalHeight));
+        shell.style.transform = `scale(${scale})`;
+      } else {
+        shell.style.transform = "";
+      }
     }
 
     fitModal();
-    requestAnimationFrame(fitModal);
     window.addEventListener("resize", fitModal);
-    window.visualViewport?.addEventListener("resize", fitModal);
-
-    const observer = new ResizeObserver(fitModal);
-    if (modalRef.current) {
-      observer.observe(modalRef.current);
-    }
 
     return () => {
       window.removeEventListener("resize", fitModal);
-      window.visualViewport?.removeEventListener("resize", fitModal);
-      observer.disconnect();
       if (shellRef.current) {
         shellRef.current.style.transform = "";
       }
