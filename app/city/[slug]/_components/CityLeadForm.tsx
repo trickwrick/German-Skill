@@ -46,9 +46,12 @@ export default function CityLeadForm({ cityName }: CityLeadFormProps) {
         throw new Error(data.error || "Could not submit your enquiry.");
       }
 
-      setSubmitted(true);
-      event.currentTarget.reset();
-      router.push(buildThankYouUrl());
+      const thankYouUrl = buildThankYouUrl();
+      if (typeof window !== "undefined") {
+        window.location.href = thankYouUrl;
+      } else {
+        router.push(thankYouUrl);
+      }
     } catch (submitError) {
       setError(
         submitError instanceof Error ? submitError.message : "Could not submit your enquiry.",

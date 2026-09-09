@@ -50,7 +50,12 @@ export default function ContactForm() {
       }
 
       setSubmitted(true);
-      router.push(buildThankYouUrl());
+      const thankYouUrl = buildThankYouUrl();
+      if (typeof window !== "undefined") {
+        window.location.assign(thankYouUrl);
+      } else {
+        router.push(thankYouUrl);
+      }
     } catch (submitError) {
       setError(
         submitError instanceof Error ? submitError.message : "Could not send your message.",

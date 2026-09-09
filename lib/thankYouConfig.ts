@@ -1,9 +1,9 @@
 export const THANK_YOU_CONFIG = {
   /**
    * Automatic redirect delay in milliseconds.
-   * Configured: 1500ms (1.5 seconds).
+   * Configured: 1000ms (1 second).
    */
-  redirectDelayMs: 1500,
+  redirectDelayMs: 1000,
   defaultReturnUrl: "/",
   storageKey: "fluentauf_return_url",
   /**
