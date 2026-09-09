@@ -7,7 +7,6 @@ import {
 import type { GermanCourse } from "../../../../data/germanCourses";
 import type { HomeFaqContent } from "../../../../data/homeFaqs";
 import type { VideoTestimonial } from "../../../../data/videoTestimonials";
-import { sanitizeBlogHtml } from "../../../../lib/blogHtmlUtils";
 import AllCoursesSection from "../../../components/AllCoursesSection";
 import CertificateSection from "../../../components/CertificateSection";
 import ComparisonSection from "../../../components/ComparisonSection";
@@ -162,7 +161,6 @@ export default function CityPageContent({
   coursesSectionTitle,
   coursesSectionDescription,
 }: CityPageContentProps) {
-  const contentHtml = sanitizeBlogHtml(page.contentHtml);
   const badgePrefix = getHeroBadgePrefix(page.subtitle || DEFAULT_HERO_BADGE_PREFIX);
   const typedPhrases =
     Array.isArray(page.heroTypedPhrases) && page.heroTypedPhrases.length
@@ -228,13 +226,6 @@ export default function CityPageContent({
         </div>
       </section>
 
-      {contentHtml ? (
-        <section className="city-content">
-          <div className="city-content-inner">
-            <div className="city-content-html" dangerouslySetInnerHTML={{ __html: contentHtml }} />
-          </div>
-        </section>
-      ) : null}
 
       <AllCoursesSection
         courses={courses}
