@@ -3,7 +3,11 @@ import Navbar from "../../components/Navbar";
 import PageBanner from "../../components/PageBanner";
 import SiteFooter from "../../components/SiteFooter";
 import OurFacultiesContent from "./_components/OurFacultiesContent";
+import { getOurCompanyPageContent } from "../../../lib/generalPageStore";
 import { buildPageMetadata } from "../../../lib/siteSeo";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
+
+export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Our Faculties | Fluent AUF",
@@ -12,7 +16,9 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/about/our-faculties",
 });
 
-export default function OurFacultiesPage() {
+export default async function OurFacultiesPage() {
+  const content = await getOurCompanyPageContent();
+
   return (
     <>
       <Navbar />
@@ -25,7 +31,7 @@ export default function OurFacultiesPage() {
             { label: "Our Faculties" },
           ]}
         />
-        <OurFacultiesContent />
+        <OurFacultiesContent content={content.faculty} />
       </main>
       <SiteFooter />
     </>

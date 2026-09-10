@@ -1,7 +1,13 @@
 import Link from "next/link";
 import FacultyTeamsSection from "../../../components/FacultyTeamsSection";
 
-export default function OurFacultiesContent() {
+import type { OurCompanyPageData } from "../../../../data/generalPages";
+
+type OurFacultiesContentProps = {
+  content?: OurCompanyPageData["faculty"];
+};
+
+export default function OurFacultiesContent({ content }: OurFacultiesContentProps) {
   return (
     <>
       <section className="of-intro">
@@ -18,7 +24,7 @@ export default function OurFacultiesContent() {
         </div>
       </section>
 
-      <FacultyTeamsSection />
+      <FacultyTeamsSection content={content} />
 
       <section className="of-cta">
         <div className="of-cta-card">
