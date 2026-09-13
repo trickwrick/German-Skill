@@ -226,7 +226,6 @@ export default function CityPageContent({
         </div>
       </section>
 
-
       <AllCoursesSection
         courses={courses}
         title={coursesSectionTitle}

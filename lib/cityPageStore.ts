@@ -264,24 +264,9 @@ function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: str
         : `German Classes in ${cityName}`,
     subtitle,
     heroTypedPhrases: heroTypedPhrases.length ? heroTypedPhrases : defaultHeroTypedPhrases(),
-    heroDescription: (() => {
-      const raw = typeof value.heroDescription === "string" ? value.heroDescription.trim() : "";
-      if (!raw) {
-        return defaultCityHeroDescription;
-      }
-      if (
-        raw.startsWith("Looking for German classes") ||
-        raw.includes("Academic Prospects Such as") ||
-        raw.includes("Austria / Switzerland opportunities") ||
-        raw ===
-          "Professional Goethe & TELC German learning from A1 to C2 for study abroad, careers & Germany pathways." ||
-        raw ===
-          "Professional German Goethe & TELC learning from A1 to C2 for study abroad, careers & Germany pathways."
-      ) {
-        return defaultCityHeroDescription;
-      }
-      return raw;
-    })(),
+    heroDescription: typeof value.heroDescription === "string" && value.heroDescription.trim()
+      ? value.heroDescription.trim()
+      : defaultCityHeroDescription,
     highlights,
     contentHtml: typeof value.contentHtml === "string" ? value.contentHtml.trim() : "",
     vision: sanitizeVision(value.vision, cityName),
