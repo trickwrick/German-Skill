@@ -882,36 +882,6 @@ export default function AdminCityPagesContent() {
                 onChange={(html) => updateWhyLearn("text", html)}
               />
 
-              <h4>Collage Images (3)</h4>
-              {form.whyLearn.collage.map((item, index) => (
-                <div key={`collage-${index}`} className="adm-city-highlight-card">
-                  <h4>Collage {index + 1}</h4>
-                  <label className="adm-city-field">
-                    <span>Label</span>
-                    <input
-                      type="text"
-                      value={item.label}
-                      onChange={(event) => updateCollage(index, "label", event.target.value)}
-                    />
-                  </label>
-                  <label className="adm-city-field">
-                    <span>Alt</span>
-                    <input
-                      type="text"
-                      value={item.alt}
-                      onChange={(event) => updateCollage(index, "alt", event.target.value)}
-                    />
-                  </label>
-                  <AdminImageUploadField
-                    label={`Collage Image ${index + 1}`}
-                    value={item.src}
-                    folder="general"
-                    placeholder="/hero-students.jpg"
-                    onChange={(path) => updateCollage(index, "src", path)}
-                  />
-                </div>
-              ))}
-
               <div className="adm-city-section-head">
                 <h4>Features</h4>
                 <button
