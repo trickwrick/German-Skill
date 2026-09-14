@@ -67,13 +67,13 @@ export default function CityWhyLearnSection({ cityName, data }: CityWhyLearnSect
     },
     {
       title: "Flexible Online Batches",
-      text: `Join weekday or weekend batches from ${cityName} or anywhere — small groups, live classes, recorded support.`,
+      text: "Choose 1-on-1 personalized sessions or small-group classes with flexible weekday and weekend batches. Learn from anywhere with live classes.",
       badge: "Live Online",
       tone: "batch",
     },
     {
-      title: "Study Material & Recordings",
-      text: "Access comprehensive eBooks, grammar notes, and recorded live sessions anytime for easy revision.",
+      title: "Study Material & Quizzes",
+      text: "Get structured German study materials, practice exercises, and interactive quizzes to reinforce your learning and build confidence alongside live classes.",
       badge: "Free Access",
       tone: "material" as any,
     },
