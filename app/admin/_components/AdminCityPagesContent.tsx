@@ -79,12 +79,16 @@ function ensureWhyLearn(page: Partial<CityPage>, cityName: string): CityWhyLearn
     collage.push({ src: "", alt: "", label: "" });
   }
 
+  let features = Array.isArray(base.features) && base.features.length ? [...base.features] : [...fallback.features];
+  if (features.length < fallback.features.length) {
+    features = [...features, ...fallback.features.slice(features.length)];
+  }
+
   return {
     ...fallback,
     ...base,
     collage: collage.slice(0, 3),
-    features:
-      Array.isArray(base.features) && base.features.length ? base.features : fallback.features,
+    features,
   };
 }
 

@@ -73,7 +73,30 @@ const nextConfig = {
       },
       {
         source: "/german-classes-:slug",
-        headers: [cacheHeader],
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=0, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/german-classes-in-:slug",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=0, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/city/:slug*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=0, must-revalidate",
+          },
+        ],
       },
       {
         source: "/city",
