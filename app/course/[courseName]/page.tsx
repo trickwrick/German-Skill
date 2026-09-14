@@ -235,8 +235,8 @@ export default async function GermanCoursePage({ params }: PageProps) {
             <div className="course-detail-stats">
               <StatItem
                 icon={<PeopleIcon />}
-                value={displayCourse.batchSize ?? "20-40 Students"}
-                label="Online Batch Size"
+                value={displayCourse.batchSize ?? "5-6 Students"}
+                label="1-on-1 / Small Group Session"
               />
               <StatItem
                 icon={<ListIcon />}
