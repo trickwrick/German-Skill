@@ -24,34 +24,10 @@ function loadEnvFile() {
 
 loadEnvFile();
 
-function replaceFluentAuf(obj) {
-  if (typeof obj === "string") {
-    return obj.replace(/Fluent AUF/g, "German Skill");
-  }
-  if (Array.isArray(obj)) {
-    return obj.map(replaceFluentAuf);
-  }
-  if (obj && typeof obj === "object") {
-    const res = {};
-    for (const key of Object.keys(obj)) {
-      res[key] = replaceFluentAuf(obj[key]);
-    }
-    return res;
-  }
-  return obj;
-}
-
 (async () => {
   const storePath = path.join(process.cwd(), "data", "city-pages-store.json");
   const rawData = fs.readFileSync(storePath, "utf8");
   let store = JSON.parse(rawData.charCodeAt(0) === 0xfeff ? rawData.slice(1) : rawData);
-
-  // Replace Fluent AUF with German Skill across city pages data
-  store = replaceFluentAuf(store);
-
-  // Write updated data back to local file
-  fs.writeFileSync(storePath, JSON.stringify(store, null, 2), "utf8");
-  console.log("Local city-pages-store.json updated (Fluent AUF replaced with German Skill).");
 
   let uri = process.env.MONGODB_URI ? process.env.MONGODB_URI.trim() : "";
   if (!uri) {

@@ -117,9 +117,9 @@ export type CityPagesStore = {
 };
 
 export const defaultCityPageSeo = (cityName: string): CityPageSeo => ({
-  metaTitle: `German Classes in ${cityName} | German Skill`,
+  metaTitle: `German Classes in ${cityName} | Fluent AUF`,
   metaKeyword: `German classes in ${cityName}, learn German ${cityName}, Goethe exam ${cityName}`,
-  metaDescription: `Learn German online with German Skill — live A1 to C2 classes for students in ${cityName}. Book a free demo today.`,
+  metaDescription: `Learn German online with Fluent AUF — live A1 to C2 classes for students in ${cityName}. Book a free demo today.`,
 });
 
 export const defaultCityHeroDescription =
@@ -131,17 +131,17 @@ export function defaultCityVision(cityName: string): CityVisionSectionData {
     heading: `Empowering German learners in`,
     headingHighlight: cityName,
     headingSuffix: " and beyond",
-    text: `<p>At German Skill, our vision is to help learners in ${cityName} and across India achieve real German fluency &mdash; not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.</p>`,
+    text: `<p>At Fluent AUF, our vision is to help learners in ${cityName} and across India achieve real German fluency &mdash; not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.</p>`,
     points: [
       "<p>Make quality German education accessible to learners in every city through live online classes.</p>",
       "<p>Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.</p>",
       "<p>Help students gain confidence to study, work, and settle abroad with practical language skills.</p>",
     ],
     imageSrc: "/hero-students.jpg",
-    imageAlt: `German Skill German language learners from ${cityName}`,
+    imageAlt: `Fluent AUF German language learners from ${cityName}`,
     badgeValue: "16,000+",
     badgeLabel: "Students learning with us",
-    linkText: "Learn more about German Skill",
+    linkText: "Learn more about Fluent AUF",
     linkHref: "/about/our-company",
   };
 }
@@ -149,7 +149,7 @@ export function defaultCityVision(cityName: string): CityVisionSectionData {
 export function defaultCityWhyLearn(cityName: string): CityWhyLearnSectionData {
   return {
     headingBefore: "Why Learn at",
-    headingHighlight: "German Skill",
+    headingHighlight: "Fluent AUF",
     headingAfter: "?",
     text: `<p>Build real German fluency with live classes, certified tutors, and exam-focused guidance &mdash; trusted by learners in ${cityName} and across India.</p>`,
     collage: [
@@ -221,7 +221,7 @@ export function defaultCityJourney(cityName: string): CityJourneySectionData {
 export function defaultCitySuccess(cityName: string): CitySuccessSectionData {
   return {
     badge: "Goethe & TELC Focused",
-    kicker: "Learn German at German Skill & Unlock Your",
+    kicker: "Learn German at Fluent AUF & Unlock Your",
     heading: "Dream Opportunity",
     headingHighlight: "Abroad",
     text: `<p>Join 10,500+ successful students who built German fluency for study, work, and career growth &mdash; including learners from ${cityName}.</p>`,
