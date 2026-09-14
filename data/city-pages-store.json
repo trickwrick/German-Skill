@@ -274,9 +274,24 @@
             "answer": "Course duration depends on the level. A1 typically takes 8–12 weeks, while higher levels may take longer with regular live classes and practice."
           },
           {
+            "id": "certificates",
+            "question": "Do you provide certificates upon completion?",
+            "answer": "Yes. Students receive a course completion certificate from Fluent AUF, and we also prepare you for official Goethe and Telc certifications."
+          },
+          {
             "id": "demo-class",
             "question": "Can I attend a free demo class?",
             "answer": "Yes. You can book a free demo class to experience our teaching style, meet a trainer, and get level guidance before enrolling."
+          },
+          {
+            "id": "refund-policy",
+            "question": "What is your refund policy?",
+            "answer": "Refund terms depend on the course, batch start date, and classes attended. Contact our admissions team for details before enrolling."
+          },
+          {
+            "id": "one-on-one",
+            "question": "Do you offer one-on-one classes?",
+            "answer": "Yes. We offer one-on-one German coaching for learners who need flexible timings or focused exam preparation."
           }
         ]
       },

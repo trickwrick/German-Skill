@@ -68,21 +68,16 @@ export default function AllCoursesSection({
                         </svg>
                         {course.learningHours ?? course.hours}
                       </span>
-                      <span className="course-registration-badge">
-                        <span className="registration-dot" aria-hidden="true" />
-                        REGISTRATION OPEN
+                      <span className="course-session-type-badge">
+                        1-on-1 / Group Session
                       </span>
                     </div>
 
                     <div className="course-card-action-row">
-                      <div className="course-price-wrap">
-                        <span className="course-price-sale">{formatDisplayPrice(course.price)}</span>
-                        {course.originalPrice ? (
-                          <span className="course-price-original">
-                            {formatDisplayPrice(course.originalPrice)}
-                          </span>
-                        ) : null}
-                      </div>
+                      <span className="course-registration-badge">
+                        <span className="registration-dot" aria-hidden="true" />
+                        REGISTRATION OPEN
+                      </span>
                       <span
                         role="button"
                         tabIndex={0}

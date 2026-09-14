@@ -863,7 +863,7 @@ button {
 .course-card-online-badge {
   position: absolute;
   bottom: 0;
-  left: 16px;
+  right: 16px;
   background: #ffffff;
   color: #1e293b;
   font-size: 0.88rem;
@@ -960,6 +960,19 @@ button {
 .course-hours svg {
   flex-shrink: 0;
   color: #8a9bb0;
+}
+
+.course-session-type-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #334155;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
 }
 
 .course-registration-badge {
@@ -8074,15 +8087,24 @@ a.contact-info-value:hover {
 }
 
 .city-promo-card {
-  border-radius: 16px;
+  position: relative;
+  border-radius: 20px;
   overflow: hidden;
-  background: #fff;
-  box-shadow: 0 14px 32px rgba(21, 34, 56, 0.1);
+  background: #ffffff;
+  border: 1.5px solid rgba(232, 93, 4, 0.2);
+  border-top: 5px solid #e85d04;
+  box-shadow: 0 20px 45px -10px rgba(232, 93, 4, 0.22), 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.city-promo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 26px 52px -10px rgba(232, 93, 4, 0.28), 0 6px 24px rgba(0, 0, 0, 0.08);
 }
 
 .city-promo-form-wrap {
-  padding: 22px 18px 28px;
-  background: #fff;
+  padding: 24px 20px 26px;
+  background: linear-gradient(180deg, #fffdfb 0%, #ffffff 100%);
   min-height: 340px;
   display: flex;
   flex-direction: column;
@@ -8403,6 +8425,118 @@ a.contact-info-value:hover {
 
 .city-cta {
   padding: 20px 20px 72px;
+}
+
+.city-journey-steps {
+  padding: 60px 20px 70px;
+  background: #faf7f2;
+}
+
+.city-journey-steps-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.city-journey-steps-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.city-journey-sub-title {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #e85d04;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.city-journey-steps-header h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  color: #0f172a;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.city-journey-steps-header h2 em {
+  font-style: normal;
+  color: #e85d04;
+  font-weight: 800;
+}
+
+.city-journey-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.city-journey-step-card {
+  position: relative;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-top: 4px solid #e85d04;
+  border-radius: 16px;
+  padding: 34px 20px 26px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(161, 130, 74, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.city-journey-step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(161, 130, 74, 0.12);
+  border-color: #dfcfb2;
+}
+
+.city-journey-step-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #b8923a;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 3px 8px rgba(184, 146, 58, 0.35);
+  border: 2px solid #faf7f2;
+}
+
+.city-journey-step-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #1c1917;
+  font-family: var(--font-serif, Georgia, serif);
+  line-height: 1.35;
+}
+
+.city-journey-step-card p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: #57534e;
+  line-height: 1.55;
+}
+
+@media (max-width: 1024px) {
+  .city-journey-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .city-journey-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 }
 
 .city-journey-cta {
@@ -8865,6 +8999,26 @@ a.contact-info-value:hover {
   backdrop-filter: blur(4px);
 }
 
+.city-why-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 992px) {
+  .city-why-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .city-why-features-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
 .city-why-features {
   display: flex;
   flex-direction: column;
@@ -8875,11 +9029,18 @@ a.contact-info-value:hover {
   display: grid;
   grid-template-columns: 48px 1fr;
   gap: 14px;
-  padding: 16px 16px 14px;
-  border-radius: 14px;
+  padding: 20px 18px 18px;
+  border-radius: 16px;
   background: #fff;
   border: 1px solid #e8edf3;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  transition: all 0.25s ease;
+}
+
+.city-why-feature:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.09);
+  border-color: #cbd5e1;
 }
 
 .city-why-feature-icon {
@@ -8908,6 +9069,16 @@ a.contact-info-value:hover {
 .city-why-feature-batch .city-why-feature-icon {
   color: #7e22ce;
   background: #faf5ff;
+}
+
+.city-why-feature-material .city-why-feature-icon {
+  color: #0284c7;
+  background: #f0f9ff;
+}
+
+.city-why-feature-career .city-why-feature-icon {
+  color: #d97706;
+  background: #fffbeb;
 }
 
 .city-why-feature-body h3 {
@@ -8953,6 +9124,16 @@ a.contact-info-value:hover {
 .city-why-feature-batch .city-why-feature-badge {
   color: #7e22ce;
   background: #f3e8ff;
+}
+
+.city-why-feature-material .city-why-feature-badge {
+  color: #0369a1;
+  background: #e0f2fe;
+}
+
+.city-why-feature-career .city-why-feature-badge {
+  color: #b45309;
+  background: #fef3c7;
 }
 
 @media (max-width: 960px) {

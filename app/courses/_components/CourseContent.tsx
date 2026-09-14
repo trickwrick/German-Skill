@@ -255,16 +255,11 @@ export default function CourseContent({
               />
             </div>
             <div className="course-price-body">
-              <span className="course-price-label">Course Price</span>
-              <div className="course-price-row course-price-row-sidebar">
-                <span className="course-price-sale">
-                  {formatDisplayPrice(coursePrice ?? content.sidebarPrice)}
+              <div style={{ marginBottom: "14px" }}>
+                <span className="course-registration-badge">
+                  <span className="registration-dot" aria-hidden="true" />
+                  REGISTRATION OPEN
                 </span>
-                {originalPrice ? (
-                  <span className="course-price-original">
-                    {formatDisplayPrice(originalPrice)}
-                  </span>
-                ) : null}
               </div>
               <button type="button" className="btn btn-enroll" onClick={() => setEnrollOpen(true)}>
                 Enroll now

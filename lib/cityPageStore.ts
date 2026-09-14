@@ -104,7 +104,7 @@ function sanitizeWhyLearn(
   cityName: string,
 ): CityWhyLearnSectionData {
   const fallback = defaultCityWhyLearn(cityName);
-  const tones: CityWhyFeatureItem["tone"][] = ["demo", "exam", "tutors", "batch"];
+  const tones = ["demo", "exam", "tutors", "batch", "material", "career"];
 
   const collage: CityWhyCollageItem[] = Array.isArray(value?.collage)
     ? value.collage
@@ -395,7 +395,7 @@ export async function getCityPagesStore(options: PublicDataOptions = {}): Promis
     return fetchCityPagesStore();
   }
 
-  return getCachedPublicData(["city-pages", "v4"], [CACHE_TAGS.cityPages], fetchCityPagesStore);
+  return getCachedPublicData(["city-pages", "v6"], [CACHE_TAGS.cityPages], fetchCityPagesStore);
 }
 
 export async function getCityPagesForDisplay(options: PublicDataOptions = {}): Promise<CityPage[]> {

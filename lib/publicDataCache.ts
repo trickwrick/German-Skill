@@ -102,6 +102,7 @@ export function revalidatePublicCityPagesData(...slugs: string[]) {
     if (trimmed) {
       revalidatePath(`/city/${trimmed}`);
       revalidatePath(`/german-classes-${trimmed}`);
+      revalidatePath(`/german-classes-in-${trimmed}`);
     }
   }
 }

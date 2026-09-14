@@ -31,7 +31,7 @@ import BlogContentEditor from "../(dashboard)/blog/_components/BlogContentEditor
 
 const emptyHighlight: CityPageHighlight = { title: "", text: "" };
 
-const FEATURE_TONES: CityWhyFeatureItem["tone"][] = ["demo", "exam", "tutors", "batch"];
+const FEATURE_TONES: (CityWhyFeatureItem["tone"] | "material" | "career")[] = ["demo", "exam", "tutors", "batch", "material" as any, "career" as any];
 
 function emptyFeature(): CityWhyFeatureItem {
   return { title: "", text: "", badge: "", tone: "demo" };

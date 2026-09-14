@@ -75,8 +75,10 @@ export default function CityLeadForm({ cityName }: CityLeadFormProps) {
 
   return (
     <form className="city-lead-form" onSubmit={handleSubmit}>
-      <h2>Enquire Now</h2>
-      <p className="city-lead-note">Get batch details for German classes in {cityName}.</p>
+      <div className="city-lead-header">
+        <h2>Enquire Now</h2>
+        <p className="city-lead-note">Get batch details & free demo for German classes in {cityName}.</p>
+      </div>
 
       {error ? <p className="city-lead-error">{error}</p> : null}
 
