@@ -103,33 +103,7 @@ function ReviewsPanel({
   reviewCount: string;
 }) {
   const { reviewsSummary, reviews } = content;
-  const [showAllReviews, setShowAllReviews] = useState(false);
-  const [moreHeight, setMoreHeight] = useState(0);
-  const moreRef = useRef<HTMLDivElement>(null);
-  const initialReviewCount = 3;
-  const hasMoreReviews = reviews.length > initialReviewCount;
-  const initialReviews = reviews.slice(0, initialReviewCount);
-  const moreReviews = reviews.slice(initialReviewCount);
-
-  useLayoutEffect(() => {
-    const node = moreRef.current;
-    if (!node) return;
-
-    const updateHeight = () => {
-      setMoreHeight(node.scrollHeight + 8);
-    };
-
-    updateHeight();
-
-    const observer = new ResizeObserver(updateHeight);
-    observer.observe(node);
-    window.addEventListener("resize", updateHeight);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", updateHeight);
-    };
-  }, [moreReviews.length]);
+  const displayReviewCount = reviews.length > 0 ? String(reviews.length) : reviewCount;
 
   return (
     <div className="course-tab-panel reviews-panel">
@@ -139,7 +113,7 @@ function ReviewsPanel({
             {formatRatingDisplay(reviewsSummary.average)}
           </strong>
           <StarRow rating={parseFloat(reviewsSummary.average) || 0} size={22} />
-          <span className="reviews-count">{reviewCount} ratings</span>
+          <span className="reviews-count">{displayReviewCount} ratings</span>
         </div>
 
         <div className="reviews-breakdown-box">
@@ -165,45 +139,11 @@ function ReviewsPanel({
       {reviews.length === 0 ? (
         <p className="reviews-empty-note">No reviews have been added for this course yet.</p>
       ) : (
-        <>
-      <div className="reviews-list">
-        {initialReviews.map((review) => (
-          <ReviewCard key={review.name + review.date} review={review} />
-        ))}
-      </div>
-
-      {hasMoreReviews ? (
-        <div
-          className={`reviews-more${showAllReviews ? " is-open" : ""}`}
-          style={{ maxHeight: showAllReviews ? `${moreHeight}px` : "0px" }}
-          aria-hidden={!showAllReviews}
-        >
-          <div ref={moreRef}>
-            <div className="reviews-list reviews-list-more">
-              {moreReviews.map((review) => (
-                <ReviewCard key={review.name + review.date} review={review} />
-              ))}
-            </div>
-            <p className="reviews-enroll-note">
-              You can view more reviews once you enroll in this course.
-            </p>
-          </div>
+        <div className="reviews-list">
+          {reviews.map((review, index) => (
+            <ReviewCard key={review.name + review.date + index} review={review} />
+          ))}
         </div>
-      ) : null}
-
-      {hasMoreReviews ? (
-        <div className="reviews-footer">
-          <button
-            type="button"
-            className="btn btn-view-more"
-            onClick={() => setShowAllReviews((open) => !open)}
-            aria-expanded={showAllReviews}
-          >
-            {showAllReviews ? "View Less" : "View More"}
-          </button>
-        </div>
-      ) : null}
-        </>
       )}
     </div>
   );
