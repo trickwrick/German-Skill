@@ -183,10 +183,7 @@ export default async function GermanCoursePage({ params }: PageProps) {
 
   const content = contentResult ?? getCourseContentForCourse(displayCourse);
 
-  const reviewCount =
-    Array.isArray(content.reviews) && content.reviews.length > 0
-      ? String(content.reviews.length)
-      : displayCourse.reviewCount || String(content.reviewsSummary?.total) || "0";
+  const reviewCount = displayCourse.reviewCount || String(content.reviewsSummary.total) || "0";
   const salePrice = displayCourse.price || content.sidebarPrice;
   const coursePath = `/course/${displayCourse.pathName}`;
   const courseSchema = [

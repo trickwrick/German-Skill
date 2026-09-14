@@ -130,6 +130,7 @@ const nextConfig = {
       { source: "/blog", destination: "/blogs", permanent: true },
       { source: "/about/careers", destination: "/about/apply-job", permanent: true },
       { source: "/city/:slug", destination: "/german-classes-in-:slug", permanent: true },
+      { source: "/german-classes-:slug((?!in-).*)", destination: "/german-classes-in-:slug", permanent: true },
     ];
   },
   async rewrites() {
@@ -140,10 +141,6 @@ const nextConfig = {
       },
       {
         source: "/german-classes-in-:slug",
-        destination: "/city/:slug",
-      },
-      {
-        source: "/german-classes-:slug",
         destination: "/city/:slug",
       },
     ];
