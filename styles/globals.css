@@ -8557,12 +8557,24 @@ a.contact-info-value:hover {
 }
 
 .city-journey-copy {
-  margin: 0 auto 28px;
+  margin: 0 auto;
   max-width: 920px;
   color: rgba(255, 255, 255, 0.92);
   font-size: clamp(0.98rem, 1.6vw, 1.08rem);
   line-height: 1.75;
   font-style: italic;
+}
+
+.city-journey-copy p {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(0.98rem, 1.6vw, 1.08rem);
+  line-height: 1.75;
+  font-style: italic;
+}
+
+.city-journey-copy p:last-child {
+  margin-bottom: 28px;
 }
 
 .city-journey-btn {

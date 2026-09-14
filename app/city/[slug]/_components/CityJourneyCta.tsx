@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CityJourneySectionData } from "../../../../data/cityPages";
+import CityRichHtml from "./CityRichHtml";
 
 type CityJourneyCtaProps = {
   data?: CityJourneySectionData;
@@ -59,7 +60,7 @@ export default function CityJourneyCta({ data }: CityJourneyCtaProps) {
       <section className="city-journey-cta">
         <div className="city-journey-cta-inner">
           <div className="city-journey-card">
-            {text ? <p className="city-journey-copy">{text}</p> : null}
+            {text ? <CityRichHtml html={text} className="city-journey-copy" /> : null}
             <Link href={buttonHref} className="city-journey-btn">
               {buttonText}
               <span aria-hidden="true">&rarr;</span>
@@ -70,4 +71,5 @@ export default function CityJourneyCta({ data }: CityJourneyCtaProps) {
     </>
   );
 }
+
 
