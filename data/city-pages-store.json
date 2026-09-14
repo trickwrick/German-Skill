@@ -1,20 +1,20 @@
 {
   "pages": [
     {
-      "slug": "delhi",
-      "cityName": "Delhi",
-      "title": "German Classes in Delhi",
+      "slug": "jaipur",
+      "cityName": "Jaipur",
+      "title": "German Classes in Jaipur",
       "subtitle": "Build Confidence in",
       "heroTypedPhrases": [
         "German Communication",
         "German Classes",
         "German Best learn"
       ],
-      "heroDescription": "<p>Professional German Goethe &amp; TELC learning assistance from A1 to C2 &mdash; prepare for study abroad, stronger careers, and Germany / Austria / Switzerland pathways with live expert-led classes.</p>",
+      "heroDescription": "<p>Professional German language learning support from A1 to C2, with expert-led live classes designed to help you prepare for Goethe and TELC exams, study abroad opportunities, career growth, and pathways to Germany, Austria, and Switzerland.</p>",
       "highlights": [
         {
           "title": "Live Online Classes",
-          "text": "<p>Join interactive German batches from Delhi with real-time speaking practice.</p>"
+          "text": "<p>Join interactive German batches from Jaipur with real-time speaking practice.</p>"
         },
         {
           "title": "A1 to C2 Levels",
@@ -29,175 +29,17 @@
           "text": "<p>Weekday and weekend timings that fit your schedule.</p>"
         }
       ],
-      "contentHtml": "<p>German Skill helps learners in <strong>Delhi</strong> build German fluency for study abroad, careers, migration, and personal growth.</p>\n\n<p>Our certified trainers guide you through grammar, vocabulary, conversation, and exam skills with small interactive batches.</p>\n\n<h3>Why choose German Skill in Delhi?</h3>\n\n<ul>\n\t<li>Live online classes you can attend from home</li>\n\t<li>Personalized attention and doubt support</li>\n\t<li>Study material and session recordings</li>\n\t<li>Free demo class before you enroll</li>\n</ul>",
-      "vision": {
-        "tag": "Our Vision",
-        "heading": "Empowering German learners in",
-        "headingHighlight": "Delhi",
-        "headingSuffix": "and beyond",
-        "text": "<p>At German Skill, our vision is to help learners in Delhi and across India achieve real German fluency &mdash; not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.</p>",
-        "points": [
-          "<p>Make quality German education accessible to learners in every city through live online classes.</p>",
-          "<p>Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.</p>",
-          "<p>Help students gain confidence to study, work, and settle abroad with practical language skills.</p>"
-        ],
-        "imageSrc": "/hero-students.jpg",
-        "imageAlt": "German Skill German language learners from Delhi",
-        "badgeValue": "16,000+",
-        "badgeLabel": "Students learning with us",
-        "linkText": "Learn more about German Skill",
-        "linkHref": "/about/our-company"
-      },
-      "whyLearn": {
-        "headingBefore": "Why Learn at",
-        "headingHighlight": "German Skill",
-        "headingAfter": "?",
-        "text": "<p>Build real German fluency with live classes, certified tutors, and exam-focused guidance &mdash; trusted by learners in Delhi and across India.</p>",
-        "collage": [
-          {
-            "src": "/portal-education.jpg",
-            "alt": "Live German classroom session",
-            "label": "Live Classroom Sessions"
-          },
-          {
-            "src": "/webinar-student.jpg",
-            "alt": "Student learning German online",
-            "label": "Interactive Online Classes"
-          },
-          {
-            "src": "/general/general-1788170673213.jpg",
-            "alt": "Students preparing for German exams",
-            "label": "Goethe & TELC Preparation"
-          }
-        ],
-        "features": [
-          {
-            "title": "Free Demo Classes",
-            "text": "Experience our teaching style before you enroll. Sit in a live session and decide with confidence.",
-            "badge": "100% Free",
-            "tone": "demo"
-          },
-          {
-            "title": "Exam-Focused Training",
-            "text": "Structured A1–C2 prep aligned with Goethe and TELC patterns, practice tests, and speaking drills.",
-            "badge": "Exam Ready",
-            "tone": "exam"
-          },
-          {
-            "title": "Certified German Tutors",
-            "text": "Learn from experienced, certified trainers who guide you with clear feedback every step of the way.",
-            "badge": "Expert Faculty",
-            "tone": "tutors"
-          },
-          {
-            "title": "Flexible Online Batches",
-            "text": "Choose 1-on-1 personalized sessions or small-group classes with flexible weekday and weekend batches. Learn from anywhere with live classes.",
-            "badge": "Live Online",
-            "tone": "batch"
-          },
-          {
-            "title": "Study Material & Quizzes",
-            "text": "Get structured German study materials, practice exercises, and interactive quizzes to reinforce your learning and build confidence alongside live classes.",
-            "badge": "Free Access",
-            "tone": "material"
-          },
-          {
-            "title": "Career & Visa Guidance",
-            "text": "Guidance for university admissions, job seeker visas, blocked account, and Germany relocation pathways.",
-            "badge": "Career Ready",
-            "tone": "career"
-          }
-        ]
-      },
-      "journey": {
-        "text": "<p>Achieve German language expertise from our German classes in Delhi, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!</p>",
-        "buttonText": "Start Your Journey Now",
-        "buttonHref": "/contact"
-      },
-      "success": {
-        "badge": "Goethe & TELC Focused",
-        "kicker": "Learn German at German Skill & Unlock Your",
-        "heading": "Dream Opportunity",
-        "headingHighlight": "Abroad",
-        "text": "<p>Join 10,500+ successful students who built German fluency for study, work, and career growth &mdash; including learners from Delhi.</p>",
-        "buttonText": "Enquire Now",
-        "buttonHref": "/contact",
-        "imageSrc": "/hero-students.jpg",
-        "imageAlt": "Successful German learners from Delhi"
-      },
-      "faqs": {
-        "title": "Frequently Asked Questions",
-        "subtitle": "<p>Get answers to the most common questions about our German courses and learning process.</p>",
-        "items": [
-          {
-            "id": "german-levels",
-            "question": "What levels of German do you offer?",
-            "answer": "<p>German Skill offers structured German courses from A1 to C2, including Goethe and Telc exam preparation for every level.</p>"
-          },
-          {
-            "id": "course-duration",
-            "question": "How long does it take to complete a course?",
-            "answer": "<p>Course duration depends on the level. A1 typically takes 8&ndash;12 weeks, while higher levels may take longer with regular live classes and practice.</p>"
-          },
-          {
-            "id": "demo-class",
-            "question": "Can I attend a free demo class?",
-            "answer": "<p>Yes. You can book a free demo class to experience our teaching style, meet a trainer, and get level guidance before enrolling.</p>"
-          }
-        ]
-      },
-      "ctaHeading": "Start learning German from Delhi",
-      "ctaText": "<p>Achieve German language expertise from our German classes in Delhi, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!</p>",
-      "ctaButtonText": "Start Your Journey Now",
-      "seo": {
-        "metaTitle": "German Classes in Delhi | German Skill",
-        "metaKeyword": "German classes in Delhi, learn German Delhi, Goethe exam Delhi",
-        "metaDescription": "Learn German online with German Skill — live A1 to C2 classes for students in Delhi. Book a free demo today."
-      },
-      "isActive": true,
-      "sortOrder": 1,
-      "updatedAt": "2026-08-31T10:04:42.520Z"
-    },
-    {
-      "slug": "jaipur",
-      "cityName": "Jaipur",
-      "title": "German Classes in Jaipur",
-      "subtitle": "Build Confidence in",
-      "heroTypedPhrases": [
-        "German Communication",
-        "German Classes",
-        "German Best learn"
-      ],
-      "heroDescription": "Professional German Goethe & TELC learning assistance from A1 to C2 — prepare for study abroad, stronger careers, and Germany / Austria / Switzerland pathways with live expert-led classes.",
-      "highlights": [
-        {
-          "title": "Live Online Classes",
-          "text": "Join interactive German batches from Jaipur with real-time speaking practice."
-        },
-        {
-          "title": "A1 to C2 Levels",
-          "text": "Structured CEFR courses for beginners through advanced learners."
-        },
-        {
-          "title": "Exam Preparation",
-          "text": "Goethe, telc and TestDaF focused practice with mock tests."
-        },
-        {
-          "title": "Flexible Batches",
-          "text": "Weekday and weekend timings that fit your schedule."
-        }
-      ],
-      "contentHtml": "<p>German Skill helps learners in <strong>Jaipur</strong> build German fluency for study abroad, careers, migration, and personal growth.</p>\n<p>Our certified trainers guide you through grammar, vocabulary, conversation, and exam skills with small interactive batches.</p>\n<h3>Why choose German Skill in Jaipur?</h3>\n<ul><li>Live online classes you can attend from home</li><li>Personalized attention and doubt support</li><li>Study material and session recordings</li><li>Free demo class before you enroll</li></ul>",
+      "contentHtml": "<p>German Skill helps learners in <strong>Jaipur</strong> build German fluency for study abroad, careers, migration, and personal growth.</p>\n\n<p>Our certified trainers guide you through grammar, vocabulary, conversation, and exam skills with small interactive batches.</p>\n\n<h3>Why choose German Skill in Jaipur?</h3>\n\n<ul>\n\t<li>Live online classes you can attend from home</li>\n\t<li>Personalized attention and doubt support</li>\n\t<li>Study material and session recordings</li>\n\t<li>Free demo class before you enroll</li>\n</ul>",
       "vision": {
         "tag": "Our Vision",
         "heading": "Empowering German learners in",
         "headingHighlight": "Jaipur",
         "headingSuffix": "and beyond",
-        "text": "At German Skill, our vision is to help learners in Jaipur and across India achieve real German fluency — not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.",
+        "text": "<p>At German Skill, our vision is to help learners in Jaipur and across India achieve real German fluency &mdash; not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.</p>",
         "points": [
-          "Make quality German education accessible to learners in every city through live online classes.",
-          "Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.",
-          "Help students gain confidence to study, work, and settle abroad with practical language skills."
+          "<p>Make quality German education accessible to learners in every city through live online classes.</p>",
+          "<p>Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.</p>",
+          "<p>Help students gain confidence to study, work, and settle abroad with practical language skills.</p>"
         ],
         "imageSrc": "/hero-students.jpg",
         "imageAlt": "German Skill German language learners from Jaipur",
@@ -210,7 +52,7 @@
         "headingBefore": "Why Learn at",
         "headingHighlight": "German Skill",
         "headingAfter": "?",
-        "text": "Build real German fluency with live classes, certified tutors, and exam-focused guidance — trusted by learners in Jaipur and across India.",
+        "text": "<p>Build real German fluency with live classes, certified tutors, and exam-focused guidance &mdash; trusted by learners in Jaipur and across India.</p>",
         "collage": [
           {
             "src": "/portal-education.jpg",
@@ -231,44 +73,44 @@
         "features": [
           {
             "title": "Free Demo Classes",
-            "text": "Experience our teaching style before you enroll. Sit in a live session and decide with confidence.",
+            "text": "<p>Experience our teaching style before you enroll. Sit in a live session and decide with confidence.</p>",
             "badge": "100% Free",
             "tone": "demo"
           },
           {
             "title": "Exam-Focused Training",
-            "text": "Structured A1–C2 prep aligned with Goethe and TELC patterns, practice tests, and speaking drills.",
+            "text": "<p>Structured A1&ndash;C2 prep aligned with Goethe and TELC patterns, practice tests, and speaking drills.</p>",
             "badge": "Exam Ready",
             "tone": "exam"
           },
           {
             "title": "Certified German Tutors",
-            "text": "Learn from experienced, certified trainers who guide you with clear feedback every step of the way.",
+            "text": "<p>Learn from experienced, certified trainers who guide you with clear feedback every step of the way.</p>",
             "badge": "Expert Faculty",
             "tone": "tutors"
           },
           {
             "title": "Flexible Online Batches",
-            "text": "Choose 1-on-1 personalized sessions or small-group classes with flexible weekday and weekend batches. Learn from anywhere with live classes.",
+            "text": "<p>Choose 1-on-1 personalized sessions or small-group classes with flexible weekday and weekend batches. Learn from anywhere with live classes.</p>",
             "badge": "Live Online",
             "tone": "batch"
           },
           {
             "title": "Study Material & Quizzes",
-            "text": "Get structured German study materials, practice exercises, and interactive quizzes to reinforce your learning and build confidence alongside live classes.",
+            "text": "<p>Get structured German study materials, practice exercises, and interactive quizzes to reinforce your learning and build confidence alongside live classes.</p>",
             "badge": "Free Access",
             "tone": "material"
           },
           {
             "title": "Career & Visa Guidance",
-            "text": "Guidance for university admissions, job seeker visas, blocked account, and Germany relocation pathways.",
+            "text": "<p>Guidance for university admissions, job seeker visas, blocked account, and Germany relocation pathways.</p>",
             "badge": "Career Ready",
             "tone": "career"
           }
         ]
       },
       "journey": {
-        "text": "Achieve German language expertise from our German classes in Jaipur, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!",
+        "text": "<p>Start learning German using our German classes in Jaipur that will not only simplify your learning process but also make it exciting and effective. No matter whether you need to learn German for more job or education options overseas, as a hobby, or to achieve your immigration purposes, our courses offer you practical and systematic training for the same.</p>\n\n<p>Regardless of your purpose of learning German, our courses help you in achieving your goal in a progressive manner right from beginner to advanced levels of learning. Browse our different courses of German and find the course suitable for you!</p>",
         "buttonText": "Start Your Journey Now",
         "buttonHref": "/contact"
       },
@@ -277,7 +119,7 @@
         "kicker": "Learn German at German Skill & Unlock Your",
         "heading": "Dream Opportunity",
         "headingHighlight": "Abroad",
-        "text": "Join 10,500+ successful students who built German fluency for study, work, and career growth — including learners from Jaipur.",
+        "text": "<p>Join 10,500+ successful students who built German fluency for study, work, and career growth &mdash; including learners from Jaipur.</p>",
         "buttonText": "Enquire Now",
         "buttonHref": "/contact",
         "imageSrc": "/hero-students.jpg",
@@ -285,42 +127,47 @@
       },
       "faqs": {
         "title": "Frequently Asked Questions",
-        "subtitle": "Get answers to the most common questions about our German courses and learning process.",
+        "subtitle": "<p>Get answers to the most common questions about our German courses and learning process.</p>",
         "items": [
           {
             "id": "german-levels",
-            "question": "What levels of German do you offer?",
-            "answer": "German Skill offers structured German courses from A1 to C2, including Goethe and Telc exam preparation for every level."
+            "question": "At what level do you teach German?",
+            "answer": "<p>Our FluentAuF teaches German at all language levels from A1 to C2 and also prepares students for the Goethe and Telc exams.</p>"
           },
           {
             "id": "course-duration",
-            "question": "How long does it take to complete a course?",
-            "answer": "Course duration depends on the level. A1 typically takes 8–12 weeks, while higher levels may take longer with regular live classes and practice."
+            "question": "What is the time required for a course?",
+            "answer": "<p>The duration of a course is based on the level. For example, an A1 level course normally requires 8-12 weeks, whereas other levels might require more time.</p>"
           },
           {
             "id": "certificates",
-            "question": "Do you provide certificates upon completion?",
-            "answer": "Yes. Students receive a course completion certificate from German Skill, and we also prepare you for official Goethe and Telc certifications."
+            "question": "Can I join a free demo class?",
+            "answer": "<p>Yes, you may join a free demo class to have an idea about our teaching style and the trainer.</p>"
           },
           {
             "id": "demo-class",
-            "question": "Can I attend a free demo class?",
-            "answer": "Yes. You can book a free demo class to experience our teaching style, meet a trainer, and get level guidance before enrolling."
+            "question": "What are the fees for German language courses in Jaipur?",
+            "answer": "<h2>The fees for German language courses at Fluent AUF in Jaipur vary according to the level:</h2>\n\n<p>A1: ₹13,500</p>\n\n<p>A2: ₹15,500</p>\n\n<p>B1: ₹18,500</p>\n\n<p>B2: ₹23,000</p>\n\n<p>C1: ₹25,500</p>\n\n<p>C2: ₹27,500</p>\n\n<p>For students looking to progress from beginner to intermediate level, Fluent AUF also offers a complete A1&ndash;B2 German course for ₹53,999.</p>\n\n<p>The courses include structured learning, practical language training, speaking practice, and guidance to help learners build confidence in German.</p>"
           },
           {
             "id": "refund-policy",
-            "question": "What is your refund policy?",
-            "answer": "Refund terms depend on the course, batch start date, and classes attended. Contact our admissions team for details before enrolling."
+            "question": "Where can I find German classes in Jaipur?",
+            "answer": "<p>If you&rsquo;re looking for German classes near you, Fluent AUF is a good option for learning German from A1 to C2. The institute offers live classes with certified trainers, study material, flexible batches, speaking practice, and preparation for Goethe and telc exams.</p>"
           },
           {
             "id": "one-on-one",
-            "question": "Do you offer one-on-one classes?",
-            "answer": "Yes. We offer one-on-one German coaching for learners who need flexible timings or focused exam preparation."
+            "question": "What is A1, A2, B1, B2 German?",
+            "answer": "<p>Levels A1, A2, B1, and B2 are used to classify the proficiency in the German language according to the Common European Framework of Reference for Languages.</p>\n\n<p>A1: Beginner - Understand and use basic German phrases; introduce yourself, ask simple questions, and perform everyday tasks.</p>\n\n<p>A2: Elementary - Communicate in familiar situations, understand simple dialogues, and speak about familiar topics, like family, work, shopping, and so on.</p>\n\n<p>B1: Intermediate - Be able to communicate independently in familiar situations, express your opinion, tell about experiences, and understand the general meaning of the standard German.</p>\n\n<p>B2: Upper-Intermediate - Speak fluently and confidently; communicate about complex topics, understand detailed conversations, and apply the German language for professional and academic purposes.</p>\n\n<p>You can learn German from A1 to C2 at our organization Fluent AUF.</p>"
+          },
+          {
+            "id": "faq-1789384967159",
+            "question": "Can I learn German in 3 months?",
+            "answer": "<p>Yes, you can learn German in 3 months, although the level achieved will vary based on your current ability, study hours, and consistency.</p>\n\n<p>Using Fluent AUF, a dedicated 3-month study program can help you establish a good base of German language proficiency, especially at A1 level. By attending regular German classes, speaking exercises, vocabulary building, and daily self-study, you can achieve basic competency in German and converse easily in daily situations.</p>\n\n<p>To make quick progress, you should try to:</p>\n\n<p>Attend regular German classes.</p>\n\n<p>Speak German daily.</p>\n\n<p>Acquire vocabulary daily.</p>\n\n<p>Listen to German audio and video content.</p>\n\n<p>Read and write in German.</p>\n\n<p>Take mock tests to measure your progress.</p>"
           }
         ]
       },
       "ctaHeading": "Start learning German from Jaipur",
-      "ctaText": "Achieve German language expertise from our German classes in Jaipur, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!",
+      "ctaText": "<p>Start learning German using our German classes in Jaipur that will not only simplify your learning process but also make it exciting and effective. No matter whether you need to learn German for more job or education options overseas, as a hobby, or to achieve your immigration purposes, our courses offer you practical and systematic training for the same.</p>\n\n<p>Regardless of your purpose of learning German, our courses help you in achieving your goal in a progressive manner right from beginner to advanced levels of learning. Browse our different courses of German and find the course suitable for you!</p>",
       "ctaButtonText": "Start Your Journey Now",
       "seo": {
         "metaTitle": "German Classes in Jaipur | German Skill",
@@ -328,7 +175,8 @@
         "metaDescription": "Learn German online with German Skill — live A1 to C2 classes for students in Jaipur. Book a free demo today."
       },
       "isActive": true,
-      "sortOrder": 2
+      "sortOrder": 2,
+      "updatedAt": "2026-09-14T11:23:17.701Z"
     }
   ]
 }
