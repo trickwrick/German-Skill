@@ -117,13 +117,13 @@ export type CityPagesStore = {
 };
 
 export const defaultCityPageSeo = (cityName: string): CityPageSeo => ({
-  metaTitle: `German Classes in ${cityName} | Fluent AUF`,
+  metaTitle: `German Classes in ${cityName} | German Skill`,
   metaKeyword: `German classes in ${cityName}, learn German ${cityName}, Goethe exam ${cityName}`,
-  metaDescription: `Learn German online with Fluent AUF — live A1 to C2 classes for students in ${cityName}. Book a free demo today.`,
+  metaDescription: `Learn German online with German Skill — live A1 to C2 classes for students in ${cityName}. Book a free demo today.`,
 });
 
 export const defaultCityHeroDescription =
-  "Professional German Goethe & TELC learning assistance from A1 to C2 — prepare for study abroad, stronger careers, and Germany / Austria / Switzerland pathways with live expert-led classes.";
+  "<p>Professional German language learning support from A1 to C2, with expert-led live classes designed to help you prepare for Goethe and TELC exams, study abroad opportunities, career growth, and pathways to Germany, Austria, and Switzerland.</p>";
 
 export function defaultCityVision(cityName: string): CityVisionSectionData {
   return {
@@ -131,17 +131,17 @@ export function defaultCityVision(cityName: string): CityVisionSectionData {
     heading: `Empowering German learners in`,
     headingHighlight: cityName,
     headingSuffix: " and beyond",
-    text: `At Fluent AUF, our vision is to help learners in ${cityName} and across India achieve real German fluency — not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.`,
+    text: `<p>At German Skill, our vision is to help learners in ${cityName} and across India achieve real German fluency &mdash; not just textbook knowledge, but the confidence to communicate in exams, interviews, and everyday life abroad.</p>`,
     points: [
-      "Make quality German education accessible to learners in every city through live online classes.",
-      "Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.",
-      "Help students gain confidence to study, work, and settle abroad with practical language skills.",
+      "<p>Make quality German education accessible to learners in every city through live online classes.</p>",
+      "<p>Build exam-ready fluency with Goethe and TELC focused training from A1 to C2.</p>",
+      "<p>Help students gain confidence to study, work, and settle abroad with practical language skills.</p>",
     ],
     imageSrc: "/hero-students.jpg",
-    imageAlt: `Fluent AUF German language learners from ${cityName}`,
+    imageAlt: `German Skill German language learners from ${cityName}`,
     badgeValue: "16,000+",
     badgeLabel: "Students learning with us",
-    linkText: "Learn more about Fluent AUF",
+    linkText: "Learn more about German Skill",
     linkHref: "/about/our-company",
   };
 }
@@ -149,9 +149,9 @@ export function defaultCityVision(cityName: string): CityVisionSectionData {
 export function defaultCityWhyLearn(cityName: string): CityWhyLearnSectionData {
   return {
     headingBefore: "Why Learn at",
-    headingHighlight: "Fluent AUF",
+    headingHighlight: "German Skill",
     headingAfter: "?",
-    text: `Build real German fluency with live classes, certified tutors, and exam-focused guidance — trusted by learners in ${cityName} and across India.`,
+    text: `<p>Build real German fluency with live classes, certified tutors, and exam-focused guidance &mdash; trusted by learners in ${cityName} and across India.</p>`,
     collage: [
       {
         src: "/portal-education.jpg",
@@ -172,37 +172,37 @@ export function defaultCityWhyLearn(cityName: string): CityWhyLearnSectionData {
     features: [
       {
         title: "Free Demo Classes",
-        text: "Experience our teaching style before you enroll. Sit in a live session and decide with confidence.",
+        text: "<p>Experience our teaching style before you enroll. Sit in a live session and decide with confidence.</p>",
         badge: "100% Free",
         tone: "demo",
       },
       {
         title: "Exam-Focused Training",
-        text: "Structured A1–C2 prep aligned with Goethe and TELC patterns, practice tests, and speaking drills.",
+        text: "<p>Structured A1&ndash;C2 prep aligned with Goethe and TELC patterns, practice tests, and speaking drills.</p>",
         badge: "Exam Ready",
         tone: "exam",
       },
       {
         title: "Certified German Tutors",
-        text: "Learn from experienced, certified trainers who guide you with clear feedback every step of the way.",
+        text: "<p>Learn from experienced, certified trainers who guide you with clear feedback every step of the way.</p>",
         badge: "Expert Faculty",
         tone: "tutors",
       },
       {
         title: "Flexible Online Batches",
-        text: "Choose 1-on-1 personalized sessions or small-group classes with flexible weekday and weekend batches. Learn from anywhere with live classes.",
+        text: "<p>Choose 1-on-1 personalized sessions or small-group classes with flexible weekday and weekend batches. Learn from anywhere with live classes.</p>",
         badge: "Live Online",
         tone: "batch",
       },
       {
         title: "Study Material & Quizzes",
-        text: "Get structured German study materials, practice exercises, and interactive quizzes to reinforce your learning and build confidence alongside live classes.",
+        text: "<p>Get structured German study materials, practice exercises, and interactive quizzes to reinforce your learning and build confidence alongside live classes.</p>",
         badge: "Free Access",
         tone: "material" as any,
       },
       {
         title: "Career & Visa Guidance",
-        text: "Guidance for university admissions, job seeker visas, blocked account, and Germany relocation pathways.",
+        text: "<p>Guidance for university admissions, job seeker visas, blocked account, and Germany relocation pathways.</p>",
         badge: "Career Ready",
         tone: "career" as any,
       },
@@ -212,7 +212,7 @@ export function defaultCityWhyLearn(cityName: string): CityWhyLearnSectionData {
 
 export function defaultCityJourney(cityName: string): CityJourneySectionData {
   return {
-    text: `Achieve German language expertise from our German classes in ${cityName}, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!`,
+    text: `<p>Start learning German using our German classes in ${cityName} that will not only simplify your learning process but also make it exciting and effective. No matter whether you need to learn German for more job or education options overseas, as a hobby, or to achieve your immigration purposes, our courses offer you practical and systematic training for the same.</p>\n\n<p>Regardless of your purpose of learning German, our courses help you in achieving your goal in a progressive manner right from beginner to advanced levels of learning. Browse our different courses of German and find the course suitable for you!</p>`,
     buttonText: "Start Your Journey Now",
     buttonHref: "/contact",
   };
@@ -221,10 +221,10 @@ export function defaultCityJourney(cityName: string): CityJourneySectionData {
 export function defaultCitySuccess(cityName: string): CitySuccessSectionData {
   return {
     badge: "Goethe & TELC Focused",
-    kicker: "Learn German at Fluent AUF & Unlock Your",
+    kicker: "Learn German at German Skill & Unlock Your",
     heading: "Dream Opportunity",
     headingHighlight: "Abroad",
-    text: `Join 10,500+ successful students who built German fluency for study, work, and career growth — including learners from ${cityName}.`,
+    text: `<p>Join 10,500+ successful students who built German fluency for study, work, and career growth &mdash; including learners from ${cityName}.</p>`,
     buttonText: "Enquire Now",
     buttonHref: "/contact",
     imageSrc: "/hero-students.jpg",
