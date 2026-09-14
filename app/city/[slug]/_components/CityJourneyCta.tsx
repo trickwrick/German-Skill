@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { CityJourneySectionData } from "../../../../data/cityPages";
 
 type CityJourneyCtaProps = {
@@ -28,26 +29,45 @@ const defaultSteps = [
 ];
 
 export default function CityJourneyCta({ data }: CityJourneyCtaProps) {
-  return (
-    <section className="city-journey-steps">
-      <div className="city-journey-steps-inner">
-        <header className="city-journey-steps-header">
-          <span className="city-journey-sub-title">YOUR JOURNEY TO MASTERY</span>
-          <h2>
-            4 simple steps to <em>fluent German</em>
-          </h2>
-        </header>
+  const buttonText = data?.buttonText?.trim() || "Start Your Journey Now";
+  const buttonHref = data?.buttonHref?.trim() || "/contact";
+  const text = data?.text?.trim();
 
-        <div className="city-journey-steps-grid">
-          {defaultSteps.map((item) => (
-            <div key={item.step} className="city-journey-step-card">
-              <span className="city-journey-step-badge">{item.step}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </div>
-          ))}
+  return (
+    <>
+      <section className="city-journey-steps">
+        <div className="city-journey-steps-inner">
+          <header className="city-journey-steps-header">
+            <span className="city-journey-sub-title">YOUR JOURNEY TO MASTERY</span>
+            <h2>
+              4 simple steps to <em>fluent German</em>
+            </h2>
+          </header>
+
+          <div className="city-journey-steps-grid">
+            {defaultSteps.map((item) => (
+              <div key={item.step} className="city-journey-step-card">
+                <span className="city-journey-step-badge">{item.step}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section className="city-journey-cta">
+        <div className="city-journey-cta-inner">
+          <div className="city-journey-card">
+            {text ? <p className="city-journey-copy">{text}</p> : null}
+            <Link href={buttonHref} className="city-journey-btn">
+              {buttonText}
+              <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
+
