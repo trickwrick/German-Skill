@@ -12,7 +12,7 @@ export const a1CourseReviews = [
     name: "Chitra Sharma",
     date: "August 10, 2026",
     rating: 4.8,
-    text: "I completed my A1 German course at Fluent AUF. The teaching methodology was excellent, interactive, and very helpful for starting from the basics.",
+    text: "I completed my A1 German course at German Skill. The teaching methodology was excellent, interactive, and very helpful for starting from the basics.",
     color: "#ec4899",
   },
   {
@@ -28,7 +28,7 @@ export const a1CourseReviews = [
     name: "Virendra Chaudhary",
     date: "July 26, 2026",
     rating: 4.8,
-    text: "I highly recommend Fluent AUF for anyone starting German at A1 level. The interactive speaking sessions made learning fun and easy.",
+    text: "I highly recommend German Skill for anyone starting German at A1 level. The interactive speaking sessions made learning fun and easy.",
     color: "#f59e0b",
   },
   {
