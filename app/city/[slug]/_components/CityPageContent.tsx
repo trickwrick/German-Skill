@@ -206,9 +206,11 @@ export default function CityPageContent({
               <p className="city-top-subtitle">
                 <CityTypedHighlight prefix={badgePrefix} texts={typedPhrases} />
               </p>
-              {page.heroDescription?.trim() ? (
-                <CityRichHtml html={page.heroDescription} className="city-top-lead" />
-              ) : null}
+              <div className="city-top-lead">
+                <p>
+                  Professional German language learning support from A1 to C2, with expert-led live classes designed to help you prepare for Goethe and TELC exams, study abroad opportunities, career growth, and pathways to Germany, Austria, and Switzerland.
+                </p>
+              </div>
 
               <div className="city-rating-row">
                 <div className="city-rating-box">
