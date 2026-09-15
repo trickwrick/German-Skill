@@ -5,6 +5,7 @@ import { getGermanCoursesForDisplay } from "../lib/courseContentStore";
 import { getCityPagesForDisplay } from "../lib/cityPageStore";
 import { buildCityPagePath } from "../lib/cityPageUtils";
 import { COURSES_PAGE_PATH } from "../lib/sitePaths";
+import { getBlogPosts } from "../lib/blogStore";
 
 const siteUrl = "https://fluentauf.com";
 
@@ -53,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${siteUrl}/about/apply-job`,
+      url: `${siteUrl}/german-teacher-job-portal`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
@@ -98,12 +99,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
-  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${siteUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
+  let allBlogPosts = blogPosts;
+  try {
+    const dynamicBlogs = await getBlogPosts();
+    if (dynamicBlogs && dynamicBlogs.length > 0) {
+      allBlogPosts = dynamicBlogs as any;
+    }
+  } catch {
+    // Fall back to static if fetch fails
+  }
+
+  const blogRoutes: MetadataRoute.Sitemap = allBlogPosts.map((p) => {
+    const post = p as any;
+    return {
+      url: `${siteUrl}/blog/${post.slug}`,
+      lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(post.date),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    };
+  });
 
   let cityRoutes: MetadataRoute.Sitemap = [];
   try {
