@@ -719,6 +719,11 @@
   box-shadow: none !important;
 }
 
+/* Hide the CKEditor "Not secure / Upgrade" warning banner */
+.cke_notifications_area {
+  display: none !important;
+}
+
 .blog-ckeditor4-wrap .cke_top {
   border-bottom: 1px solid #e8eef4 !important;
   background: #f8fafc !important;

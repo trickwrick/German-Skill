@@ -224,10 +224,10 @@ export function defaultCitySuccess(cityName: string): CitySuccessSectionData {
     kicker: "Learn German at Fluent AUF & Unlock Your",
     heading: "Dream Opportunity",
     headingHighlight: "Abroad",
-    text: `<p>Join 10,500+ successful students who built German fluency for study, work, and career growth &mdash; including learners from ${cityName}.</p>`,
+    text: `<p>Join 10,500+ successful students who built German fluency for study, work, and career growth &mdash; including learners.</p>`,
     buttonText: "Enquire Now",
     buttonHref: "/contact",
-    imageSrc: "/hero-students.jpg",
+    imageSrc: "/images/dream-opportunity-abroad.jpg",
     imageAlt: `Successful German learners from ${cityName}`,
   };
 }

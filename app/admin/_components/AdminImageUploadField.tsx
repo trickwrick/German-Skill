@@ -92,18 +92,7 @@ export default function AdminImageUploadField({
 
       {uploadError ? <p className="adm-file-error">{uploadError}</p> : null}
 
-      <label className="adm-form-field adm-form-field-full adm-image-path-field">
-        <span>Image Path</span>
-        <input
-          type="text"
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          placeholder={placeholder}
-        />
-        <small className="adm-field-hint">
-          Upload an image from your PC or paste an existing image path manually.
-        </small>
-      </label>
+
     </div>
   );
 }

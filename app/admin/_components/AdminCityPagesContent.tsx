@@ -140,26 +140,24 @@ function ensureFaqs(page: Partial<CityPage>): CityFaqSectionData {
 }
 
 function emptyForm(): CityPage {
-  const cityName = "";
-  const journey = defaultCityJourney(cityName);
   return {
     slug: "",
-    cityName,
+    cityName: "",
     title: "",
     subtitle: DEFAULT_HERO_BADGE_PREFIX,
     heroTypedPhrases: defaultHeroTypedPhrases(),
-    heroDescription: defaultCityHeroDescription,
-    highlights: [{ ...emptyHighlight }, { ...emptyHighlight }, { ...emptyHighlight }, { ...emptyHighlight }],
+    heroDescription: "",
+    highlights: [],
     contentHtml: "",
-    vision: defaultCityVision(cityName),
-    whyLearn: ensureWhyLearn({ whyLearn: defaultCityWhyLearn(cityName) }, cityName),
-    journey,
-    success: defaultCitySuccess(cityName),
-    faqs: defaultCityFaqs(),
+    vision: { ...defaultCityVision(""), text: "", points: ["", "", ""] },
+    whyLearn: { ...defaultCityWhyLearn(""), text: "" },
+    journey: { ...defaultCityJourney(""), text: "", buttonText: "", buttonHref: "" },
+    success: { ...defaultCitySuccess(""), text: "", buttonText: "", buttonHref: "" },
+    faqs: { ...defaultCityFaqs(), title: "", subtitle: "", items: [emptyFaq()] },
     ctaHeading: "",
-    ctaText: journey.text,
-    ctaButtonText: journey.buttonText,
-    seo: defaultCityPageSeo(cityName),
+    ctaText: "",
+    ctaButtonText: "",
+    seo: { metaTitle: "", metaKeyword: "", metaDescription: "" },
     isActive: true,
     sortOrder: 1,
   };
@@ -322,12 +320,6 @@ export default function AdminCityPagesContent() {
         ) {
           vision.headingHighlight = cityName;
         }
-        if (stillMatchesDefault(current.vision.text, prevVision.text, emptyVision.text)) {
-          vision.text = defaultCityVision(cityName).text;
-        }
-        if (stillMatchesDefault(current.vision.imageAlt, prevVision.imageAlt, emptyVision.imageAlt)) {
-          vision.imageAlt = defaultCityVision(cityName).imageAlt;
-        }
         next.vision = vision;
 
         const whyLearn = {
@@ -338,33 +330,12 @@ export default function AdminCityPagesContent() {
               : defaultCityWhyLearn(cityName).features),
           ],
         };
-        if (stillMatchesDefault(current.whyLearn.text, prevWhy.text, emptyWhy.text)) {
-          whyLearn.text = defaultCityWhyLearn(cityName).text;
-        }
-        whyLearn.features = whyLearn.features.map((feature, index) => {
-          const prevFeature = prevWhy.features[index];
-          const emptyFeatureText = emptyWhy.features[index]?.text || "";
-          if (prevFeature && stillMatchesDefault(feature.text, prevFeature.text, emptyFeatureText)) {
-            return {
-              ...feature,
-              text: defaultCityWhyLearn(cityName).features[index]?.text || feature.text,
-            };
-          }
-          return feature;
-        });
         next.whyLearn = whyLearn;
 
         const journey = { ...current.journey };
-        if (stillMatchesDefault(current.journey.text, prevJourney.text, emptyJourney.text)) {
-          journey.text = defaultCityJourney(cityName).text;
-          next.ctaText = journey.text;
-        }
         next.journey = journey;
 
         const successSection = { ...current.success };
-        if (stillMatchesDefault(current.success.text, prevSuccess.text, emptySuccess.text)) {
-          successSection.text = defaultCitySuccess(cityName).text;
-        }
         next.success = successSection;
 
         next.seo = {
@@ -635,86 +606,7 @@ export default function AdminCityPagesContent() {
             </div>
           </section>
 
-          {/* —— SECTION 1 HERO —— */}
-          <section className="adm-city-section-card">
-            <h3 className="adm-city-section-title">SECTION 1 (HERO)</h3>
-            <div className="adm-city-section-body">
-              <label className="adm-city-field">
-                <span>Fixed Badge Text</span>
-                <input
-                  type="text"
-                  value={DEFAULT_HERO_BADGE_PREFIX.trim()}
-                  readOnly
-                  disabled
-                  className="adm-city-input-locked"
-                />
-                <small>
-                  This text is fixed and cannot be edited. Phrases after it will type out one by one.
-                </small>
-              </label>
 
-              <div className="adm-city-section-head">
-                <h4>Rotating Typed Phrases</h4>
-                <button
-                  type="button"
-                  className="adm-btn adm-btn-secondary"
-                  onClick={() =>
-                    updateField("heroTypedPhrases", [...form.heroTypedPhrases, ""])
-                  }
-                >
-                  + Add Phrase
-                </button>
-              </div>
-              {(form.heroTypedPhrases?.length ? form.heroTypedPhrases : [""]).map(
-                (phrase, index) => (
-                  <div key={`hero-phrase-${index}`} className="adm-city-highlight-card">
-                    <div className="adm-city-section-head">
-                      <h4>Phrase {index + 1}</h4>
-                      {(form.heroTypedPhrases?.length || 0) > 1 ? (
-                        <button
-                          type="button"
-                          className="adm-btn adm-btn-secondary"
-                          onClick={() =>
-                            updateField(
-                              "heroTypedPhrases",
-                              form.heroTypedPhrases.filter((_, i) => i !== index),
-                            )
-                          }
-                        >
-                          Remove
-                        </button>
-                      ) : null}
-                    </div>
-                    <label className="adm-city-field">
-                      <span>Text</span>
-                      <input
-                        type="text"
-                        value={phrase}
-                        onChange={(event) => updateHeroTypedPhrase(index, event.target.value)}
-                        placeholder={
-                          index === 0
-                            ? "German Communication"
-                            : index === 1
-                              ? "German Classes"
-                              : "German Best learn"
-                        }
-                      />
-                    </label>
-                  </div>
-                ),
-              )}
-              <small className="adm-city-field-hint">
-                Example: German Communication → German Classes → German Best learn (one after another)
-              </small>
-
-              <AdminRichTextField
-                label="Hero Paragraph (Under badge text)"
-                value={form.heroDescription}
-                onChange={(html) => updateField("heroDescription", html)}
-                hint="Shown under the typed badge line on the city page hero. Use bold, links, and highlights as needed."
-              />
-            </div>
-          </section>
 
           {/* —— SECTION Our Vision —— */}
           <section className="adm-city-section-card">
@@ -755,6 +647,7 @@ export default function AdminCityPagesContent() {
               <AdminRichTextField
                 label="Vision Description Text"
                 value={form.vision.text}
+                height={120}
                 onChange={(html) => updateVision("text", html)}
               />
 
@@ -769,30 +662,30 @@ export default function AdminCityPagesContent() {
                 </button>
               </div>
               {form.vision.points.map((point, index) => (
-                <div key={`vision-point-${index}`} className="adm-city-highlight-card">
-                  <div className="adm-city-section-head">
-                    <h4>Point {index + 1}</h4>
-                    {form.vision.points.length > 1 ? (
-                      <button
-                        type="button"
-                        className="adm-btn adm-btn-secondary"
-                        onClick={() =>
-                          updateVision(
-                            "points",
-                            form.vision.points.filter((_, i) => i !== index),
-                          )
-                        }
-                      >
-                        Remove
-                      </button>
-                    ) : null}
-                  </div>
-                  <AdminRichTextField
-                    label="Point Text"
-                    value={point}
-                    height={220}
-                    onChange={(html) => updateVisionPoint(index, html)}
+                <div key={`vision-point-${index}`} style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <span style={{ whiteSpace: 'nowrap', fontWeight: 500 }}>Point {index + 1}:</span>
+                  <input
+                    type="text"
+                    style={{ flex: 1, padding: '10px', border: '1px solid #d1d5db', borderRadius: '6px' }}
+                    value={point.replace(/<\/?p>/g, '')}
+                    onChange={(event) => updateVisionPoint(index, event.target.value)}
+                    placeholder="Enter vision point text..."
                   />
+                  {form.vision.points.length > 1 ? (
+                    <button
+                      type="button"
+                      className="adm-btn adm-btn-secondary"
+                      style={{ margin: 0 }}
+                      onClick={() =>
+                        updateVision(
+                          "points",
+                          form.vision.points.filter((_, i) => i !== index),
+                        )
+                      }
+                    >
+                      Remove
+                    </button>
+                  ) : null}
                 </div>
               ))}
 
@@ -879,81 +772,25 @@ export default function AdminCityPagesContent() {
               <AdminRichTextField
                 label="Description Text"
                 value={form.whyLearn.text}
+                height={120}
                 onChange={(html) => updateWhyLearn("text", html)}
               />
 
               <div className="adm-city-section-head">
-                <h4>Features</h4>
-                <button
-                  type="button"
-                  className="adm-btn adm-btn-secondary"
-                  onClick={() =>
-                    updateWhyLearn("features", [...form.whyLearn.features, emptyFeature()])
-                  }
-                >
-                  + Add Feature
-                </button>
+                <h4>Features (Fixed)</h4>
               </div>
-              {form.whyLearn.features.map((feature, index) => (
-                <div key={`feature-${index}`} className="adm-city-highlight-card">
-                  <div className="adm-city-section-head">
-                    <h4>Feature {index + 1}</h4>
-                    {form.whyLearn.features.length > 1 ? (
-                      <button
-                        type="button"
-                        className="adm-btn adm-btn-secondary"
-                        onClick={() =>
-                          updateWhyLearn(
-                            "features",
-                            form.whyLearn.features.filter((_, i) => i !== index),
-                          )
-                        }
-                      >
-                        Remove
-                      </button>
-                    ) : null}
+              <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '8px' }}>
+                {form.whyLearn.features.map((feature, index) => (
+                  <div key={`feature-${index}`} className="adm-city-highlight-card" style={{ padding: '12px', margin: 0, flex: '1 1 0', minWidth: '160px' }}>
+                    <h5 style={{ margin: '0 0 6px 0', fontSize: '13px', lineHeight: '1.3' }}>
+                      {index + 1}. {feature.title}
+                    </h5>
+                    <span style={{ fontSize: '11px', background: '#e5e7eb', padding: '2px 6px', borderRadius: '4px', fontWeight: '500' }}>
+                      {feature.badge}
+                    </span>
                   </div>
-                  <label className="adm-city-field">
-                    <span>Title</span>
-                    <input
-                      type="text"
-                      value={feature.title}
-                      onChange={(event) => updateFeature(index, "title", event.target.value)}
-                    />
-                  </label>
-                  <AdminRichTextField
-                    label="Feature Description"
-                    value={feature.text}
-                    height={220}
-                    onChange={(html) => updateFeature(index, "text", html)}
-                  />
-                  <div className="adm-city-field-row">
-                    <label className="adm-city-field">
-                      <span>Badge</span>
-                      <input
-                        type="text"
-                        value={feature.badge}
-                        onChange={(event) => updateFeature(index, "badge", event.target.value)}
-                      />
-                    </label>
-                    <label className="adm-city-field">
-                      <span>Tone</span>
-                      <select
-                        value={feature.tone}
-                        onChange={(event) =>
-                          updateFeature(index, "tone", event.target.value as CityWhyFeatureItem["tone"])
-                        }
-                      >
-                        {FEATURE_TONES.map((tone) => (
-                          <option key={tone} value={tone}>
-                            {tone}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </section>
 
@@ -964,106 +801,13 @@ export default function AdminCityPagesContent() {
               <AdminRichTextField
                 label="Journey Description Text"
                 value={form.journey.text}
-                height={360}
+                height={120}
                 onChange={(html) => updateJourney("text", html)}
               />
-              <label className="adm-city-field">
-                <span>Button Text</span>
-                <input
-                  type="text"
-                  value={form.journey.buttonText}
-                  onChange={(event) => updateJourney("buttonText", event.target.value)}
-                />
-              </label>
-              <label className="adm-city-field">
-                <span>Button Href</span>
-                <input
-                  type="text"
-                  value={form.journey.buttonHref}
-                  onChange={(event) => updateJourney("buttonHref", event.target.value)}
-                />
-              </label>
+
             </div>
           </section>
 
-          {/* —— SECTION Success —— */}
-          <section className="adm-city-section-card">
-            <h3 className="adm-city-section-title">SECTION Goethe &amp; TELC Focused (Success)</h3>
-            <div className="adm-city-section-body">
-              <label className="adm-city-field">
-                <span>Badge</span>
-                <input
-                  type="text"
-                  value={form.success.badge}
-                  onChange={(event) => updateSuccess("badge", event.target.value)}
-                />
-              </label>
-              <label className="adm-city-field">
-                <span>Kicker</span>
-                <input
-                  type="text"
-                  value={form.success.kicker}
-                  onChange={(event) => updateSuccess("kicker", event.target.value)}
-                />
-              </label>
-              <label className="adm-city-field">
-                <span>Heading</span>
-                <input
-                  type="text"
-                  value={form.success.heading}
-                  onChange={(event) => updateSuccess("heading", event.target.value)}
-                />
-              </label>
-              <label className="adm-city-field">
-                <span>Heading Highlight</span>
-                <input
-                  type="text"
-                  value={form.success.headingHighlight}
-                  onChange={(event) => updateSuccess("headingHighlight", event.target.value)}
-                />
-              </label>
-              <AdminRichTextField
-                label="Success Description Text"
-                value={form.success.text}
-                onChange={(html) => updateSuccess("text", html)}
-              />
-              <label className="adm-city-field">
-                <span>Button Text</span>
-                <input
-                  type="text"
-                  value={form.success.buttonText}
-                  onChange={(event) => updateSuccess("buttonText", event.target.value)}
-                />
-              </label>
-              <label className="adm-city-field">
-                <span>Button Href</span>
-                <input
-                  type="text"
-                  value={form.success.buttonHref}
-                  onChange={(event) => updateSuccess("buttonHref", event.target.value)}
-                />
-              </label>
-
-              <AdminImageUploadField
-                label="Banner Image (right side)"
-                value={form.success.imageSrc}
-                folder="general"
-                uploadLabel={`success-${form.slug || form.cityName || "city"}`}
-                placeholder="/hero-students.jpg"
-                onChange={(path) => updateSuccess("imageSrc", path)}
-              />
-              <label className="adm-city-field">
-                <span>Image Alt Text</span>
-                <input
-                  type="text"
-                  value={form.success.imageAlt}
-                  onChange={(event) => updateSuccess("imageAlt", event.target.value)}
-                  placeholder={`Successful German learners from ${form.cityName || "city"}`}
-                />
-                <small>Upload one collage-style image for the right side of this banner.</small>
-              </label>
-            </div>
-          </section>
 
           {/* —— SECTION FAQs —— */}
           <section className="adm-city-section-card">
@@ -1080,7 +824,7 @@ export default function AdminCityPagesContent() {
               <AdminRichTextField
                 label="FAQ Subtitle"
                 value={form.faqs.subtitle}
-                height={220}
+                height={120}
                 onChange={(html) => updateFaqs("subtitle", html)}
               />
 
@@ -1124,6 +868,7 @@ export default function AdminCityPagesContent() {
                   <AdminRichTextField
                     label="Answer"
                     value={item.answer}
+                    height={120}
                     onChange={(html) => updateFaqItem(index, "answer", html)}
                   />
                 </div>
@@ -1131,56 +876,7 @@ export default function AdminCityPagesContent() {
             </div>
           </section>
 
-          {/* —— Highlights (optional) —— */}
-          <section className="adm-city-section-card">
-            <div className="adm-city-section-head">
-              <h3 className="adm-city-section-title">Highlights (optional)</h3>
-              <button
-                type="button"
-                className="adm-btn adm-btn-secondary"
-                onClick={() => updateField("highlights", [...form.highlights, { ...emptyHighlight }])}
-              >
-                + Add Highlight
-              </button>
-            </div>
-            <div className="adm-city-section-body">
-              {form.highlights.map((item, index) => (
-                <div key={`highlight-${index}`} className="adm-city-highlight-card">
-                  <div className="adm-city-section-head">
-                    <h4>Highlight {index + 1}</h4>
-                    {form.highlights.length > 1 ? (
-                      <button
-                        type="button"
-                        className="adm-btn adm-btn-secondary"
-                        onClick={() =>
-                          updateField(
-                            "highlights",
-                            form.highlights.filter((_, itemIndex) => itemIndex !== index),
-                          )
-                        }
-                      >
-                        Remove
-                      </button>
-                    ) : null}
-                  </div>
-                  <label className="adm-city-field">
-                    <span>Title</span>
-                    <input
-                      type="text"
-                      value={item.title}
-                      onChange={(event) => updateHighlight(index, "title", event.target.value)}
-                    />
-                  </label>
-                  <AdminRichTextField
-                    label="Highlight Text"
-                    value={item.text}
-                    height={220}
-                    onChange={(html) => updateHighlight(index, "text", html)}
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
+
 
           {/* —— Main Content —— */}
           <section className="adm-city-section-card">

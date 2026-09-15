@@ -3,6 +3,7 @@ import type { CityPage } from "../../../../data/cityPages";
 import {
   DEFAULT_HERO_BADGE_PREFIX,
   defaultHeroTypedPhrases,
+  defaultCitySuccess,
 } from "../../../../data/cityPages";
 import type { GermanCourse } from "../../../../data/germanCourses";
 import type { HomeFaqContent } from "../../../../data/homeFaqs";
@@ -256,23 +257,25 @@ export default function CityPageContent({
       <CityVisionSection cityName={page.cityName} data={page.vision} />
       <ComparisonSection />
       <CertificateSection />
-      <CitySuccessBanner cityName={page.cityName} data={page.success} />
-      <HomeFaqSection
-        content={{
-          title: page.faqs.title || homeFaqs.title,
-          subtitle: page.faqs.subtitle || homeFaqs.subtitle,
-          items:
-            Array.isArray(page.faqs?.items) && page.faqs.items.length > 0
-              ? page.faqs.items.map((item, index) => ({
-                  id: item.id || `city-faq-${index + 1}`,
-                  question: item.question,
-                  answer: item.answer,
-                  sortOrder: index + 1,
-                  isActive: true,
-                }))
-              : homeFaqs.items,
-        }}
-      />
+      <CitySuccessBanner cityName={page.cityName} data={defaultCitySuccess(page.cityName)} />
+      
+      {Array.isArray(page.faqs?.items) && page.faqs.items.filter((item) => item.question?.trim()).length > 0 ? (
+        <HomeFaqSection
+          content={{
+            title: page.faqs.title || "Frequently Asked Questions",
+            subtitle: page.faqs.subtitle || "",
+            items: page.faqs.items
+              .filter((item) => item.question?.trim())
+              .map((item, index) => ({
+                id: item.id || `city-faq-${index + 1}`,
+                question: item.question,
+                answer: item.answer,
+                sortOrder: index + 1,
+                isActive: true,
+              })),
+          }}
+        />
+      ) : null}
     </>
   );
 }

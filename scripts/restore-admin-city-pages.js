@@ -132,7 +132,7 @@ const jaipurPage = {
     kicker: "Learn German at Fluent AUF & Unlock Your",
     heading: "Dream Opportunity",
     headingHighlight: "Abroad",
-    text: "Join 10,500+ successful students who built German fluency for study, work, and career growth — including learners from Jaipur.",
+    text: "Join 10,500+ successful students who built German fluency for study, work, and career growth — including learners.",
     buttonText: "Enquire Now",
     buttonHref: "/contact",
     imageSrc: "/hero-students.jpg",

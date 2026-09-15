@@ -196,12 +196,12 @@ function sanitizeFaqs(value: Partial<CityFaqSectionData> | undefined): CityFaqSe
           answer: asString(item?.answer),
         }))
         .filter((item) => item.question && item.answer)
-    : fallback.items;
+    : [];
 
   return {
     title: asString(value?.title, fallback.title),
     subtitle: asString(value?.subtitle, fallback.subtitle),
-    items: items.length ? items : fallback.items,
+    items: items,
   };
 }
 
