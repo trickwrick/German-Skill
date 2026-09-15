@@ -153,11 +153,18 @@ export default function SiteFooter() {
         <div className="footer-link-col">
           <h4>Useful Links</h4>
           <ul>
-            {usefulLinks.map((link) => (
-              <li key={link.label}>
-                <Link href={link.href}>{link.label}</Link>
-              </li>
-            ))}
+            {usefulLinks.map((link) => {
+              const isExternal = link.href.startsWith("http");
+              return (
+                <li key={link.label}>
+                  {isExternal ? (
+                    <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>
+                  ) : (
+                    <Link href={link.href}>{link.label}</Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
