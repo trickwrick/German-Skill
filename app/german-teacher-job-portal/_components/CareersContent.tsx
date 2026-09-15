@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { sitePhoneDisplay, sitePhoneTel } from "../../../../data/siteContact";
-import { sanitizeBlogHtml } from "../../../../lib/blogHtmlUtils";
+import { sitePhoneDisplay, sitePhoneTel } from "../../../data/siteContact";
+import { sanitizeBlogHtml } from "../../../lib/blogHtmlUtils";
 import TutorApplicationForm from "./TutorApplicationForm";
 
 const tutorHelpTopics = [

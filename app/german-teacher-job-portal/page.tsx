@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Navbar from "../../components/Navbar";
-import PageBanner from "../../components/PageBanner";
-import SiteFooter from "../../components/SiteFooter";
+import Navbar from "../components/Navbar";
+import PageBanner from "../components/PageBanner";
+import SiteFooter from "../components/SiteFooter";
 import CareersContent from "./_components/CareersContent";
-import { getApplyJobPageContent } from "../../../lib/generalPageStore";
-import { buildPageMetadata } from "../../../lib/siteSeo";
-import { PUBLIC_REVALIDATE_SECONDS } from "../../../lib/publicDataCache";
+import { getApplyJobPageContent } from "../../lib/generalPageStore";
+import { buildPageMetadata } from "../../lib/siteSeo";
+import { PUBLIC_REVALIDATE_SECONDS } from "../../lib/publicDataCache";
 
 export const revalidate = PUBLIC_REVALIDATE_SECONDS;
 

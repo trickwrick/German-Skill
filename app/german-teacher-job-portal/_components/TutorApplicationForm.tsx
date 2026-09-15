@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import PhoneField from "../../../contact/_components/PhoneField";
-import { isAcceptedCareerCv } from "../../../../lib/careerCvValidation";
+import PhoneField from "../../contact/_components/PhoneField";
+import { isAcceptedCareerCv } from "../../../lib/careerCvValidation";
 
 const germanLevelOptions = [
   "German A1",
