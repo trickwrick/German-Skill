@@ -36,7 +36,7 @@ const allUsefulLinks = [
   { label: "About", href: "/about/our-company" },
   { label: "Contact Us", href: "/contact" },
   { label: "Blogs", href: "/blogs" },
-  { label: "Job Portal", href: "/about/apply-job" },
+  { label: "Job Portal", href: "https://fluentauf.com/german-teacher-job-portal" },
   { label: "FAQs", href: "/about/faqs" },
 ];
 
