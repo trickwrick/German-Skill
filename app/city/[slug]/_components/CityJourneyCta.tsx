@@ -24,8 +24,8 @@ const defaultSteps = [
   },
   {
     step: "4",
-    title: "Certification & Placement",
-    text: "Earn your German Skill certificate. Access placement support, alumni network, and next-level enrolment.",
+    title: "Student Dashboard Login",
+    text: "Access your student dashboard to take quizzes, get your German language doubts resolved for free, and track your quiz results and progress.",
   },
 ];
 
