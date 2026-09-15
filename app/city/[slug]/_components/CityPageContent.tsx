@@ -208,7 +208,7 @@ export default function CityPageContent({
               </p>
               <div className="city-top-lead">
                 <p>
-                  Professional German language learning support from A1 to C2, with expert-led live classes designed to help you prepare for Goethe and TELC exams, study abroad opportunities, career growth, and pathways to Germany, Austria, and Switzerland.
+                  Professional German language courses from A1 to C2, with expert-led live classes designed to help you prepare for Goethe and TELC exams, study abroad opportunities, career growth, and pathways to Germany, Austria, and Switzerland.
                 </p>
               </div>
 
