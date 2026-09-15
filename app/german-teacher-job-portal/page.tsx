@@ -14,11 +14,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = applyJob?.seo;
 
   return buildPageMetadata({
-    title: seo?.metaTitle?.trim() || "Apply Job | Fluent AUF",
+    title: seo?.metaTitle?.trim() || "Job Portal | Fluent AUF",
     description:
       seo?.metaDescription?.trim() ||
       "Join Fluent AUF — build a rewarding career in German language education. Grow, lead, and thrive with our team.",
-    path: "/about/apply-job",
+    path: "/german-teacher-job-portal",
     keywords:
       seo?.metaKeyword?.trim() ||
       "German tutor jobs, online German teacher, teach German online, Fluent AUF careers",
@@ -35,11 +35,11 @@ export default async function CareersPage() {
       <main>
         <PageBanner
           layout="stacked"
-          title="Apply Job"
+          title="Job Portal"
           description="Build a career that's fun and fulfilling. Grow, lead, and thrive with Fluent AUF."
           breadcrumbs={[
             { label: "Home", href: "/" },
-            { label: "Apply Job" },
+            { label: "Job Portal" },
           ]}
         />
 
