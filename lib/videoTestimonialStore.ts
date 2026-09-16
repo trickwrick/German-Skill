@@ -71,6 +71,9 @@ async function fetchAllVideoTestimonials(): Promise<VideoTestimonial[]> {
       }
     } catch (error) {
       console.error("Failed to fetch video testimonials from MongoDB", error);
+      if (!isFileStoreEnabled()) {
+        throw error;
+      }
     }
   }
 

@@ -354,6 +354,9 @@ async function fetchCityPagesStore(): Promise<CityPagesStore> {
       }
     } catch (error) {
       console.error("Failed to fetch city pages from MongoDB", error);
+      if (!isFileStoreEnabled()) {
+        throw error;
+      }
     }
   }
 

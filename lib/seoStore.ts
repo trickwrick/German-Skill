@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { unstable_noStore as noStore } from "next/cache";
+import { isServerlessHosting } from "./courseDetailsFileStore";
 import { getMongoClient, getMongoConnectionErrorMessage, resetMongoClient } from "./mongodb";
 import {
   CACHE_TAGS,
@@ -52,6 +53,9 @@ async function fetchSeoSettings(): Promise<SeoSettings> {
     };
   } catch (error) {
     console.error("Failed to fetch SEO settings from DB", error);
+    if (isServerlessHosting()) {
+      throw error;
+    }
     return defaultSeoSettings;
   }
 }

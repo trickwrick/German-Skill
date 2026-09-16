@@ -322,6 +322,9 @@ async function fetchGeneralPagesContent(): Promise<GeneralPagesContent> {
       }
     } catch (error) {
       console.error("Failed to fetch general pages from MongoDB", error);
+      if (!isFileStoreEnabled()) {
+        throw error;
+      }
     }
   }
 

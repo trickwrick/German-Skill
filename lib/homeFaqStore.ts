@@ -86,6 +86,9 @@ async function fetchHomeFaqContent(): Promise<HomeFaqContent> {
       }
     } catch (error) {
       console.error("Failed to fetch homepage FAQs from MongoDB", error);
+      if (!isFileStoreEnabled()) {
+        throw error;
+      }
     }
   }
 

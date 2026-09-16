@@ -404,6 +404,9 @@ async function fetchBlogPostBySlug(normalizedSlug: string): Promise<BlogPost | n
       }
     } catch (error) {
       console.error(`Failed to fetch blog post ${slug} from DB`, error);
+      if (!isFileStoreEnabled()) {
+        throw error;
+      }
     }
   }
 
