@@ -221,6 +221,11 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
   const [activeModalIndex, setActiveModalIndex] = useState<number | null>(null);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.targetTouches[0].clientX);
@@ -358,7 +363,7 @@ export default function VideoTestimonialsSection({ testimonials }: VideoTestimon
           </button>
         </div>
 
-        {pageCount > 1 ? (
+        {mounted && pageCount > 1 ? (
           <div className="video-testimonials-dots" role="tablist" aria-label="Testimonial pages">
             {Array.from({ length: pageCount }, (_, index) => (
               <button
