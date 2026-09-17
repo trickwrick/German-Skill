@@ -413,7 +413,38 @@
       "faqs": {
         "title": "Frequently Asked Questions",
         "subtitle": "Get answers to the most common questions about our German courses and learning process.",
-        "items": []
+        "items": [
+          {
+            "id": "german-levels",
+            "question": "What levels of German do you offer?",
+            "answer": "Fluent AUF offers structured German courses from A1 to C2, including Goethe and Telc exam preparation for every level."
+          },
+          {
+            "id": "course-duration",
+            "question": "How long does it take to complete a course?",
+            "answer": "Course duration depends on the level. A1 typically takes 8–12 weeks, while higher levels may take longer with regular live classes and practice."
+          },
+          {
+            "id": "certificates",
+            "question": "Do you provide certificates upon completion?",
+            "answer": "Yes. Students receive a course completion certificate from Fluent AUF, and we also prepare you for official Goethe and Telc certifications."
+          },
+          {
+            "id": "demo-class",
+            "question": "Can I attend a free demo class?",
+            "answer": "Yes. You can book a free demo class to experience our teaching style, meet a trainer, and get level guidance before enrolling."
+          },
+          {
+            "id": "refund-policy",
+            "question": "What is your refund policy?",
+            "answer": "Refund terms depend on the course, batch start date, and classes attended. Contact our admissions team for details before enrolling."
+          },
+          {
+            "id": "one-on-one",
+            "question": "Do you offer one-on-one classes?",
+            "answer": "Yes. We offer one-on-one German coaching for learners who need flexible timings or focused exam preparation."
+          }
+        ]
       },
       "ctaHeading": "Start learning German from Jaipur",
       "ctaText": "Achieve German language expertise from our German classes in Jaipur, as we design courses that make your German learning journey easy and productive. Whether you are planning to learn German for better career or academic opportunities on a global scale, learn a new language as a hobby, or want to achieve immigration goals, we are here to train you with all the practical methods that can help you achieve fluency in the language. No matter what your learning goal is, we are here to help you learn a new language from beginner to advanced level. Browse through our courses and select the one that aligns with your learning goals now!",
