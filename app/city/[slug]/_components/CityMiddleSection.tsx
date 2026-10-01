@@ -8,7 +8,7 @@ export default function CityMiddleSection({ data }: { data?: CityMiddleSectionDa
   }
 
   return (
-    <section className="city-middle-section" style={{ padding: "60px 20px", textAlign: "center", maxWidth: "800px", margin: "0 auto" }}>
+    <section className="city-middle-section" style={{ padding: "60px 20px", textAlign: "center", maxWidth: "1200px", margin: "0 auto" }}>
       {data.heading && (
         <h2 style={{ fontSize: "2rem", marginBottom: "20px", color: "#111827" }}>
           {data.heading}
