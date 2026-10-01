@@ -21,6 +21,9 @@ import {
   type CityWhyFeatureItem,
   type CityJourneySectionData,
   type CitySuccessSectionData,
+  type CityMiddleSectionData,
+  type CityTestimonialsSectionData,
+  type CityTestimonialItem,
   type CityFaqSectionData,
   type CityFaqItem,
 } from "../../../data/cityPages";
@@ -153,6 +156,8 @@ function emptyForm(): CityPage {
     whyLearn: { ...defaultCityWhyLearn(""), text: "" },
     journey: { ...defaultCityJourney(""), text: "", buttonText: "", buttonHref: "" },
     success: { ...defaultCitySuccess(""), text: "", buttonText: "", buttonHref: "" },
+    middleSection: { heading: "", text: "" },
+    testimonials: { tag: "Testimonials", heading: "", items: [] },
     faqs: { ...defaultCityFaqs(), title: "", subtitle: "", items: [emptyFaq()] },
     ctaHeading: "",
     ctaText: "",
@@ -210,7 +215,15 @@ export default function AdminCityPagesContent() {
   const [success, setSuccess] = useState("");
 
   const sortedPages = useMemo(
-    () => [...store.pages].sort((a, b) => a.sortOrder - b.sortOrder || a.cityName.localeCompare(b.cityName)),
+    () =>
+      [...store.pages].sort((a, b) => {
+        const dateA = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+        const dateB = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+        if (dateB !== dateA) {
+          return dateB - dateA;
+        }
+        return a.sortOrder - b.sortOrder || a.cityName.localeCompare(b.cityName);
+      }),
     [store.pages],
   );
 
@@ -264,6 +277,8 @@ export default function AdminCityPagesContent() {
       whyLearn: ensureWhyLearn(page, cityName),
       journey,
       success: ensureSuccess(page, cityName),
+      middleSection: page.middleSection || { heading: "", text: "" },
+      testimonials: page.testimonials || { tag: "Testimonials", heading: "", items: [] },
       faqs: ensureFaqs(page),
       ctaHeading: page.ctaHeading || `Start learning German from ${cityName}`,
       ctaText: page.ctaText || journey.text,
@@ -395,6 +410,37 @@ export default function AdminCityPagesContent() {
     value: CitySuccessSectionData[K],
   ) {
     setForm((current) => ({ ...current, success: { ...current.success, [key]: value } }));
+  }
+
+  function updateMiddleSection<K extends keyof CityMiddleSectionData>(
+    key: K,
+    value: CityMiddleSectionData[K],
+  ) {
+    setForm((current) => ({
+      ...current,
+      middleSection: { ...(current.middleSection || { heading: "", text: "" }), [key]: value },
+    }));
+  }
+
+  function updateTestimonials<K extends keyof CityTestimonialsSectionData>(
+    key: K,
+    value: CityTestimonialsSectionData[K],
+  ) {
+    setForm((current) => ({
+      ...current,
+      testimonials: { ...(current.testimonials || { tag: "Testimonials", heading: "", items: [] }), [key]: value },
+    }));
+  }
+
+  function updateTestimonialItem(index: number, key: keyof CityTestimonialItem, value: string) {
+    setForm((current) => {
+      const items = [...(current.testimonials?.items || [])];
+      items[index] = { ...items[index], [key]: value };
+      return {
+        ...current,
+        testimonials: { ...(current.testimonials || { tag: "Testimonials", heading: "", items: [] }), items },
+      };
+    });
   }
 
   function updateFaqs<K extends keyof CityFaqSectionData>(key: K, value: CityFaqSectionData[K]) {
@@ -809,6 +855,134 @@ export default function AdminCityPagesContent() {
           </section>
 
 
+          {/* —— SECTION Extra Content —— */}
+          <section className="adm-city-section-card">
+            <h3 className="adm-city-section-title">SECTION Extra Content</h3>
+            <div className="adm-city-section-body">
+              <label className="adm-city-field">
+                <span>Heading</span>
+                <input
+                  type="text"
+                  value={form.middleSection?.heading || ""}
+                  onChange={(event) => updateMiddleSection("heading", event.target.value)}
+                  placeholder="E.g. Start Your Learning Journey"
+                />
+              </label>
+              <AdminRichTextField
+                label="Paragraph Text"
+                value={form.middleSection?.text || ""}
+                height={120}
+                onChange={(html) => updateMiddleSection("text", html)}
+              />
+            </div>
+          </section>
+
+          {/* —— SECTION Testimonials —— */}
+          <section className="adm-city-section-card">
+            <h3 className="adm-city-section-title">SECTION Testimonials</h3>
+            <div className="adm-city-section-body">
+              <label className="adm-city-field">
+                <span>Tag</span>
+                <input
+                  type="text"
+                  value={form.testimonials?.tag || ""}
+                  onChange={(event) => updateTestimonials("tag", event.target.value)}
+                  placeholder="Testimonials"
+                />
+              </label>
+              <label className="adm-city-field">
+                <span>Heading</span>
+                <input
+                  type="text"
+                  value={form.testimonials?.heading || ""}
+                  onChange={(event) => updateTestimonials("heading", event.target.value)}
+                  placeholder="What our students say"
+                />
+              </label>
+
+              <div className="adm-city-section-head">
+                <h4>Testimonial Items</h4>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn-secondary"
+                  onClick={() =>
+                    updateTestimonials("items", [
+                      ...(form.testimonials?.items || []),
+                      { id: `testim-${Date.now()}`, name: "", initial: "", color: "#3498db", review: "", date: "" },
+                    ])
+                  }
+                >
+                  + Add Testimonial
+                </button>
+              </div>
+              {form.testimonials?.items?.map((item, index) => (
+                <div key={item.id || `testim-${index}`} className="adm-city-highlight-card">
+                  <div className="adm-city-section-head">
+                    <h4>Testimonial {index + 1}</h4>
+                    <button
+                      type="button"
+                      className="adm-btn adm-btn-secondary"
+                      onClick={() =>
+                        updateTestimonials(
+                          "items",
+                          (form.testimonials?.items || []).filter((_, i) => i !== index),
+                        )
+                      }
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="adm-city-field-row">
+                    <label className="adm-city-field">
+                      <span>Name</span>
+                      <input
+                        type="text"
+                        value={item.name}
+                        onChange={(event) => updateTestimonialItem(index, "name", event.target.value)}
+                      />
+                    </label>
+                    <label className="adm-city-field">
+                      <span>Initial</span>
+                      <input
+                        type="text"
+                        value={item.initial}
+                        onChange={(event) => updateTestimonialItem(index, "initial", event.target.value)}
+                        placeholder="E.g. S"
+                        maxLength={2}
+                      />
+                    </label>
+                    <label className="adm-city-field">
+                      <span>Color (Hex)</span>
+                      <input
+                        type="text"
+                        value={item.color}
+                        onChange={(event) => updateTestimonialItem(index, "color", event.target.value)}
+                        placeholder="#3498db"
+                      />
+                    </label>
+                  </div>
+                  <label className="adm-city-field">
+                    <span>Date / Time ago</span>
+                    <input
+                      type="text"
+                      value={item.date}
+                      onChange={(event) => updateTestimonialItem(index, "date", event.target.value)}
+                      placeholder="E.g. 2 weeks ago"
+                    />
+                  </label>
+                  <label className="adm-city-field">
+                    <span>Review</span>
+                    <textarea
+                      rows={3}
+                      value={item.review}
+                      onChange={(event) => updateTestimonialItem(index, "review", event.target.value)}
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
+          </section>
+
           {/* —— SECTION FAQs —— */}
           <section className="adm-city-section-card">
             <h3 className="adm-city-section-title">SECTION Frequently Asked Questions</h3>
@@ -956,13 +1130,14 @@ export default function AdminCityPagesContent() {
                 <th>S.No.</th>
                 <th>Page Name</th>
                 <th>Page Url</th>
+                <th>Date</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {sortedPages.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="adm-city-empty">
+                  <td colSpan={5} className="adm-city-empty">
                     No city pages yet. Click &quot;+ Add New&quot; to create one.
                   </td>
                 </tr>
@@ -981,6 +1156,19 @@ export default function AdminCityPagesContent() {
                         {SITE_URL}
                         {buildCityPagePath(page.slug)}
                       </Link>
+                    </td>
+                    <td style={{ whiteSpace: "nowrap" }}>
+                      {page.updatedAt ? (
+                        <>
+                          {new Date(page.updatedAt).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' })}
+                          <br />
+                          <small style={{ color: '#6b7280' }}>
+                            {new Date(page.updatedAt).toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', hour12: true })}
+                          </small>
+                        </>
+                      ) : (
+                        "N/A"
+                      )}
                     </td>
                     <td>
                       <div className="adm-city-row-actions">

@@ -7,6 +7,7 @@ import {
   defaultCityPageSeo,
   defaultCityPagesStore,
   defaultCitySuccess,
+  defaultCityTestimonials,
   defaultCityVision,
   defaultCityWhyLearn,
   defaultHeroTypedPhrases,
@@ -19,6 +20,9 @@ import {
   type CityPagesStore,
   type CitySuccessSectionData,
   type CityVisionSectionData,
+  type CityMiddleSectionData,
+  type CityTestimonialItem,
+  type CityTestimonialsSectionData,
   type CityWhyCollageItem,
   type CityWhyFeatureItem,
   type CityWhyLearnSectionData,
@@ -205,6 +209,38 @@ function sanitizeFaqs(value: Partial<CityFaqSectionData> | undefined): CityFaqSe
   };
 }
 
+function sanitizeMiddleSection(value: Partial<CityMiddleSectionData> | undefined): CityMiddleSectionData {
+  return {
+    heading: asString(value?.heading),
+    text: asString(value?.text),
+  };
+}
+
+function sanitizeTestimonials(
+  value: Partial<CityTestimonialsSectionData> | undefined,
+  cityName: string,
+): CityTestimonialsSectionData {
+  const fallback = defaultCityTestimonials(cityName);
+  if (!value) return fallback;
+
+  const items: CityTestimonialItem[] = Array.isArray(value.items)
+    ? value.items.map((item) => ({
+        id: asString(item?.id, `testim-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`),
+        name: asString(item?.name),
+        initial: asString(item?.initial),
+        color: asString(item?.color, "#3498db"),
+        review: asString(item?.review),
+        date: asString(item?.date),
+      }))
+    : fallback.items;
+
+  return {
+    tag: asString(value.tag, fallback.tag),
+    heading: asString(value.heading, fallback.heading),
+    items,
+  };
+}
+
 function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: string }): CityPage | null {
   const cityName = typeof value.cityName === "string" ? value.cityName.trim() : "";
   const slug = normalizeCitySlug(value.slug || "") || normalizeCitySlug(cityName);
@@ -273,6 +309,8 @@ function sanitizePage(value: Partial<CityPage> & { slug?: string; cityName?: str
     whyLearn: sanitizeWhyLearn(value.whyLearn, cityName),
     journey,
     success: sanitizeSuccess(value.success, cityName),
+    middleSection: sanitizeMiddleSection(value.middleSection),
+    testimonials: sanitizeTestimonials(value.testimonials, cityName),
     faqs: sanitizeFaqs(value.faqs),
     ctaHeading:
       typeof value.ctaHeading === "string" && value.ctaHeading.trim()

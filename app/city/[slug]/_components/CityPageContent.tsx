@@ -21,6 +21,8 @@ import CityTypedHighlight from "./CityTypedHighlight";
 import CityRichHtml from "./CityRichHtml";
 import CityVisionSection from "./CityVisionSection";
 import CityWhyLearnSection from "./CityWhyLearnSection";
+import CityMiddleSection from "./CityMiddleSection";
+import CityTestimonialsSection from "./CityTestimonialsSection";
 
 type CityPageContentProps = {
   page: CityPage;
@@ -253,12 +255,14 @@ export default function CityPageContent({
         description={coursesSectionDescription}
       />
       <VideoTestimonialsSection testimonials={videoTestimonials} />
+      <CityTestimonialsSection data={page.testimonials} />
       <TutorsSection />
       <CityWhyLearnSection cityName={page.cityName} data={page.whyLearn} />
       <CityJourneyCta data={page.journey} />
       <CityVisionSection cityName={page.cityName} data={page.vision} />
       <ComparisonSection />
       <CertificateSection />
+      <CityMiddleSection data={page.middleSection} />
       <CitySuccessBanner cityName={page.cityName} data={defaultCitySuccess(page.cityName)} />
       
       {Array.isArray(page.faqs?.items) && page.faqs.items.filter((item) => item.question?.trim()).length > 0 ? (

@@ -76,6 +76,26 @@ export type CityFaqSectionData = {
   items: CityFaqItem[];
 };
 
+export type CityMiddleSectionData = {
+  heading: string;
+  text: string;
+};
+
+export type CityTestimonialItem = {
+  id: string;
+  name: string;
+  initial: string;
+  color: string;
+  review: string;
+  date: string;
+};
+
+export type CityTestimonialsSectionData = {
+  tag: string;
+  heading: string;
+  items: CityTestimonialItem[];
+};
+
 export const DEFAULT_HERO_BADGE_PREFIX = "Build Confidence in ";
 
 export const defaultHeroTypedPhrases = (): string[] => [
@@ -99,6 +119,8 @@ export type CityPage = {
   whyLearn: CityWhyLearnSectionData;
   journey: CityJourneySectionData;
   success: CitySuccessSectionData;
+  middleSection?: CityMiddleSectionData;
+  testimonials?: CityTestimonialsSectionData;
   faqs: CityFaqSectionData;
   /** @deprecated Prefer journey.text — kept for older stored pages */
   ctaHeading: string;
@@ -232,6 +254,25 @@ export function defaultCitySuccess(cityName: string): CitySuccessSectionData {
   };
 }
 
+export function defaultCityTestimonial(): CityTestimonialItem {
+  return {
+    id: `testim-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+    name: "",
+    initial: "",
+    color: "#3498db",
+    review: "",
+    date: "",
+  };
+}
+
+export function defaultCityTestimonials(cityName: string): CityTestimonialsSectionData {
+  return {
+    tag: "Testimonials",
+    heading: `What our students from ${cityName || "India"} say`,
+    items: [],
+  };
+}
+
 export function defaultCityFaqs(): CityFaqSectionData {
   return {
     title: "Frequently Asked Questions",
@@ -297,6 +338,8 @@ function buildSampleCity(slug: string, cityName: string, sortOrder: number): Cit
     whyLearn: defaultCityWhyLearn(cityName),
     journey,
     success: defaultCitySuccess(cityName),
+    middleSection: { heading: "", text: "" },
+    testimonials: defaultCityTestimonials(cityName),
     faqs: defaultCityFaqs(),
     ctaHeading: `Start learning German from ${cityName}`,
     ctaText: journey.text,
