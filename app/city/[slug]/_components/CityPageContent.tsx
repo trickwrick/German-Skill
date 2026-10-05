@@ -14,6 +14,7 @@ import ComparisonSection from "../../../components/ComparisonSection";
 import HomeFaqSection from "../../../components/HomeFaqSection";
 import TutorsSection from "../../../components/TutorsSection";
 import VideoTestimonialsSection from "../../../components/VideoTestimonialsSection";
+import GermanProgramsSection from "../../../components/GermanProgramsSection";
 import CityJourneyCta from "./CityJourneyCta";
 import CityLeadForm from "./CityLeadForm";
 import CitySuccessBanner from "./CitySuccessBanner";
@@ -255,6 +256,7 @@ export default function CityPageContent({
         description={coursesSectionDescription}
       />
       <VideoTestimonialsSection testimonials={videoTestimonials} />
+      <GermanProgramsSection />
       <TutorsSection />
       <CityWhyLearnSection cityName={page.cityName} data={page.whyLearn} />
       <CityJourneyCta data={page.journey} />
