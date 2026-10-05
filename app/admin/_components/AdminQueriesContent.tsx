@@ -123,7 +123,7 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                   <th>Name</th>
                   <th>Contact</th>
                   <th>Course</th>
-                  <th>City / Level</th>
+                  <th>City</th>
                   <th>Message</th>
                   <th>Actions</th>
                 </tr>
@@ -152,9 +152,7 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                     <td className="adm-query-course">{query.course}</td>
                     <td>
                       <div className="adm-query-meta">
-                        {query.city ? <span>{query.city}</span> : null}
-                        {query.level ? <span>{query.level}</span> : null}
-                        {!query.city && !query.level ? <span>—</span> : null}
+                        {query.city ? <span>{query.city}</span> : <span>—</span>}
                       </div>
                     </td>
                     <td className="adm-query-message">{query.message}</td>

@@ -229,16 +229,7 @@ export default function CourseEnrollModal({
                 <input type="text" name="city" required placeholder="City" />
               </label>
 
-              <label className="enroll-modal-field">
-                <span>Select Level *</span>
-                <select name="level" defaultValue={courseSlug} required>
-                  {enrollCourseLevels.map((level) => (
-                    <option key={level.slug} value={level.slug}>
-                      {level.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
+
 
 
               <button
