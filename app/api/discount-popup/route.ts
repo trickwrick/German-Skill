@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { saveContactQuery } from "../../../lib/contactQueryStore";
+import { getClientIp, getGeoLocation } from "../../../lib/ipTracker";
 
 type DiscountPopupInput = {
   name: string;
@@ -33,6 +34,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error }, { status: 400 });
     }
 
+    const ip = await getClientIp(request);
+    const geo = await getGeoLocation(ip);
+
     const query = await saveContactQuery({
       name: body.name,
       email: body.email || "",
@@ -40,6 +44,8 @@ export async function POST(request: Request) {
       city: body.city,
       course: "Discount Coupon",
       source: "discount-popup",
+      ip,
+      ...(geo ? geo : {}),
     });
 
     return NextResponse.json({

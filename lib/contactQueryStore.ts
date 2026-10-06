@@ -111,6 +111,11 @@ export async function saveContactQuery(input: ContactQueryInput): Promise<Contac
     city: input.city?.trim() || undefined,
     level: input.level?.trim() || undefined,
     createdAt: new Date().toISOString(),
+    ip: input.ip,
+    country: input.country,
+    region: input.region,
+    geoCity: input.geoCity,
+    isp: input.isp,
   };
 
   if (isFileStoreEnabled()) {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { ContactQueryInput } from "../../../data/contactQuery.types";
 import { saveContactQuery } from "../../../lib/contactQueryStore";
+import { getClientIp, getGeoLocation } from "../../../lib/ipTracker";
 
 function validateContactBody(body: ContactQueryInput) {
   if (!body.name?.trim()) {
@@ -35,9 +36,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error }, { status: 400 });
     }
 
+    const ip = await getClientIp(request);
+    const geo = await getGeoLocation(ip);
+
     const query = await saveContactQuery({
       ...body,
       source: "contact",
+      ip,
+      ...(geo ? geo : {}),
     });
 
     return NextResponse.json({

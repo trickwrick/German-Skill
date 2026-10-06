@@ -11,6 +11,11 @@ export type ContactQuery = {
   city?: string;
   level?: string;
   createdAt: string;
+  ip?: string;
+  country?: string;
+  region?: string;
+  geoCity?: string;
+  isp?: string;
 };
 
 export type ContactQueryInput = {
@@ -22,6 +27,11 @@ export type ContactQueryInput = {
   source?: QuerySource;
   city?: string;
   level?: string;
+  ip?: string;
+  country?: string;
+  region?: string;
+  geoCity?: string;
+  isp?: string;
 };
 
 export type EnrollQueryInput = {
