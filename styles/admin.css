@@ -339,7 +339,7 @@
 
 .adm-table-queries {
   width: 100%;
-  min-width: 960px;
+  min-width: 1150px;
   table-layout: fixed;
 }
 
@@ -370,16 +370,20 @@
 }
 
 .adm-table-queries .adm-col-ip {
-  width: 130px;
+  width: 120px;
 }
 
 .adm-table-queries .adm-col-geocity {
+  width: 112px;
+}
+
+.adm-table-queries .adm-col-message {
   width: auto;
 }
 
 .adm-table-queries .adm-col-actions {
-  width: 96px;
-  min-width: 96px;
+  width: 56px;
+  min-width: 56px;
 }
 
 .adm-table-queries thead th,
