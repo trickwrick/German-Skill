@@ -95,6 +95,7 @@ export default function AdminSidebar({
   const router = useRouter();
   const [queryBadgeDismissed, setQueryBadgeDismissed] = useState(false);
   const [careerBadgeDismissed, setCareerBadgeDismissed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isQueriesPage = pathname.startsWith("/admin/queries");
   const isCareersPage = pathname.startsWith("/admin/careers");
   const visibleQueryCount = isQueriesPage || queryBadgeDismissed ? 0 : queryCount;
@@ -123,15 +124,41 @@ export default function AdminSidebar({
   }
 
   return (
-    <aside className="adm-sidebar">
-      <div className="adm-sidebar-head">
-        <span className="adm-sidebar-menu-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <>
+      <div className="adm-mobile-topbar">
+        <button 
+          type="button"
+          className="adm-mobile-menu-btn" 
+          aria-expanded={isMobileMenuOpen}
+          aria-label="Open admin menu"
+          onClick={() => setIsMobileMenuOpen(true)}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M3 6h18M3 12h18M3 18h18" />
           </svg>
-        </span>
+        </button>
         <strong>Admin Panel</strong>
       </div>
+
+      {isMobileMenuOpen && (
+        <div className="adm-mobile-overlay" onClick={() => setIsMobileMenuOpen(false)} aria-hidden="true" />
+      )}
+
+      <aside className={`adm-sidebar ${isMobileMenuOpen ? "is-open" : ""}`}>
+        <div className="adm-sidebar-head">
+          <button 
+            type="button"
+            className="adm-sidebar-menu-icon" 
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Close admin menu"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+          <strong>Admin Panel</strong>
+        </div>
 
       <p className="adm-sidebar-label">Management</p>
 
@@ -148,6 +175,7 @@ export default function AdminSidebar({
               href={item.href}
               className={`adm-nav-link${isActive ? " adm-nav-link-active" : ""}`}
               onClick={() => {
+                setIsMobileMenuOpen(false);
                 if (item.icon === "queries") {
                   setQueryBadgeDismissed(true);
                 }
@@ -177,5 +205,6 @@ export default function AdminSidebar({
         Logout
       </button>
     </aside>
+    </>
   );
 }

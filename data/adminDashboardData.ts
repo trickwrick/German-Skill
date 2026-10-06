@@ -79,6 +79,7 @@ export const adminNavItems = [
   { label: "Testimonials", href: "/admin/testimonials", icon: "testimonials" },
   { label: "Homepage FAQs", href: "/admin/home-faqs", icon: "faqs" },
   { label: "General", href: "/admin/general", icon: "general" },
+  { label: "Gateway Section", href: "/admin/gateway", icon: "general" },
   { label: "Queries", href: "/admin/queries", icon: "queries" },
   { label: "Careers", href: "/admin/careers", icon: "careers" },
   { label: "Meta Web", href: "/admin/seo", icon: "seo" },

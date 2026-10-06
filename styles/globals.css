@@ -9623,4 +9623,78 @@ a.contact-info-value:hover {
   font-weight: 500;
 }
 
+/* Gateway Section */
+.gateway-section {
+  padding: 1.5rem 1rem;
+  background-color: var(--surface-light, #f8fafc);
+  font-family: inherit;
+}
+.gateway-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+@media (min-width: 992px) {
+  .gateway-container {
+    grid-template-columns: 1fr 1.25fr;
+    gap: 3rem;
+  }
+}
+.gateway-content h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+.gateway-subtitle {
+  font-size: 0.95rem;
+  color: #334155;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.gateway-description {
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+.gateway-steps h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-600, #e31e24);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+.gateway-step { margin-bottom: 0.75rem; }
+.gateway-step h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+.gateway-step p {
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.4;
+  margin: 0;
+}
+.gateway-image-wrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  width: 100%;
+}
+.gateway-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 

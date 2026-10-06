@@ -15,6 +15,7 @@ import JsonLd from "./components/JsonLd";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import TutorsSection from "./components/TutorsSection";
+import GatewaySection from "./components/GatewaySection";
 import GermanProgramsSection from "./components/GermanProgramsSection";
 import type { HomeFaqContent } from "../data/homeFaqs";
 import type { VideoTestimonial } from "../data/videoTestimonials";
@@ -210,6 +211,7 @@ export default async function HomePage() {
         <VideoTestimonialsSection testimonials={videoTestimonials} />
         <TestimonialsSection />
         <GermanProgramsSection />
+        <GatewaySection />
         <TutorsSection />
         <SmartLearningSection />
 

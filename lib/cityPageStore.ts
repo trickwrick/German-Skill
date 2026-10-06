@@ -465,9 +465,12 @@ export async function upsertCityPage(
   page: Partial<CityPage> & { cityName: string; originalSlug?: string },
 ) {
   const store = await getCityPagesStore({ fresh: true });
+  let originalSlug = normalizeCitySlug(page.originalSlug || "") || normalizeCitySlug(page.slug || "");
+  const existingPage = store.pages.find((item) => item.slug === originalSlug);
+
   const sanitized = sanitizePage({
     ...page,
-    updatedAt: new Date().toISOString(),
+    updatedAt: existingPage?.updatedAt || new Date().toISOString(),
   });
 
   if (!sanitized) {
@@ -482,7 +485,7 @@ export async function upsertCityPage(
     throw new Error("Page URL is required.");
   }
 
-  const originalSlug = normalizeCitySlug(page.originalSlug || "") || sanitized.slug;
+  originalSlug = originalSlug || sanitized.slug;
   const conflict = store.pages.find(
     (item) => item.slug === sanitized.slug && item.slug !== originalSlug,
   );

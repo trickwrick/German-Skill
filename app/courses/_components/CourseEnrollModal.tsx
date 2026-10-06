@@ -169,7 +169,7 @@ export default function CourseEnrollModal({
           </button>
 
           <div className="enroll-modal-header">
-            <h2 id="enroll-modal-title">Book Your Free Demo</h2>
+            <h2 id="enroll-modal-title">Enroll Now! Book Your Seat</h2>
           </div>
 
           <div className="enroll-modal-stats">

@@ -58,13 +58,28 @@ function StatIcon({ theme }: { theme: string }) {
   }
 }
 
-export default function AdminDashboardContent() {
+export default function AdminDashboardContent({
+  blogCount = 0,
+  queryCount = 0,
+}: {
+  blogCount?: number;
+  queryCount?: number;
+}) {
+  const dynamicCards = adminStatCards.map((card) => {
+    if (card.label === "Blog Posts") {
+      return { ...card, value: String(blogCount) };
+    }
+    if (card.label === "Students") {
+      return { ...card, label: "Queries", value: String(queryCount) };
+    }
+    return card;
+  });
   return (
     <div className="adm-dashboard">
       <h1 className="adm-page-title">Admin Dashboard</h1>
 
       <div className="adm-stat-grid">
-        {adminStatCards.map((card) => (
+        {dynamicCards.map((card) => (
           <article key={card.id} className="adm-stat-card">
             <StatIcon theme={card.theme} />
             <div>
