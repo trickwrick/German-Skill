@@ -114,7 +114,8 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                 <col className="adm-col-contact" />
                 <col className="adm-col-course" />
                 <col className="adm-col-meta" />
-                <col className="adm-col-message" />
+                <col className="adm-col-ip" />
+                <col className="adm-col-geocity" />
                 <col className="adm-col-actions" />
               </colgroup>
               <thead>
@@ -125,7 +126,8 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                   <th>Contact</th>
                   <th>Course</th>
                   <th>City</th>
-                  <th>Message</th>
+                  <th>IP Address</th>
+                  <th>Approx. City</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -156,7 +158,16 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                         {query.city ? <span>{query.city}</span> : <span>—</span>}
                       </div>
                     </td>
-                    <td className="adm-query-message">{query.message}</td>
+                    <td>
+                      <div className="adm-query-meta">
+                        {query.ip ? <span>{query.ip}</span> : <span style={{ color: "#94a3b8" }}>—</span>}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="adm-query-meta">
+                        {query.geoCity ? <span>{query.geoCity}</span> : <span style={{ color: "#94a3b8" }}>—</span>}
+                      </div>
+                    </td>
                     <td className="adm-query-actions" style={{ display: "flex", gap: "6px", justifyContent: "center" }}>
                       <button
                         type="button"
