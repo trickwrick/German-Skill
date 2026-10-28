@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import "../styles/globals.css";
 import GoogleAnalytics from "./components/GoogleAnalytics";
-import MobileContactBar from "./components/MobileContactBar";
+import WhatsAppWidgets from "./components/WhatsAppWidgets";
 import JsonLd from "./components/JsonLd";
 import { buildOrganizationSchema, buildWebSiteSchema, SITE_URL } from "../lib/siteSeo";
 
@@ -73,7 +73,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         {/* End Google Tag Manager (noscript) */}
         <GoogleAnalytics />
         {children}
-        <WelcomeDiscountPopup />
+        <WelcomeDiscountPopup /><WhatsAppWidgets />
       </body>
     </html>
   );
