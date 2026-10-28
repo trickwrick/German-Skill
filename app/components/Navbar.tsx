@@ -141,7 +141,7 @@ export default function Navbar() {
 
           <div className="header-actions">
             <Link href="/contact" className="btn btn-primary" onClick={closeMenu}>
-              Free Demo Class
+              Book Demo Class
             </Link>
           </div>
         </div>

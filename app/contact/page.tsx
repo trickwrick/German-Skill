@@ -116,15 +116,6 @@ export default function ContactPage() {
                 </ul>
               </div>
 
-              <div className="contact-demo-box">
-                <h3>Book a Free Demo Class</h3>
-                <p>
-                  Experience our teaching style before you enroll. No commitment required.
-                </p>
-                <Link href="#contact-form" className="btn btn-primary contact-demo-btn">
-                  Book Free Demo
-                </Link>
-              </div>
             </aside>
           </div>
         </section>

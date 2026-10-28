@@ -11,11 +11,6 @@ const announcements = [
     text: "A1–C2 Goethe Certified Live Online Classes",
   },
   {
-    text: "Book Your",
-    highlight: "Free Demo",
-    rest: "Class Today",
-  },
-  {
     text: "Flexible Batches | Expert Tutors | Study Material Included",
   },
 ];
