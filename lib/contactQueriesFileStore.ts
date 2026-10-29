@@ -83,3 +83,26 @@ export async function addFileContactQueryFollowUp(id: string, followUp: ContactQ
   await writeStore(queries);
   return true;
 }
+
+export async function deleteFileContactQueryFollowUp(id: string, followUpId: string) {
+  if (!isFileStoreEnabled()) {
+    throw new Error("Local file storage is disabled in this environment.");
+  }
+
+  const queries = await readStore();
+  const target = queries.find((query) => query.id === id);
+
+  if (!target || !target.followUps) {
+    return false;
+  }
+
+  const next = target.followUps.filter((followUp) => followUp.id !== followUpId);
+  const removed = next.length !== target.followUps.length;
+
+  if (removed) {
+    target.followUps = next;
+    await writeStore(queries);
+  }
+
+  return removed;
+}

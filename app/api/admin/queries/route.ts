@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { isAdminRequestAuthorized } from "../../../../lib/adminAuth";
-import { addContactQueryFollowUp, deleteContactQuery, getContactQueries } from "../../../../lib/contactQueryStore";
+import {
+  addContactQueryFollowUp,
+  deleteContactQuery,
+  deleteContactQueryFollowUp,
+  getContactQueries,
+} from "../../../../lib/contactQueryStore";
 
 export async function GET(request: Request) {
   if (!isAdminRequestAuthorized(request)) {
@@ -21,6 +26,23 @@ export async function DELETE(request: Request) {
 
   if (!id) {
     return NextResponse.json({ error: "Query id is required." }, { status: 400 });
+  }
+
+  const followUpId = searchParams.get("followUpId");
+
+  if (followUpId) {
+    try {
+      const removedFollowUp = await deleteContactQueryFollowUp(id, followUpId);
+
+      if (!removedFollowUp) {
+        return NextResponse.json({ error: "Follow-up not found." }, { status: 404 });
+      }
+
+      return NextResponse.json({ message: "Follow-up deleted." });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Could not delete follow-up.";
+      return NextResponse.json({ error: message }, { status: 500 });
+    }
   }
 
   try {

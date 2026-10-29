@@ -8,6 +8,7 @@ import type {
 import {
   addFileContactQuery,
   addFileContactQueryFollowUp,
+  deleteFileContactQueryFollowUp,
   deleteFileContactQuery,
   getFileContactQueries,
 } from "./contactQueriesFileStore";
@@ -207,4 +208,40 @@ export async function addContactQueryFollowUp(
   }
 
   return (await pushMongoContactQueryFollowUp(id, followUp)) ? followUp : null;
+}
+
+async function pullMongoContactQueryFollowUp(id: string, followUpId: string) {
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not configured. Add it in your hosting environment variables.");
+  }
+
+  const client = await getMongoClient();
+  const result = await client
+    .db(DB_NAME)
+    .collection<ContactQuery>(COLLECTION)
+    .updateOne({ id }, { $pull: { followUps: { id: followUpId } } });
+
+  return result.modifiedCount > 0;
+}
+
+export async function deleteContactQueryFollowUp(id: string, followUpId: string) {
+  if (!id.trim() || !followUpId.trim()) {
+    return false;
+  }
+
+  if (isFileStoreEnabled()) {
+    const removed = await deleteFileContactQueryFollowUp(id, followUpId);
+
+    if (process.env.MONGODB_URI) {
+      try {
+        await pullMongoContactQueryFollowUp(id, followUpId);
+      } catch {
+        // Local file store remains the source of truth in development.
+      }
+    }
+
+    return removed;
+  }
+
+  return pullMongoContactQueryFollowUp(id, followUpId);
 }

@@ -35,14 +35,46 @@ function QueryFollowUpRow({
   query,
   colSpan,
   onAdded,
+  onDeleted,
 }: {
   query: ContactQuery;
   colSpan: number;
   onAdded: (followUp: ContactQueryFollowUp) => void;
+  onDeleted: (followUpId: string) => void;
 }) {
   const [text, setText] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [showAll, setShowAll] = useState(false);
+  const allFollowUps = [...(query.followUps ?? [])].reverse();
+  const [deletingFollowUpId, setDeletingFollowUpId] = useState<string | null>(null);
+
+  async function handleDeleteFollowUp(followUpId: string) {
+    if (!window.confirm("Delete this follow-up?")) {
+      return;
+    }
+
+    setDeletingFollowUpId(followUpId);
+    setError("");
+
+    try {
+      const response = await fetch(
+        `/api/admin/queries?id=${encodeURIComponent(query.id)}&followUpId=${encodeURIComponent(followUpId)}`,
+        { method: "DELETE" },
+      );
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error || "Could not delete follow-up.");
+      }
+
+      onDeleted(followUpId);
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : "Could not delete follow-up.");
+    } finally {
+      setDeletingFollowUpId(null);
+    }
+  }
 
   async function handleSubmit() {
     const value = text.trim();
@@ -77,23 +109,75 @@ function QueryFollowUpRow({
   return (
     <tr className="adm-query-followup-row">
       <td colSpan={colSpan} style={{ background: "#f8fafc", padding: "10px 16px" }}>
-        {(query.followUps ?? []).length > 0 ? (
-          <>
-            <div style={{ color: "#b91c1c", fontWeight: 700, fontSize: "0.85rem", marginBottom: "4px" }}>Follow-up:</div>
-            <div style={{ maxHeight: "52px", overflowY: "auto", marginBottom: "8px", paddingRight: "4px" }}>
-              {[...(query.followUps ?? [])].reverse().map((followUp) => (
-                <div
-                  key={followUp.id}
-                  style={{ display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "0.85rem", lineHeight: "1.5", minHeight: "24px" }}
-                >
-                  <span style={{ color: "#334155", whiteSpace: "pre-wrap" }}>{followUp.text}</span>
-                  <span style={{ color: "#b91c1c", whiteSpace: "nowrap", fontSize: "0.75rem" }}>
-                    {formatQueryDate(followUp.createdAt)}
+        {allFollowUps.length > 0 ? (
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", fontSize: "0.85rem", marginBottom: "8px" }}>
+            <span style={{ color: "#334155", whiteSpace: "pre-wrap", minWidth: 0, overflowWrap: "anywhere" }}>
+              <strong style={{ color: "#b91c1c" }}>Follow-up:</strong> {allFollowUps[0].text}
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+              <span style={{ color: "#b91c1c", whiteSpace: "nowrap", fontSize: "0.75rem" }}>
+                {formatQueryDate(allFollowUps[0].createdAt)}
+              </span>
+              <button
+                type="button"
+                className="adm-btn adm-btn-icon"
+                title={`View all follow-ups (${allFollowUps.length})`}
+                aria-label={`View all follow-ups (${allFollowUps.length})`}
+                onClick={() => setShowAll(true)}
+                style={{ color: "#3b82f6", background: "#eff6ff", border: "1px solid #bfdbfe" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </span>
+          </div>
+        ) : null}
+        {showAll ? (
+          <div
+            style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.5)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}
+            onClick={() => setShowAll(false)}
+          >
+            <div
+              style={{ backgroundColor: "#fff", borderRadius: "12px", width: "100%", maxWidth: "560px", maxHeight: "80vh", overflowY: "auto", padding: "20px 24px" }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                <h3 style={{ margin: 0, fontSize: "1.05rem", color: "#0f172a" }}>Follow-ups - {query.name}</h3>
+                <button type="button" onClick={() => setShowAll(false)} style={{ padding: "6px 12px", background: "#fff", border: "1px solid #cbd5e1", borderRadius: "6px", color: "#334155", fontWeight: 600, cursor: "pointer" }}>
+                  Close
+                </button>
+              </div>
+              {allFollowUps.map((followUp) => (
+                <div key={followUp.id} style={{ display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "0.9rem", padding: "8px 0", borderTop: "1px solid #e2e8f0" }}>
+                  <span style={{ color: "#334155", whiteSpace: "pre-wrap", minWidth: 0, overflowWrap: "anywhere" }}>
+                    <strong style={{ color: "#b91c1c" }}>Follow-up:</strong> {followUp.text}
+                  </span>
+                  <span style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
+                    <span style={{ color: "#b91c1c", whiteSpace: "nowrap", fontSize: "0.75rem" }}>
+                      {formatQueryDate(followUp.createdAt)}
+                    </span>
+                    <button
+                      type="button"
+                      className="adm-btn adm-btn-icon adm-btn-icon-danger"
+                      disabled={deletingFollowUpId === followUp.id}
+                      title="Delete follow-up"
+                      aria-label="Delete follow-up"
+                      onClick={() => void handleDeleteFollowUp(followUp.id)}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        <line x1="10" y1="11" x2="10" y2="17" />
+                        <line x1="14" y1="11" x2="14" y2="17" />
+                      </svg>
+                    </button>
                   </span>
                 </div>
               ))}
             </div>
-          </>
+          </div>
         ) : null}
         <div style={{ display: "flex", gap: "8px" }}>
           <input
@@ -303,7 +387,7 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                         </svg>
                       </button>
                     </td>
-                  </tr><QueryFollowUpRow query={query} colSpan={9} onAdded={(followUp) => setQueries((current) => current.map((item) => item.id === query.id ? { ...item, followUps: [...(item.followUps ?? []), followUp] } : item))} /></Fragment>
+                  </tr><QueryFollowUpRow query={query} colSpan={9} onDeleted={(followUpId) => setQueries((current) => current.map((item) => item.id === query.id ? { ...item, followUps: (item.followUps ?? []).filter((entry) => entry.id !== followUpId) } : item))} onAdded={(followUp) => setQueries((current) => current.map((item) => item.id === query.id ? { ...item, followUps: [...(item.followUps ?? []), followUp] } : item))} /></Fragment>
                   );
                 })}
               </tbody>
