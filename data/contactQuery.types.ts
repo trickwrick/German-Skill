@@ -11,6 +11,7 @@ export type ContactQuery = {
   city?: string;
   level?: string;
   createdAt: string;
+  followUps?: ContactQueryFollowUp[];
   ip?: string;
   country?: string;
   region?: string;
@@ -42,4 +43,10 @@ export type EnrollQueryInput = {
   course: string;
   level: string;
   courseSlug?: string;
+};
+
+export type ContactQueryFollowUp = {
+  id: string;
+  text: string;
+  createdAt: string;
 };

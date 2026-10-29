@@ -1,8 +1,13 @@
 import { randomUUID } from "crypto";
 import { unstable_noStore as noStore } from "next/cache";
-import type { ContactQuery, ContactQueryInput } from "../data/contactQuery.types";
+import type {
+  ContactQuery,
+  ContactQueryFollowUp,
+  ContactQueryInput,
+} from "../data/contactQuery.types";
 import {
   addFileContactQuery,
+  addFileContactQueryFollowUp,
   deleteFileContactQuery,
   getFileContactQueries,
 } from "./contactQueriesFileStore";
@@ -155,4 +160,51 @@ export async function deleteContactQuery(id: string) {
   }
 
   return removeMongoContactQuery(id);
+}
+
+async function pushMongoContactQueryFollowUp(id: string, followUp: ContactQueryFollowUp) {
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not configured. Add it in your hosting environment variables.");
+  }
+
+  const client = await getMongoClient();
+  const result = await client
+    .db(DB_NAME)
+    .collection<ContactQuery>(COLLECTION)
+    .updateOne({ id }, { $push: { followUps: followUp } });
+
+  return result.matchedCount > 0;
+}
+
+export async function addContactQueryFollowUp(
+  id: string,
+  text: string,
+): Promise<ContactQueryFollowUp | null> {
+  const trimmed = text.trim();
+
+  if (!id.trim() || !trimmed) {
+    return null;
+  }
+
+  const followUp: ContactQueryFollowUp = {
+    id: randomUUID(),
+    text: trimmed,
+    createdAt: new Date().toISOString(),
+  };
+
+  if (isFileStoreEnabled()) {
+    const saved = await addFileContactQueryFollowUp(id, followUp);
+
+    if (process.env.MONGODB_URI) {
+      try {
+        await pushMongoContactQueryFollowUp(id, followUp);
+      } catch {
+        // Local file store remains the source of truth in development.
+      }
+    }
+
+    return saved ? followUp : null;
+  }
+
+  return (await pushMongoContactQueryFollowUp(id, followUp)) ? followUp : null;
 }

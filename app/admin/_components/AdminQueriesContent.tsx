@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import type { ContactQuery } from "../../../data/contactQuery.types";
+import { Fragment, useEffect, useState } from "react";
+import type { ContactQuery, ContactQueryFollowUp } from "../../../data/contactQuery.types";
 
 function getQuerySourceLabel(source: ContactQuery["source"]) {
   if (source === "enroll") {
@@ -31,6 +31,96 @@ function formatQueryDate(value: string) {
   });
 }
 
+function QueryFollowUpRow({
+  query,
+  colSpan,
+  onAdded,
+}: {
+  query: ContactQuery;
+  colSpan: number;
+  onAdded: (followUp: ContactQueryFollowUp) => void;
+}) {
+  const [text, setText] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit() {
+    const value = text.trim();
+    if (!value || saving) {
+      return;
+    }
+
+    setSaving(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/admin/queries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: query.id, text: value }),
+      });
+      const data = (await response.json()) as { followUp?: ContactQueryFollowUp; error?: string };
+
+      if (!response.ok || !data.followUp) {
+        throw new Error(data.error || "Could not save follow-up.");
+      }
+
+      onAdded(data.followUp);
+      setText("");
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Could not save follow-up.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <tr className="adm-query-followup-row">
+      <td colSpan={colSpan} style={{ background: "#f8fafc", padding: "10px 16px" }}>
+        {(query.followUps ?? []).map((followUp) => (
+          <div
+            key={followUp.id}
+            style={{ display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "0.85rem", marginBottom: "6px" }}
+          >
+            <span style={{ color: "#334155", whiteSpace: "pre-wrap" }}>
+              <strong style={{ color: "#b91c1c" }}>Follow-up:</strong> {followUp.text}
+            </span>
+            <span style={{ color: "#b91c1c", whiteSpace: "nowrap", fontSize: "0.75rem" }}>
+              {formatQueryDate(followUp.createdAt)}
+            </span>
+          </div>
+        ))}
+        <div style={{ display: "flex", gap: "8px" }}>
+          <input
+            type="text"
+            value={text}
+            maxLength={2000}
+            placeholder="Add follow-up note (who said what, contact details...)"
+            aria-label={`Add follow-up note for ${query.name}`}
+            onChange={(event) => setText(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                void handleSubmit();
+              }
+            }}
+            style={{ flex: 1, padding: "8px 10px", border: "1px solid #cbd5e1", borderRadius: "6px", fontSize: "0.9rem" }}
+          />
+          <button
+            type="button"
+            className="adm-btn"
+            disabled={saving || !text.trim()}
+            onClick={() => void handleSubmit()}
+            style={{ background: "#3b82f6", color: "#fff", border: "none", borderRadius: "6px", padding: "8px 16px", fontWeight: 600, cursor: "pointer" }}
+          >
+            {saving ? "Saving..." : "Submit"}
+          </button>
+        </div>
+        {error ? <p style={{ color: "#b91c1c", fontSize: "0.8rem", margin: "6px 0 0" }}>{error}</p> : null}
+      </td>
+    </tr>
+  );
+}
 type AdminQueriesContentProps = {
   initialQueries: ContactQuery[];
 };
@@ -136,7 +226,7 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                   const source = query.source ?? "contact";
 
                   return (
-                  <tr key={query.id}>
+                  <Fragment key={query.id}><tr>
                     <td className="adm-query-date">{formatQueryDate(query.createdAt)}</td>
                     <td>
                       <span className={`adm-query-source adm-query-source-${source}`}>
@@ -208,7 +298,7 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                         </svg>
                       </button>
                     </td>
-                  </tr>
+                  </tr><QueryFollowUpRow query={query} colSpan={9} onAdded={(followUp) => setQueries((current) => current.map((item) => item.id === query.id ? { ...item, followUps: [...(item.followUps ?? []), followUp] } : item))} /></Fragment>
                   );
                 })}
               </tbody>

@@ -1,7 +1,7 @@
 import { existsSync } from "fs";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
-import type { ContactQuery } from "../data/contactQuery.types";
+import type { ContactQuery, ContactQueryFollowUp } from "../data/contactQuery.types";
 import { isFileStoreEnabled } from "./courseDetailsFileStore";
 
 const STORE_DIR = path.join(process.cwd(), "data");
@@ -65,4 +65,21 @@ export async function deleteFileContactQuery(id: string) {
   const removed = next.length !== queries.length;
   await writeStore(next);
   return removed;
+}
+
+export async function addFileContactQueryFollowUp(id: string, followUp: ContactQueryFollowUp) {
+  if (!isFileStoreEnabled()) {
+    throw new Error("Local file storage is disabled in this environment.");
+  }
+
+  const queries = await readStore();
+  const target = queries.find((query) => query.id === id);
+
+  if (!target) {
+    return false;
+  }
+
+  target.followUps = [...(target.followUps ?? []), followUp];
+  await writeStore(queries);
+  return true;
 }
