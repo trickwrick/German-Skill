@@ -77,19 +77,24 @@ function QueryFollowUpRow({
   return (
     <tr className="adm-query-followup-row">
       <td colSpan={colSpan} style={{ background: "#f8fafc", padding: "10px 16px" }}>
-        {(query.followUps ?? []).map((followUp) => (
-          <div
-            key={followUp.id}
-            style={{ display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "0.85rem", marginBottom: "6px" }}
-          >
-            <span style={{ color: "#334155", whiteSpace: "pre-wrap" }}>
-              <strong style={{ color: "#b91c1c" }}>Follow-up:</strong> {followUp.text}
-            </span>
-            <span style={{ color: "#b91c1c", whiteSpace: "nowrap", fontSize: "0.75rem" }}>
-              {formatQueryDate(followUp.createdAt)}
-            </span>
-          </div>
-        ))}
+        {(query.followUps ?? []).length > 0 ? (
+          <>
+            <div style={{ color: "#b91c1c", fontWeight: 700, fontSize: "0.85rem", marginBottom: "4px" }}>Follow-up:</div>
+            <div style={{ maxHeight: "52px", overflowY: "auto", marginBottom: "8px", paddingRight: "4px" }}>
+              {[...(query.followUps ?? [])].reverse().map((followUp) => (
+                <div
+                  key={followUp.id}
+                  style={{ display: "flex", justifyContent: "space-between", gap: "12px", fontSize: "0.85rem", lineHeight: "1.5", minHeight: "24px" }}
+                >
+                  <span style={{ color: "#334155", whiteSpace: "pre-wrap" }}>{followUp.text}</span>
+                  <span style={{ color: "#b91c1c", whiteSpace: "nowrap", fontSize: "0.75rem" }}>
+                    {formatQueryDate(followUp.createdAt)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : null}
         <div style={{ display: "flex", gap: "8px" }}>
           <input
             type="text"
