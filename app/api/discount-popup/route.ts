@@ -5,7 +5,8 @@ import { getClientIp, getGeoLocation } from "../../../lib/ipTracker";
 type DiscountPopupInput = {
   name: string;
   email?: string;
-  phone: string;
+  phone?: string;
+  message?: string;
   city?: string;
 };
 
@@ -14,12 +15,8 @@ function validateBody(body: DiscountPopupInput) {
     return "Full name is required.";
   }
 
-  if (body.email && body.email.trim() !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) {
+  if (body.email && body.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) {
     return "Enter a valid email address.";
-  }
-
-  if (!body.phone?.trim() || body.phone.trim().length < 8) {
-    return "Mobile number is required.";
   }
 
   return null;
@@ -38,18 +35,18 @@ export async function POST(request: Request) {
     const geo = await getGeoLocation(ip);
 
     const query = await saveContactQuery({
-      name: body.name,
-      email: body.email || "",
-      phone: body.phone,
-      city: body.city,
-      course: "Discount Coupon",
+      name: body.name.trim(),
+      email: body.email?.trim() || "",
+      phone: body.phone?.trim() || "",
+      message: body.message?.trim() || "Diwali Special Offer Request",
+      course: "Diwali Special Offer",
       source: "discount-popup",
       ip,
       ...(geo ? geo : {}),
     });
 
     return NextResponse.json({
-      message: "Your discount coupon request has been received.",
+      message: "Your Diwali offer request has been received.",
       id: query.id,
     });
   } catch (storeError) {

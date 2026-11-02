@@ -1,4 +1,14 @@
-const announcements = [
+"use client";
+
+import { useEffect, useState } from "react";
+
+type AnnouncementItem = {
+  text: string;
+  highlight?: string;
+  rest?: string;
+};
+
+const defaultAnnouncements: AnnouncementItem[] = [
   {
     text: "Trusted by",
     highlight: "16,500+",
@@ -15,10 +25,18 @@ const announcements = [
   },
 ];
 
-function AnnouncementItems() {
+function AnnouncementItems({ customText }: { customText: string }) {
+  if (customText.trim()) {
+    return (
+      <span className="top-announcement-item">
+        {customText.trim()}
+      </span>
+    );
+  }
+
   return (
     <>
-      {announcements.map((item, index) => (
+      {defaultAnnouncements.map((item, index) => (
         <span key={`${item.text}-${index}`} className="top-announcement-item">
           {item.text}
           {item.highlight ? (
@@ -32,14 +50,36 @@ function AnnouncementItems() {
 }
 
 export default function TopAnnouncementBar() {
+  const [customText, setCustomText] = useState<string>("");
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadAnnouncement() {
+      try {
+        const res = await fetch("/api/announcement");
+        if (!res.ok) return;
+        const data = (await res.json()) as { customText?: string; isActive?: boolean };
+        if (isMounted && data && typeof data.customText === "string") {
+          setCustomText(data.customText);
+        }
+      } catch (err) {
+        // Fallback to default silently
+      }
+    }
+    loadAnnouncement();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="top-announcement-bar" aria-label="Site announcements">
       <div className="top-announcement-track">
         <div className="top-announcement-content">
-          <AnnouncementItems />
+          <AnnouncementItems customText={customText} />
         </div>
         <div className="top-announcement-content" aria-hidden="true">
-          <AnnouncementItems />
+          <AnnouncementItems customText={customText} />
         </div>
       </div>
     </div>
