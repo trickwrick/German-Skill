@@ -1,12 +1,11 @@
-﻿"use client";
+"use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 import { buildThankYouUrl } from "../../lib/thankYouConfig";
 
 const STORAGE_KEY = "fluentauf_diwali_popup_seen";
-// Set to true to activate
 const SHOW_POPUP = true;
 
 export default function WelcomeDiscountPopup() {
@@ -17,6 +16,7 @@ export default function WelcomeDiscountPopup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -40,6 +40,181 @@ export default function WelcomeDiscountPopup() {
     return () => window.clearTimeout(timer);
   }, [mounted, pathname]);
 
+  // Canvas Fireworks & Rocket Simulation Effect
+  useEffect(() => {
+    if (!open) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const colors = [
+      "#ff0055",
+      "#ff5500",
+      "#ffcc00",
+      "#00ffcc",
+      "#3399ff",
+      "#ff00cc",
+      "#ffe600",
+      "#ff3300",
+      "#ffffff",
+      "#00ff66",
+    ];
+
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      alpha: number;
+      color: string;
+      size: number;
+      decay: number;
+    }
+
+    interface Rocket {
+      x: number;
+      y: number;
+      targetY: number;
+      vy: number;
+      color: string;
+      trail: { x: number; y: number }[];
+    }
+
+    let particles: Particle[] = [];
+    let rockets: Rocket[] = [];
+
+    function createFirework(x: number, y: number, color?: string) {
+      const baseColor = color || colors[Math.floor(Math.random() * colors.length)];
+      const count = 45 + Math.floor(Math.random() * 30);
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+        const speed = 2 + Math.random() * 6;
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1,
+          color: Math.random() > 0.4 ? baseColor : colors[Math.floor(Math.random() * colors.length)],
+          size: 2 + Math.random() * 2.5,
+          decay: 0.012 + Math.random() * 0.018,
+        });
+      }
+    }
+
+    function launchRocket() {
+      const x = Math.random() * width;
+      const targetY = height * 0.15 + Math.random() * (height * 0.45);
+      rockets.push({
+        x,
+        y: height,
+        targetY,
+        vy: -(8 + Math.random() * 5),
+        color: colors[Math.floor(Math.random() * colors.length)],
+        trail: [],
+      });
+    }
+
+    // Initial burst
+    for (let i = 0; i < 3; i++) {
+      createFirework(
+        width * (0.2 + i * 0.3),
+        height * (0.25 + (i % 2) * 0.15)
+      );
+    }
+
+    let lastRocketTime = 0;
+
+    function render(time: number) {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, width, height);
+
+      // Launch rockets periodically
+      if (time - lastRocketTime > 400 + Math.random() * 500) {
+        launchRocket();
+        lastRocketTime = time;
+      }
+
+      // Update & draw rockets
+      for (let i = rockets.length - 1; i >= 0; i--) {
+        const r = rockets[i];
+        r.trail.push({ x: r.x, y: r.y });
+        if (r.trail.length > 5) r.trail.shift();
+
+        // Draw trail
+        ctx.beginPath();
+        for (let j = 0; j < r.trail.length; j++) {
+          ctx.lineTo(r.trail[j].x, r.trail[j].y);
+        }
+        ctx.strokeStyle = "#ffaa00";
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        r.y += r.vy;
+
+        // Sparkle near rocket head
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "#ffea00";
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        if (r.y <= r.targetY) {
+          createFirework(r.x, r.y, r.color);
+          rockets.splice(i, 1);
+        }
+      }
+
+      // Update & draw explosion particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.08; // gravity
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      animationFrameId = requestAnimationFrame(render);
+    }
+
+    animationFrameId = requestAnimationFrame(render);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [open]);
+
   function markSeen() {
     window.sessionStorage.setItem(STORAGE_KEY, "1");
   }
@@ -58,7 +233,6 @@ export default function WelcomeDiscountPopup() {
     const formData = new FormData(event.currentTarget);
     const payload = {
       name: String(formData.get("name") ?? "").trim(),
-      email: String(formData.get("email") ?? "").trim(),
       message: String(formData.get("message") ?? "").trim(),
       phone: String(formData.get("phone") ?? "").trim(),
     };
@@ -96,16 +270,15 @@ export default function WelcomeDiscountPopup() {
     <div className="diwali-popup-wrap" role="dialog" aria-modal="true" aria-label="Diwali Special Offer">
       <button type="button" className="diwali-popup-backdrop" onClick={closePopup} aria-label="Close popup" />
 
-      {/* Firecracker & spark particles */}
-      <div className="diwali-sparkles" aria-hidden="true">
-        <span className="spark spark-1">✨</span>
-        <span className="spark spark-2">🎆</span>
-        <span className="spark spark-3">🎇</span>
-        <span className="spark spark-4">🪔</span>
-        <span className="spark spark-5">✨</span>
-        <span className="spark spark-6">🎆</span>
-        <span className="spark spark-7">🎇</span>
-        <span className="spark spark-8">🪔</span>
+      {/* Live Canvas Fireworks & Rocket Simulation */}
+      <canvas ref={canvasRef} className="diwali-fireworks-canvas" aria-hidden="true" />
+
+      {/* Floating Animated Rockets & Diyas */}
+      <div className="diwali-rockets-container" aria-hidden="true">
+        <div className="floating-rocket rocket-left">🚀</div>
+        <div className="floating-rocket rocket-right">🚀</div>
+        <div className="floating-anaar anaar-left">🎇</div>
+        <div className="floating-anaar anaar-right">🎇</div>
       </div>
 
       <div className="diwali-popup-panel">
@@ -113,11 +286,11 @@ export default function WelcomeDiscountPopup() {
           ✕
         </button>
 
-        {/* Festive Header with Diya & Lighting effects */}
+        {/* Festive Header */}
         <div className="diwali-popup-header">
           <div className="diwali-header-badge">
             <span className="diwali-diya-icon">🪔</span>
-            <span>DIWALI SPECIAL OFFER</span>
+            <span>DIWALI DHAMAKA OFFER</span>
             <span className="diwali-diya-icon">🪔</span>
           </div>
 
@@ -125,10 +298,10 @@ export default function WelcomeDiscountPopup() {
             Happy Diwali! <span className="diwali-sparkle-text">✨</span>
           </h2>
           <p className="diwali-popup-tagline">
-            Special Festive Discount on All German Language Courses!
+            Celebrate with Grand Discounts on German Language Courses!
           </p>
           <div className="diwali-offer-pill">
-            🎉 Flat 20% OFF — Limited Time Festive Batches 🎉
+            🎆 Flat 10% - Special Diwali Batches 🎆
           </div>
         </div>
 
@@ -152,13 +325,12 @@ export default function WelcomeDiscountPopup() {
               />
             </label>
 
-
-
             <label className="diwali-field">
-              <span className="diwali-label">Phone / WhatsApp (Optional)</span>
+              <span className="diwali-label">Phone / WhatsApp</span>
               <input
                 type="tel"
                 name="phone"
+                required
                 placeholder="+91 98765 43210"
                 autoComplete="tel"
               />
@@ -196,51 +368,121 @@ export default function WelcomeDiscountPopup() {
           position: absolute;
           inset: 0;
           border: 0;
-          background: rgba(10, 5, 2, 0.78);
-          backdrop-filter: blur(8px);
+          background: rgba(10, 4, 2, 0.82);
+          backdrop-filter: blur(6px);
           cursor: pointer;
         }
 
-        /* Sparkles & Crackers animation */
-        .diwali-sparkles {
+        /* Fullscreen Canvas for Live Fireworks */
+        .diwali-fireworks-canvas {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 2;
+        }
+
+        /* Floating Rockets & Anaar */
+        .diwali-rockets-container {
           position: absolute;
           inset: 0;
           pointer-events: none;
+          z-index: 3;
           overflow: hidden;
         }
-        .spark {
-          position: absolute;
-          font-size: 1.5rem;
-          animation: float-sparkle 6s ease-in-out infinite alternate;
-          filter: drop-shadow(0 0 8px #ffb703);
-        }
-        .spark-1 { top: 12%; left: 15%; animation-delay: 0s; font-size: 2rem; }
-        .spark-2 { top: 18%; right: 18%; animation-delay: 1.2s; font-size: 2.3rem; }
-        .spark-3 { bottom: 20%; left: 12%; animation-delay: 2.1s; font-size: 2rem; }
-        .spark-4 { bottom: 25%; right: 15%; animation-delay: 0.8s; font-size: 1.8rem; }
-        .spark-5 { top: 45%; left: 8%; animation-delay: 3s; font-size: 1.6rem; }
-        .spark-6 { top: 50%; right: 9%; animation-delay: 2.5s; font-size: 2.1rem; }
-        .spark-7 { top: 8%; left: 45%; animation-delay: 1.7s; font-size: 1.8rem; }
-        .spark-8 { bottom: 10%; right: 42%; animation-delay: 3.4s; font-size: 2rem; }
 
-        @keyframes float-sparkle {
-          0% { transform: translateY(0) scale(0.9) rotate(0deg); opacity: 0.6; }
-          50% { transform: translateY(-18px) scale(1.2) rotate(15deg); opacity: 1; }
-          100% { transform: translateY(-30px) scale(0.95) rotate(-15deg); opacity: 0.7; }
+        .floating-rocket {
+          position: absolute;
+          font-size: 2.8rem;
+          filter: drop-shadow(0 0 12px #ff6600);
+        }
+
+        .rocket-left {
+          bottom: -80px;
+          left: 12%;
+          animation: rocket-fly-left 4.5s ease-in-out infinite;
+        }
+
+        .rocket-right {
+          bottom: -80px;
+          right: 14%;
+          animation: rocket-fly-right 5.2s ease-in-out 2.2s infinite;
+        }
+
+        @keyframes rocket-fly-left {
+          0% {
+            transform: translateY(0) rotate(-40deg) scale(0.7);
+            opacity: 0;
+          }
+          15% {
+            opacity: 1;
+          }
+          75% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-110vh) rotate(-35deg) scale(1.1);
+            opacity: 0;
+          }
+        }
+
+        @keyframes rocket-fly-right {
+          0% {
+            transform: translateY(0) rotate(40deg) scale(0.7);
+            opacity: 0;
+          }
+          15% {
+            opacity: 1;
+          }
+          75% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-110vh) rotate(35deg) scale(1.1);
+            opacity: 0;
+          }
+        }
+
+        .floating-anaar {
+          position: absolute;
+          bottom: 25px;
+          font-size: 2.4rem;
+          filter: drop-shadow(0 0 16px #ffcc00);
+          animation: anaar-sparkle 1.2s ease-in-out infinite alternate;
+        }
+
+        .anaar-left {
+          left: 6%;
+        }
+
+        .anaar-right {
+          right: 6%;
+        }
+
+        @keyframes anaar-sparkle {
+          0% {
+            transform: scale(0.9) rotate(-5deg);
+            filter: drop-shadow(0 0 8px #ff9900);
+          }
+          100% {
+            transform: scale(1.25) rotate(5deg);
+            filter: drop-shadow(0 0 25px #ffea00);
+          }
         }
 
         .diwali-popup-panel {
           position: relative;
           z-index: 10;
-          width: min(100%, 450px);
+          width: min(100%, 460px);
           max-height: 92vh;
           overflow-y: auto;
-          padding: 30px 24px 24px;
+          padding: 32px 26px 26px;
           border-radius: 24px;
-          background: linear-gradient(180deg, #1f0b08 0%, #160404 100%);
+          background: linear-gradient(180deg, #1f0b08 0%, #140303 100%);
           color: #fff;
           border: 2px solid #eab308;
-          box-shadow: 0 0 35px rgba(234, 179, 8, 0.45), 0 25px 60px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 0 40px rgba(234, 179, 8, 0.5), 0 25px 60px rgba(0, 0, 0, 0.7);
           animation: diwali-popup-bounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -463,6 +705,15 @@ export default function WelcomeDiscountPopup() {
           color: #fecdd3;
           font-size: 0.9rem;
           line-height: 1.5;
+        }
+
+        @media (max-width: 640px) {
+          .floating-anaar {
+            display: none;
+          }
+          .floating-rocket {
+            font-size: 2.2rem;
+          }
         }
       `}</style>
     </div>,
