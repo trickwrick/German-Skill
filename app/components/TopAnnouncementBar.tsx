@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import {
@@ -98,9 +98,11 @@ export default function TopAnnouncementBar({
       <div className="top-announcement-track">
         <div className="top-announcement-content">
           <AnnouncementItems customText={customText} />
+          {customText.trim() && <AnnouncementItems customText={customText} />}
         </div>
         <div className="top-announcement-content" aria-hidden="true">
           <AnnouncementItems customText={customText} />
+          {customText.trim() && <AnnouncementItems customText={customText} />}
         </div>
       </div>
     </div>
