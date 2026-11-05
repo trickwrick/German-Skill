@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+﻿import { randomUUID } from "crypto";
 import { unstable_noStore as noStore } from "next/cache";
 import type {
   ContactQuery,
@@ -112,7 +112,9 @@ export async function saveContactQuery(input: ContactQueryInput): Promise<Contac
         ? "Free demo enquiry from Enroll Now."
         : source === "discount-popup"
           ? "Discount coupon request from welcome popup."
-          : ""),
+          : source === "whatsapp"
+            ? "Initiated WhatsApp chat enquiry."
+            : ""),
     source,
     city: input.city?.trim() || undefined,
     level: input.level?.trim() || undefined,

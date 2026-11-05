@@ -1,4 +1,4 @@
-/* Admin panel */
+﻿/* Admin panel */
 .adm-shell {
   display: flex;
   min-height: 100vh;
@@ -461,6 +461,12 @@
 .adm-query-source-discount-popup {
   background: #fef2f2;
   color: #b8141d;
+}
+
+.adm-query-source-whatsapp {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
 }
 
 .adm-query-meta {

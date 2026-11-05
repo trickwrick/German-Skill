@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
@@ -327,8 +327,9 @@ export default function AdminQueriesContent({ initialQueries }: AdminQueriesCont
                     </td>
                     <td>
                       <div className="adm-query-contact">
-                        <a href={`mailto:${query.email}`}>{query.email}</a>
-                        <span>{query.phone}</span>
+                        {query.email ? <a href={`mailto:${query.email}`}>{query.email}</a> : null}
+                        {query.phone ? <span>{query.phone}</span> : null}
+                        {!query.email && !query.phone ? <span style={{ color: "#94a3b8" }}>—</span> : null}
                       </div>
                     </td>
                     <td className="adm-query-course">{query.course}</td>

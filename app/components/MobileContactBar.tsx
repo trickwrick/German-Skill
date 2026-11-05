@@ -1,5 +1,20 @@
+"use client";
+
 import { sitePhoneDisplay, siteWhatsAppUrl } from "../../data/siteContact";
 
+function trackWhatsAppClick() {
+  try {
+    const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+    fetch("/api/whatsapp-click", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ page: currentPath }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    // Ignore any tracking failure
+  }
+}
 
 export default function MobileContactBar() {
   return (
@@ -9,10 +24,10 @@ export default function MobileContactBar() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"
+      onClick={trackWhatsAppClick}
       style={{ textDecoration: "none" }}
     >
       <div className="mobile-contact-info">
-
         <div className="mobile-contact-text">
           <span className="mobile-contact-name">Fluent AUF</span>
           <span className="mobile-contact-phone">{sitePhoneDisplay}</span>

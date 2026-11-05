@@ -1,4 +1,4 @@
-export type QuerySource = "contact" | "enroll" | "discount-popup";
+﻿export type QuerySource = "contact" | "enroll" | "discount-popup" | "whatsapp";
 
 export type ContactQuery = {
   id: string;
