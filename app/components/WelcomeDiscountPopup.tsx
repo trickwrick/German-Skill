@@ -9,6 +9,7 @@ import { shortLabelCountries } from "../../data/shortLabelCountries";
 import { buildThankYouUrl } from "../../lib/thankYouConfig";
 
 const STORAGE_KEY = "fluentauf_special_offer_popup_seen";
+const HEADING_CACHE_KEY = "fluentauf_cached_popup_heading";
 const SHOW_POPUP = true;
 
 export default function WelcomeDiscountPopup() {
@@ -17,13 +18,24 @@ export default function WelcomeDiscountPopup() {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [phone, setPhone] = useState("+91");
-  const [popupHeading, setPopupHeading] = useState("Apply Code: FESTIVE10 (10%OFF)");
+  const [popupHeading, setPopupHeading] = useState<string>("");
+  const [headingLoaded, setHeadingLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    // Instant cache lookup so there is 0ms delay/flash
+    try {
+      const cached = window.localStorage.getItem(HEADING_CACHE_KEY);
+      if (cached) {
+        setPopupHeading(cached);
+        setHeadingLoaded(true);
+      }
+    } catch {
+      // Ignore storage errors
+    }
   }, []);
 
   useEffect(() => {
@@ -37,28 +49,34 @@ export default function WelcomeDiscountPopup() {
     }
 
     let isMounted = true;
-    async function fetchHeading() {
+    async function fetchHeadingAndOpen() {
       try {
         const res = await fetch("/api/announcement");
-        if (!res.ok) return;
-        const data = (await res.json()) as { popupTitle?: string };
-        if (isMounted && data && typeof data.popupTitle === "string" && data.popupTitle.trim()) {
-          setPopupHeading(data.popupTitle.trim());
+        if (res.ok) {
+          const data = (await res.json()) as { popupTitle?: string };
+          if (isMounted && data && typeof data.popupTitle === "string" && data.popupTitle.trim()) {
+            const freshTitle = data.popupTitle.trim();
+            setPopupHeading(freshTitle);
+            try {
+              window.localStorage.setItem(HEADING_CACHE_KEY, freshTitle);
+            } catch {}
+          }
         }
       } catch {
         // silent fallback
+      } finally {
+        if (isMounted) {
+          setHeadingLoaded(true);
+          setOpen(true);
+          document.body.style.overflow = "hidden";
+        }
       }
     }
-    fetchHeading();
 
-    const timer = window.setTimeout(() => {
-      setOpen(true);
-      document.body.style.overflow = "hidden";
-    }, 100);
+    fetchHeadingAndOpen();
 
     return () => {
       isMounted = false;
-      window.clearTimeout(timer);
     };
   }, [mounted, pathname]);
 
@@ -110,7 +128,7 @@ export default function WelcomeDiscountPopup() {
     }
   }
 
-  if (!SHOW_POPUP || !mounted || !open) {
+  if (!SHOW_POPUP || !mounted || !open || !headingLoaded) {
     return null;
   }
 
@@ -199,6 +217,11 @@ export default function WelcomeDiscountPopup() {
                   preferredCountries={["in", "de", "ae", "us", "gb", "ca", "au", "np", "bd", "sg"]}
                   placeholder="Phone Number"
                   required
+                  inputProps={{
+                    name: "phone",
+                    autoComplete: "tel",
+                    id: "promo-phone-input",
+                  }}
                 />
               </div>
             </div>
