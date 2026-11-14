@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import "../styles/globals.css";
 import GoogleAnalytics from "./components/GoogleAnalytics";
@@ -13,6 +13,12 @@ const WelcomeDiscountPopup = dynamic(
   },
   { ssr: false },
 );
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -374,14 +374,14 @@ export default function WelcomeDiscountPopup() {
           border: 0;
           outline: none;
           padding: 10px 14px;
-          font-size: 0.92rem;
+          font-size: 16px;
           color: #0f172a;
           background: transparent;
         }
 
         .promo-text-input::placeholder {
           color: #94a3b8;
-          font-size: 0.88rem;
+          font-size: 15px;
         }
 
         /* Phone Input Styling */
@@ -411,7 +411,7 @@ export default function WelcomeDiscountPopup() {
         .promo-phone-container :global(.react-international-phone-input) {
           border: 0 !important;
           height: 42px !important;
-          font-size: 0.92rem !important;
+          font-size: 16px !important;
           color: #0f172a !important;
           padding: 0 14px !important;
           width: 100% !important;
