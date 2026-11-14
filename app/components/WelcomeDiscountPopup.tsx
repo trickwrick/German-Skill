@@ -1,11 +1,14 @@
-"use client";
+﻿"use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import { shortLabelCountries } from "../../data/shortLabelCountries";
 import { buildThankYouUrl } from "../../lib/thankYouConfig";
 
-const STORAGE_KEY = "fluentauf_diwali_popup_seen";
+const STORAGE_KEY = "fluentauf_special_offer_popup_seen";
 const SHOW_POPUP = true;
 
 export default function WelcomeDiscountPopup() {
@@ -13,10 +16,11 @@ export default function WelcomeDiscountPopup() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
+  const [phone, setPhone] = useState("+91");
+  const [popupHeading, setPopupHeading] = useState("Apply Code: FESTIVE10 (10%OFF)");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -32,188 +36,31 @@ export default function WelcomeDiscountPopup() {
       return;
     }
 
+    let isMounted = true;
+    async function fetchHeading() {
+      try {
+        const res = await fetch("/api/announcement");
+        if (!res.ok) return;
+        const data = (await res.json()) as { popupTitle?: string };
+        if (isMounted && data && typeof data.popupTitle === "string" && data.popupTitle.trim()) {
+          setPopupHeading(data.popupTitle.trim());
+        }
+      } catch {
+        // silent fallback
+      }
+    }
+    fetchHeading();
+
     const timer = window.setTimeout(() => {
       setOpen(true);
       document.body.style.overflow = "hidden";
     }, 100);
 
-    return () => window.clearTimeout(timer);
-  }, [mounted, pathname]);
-
-  // Canvas Fireworks & Rocket Simulation Effect
-  useEffect(() => {
-    if (!open) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener("resize", handleResize);
-
-    const colors = [
-      "#ff0055",
-      "#ff5500",
-      "#ffcc00",
-      "#00ffcc",
-      "#3399ff",
-      "#ff00cc",
-      "#ffe600",
-      "#ff3300",
-      "#ffffff",
-      "#00ff66",
-    ];
-
-    interface Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      alpha: number;
-      color: string;
-      size: number;
-      decay: number;
-    }
-
-    interface Rocket {
-      x: number;
-      y: number;
-      targetY: number;
-      vy: number;
-      color: string;
-      trail: { x: number; y: number }[];
-    }
-
-    let particles: Particle[] = [];
-    let rockets: Rocket[] = [];
-
-    function createFirework(x: number, y: number, color?: string) {
-      const baseColor = color || colors[Math.floor(Math.random() * colors.length)];
-      const count = 45 + Math.floor(Math.random() * 30);
-      for (let i = 0; i < count; i++) {
-        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
-        const speed = 2 + Math.random() * 6;
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          alpha: 1,
-          color: Math.random() > 0.4 ? baseColor : colors[Math.floor(Math.random() * colors.length)],
-          size: 2 + Math.random() * 2.5,
-          decay: 0.012 + Math.random() * 0.018,
-        });
-      }
-    }
-
-    function launchRocket() {
-      const x = Math.random() * width;
-      const targetY = height * 0.15 + Math.random() * (height * 0.45);
-      rockets.push({
-        x,
-        y: height,
-        targetY,
-        vy: -(8 + Math.random() * 5),
-        color: colors[Math.floor(Math.random() * colors.length)],
-        trail: [],
-      });
-    }
-
-    // Initial burst
-    for (let i = 0; i < 3; i++) {
-      createFirework(
-        width * (0.2 + i * 0.3),
-        height * (0.25 + (i % 2) * 0.15)
-      );
-    }
-
-    let lastRocketTime = 0;
-
-    function render(time: number) {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, width, height);
-
-      // Launch rockets periodically
-      if (time - lastRocketTime > 400 + Math.random() * 500) {
-        launchRocket();
-        lastRocketTime = time;
-      }
-
-      // Update & draw rockets
-      for (let i = rockets.length - 1; i >= 0; i--) {
-        const r = rockets[i];
-        r.trail.push({ x: r.x, y: r.y });
-        if (r.trail.length > 5) r.trail.shift();
-
-        // Draw trail
-        ctx.beginPath();
-        for (let j = 0; j < r.trail.length; j++) {
-          ctx.lineTo(r.trail[j].x, r.trail[j].y);
-        }
-        ctx.strokeStyle = "#ffaa00";
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-
-        r.y += r.vy;
-
-        // Sparkle near rocket head
-        ctx.beginPath();
-        ctx.arc(r.x, r.y, 3, 0, Math.PI * 2);
-        ctx.fillStyle = "#ffffff";
-        ctx.shadowColor = "#ffea00";
-        ctx.shadowBlur = 10;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        if (r.y <= r.targetY) {
-          createFirework(r.x, r.y, r.color);
-          rockets.splice(i, 1);
-        }
-      }
-
-      // Update & draw explosion particles
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.08; // gravity
-        p.alpha -= p.decay;
-
-        if (p.alpha <= 0) {
-          particles.splice(i, 1);
-          continue;
-        }
-
-        ctx.save();
-        ctx.globalAlpha = p.alpha;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 8;
-        ctx.fill();
-        ctx.restore();
-      }
-
-      animationFrameId = requestAnimationFrame(render);
-    }
-
-    animationFrameId = requestAnimationFrame(render);
-
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", handleResize);
+      isMounted = false;
+      window.clearTimeout(timer);
     };
-  }, [open]);
+  }, [mounted, pathname]);
 
   function markSeen() {
     window.sessionStorage.setItem(STORAGE_KEY, "1");
@@ -233,8 +80,9 @@ export default function WelcomeDiscountPopup() {
     const formData = new FormData(event.currentTarget);
     const payload = {
       name: String(formData.get("name") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim(),
       message: String(formData.get("message") ?? "").trim(),
-      phone: String(formData.get("phone") ?? "").trim(),
+      phone: phone.trim(),
     };
 
     try {
@@ -267,94 +115,120 @@ export default function WelcomeDiscountPopup() {
   }
 
   return createPortal(
-    <div className="diwali-popup-wrap" role="dialog" aria-modal="true" aria-label="Diwali Special Offer">
-      <button type="button" className="diwali-popup-backdrop" onClick={closePopup} aria-label="Close popup" />
+    <div className="promo-popup-wrap" role="dialog" aria-modal="true" aria-label="Special Discount Offer">
+      <button type="button" className="promo-popup-backdrop" onClick={closePopup} aria-label="Close popup" />
 
-      {/* Live Canvas Fireworks & Rocket Simulation */}
-      <canvas ref={canvasRef} className="diwali-fireworks-canvas" aria-hidden="true" />
-
-      {/* Floating Animated Rockets & Diyas */}
-      <div className="diwali-rockets-container" aria-hidden="true">
-        <div className="floating-rocket rocket-left">🚀</div>
-        <div className="floating-rocket rocket-right">🚀</div>
-        <div className="floating-anaar anaar-left">🎇</div>
-        <div className="floating-anaar anaar-right">🎇</div>
-      </div>
-
-      <div className="diwali-popup-panel">
-        <button type="button" className="diwali-popup-close" onClick={closePopup} aria-label="Close">
+      <div className="promo-popup-card">
+        <button type="button" className="promo-popup-close-btn" onClick={closePopup} aria-label="Close">
           ✕
         </button>
 
-        {/* Festive Header */}
-        <div className="diwali-popup-header">
-          <div className="diwali-header-badge">
-            <span className="diwali-diya-icon">🪔</span>
-            <span>DIWALI DHAMAKA OFFER</span>
-            <span className="diwali-diya-icon">🪔</span>
-          </div>
-
-          <h2 className="diwali-popup-title">
-            Happy Diwali! <span className="diwali-sparkle-text">✨</span>
+        {/* Title Heading */}
+        <div className="promo-popup-head">
+          <h2 className="promo-popup-title">
+            {popupHeading}
           </h2>
-          <p className="diwali-popup-tagline">
-            Celebrate with Grand Discounts on German Language Courses!
-          </p>
-          <div className="diwali-offer-pill">
-            🎆 Flat 10% - Special Diwali Batches 🎆
-          </div>
         </div>
 
         {success ? (
-          <div className="diwali-popup-success">
-            <strong>🪔 Happy Diwali! 🪔</strong>
-            <p>Your offer request has been received. Our team will contact you shortly with the best festive discount!</p>
+          <div className="promo-popup-success">
+            <strong>Thank You!</strong>
+            <p>Your request has been received. Our team will contact you shortly.</p>
           </div>
         ) : (
-          <form className="diwali-popup-form" onSubmit={handleSubmit}>
-            {error ? <p className="diwali-popup-error">{error}</p> : null}
+          <form className="promo-popup-form" onSubmit={handleSubmit}>
+            {error ? <p className="promo-popup-error">{error}</p> : null}
 
-            <label className="diwali-field">
-              <span className="diwali-label">Your Name</span>
-              <input
-                type="text"
-                name="name"
-                required
-                placeholder="Enter your full name"
-                autoComplete="name"
-              />
-            </label>
+            {/* Full Name Field */}
+            <div className="promo-field-group">
+              <label className="promo-field-label">
+                Full Name <span className="promo-required">*</span>
+              </label>
+              <div className="promo-input-box">
+                <span className="promo-input-icon" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </span>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder=""
+                  autoComplete="name"
+                  className="promo-text-input"
+                />
+              </div>
+            </div>
 
-            <label className="diwali-field">
-              <span className="diwali-label">Phone / WhatsApp</span>
-              <input
-                type="tel"
-                name="phone"
-                required
-                placeholder="+91 98765 43210"
-                autoComplete="tel"
-              />
-            </label>
+            {/* Email Address Field */}
+            <div className="promo-field-group">
+              <label className="promo-field-label">
+                Email Address
+              </label>
+              <div className="promo-input-box">
+                <span className="promo-input-icon" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  </svg>
+                </span>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder=""
+                  autoComplete="email"
+                  className="promo-text-input"
+                />
+              </div>
+            </div>
 
-            <label className="diwali-field">
-              <span className="diwali-label">Message</span>
-              <textarea
-                name="message"
-                rows={3}
-                placeholder="Which German course (A1, A2, B1, B2) are you interested in?"
-              />
-            </label>
+            {/* Mobile Number Field */}
+            <div className="promo-field-group">
+              <label className="promo-field-label">
+                Mobile Number <span className="promo-required">*</span>
+              </label>
+              <div className="promo-phone-container">
+                <PhoneInput
+                  defaultCountry="in"
+                  value={phone}
+                  onChange={(value) => setPhone(value)}
+                  countries={shortLabelCountries}
+                  forceDialCode
+                  preferredCountries={["in", "de", "ae", "us", "gb", "ca", "au", "np", "bd", "sg"]}
+                  placeholder="Phone Number"
+                  required
+                />
+              </div>
+            </div>
 
-            <button type="submit" className="diwali-submit-btn" disabled={loading}>
-              <span className="diwali-btn-shine" />
-              {loading ? "Submitting..." : "🪔 Claim Your Diwali Discount"}
+            {/* Submit Button */}
+            <button type="submit" className="promo-submit-btn" disabled={loading}>
+              {loading ? "Submitting..." : (
+                <>
+                  <span>Submit Request</span>
+                  <span className="promo-arrow-icon" aria-hidden="true">↗</span>
+                </>
+              )}
             </button>
+
+            {/* Confidential footer text */}
+            <p className="promo-footer-note">
+              <span className="promo-verified-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#dcfce7" />
+                  <polyline points="9 12 11 14 15 10" />
+                </svg>
+              </span>
+              <span>100% Secure &amp; Confidential | We Respect Your Privacy</span>
+            </p>
           </form>
         )}
       </div>
 
       <style jsx>{`
-        .diwali-popup-wrap {
+        .promo-popup-wrap {
           position: fixed;
           inset: 0;
           z-index: 99999;
@@ -364,132 +238,34 @@ export default function WelcomeDiscountPopup() {
           padding: 16px;
         }
 
-        .diwali-popup-backdrop {
+        .promo-popup-backdrop {
           position: absolute;
           inset: 0;
           border: 0;
-          background: rgba(10, 4, 2, 0.82);
-          backdrop-filter: blur(6px);
+          background: rgba(15, 23, 42, 0.65);
+          backdrop-filter: blur(4px);
           cursor: pointer;
         }
 
-        /* Fullscreen Canvas for Live Fireworks */
-        .diwali-fireworks-canvas {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 2;
-        }
-
-        /* Floating Rockets & Anaar */
-        .diwali-rockets-container {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          z-index: 3;
-          overflow: hidden;
-        }
-
-        .floating-rocket {
-          position: absolute;
-          font-size: 2.8rem;
-          filter: drop-shadow(0 0 12px #ff6600);
-        }
-
-        .rocket-left {
-          bottom: -80px;
-          left: 12%;
-          animation: rocket-fly-left 4.5s ease-in-out infinite;
-        }
-
-        .rocket-right {
-          bottom: -80px;
-          right: 14%;
-          animation: rocket-fly-right 5.2s ease-in-out 2.2s infinite;
-        }
-
-        @keyframes rocket-fly-left {
-          0% {
-            transform: translateY(0) rotate(-40deg) scale(0.7);
-            opacity: 0;
-          }
-          15% {
-            opacity: 1;
-          }
-          75% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(-110vh) rotate(-35deg) scale(1.1);
-            opacity: 0;
-          }
-        }
-
-        @keyframes rocket-fly-right {
-          0% {
-            transform: translateY(0) rotate(40deg) scale(0.7);
-            opacity: 0;
-          }
-          15% {
-            opacity: 1;
-          }
-          75% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(-110vh) rotate(35deg) scale(1.1);
-            opacity: 0;
-          }
-        }
-
-        .floating-anaar {
-          position: absolute;
-          bottom: 25px;
-          font-size: 2.4rem;
-          filter: drop-shadow(0 0 16px #ffcc00);
-          animation: anaar-sparkle 1.2s ease-in-out infinite alternate;
-        }
-
-        .anaar-left {
-          left: 6%;
-        }
-
-        .anaar-right {
-          right: 6%;
-        }
-
-        @keyframes anaar-sparkle {
-          0% {
-            transform: scale(0.9) rotate(-5deg);
-            filter: drop-shadow(0 0 8px #ff9900);
-          }
-          100% {
-            transform: scale(1.25) rotate(5deg);
-            filter: drop-shadow(0 0 25px #ffea00);
-          }
-        }
-
-        .diwali-popup-panel {
+        /* Wider width, compact height */
+        .promo-popup-card {
           position: relative;
           z-index: 10;
-          width: min(100%, 460px);
-          max-height: 92vh;
+          width: min(100%, 500px);
+          max-height: 90vh;
           overflow-y: auto;
-          padding: 32px 26px 26px;
-          border-radius: 24px;
-          background: linear-gradient(180deg, #1f0b08 0%, #140303 100%);
-          color: #fff;
-          border: 2px solid #eab308;
-          box-shadow: 0 0 40px rgba(234, 179, 8, 0.5), 0 25px 60px rgba(0, 0, 0, 0.7);
-          animation: diwali-popup-bounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+          padding: 28px 30px 22px;
+          border-radius: 16px;
+          background: #ffffff;
+          color: #0f172a;
+          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+          animation: promo-popup-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes diwali-popup-bounce {
+        @keyframes promo-popup-in {
           from {
             opacity: 0;
-            transform: scale(0.85) translateY(25px);
+            transform: scale(0.95) translateY(12px);
           }
           to {
             opacity: 1;
@@ -497,223 +273,247 @@ export default function WelcomeDiscountPopup() {
           }
         }
 
-        .diwali-popup-close {
+        .promo-popup-close-btn {
           position: absolute;
-          top: 14px;
-          right: 14px;
+          top: 16px;
+          right: 16px;
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          border: 1px solid rgba(234, 179, 8, 0.4);
-          background: rgba(255, 255, 255, 0.1);
-          color: #fbbf24;
+          border: 0;
+          background: #f1f5f9;
+          color: #64748b;
           font-size: 1rem;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.15s ease;
         }
-        .diwali-popup-close:hover {
-          background: #eab308;
-          color: #000;
-          transform: rotate(90deg);
+        .promo-popup-close-btn:hover {
+          background: #e2e8f0;
+          color: #0f172a;
         }
 
-        .diwali-popup-header {
-          text-align: center;
+        .promo-popup-head {
+          padding-right: 36px;
           margin-bottom: 20px;
         }
 
-        .diwali-header-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          padding: 4px 14px;
-          border-radius: 999px;
-          background: rgba(234, 179, 8, 0.15);
-          border: 1px solid #eab308;
-          color: #fde047;
-          font-size: 0.72rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          margin-bottom: 10px;
+        .promo-popup-title {
+          margin: 0;
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: #1e293b;
+          line-height: 1.3;
+          letter-spacing: -0.01em;
         }
 
-        .diwali-diya-icon {
-          font-size: 0.95rem;
-          animation: pulse-diya 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-diya {
-          0%, 100% { transform: scale(1); filter: drop-shadow(0 0 3px #f59e0b); }
-          50% { transform: scale(1.25); filter: drop-shadow(0 0 8px #f59e0b); }
-        }
-
-        .diwali-popup-title {
-          margin: 0 0 6px;
-          font-size: 1.85rem;
-          font-weight: 800;
-          line-height: 1.2;
-          background: linear-gradient(135deg, #fff 20%, #fef08a 60%, #eab308 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .diwali-sparkle-text {
-          -webkit-text-fill-color: initial;
-          display: inline-block;
-          animation: spin-sparkle 3s linear infinite;
-        }
-
-        @keyframes spin-sparkle {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-        .diwali-popup-tagline {
-          margin: 0 0 12px;
-          font-size: 0.88rem;
-          color: #fecdd3;
-          line-height: 1.4;
-        }
-
-        .diwali-offer-pill {
-          background: linear-gradient(90deg, #b91c1c 0%, #991b1b 100%);
-          color: #fef08a;
-          padding: 8px 12px;
-          border-radius: 10px;
-          font-size: 0.8rem;
-          font-weight: 700;
-          border: 1px dashed #facc15;
-          box-shadow: 0 4px 12px rgba(185, 28, 28, 0.4);
-        }
-
-        .diwali-popup-form {
+        .promo-popup-form {
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 15px;
         }
 
-        .diwali-popup-error {
-          background: rgba(220, 38, 38, 0.2);
-          border: 1px solid #ef4444;
-          color: #fca5a5;
+        .promo-popup-error {
+          background: #fef2f2;
+          border: 1px solid #fecaca;
+          color: #b91c1c;
           padding: 8px 12px;
           border-radius: 8px;
           font-size: 0.82rem;
           margin: 0;
         }
 
-        .diwali-field {
+        .promo-field-group {
           display: flex;
           flex-direction: column;
-          gap: 5px;
-          text-align: left;
+          gap: 6px;
         }
 
-        .diwali-label {
-          font-size: 0.78rem;
-          font-weight: 600;
-          color: #fde047;
-          letter-spacing: 0.02em;
+        .promo-field-label {
+          font-size: 0.86rem;
+          font-weight: 700;
+          color: #1e293b;
         }
 
-        .diwali-field input,
-        .diwali-field textarea {
-          width: 100%;
-          padding: 9px 13px;
-          background: rgba(255, 255, 255, 0.07);
-          border: 1px solid rgba(234, 179, 8, 0.35);
-          border-radius: 10px;
-          color: #fff;
-          font-size: 0.9rem;
-          outline: none;
-          transition: all 0.2s;
-          box-sizing: border-box;
-          font-family: inherit;
+        .promo-required {
+          color: #ef4444;
+          font-weight: 700;
         }
 
-        .diwali-field input::placeholder,
-        .diwali-field textarea::placeholder {
-          color: #9ca3af;
-          font-size: 0.85rem;
-        }
-
-        .diwali-field input:focus,
-        .diwali-field textarea:focus {
-          border-color: #facc15;
-          background: rgba(255, 255, 255, 0.12);
-          box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
-        }
-
-        .diwali-submit-btn {
-          position: relative;
+        .promo-input-box {
+          display: flex;
+          align-items: center;
+          border: 1.5px solid #cbd5e1;
+          border-radius: 8px;
+          background: #ffffff;
+          transition: border-color 0.15s ease, box-shadow 0.15s ease;
           overflow: hidden;
-          margin-top: 6px;
-          padding: 12px 20px;
-          border-radius: 12px;
+        }
+
+        .promo-input-box:focus-within {
+          border-color: #b91c1c;
+          box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+        }
+
+        .promo-input-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 12px;
+          color: #94a3b8;
+          border-right: 1px solid #e2e8f0;
+          background: #f8fafc;
+          align-self: stretch;
+        }
+
+        .promo-text-input {
+          flex: 1;
+          width: 100%;
           border: 0;
-          background: linear-gradient(135deg, #eab308 0%, #ca8a04 50%, #b45309 100%);
-          color: #111;
-          font-weight: 800;
-          font-size: 0.96rem;
+          outline: none;
+          padding: 10px 14px;
+          font-size: 0.92rem;
+          color: #0f172a;
+          background: transparent;
+        }
+
+        .promo-text-input::placeholder {
+          color: #94a3b8;
+          font-size: 0.88rem;
+        }
+
+        /* Phone Input Styling */
+        .promo-phone-container :global(.react-international-phone-input-container) {
+          width: 100%;
+          border: 1.5px solid #cbd5e1;
+          border-radius: 8px;
+          background: #ffffff;
+          overflow: visible !important;
+          position: relative;
+        }
+        .promo-phone-container :global(.react-international-phone-input-container:focus-within) {
+          border-color: #b91c1c;
+          box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+        }
+        .promo-phone-container :global(.react-international-phone-country-selector) {
+          position: relative;
+        }
+        .promo-phone-container :global(.react-international-phone-country-selector-button) {
+          border: 0 !important;
+          border-right: 1px solid #e2e8f0 !important;
+          background: #f8fafc !important;
+          padding: 0 10px !important;
+          height: 42px !important;
+          border-radius: 6px 0 0 6px !important;
+        }
+        .promo-phone-container :global(.react-international-phone-input) {
+          border: 0 !important;
+          height: 42px !important;
+          font-size: 0.92rem !important;
+          color: #0f172a !important;
+          padding: 0 14px !important;
+          width: 100% !important;
+          border-radius: 0 6px 6px 0 !important;
+        }
+        .promo-phone-container :global(.react-international-phone-country-selector-dropdown) {
+          position: absolute !important;
+          top: calc(100% + 4px) !important;
+          bottom: auto !important;
+          left: 0 !important;
+          width: 280px !important;
+          max-height: 200px !important;
+          padding: 4px !important;
+          margin: 0 !important;
+          border: 1px solid #e2e8f0 !important;
+          border-radius: 8px !important;
+          background: #ffffff !important;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
+          overflow-x: hidden !important;
+          overflow-y: auto !important;
+          z-index: 999999 !important;
+        }
+        .promo-phone-container :global(.react-international-phone-country-selector-dropdown__list-item) {
+          display: flex !important;
+          align-items: center !important;
+          gap: 8px !important;
+          padding: 8px 10px !important;
+          font-size: 0.86rem !important;
+          border-radius: 6px !important;
+          cursor: pointer !important;
+          color: #1e293b !important;
+        }
+        .promo-phone-container :global(.react-international-phone-country-selector-dropdown__list-item:hover),
+        .promo-phone-container :global(.react-international-phone-country-selector-dropdown__list-item--focused) {
+          background: #f1f5f9 !important;
+        }
+
+        /* Submit Button */
+        .promo-submit-btn {
+          margin-top: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          width: 100%;
+          padding: 13px 20px;
+          border-radius: 8px;
+          border: 0;
+          background: #b91c1c;
+          color: #ffffff;
+          font-weight: 700;
+          font-size: 0.98rem;
           cursor: pointer;
-          box-shadow: 0 6px 20px rgba(234, 179, 8, 0.45);
-          transition: transform 0.2s, box-shadow 0.2s;
+          transition: background 0.15s ease, transform 0.1s ease;
         }
-
-        .diwali-submit-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(234, 179, 8, 0.6);
+        .promo-submit-btn:hover {
+          background: #991b1b;
         }
-
-        .diwali-submit-btn:disabled {
-          opacity: 0.6;
+        .promo-submit-btn:active {
+          transform: scale(0.99);
+        }
+        .promo-submit-btn:disabled {
+          opacity: 0.65;
           cursor: not-allowed;
-          transform: none;
+        }
+        .promo-arrow-icon {
+          font-size: 1.1rem;
+          line-height: 1;
         }
 
-        .diwali-btn-shine {
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 50%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-          transform: skewX(-20deg);
-          animation: diwali-btn-glow 3s infinite;
+        .promo-footer-note {
+          margin: 6px 0 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          font-size: 0.8rem;
+          font-weight: 500;
+          color: #475569;
         }
 
-        @keyframes diwali-btn-glow {
-          0% { left: -100%; }
-          30%, 100% { left: 200%; }
+        .promo-verified-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
         }
 
-        .diwali-popup-success {
+        .promo-popup-success {
           text-align: center;
-          padding: 30px 10px;
+          padding: 24px 10px;
         }
-        .diwali-popup-success strong {
+        .promo-popup-success strong {
           display: block;
-          font-size: 1.3rem;
-          color: #fde047;
-          margin-bottom: 8px;
+          font-size: 1.25rem;
+          color: #0f172a;
+          margin-bottom: 6px;
         }
-        .diwali-popup-success p {
-          color: #fecdd3;
+        .promo-popup-success p {
+          color: #64748b;
           font-size: 0.9rem;
-          line-height: 1.5;
-        }
-
-        @media (max-width: 640px) {
-          .floating-anaar {
-            display: none;
-          }
-          .floating-rocket {
-            font-size: 2.2rem;
-          }
+          margin: 0;
         }
       `}</style>
     </div>,

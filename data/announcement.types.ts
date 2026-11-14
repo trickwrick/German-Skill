@@ -23,11 +23,12 @@ export const defaultAnnouncements: AnnouncementItem[] = [
 
 export type TopAnnouncementData = {
   customText: string;
+  popupTitle?: string;
   isActive: boolean;
 };
 
 export const defaultAnnouncementData: TopAnnouncementData = {
   customText: "",
+  popupTitle: "Apply Code: FESTIVE10 (10%OFF)",
   isActive: true,
 };
-

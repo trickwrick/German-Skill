@@ -153,7 +153,7 @@ export default function AdminAnnouncementContent({
               htmlFor="customText"
               style={{ display: "block", fontWeight: 600, marginBottom: "8px", color: "#0f172a" }}
             >
-              Custom Line / Notice
+              Top Announcement Bar (Custom Line / Notice)
             </label>
             <input
               id="customText"
@@ -171,6 +171,32 @@ export default function AdminAnnouncementContent({
             />
             <p style={{ marginTop: "6px", fontSize: "0.8rem", color: "#64748b" }}>
               * When a custom message is added, it replaces the default ticker lines. If left empty, the default announcement ticker will automatically be displayed.
+            </p>
+          </div>
+
+          <div style={{ paddingTop: "12px", borderTop: "1px solid #e2e8f0" }}>
+            <label
+              htmlFor="popupTitle"
+              style={{ display: "block", fontWeight: 600, marginBottom: "8px", color: "#0f172a" }}
+            >
+              Discount Popup Heading / Coupon Text
+            </label>
+            <input
+              id="popupTitle"
+              type="text"
+              value={data.popupTitle ?? ""}
+              onChange={(e) => setData({ ...data, popupTitle: e.target.value })}
+              placeholder="e.g. Apply Code: FESTIVE10 (10%OFF)"
+              style={{
+                width: "100%",
+                padding: "10px 14px",
+                border: "1px solid #cbd5e1",
+                borderRadius: "6px",
+                fontSize: "0.95rem",
+              }}
+            />
+            <p style={{ marginTop: "6px", fontSize: "0.8rem", color: "#64748b" }}>
+              * Website par aane wale discount popup ka heading/coupon code yahan se change karein (Default: Apply Code: FESTIVE10 (10%OFF)).
             </p>
           </div>
 

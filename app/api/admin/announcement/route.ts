@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { isAdminRequestAuthorized } from "../../../../lib/adminAuth";
 import {
   getAnnouncementData,
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     const body = (await request.json()) as Partial<TopAnnouncementData>;
     const updated = await saveAnnouncementData({
       customText: typeof body.customText === "string" ? body.customText : "",
+      popupTitle: typeof body.popupTitle === "string" ? body.popupTitle : "",
       isActive: typeof body.isActive === "boolean" ? body.isActive : true,
     });
 

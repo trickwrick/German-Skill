@@ -38,15 +38,15 @@ export async function POST(request: Request) {
       name: body.name.trim(),
       email: body.email?.trim() || "",
       phone: body.phone?.trim() || "",
-      message: body.message?.trim() || "Diwali Special Offer Request",
-      course: "Diwali Special Offer",
+      message: body.message?.trim() || "Discount Offer Request",
+      course: "Special Offer Enquiry",
       source: "discount-popup",
       ip,
       ...(geo ? geo : {}),
     });
 
     return NextResponse.json({
-      message: "Your Diwali offer request has been received.",
+      message: "Your offer request has been received.",
       id: query.id,
     });
   } catch (storeError) {

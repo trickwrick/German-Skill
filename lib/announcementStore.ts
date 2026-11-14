@@ -1,4 +1,4 @@
-import { unstable_noStore as noStore } from "next/cache";
+﻿import { unstable_noStore as noStore } from "next/cache";
 import { getMongoClient, cleanMongoDocument } from "./mongodb";
 import fs from "fs/promises";
 import path from "path";
@@ -18,6 +18,7 @@ export function sanitizeAnnouncement(
   if (!value) return defaultAnnouncementData;
   return {
     customText: typeof value.customText === "string" ? value.customText.trim() : "",
+    popupTitle: typeof value.popupTitle === "string" && value.popupTitle.trim() ? value.popupTitle.trim() : defaultAnnouncementData.popupTitle,
     isActive: typeof value.isActive === "boolean" ? value.isActive : true,
   };
 }
